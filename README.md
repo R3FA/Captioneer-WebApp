@@ -1,1 +1,1 @@
-# Razvoj-Softvera-I---Seminarski
+# Razvoj-Softvera-I-Seminarski
