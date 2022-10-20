@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Angular cache
+ClientApp/.angular/cache
+
+# Visual Studio solution file
 Captioneer-WebApp.sln
 
 # User-specific files
