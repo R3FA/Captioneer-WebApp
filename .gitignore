@@ -7,7 +7,7 @@
 ClientApp/.angular/cache
 
 # Visual Studio solution file
-Captioneer-WebApp.sln
+*.sln
 
 # User-specific files
 *.rsuser
