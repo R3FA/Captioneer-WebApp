@@ -8,6 +8,10 @@ namespace Captioneer.API.Entities
         public int ID { get; set; }
 
         [Required]
+        [StringLength(20)]
+        public string Title { get; set; }
+
+        [Required]
         [StringLength(600)]
         public string Synopsis { get; set; } = string.Empty;
 
