@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # Angular cache
-ClientApp/.angular/cache
+Captioneer.UI/.angular/cache
 
 # Visual Studio solution file
 *.sln

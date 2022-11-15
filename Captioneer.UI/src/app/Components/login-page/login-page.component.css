@@ -1,0 +1,96 @@
+@font-face {
+    font-family: 'BerunFont1';
+    src: url('src\assets\Fonts\MARDE SAUVE.otf');
+}
+
+@font-face {
+    font-family: 'BerunFont2';
+    src: url('src\assets\Fonts\railway.regular.otf');
+}
+
+@font-face {
+    font-family: 'BerunFont3';
+    src: url('src\assets\Fonts\Raleway-Bold.ttf');
+}
+
+mat-card {
+    max-width: 600px;
+    margin: 2em auto;
+    text-align: center;
+    max-height: 600px;
+    background-color: #235c5fe7;
+    height: 355px;
+    font-family: BerunFont2;
+}
+
+.content-body {
+    min-height: 100%;
+    padding: 60px 1rem;
+    background: #243839;
+    display: block;
+    background-image: url('src\assets\Pictures\final-background-slika.jpg');
+    background-size: cover;
+}
+
+.header {
+    text-align: center;
+}
+
+.full-width {
+    width: 80%;
+    color: #C3E1B5;
+}
+
+
+.forgot-password {
+    padding-left: 0px;
+}
+
+.email-input {
+    padding-top: 10px;
+}
+
+.aLink {
+    float: right;
+    padding-right: 60px;
+    text-decoration: none;
+    color: #C3E1B5;
+}
+
+h1,
+h3,
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline,
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick,
+mat-label {
+    color: #C3E1B5;
+}
+
+h1 {
+    font-family: BerunFont1;
+}
+
+.dugme {
+    background-color: #C3E1B5;
+    margin-right: 60px;
+    float: right;
+}
+
+.Cancel-Dugme {
+    float: left;
+    background-color: #C3E1B5;
+    margin-left: 60px;
+}
+
+.SignUp-Mat-Card {
+    height: 50px;
+}
+
+.SignUp-Span {
+    text-align: center;
+    text-decoration: none;
+    color: #C3E1B5;
+}
+
+#slika-footer {
+    height: 180px;
+}
