@@ -11,11 +11,15 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MainHeaderComponent } from './Components/Main-Header/main-header/main-header.component';
+import { MainFooterComponent } from './Components/Main-Footer/main-footer/main-footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    MainHeaderComponent,
+    MainFooterComponent
   ],
   imports: [
     BrowserModule,

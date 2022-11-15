@@ -15,7 +15,7 @@
 
 mat-card {
     max-width: 600px;
-    margin: 2em auto;
+    margin: 10em auto;
     text-align: center;
     max-height: 600px;
     background-color: #235c5fe7;
@@ -89,8 +89,4 @@ h1 {
     text-align: center;
     text-decoration: none;
     color: #C3E1B5;
-}
-
-#slika-footer {
-    height: 180px;
 }
