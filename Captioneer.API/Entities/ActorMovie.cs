@@ -9,10 +9,6 @@ namespace Captioneer.API.Entities
 
         public int MovieID { get; set; }
 
-        [Required]
-        [StringLength(20)]
-        public string Role { get; set; } = string.Empty;
-
         [ForeignKey("ActorID")]
         public virtual Actor Actor { get; set; }
 

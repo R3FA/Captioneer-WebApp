@@ -11,6 +11,17 @@ namespace Captioneer.API.Data
             
         }
 
+        public bool IsTracked<T>(T entity) where T : class
+        {
+            if (this.ChangeTracker.Entries<T>().Any())
+            {
+                if (this.ChangeTracker.Entries<T>().FirstOrDefault(t => Equals(t, entity)) != null)
+                    return true;
+            }
+
+            return false;
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ActorMovie>().HasKey(table => new

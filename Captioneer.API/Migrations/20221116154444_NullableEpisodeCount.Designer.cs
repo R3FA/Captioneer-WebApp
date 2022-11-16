@@ -3,6 +3,7 @@ using System;
 using Captioneer.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Captioneer.API.Migrations
 {
     [DbContext(typeof(CaptioneerDBContext))]
-    partial class CaptioneerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221116154444_NullableEpisodeCount")]
+    partial class NullableEpisodeCount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,9 +65,12 @@ namespace Captioneer.API.Migrations
                     b.Property<int>("TVShowID")
                         .HasColumnType("int");
 
+                    b.Property<int>("MovieID")
+                        .HasColumnType("int");
+
                     b.HasKey("ActorID", "TVShowID");
 
-                    b.HasIndex("TVShowID");
+                    b.HasIndex("MovieID");
 
                     b.ToTable("ActorTVShows");
                 });
@@ -350,8 +355,8 @@ namespace Captioneer.API.Migrations
 
                     b.Property<string>("Year")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasMaxLength(4)
+                        .HasColumnType("varchar(4)");
 
                     b.HasKey("ID");
 
@@ -613,8 +618,8 @@ namespace Captioneer.API.Migrations
 
                     b.Property<string>("Year")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasMaxLength(4)
+                        .HasColumnType("varchar(4)");
 
                     b.HasKey("ID");
 
@@ -683,7 +688,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasOne("Captioneer.API.Entities.TVShow", "TVShow")
                         .WithMany()
-                        .HasForeignKey("TVShowID")
+                        .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

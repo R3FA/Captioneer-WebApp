@@ -14,7 +14,5 @@ namespace Captioneer.API.Entities
         [Required]
         [StringLength(25)]
         public string Surname { get; set; } = string.Empty;
-
-        public string? Portrait { get; set; }
     }
 }
