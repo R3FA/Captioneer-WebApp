@@ -9,18 +9,10 @@ namespace Captioneer.API.Entities
         
         public int TVShowID { get; set; }
 
-        [Required]
-        [Range(1, int.MaxValue)]
-        public int EpisodeCount { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string Role { get; set;} = string.Empty;
-
         [ForeignKey("ActorID")]
         public virtual Actor Actor { get; set; }
 
-        [ForeignKey("MovieID")]
+        [ForeignKey("TVShowID")]
         public virtual TVShow TVShow { get; set; }
     }
 }

@@ -15,6 +15,6 @@ namespace Captioneer.API.Entities
         public string? City { get; set; } = string.Empty;
 
         // Using decimal degrees
-        public string MapsCoordinates { get; set; } = string.Empty;
+        public string? MapsCoordinates { get; set; } = string.Empty;
     }
 }

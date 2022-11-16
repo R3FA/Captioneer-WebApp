@@ -3,6 +3,7 @@ using System;
 using Captioneer.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Captioneer.API.Migrations
 {
     [DbContext(typeof(CaptioneerDBContext))]
-    partial class CaptioneerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221114192045_FixTVShowYear")]
+    partial class FixTVShowYear
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +31,9 @@ namespace Captioneer.API.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
+
+                    b.Property<string>("Portrait")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -48,6 +53,11 @@ namespace Captioneer.API.Migrations
                     b.Property<int>("MovieID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
                     b.HasKey("ActorID", "MovieID");
 
                     b.HasIndex("MovieID");
@@ -63,9 +73,20 @@ namespace Captioneer.API.Migrations
                     b.Property<int>("TVShowID")
                         .HasColumnType("int");
 
+                    b.Property<int>("EpisodeCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
                     b.HasKey("ActorID", "TVShowID");
 
-                    b.HasIndex("TVShowID");
+                    b.HasIndex("MovieID");
 
                     b.ToTable("ActorTVShows");
                 });
@@ -317,23 +338,11 @@ namespace Captioneer.API.Migrations
                     b.Property<string>("CoverArt")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("IMDBId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("IMDBRatingCount")
+                    b.Property<int>("RatingCount")
                         .HasColumnType("int");
 
-                    b.Property<double>("IMDBRatingValue")
+                    b.Property<double>("RatingValue")
                         .HasColumnType("double");
-
-                    b.Property<string>("MetacriticValue")
-                        .HasMaxLength(7)
-                        .HasColumnType("varchar(7)");
-
-                    b.Property<string>("RottenTomatoesValue")
-                        .HasMaxLength(3)
-                        .HasColumnType("varchar(3)");
 
                     b.Property<int>("Runtime")
                         .HasColumnType("int");
@@ -345,13 +354,11 @@ namespace Captioneer.API.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
-                    b.Property<string>("Year")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -396,6 +403,7 @@ namespace Captioneer.API.Migrations
                         .HasColumnType("varchar(20)");
 
                     b.Property<string>("MapsCoordinates")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("ID");
@@ -577,26 +585,14 @@ namespace Captioneer.API.Migrations
                     b.Property<string>("CoverArt")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("EpisodeCount")
+                    b.Property<int>("EpisodeCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("IMDBId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("IMDBRatingCount")
+                    b.Property<int>("RatingCount")
                         .HasColumnType("int");
 
-                    b.Property<double>("IMDBRatingValue")
+                    b.Property<double>("RatingValue")
                         .HasColumnType("double");
-
-                    b.Property<string>("MetacriticValue")
-                        .HasMaxLength(7)
-                        .HasColumnType("varchar(7)");
-
-                    b.Property<string>("RottenTomatoesValue")
-                        .HasMaxLength(3)
-                        .HasColumnType("varchar(3)");
 
                     b.Property<int>("SeasonCount")
                         .HasColumnType("int");
@@ -608,8 +604,8 @@ namespace Captioneer.API.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("Year")
                         .IsRequired()
@@ -683,7 +679,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasOne("Captioneer.API.Entities.TVShow", "TVShow")
                         .WithMany()
-                        .HasForeignKey("TVShowID")
+                        .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

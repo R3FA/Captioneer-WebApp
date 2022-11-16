@@ -14,5 +14,15 @@ namespace Captioneer.API.Entities
         [Required]
         [StringLength(25)]
         public string Surname { get; set; } = string.Empty;
+
+        public override bool Equals(object? obj)
+        {
+            var creator = obj as Creator;
+
+            if (creator != null)
+                return this.FirstName == creator.FirstName && this.Surname == creator.Surname;
+
+            return false;
+        }
     }
 }
