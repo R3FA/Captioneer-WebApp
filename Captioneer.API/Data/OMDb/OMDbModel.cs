@@ -1,4 +1,3 @@
-﻿
 using System.Text.Json.Serialization;
 
 namespace Captioneer.API.Data.OMDb

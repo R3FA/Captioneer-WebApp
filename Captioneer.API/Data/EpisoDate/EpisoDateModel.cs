@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 using System.Text.Json.Serialization;
-=======
-﻿using System.Text.Json.Serialization;
->>>>>>> 5fd9c9a (AB#34)
 
 namespace Captioneer.API.Data.EpisoDate
 {
