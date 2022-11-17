@@ -21,6 +21,7 @@ namespace Captioneer.API.Data.OMDb
             searchQuery = searchQuery.Replace(' ', '+');
             var url = $"{apiURL}t={searchQuery}&type={type}&apiKey={apiKey}";
 
+            // Switches the URL to use the OMDb API endpoint that expects IMDBid queries
             if (searchQuery.StartsWith("tt"))
                 url = $"{apiURL}i={searchQuery}&type={type}&apiKey={apiKey}";
 
@@ -31,6 +32,7 @@ namespace Captioneer.API.Data.OMDb
                 if (result.StatusCode == HttpStatusCode.NotFound || result.StatusCode == HttpStatusCode.NoContent)
                     return default(OMDbModel?);
 
+                // Reads the resulting body as a stream and then deserializes the JSON as a OMDb model object
                 var body = await result.Content.ReadAsStreamAsync();
                 var asObj = await JsonSerializer.DeserializeAsync<OMDbModel>(body);
 

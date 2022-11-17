@@ -11,6 +11,7 @@ namespace Captioneer.API.Data.EpisoDate
 
         public static async Task<EpisoDateModel?> Fetch(string searchQuery)
         {
+            // EpisoDate expects search queries to be in lower-case with spaces replaced with hyphens (e.g. game-of-thrones)
             searchQuery = searchQuery.ToLower();
             searchQuery = searchQuery.Replace(' ', '-');
             var url = $"{apiURL}show-details?q={searchQuery}";
@@ -22,6 +23,7 @@ namespace Captioneer.API.Data.EpisoDate
                 if (result.StatusCode == HttpStatusCode.NoContent)
                     return default(EpisoDateModel?);
 
+                // First reads the get result as a stream and then deserializes the JSON into an EpisoDateModel
                 var body = await result.Content.ReadAsStreamAsync();
                 var asObj = await JsonSerializer.DeserializeAsync<EpisoDateModel>(body);
 

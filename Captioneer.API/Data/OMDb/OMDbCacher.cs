@@ -7,6 +7,12 @@ namespace Captioneer.API.Data.OMDb
 {
     public static class OMDbCacher
     {
+        /// <summary>
+        /// Takes an OMDb model and caches its JSON information to the database, also performing caching for the genre, actors, creators and shooting places
+        /// </summary>
+        /// <param name="movie">OMDb model containing the JSON information of the movie</param>
+        /// <param name="context">The database context</param>
+        /// <returns>The Movie object that has been cached to the database</returns>
         public static async Task<Movie?> CacheMovie(OMDbModel? movie, CaptioneerDBContext context)
         {
             if (movie == null)
@@ -30,9 +36,12 @@ namespace Captioneer.API.Data.OMDb
                     metacritic = rating.Value;
             }
 
+            // Returns 0 if the input JSON cannot be parsed into double and int
+            // Rating is expected to be in decimal points and votes will have thousand markers
             double.TryParse(movie.ImdbRating, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out imdbRating);
             int.TryParse(movie.ImdbVotes, NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out imdbVotes);
 
+            // Retrieves the numeric part of the runtime JSON property
             if (movie.Runtime != null)
             {
                 var index = movie.Runtime.LastIndexOfAny(new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
@@ -59,6 +68,7 @@ namespace Captioneer.API.Data.OMDb
 
             await context.Movies.AddAsync(newMovie);
 
+            // Performs the other cachings necessary
             if (movie.Genre != null)
                 await CacheGenres(movie.Genre, context, newMovie);
             if (movie.Actors != null)
@@ -74,6 +84,12 @@ namespace Captioneer.API.Data.OMDb
             return await context.Movies.FindAsync(newMovie.ID);
         }
 
+        /// <summary>
+        /// Takes an OMDb model and caches its JSON information to the database, also performing caching for the genre, actors, creators and shooting places
+        /// </summary>
+        /// <param name="show">OMDb model containing the JSON information of the TV show</param>
+        /// <param name="context"></param>
+        /// <returns>The TVShow object that has been cached to the database</returns>
         public static async Task<TVShow?> CacheShow(OMDbModel? show, CaptioneerDBContext context)
         {
             if (show == null)
@@ -138,6 +154,13 @@ namespace Captioneer.API.Data.OMDb
             return await context.TVShows.FindAsync(newShow.ID);
         }
 
+        /// <summary>
+        /// Caches any genres that are not already present in the database
+        /// </summary>
+        /// <param name="genres">String containing the genres, delimited with ", "</param>
+        /// <param name="context">The database context</param>
+        /// <param name="movie">The Movie object which contains the genres</param>
+        /// <returns></returns>
         private static async Task CacheGenres(string genres, CaptioneerDBContext context, Movie movie)
         {
             var genresSplit = genres.Split(", ");
@@ -153,7 +176,7 @@ namespace Captioneer.API.Data.OMDb
                     await context.Genres.AddAsync(newDbGenre);
                 }
 
-                if (newDbGenre == null) // Exception
+                if (newDbGenre == null)
                     newDbGenre = dbGenre.First();
 
                 var dbGenreMovie = await context.GenresMovie.Where(gm => gm.Movie.Title == movie.Title && gm.Movie.Year == movie.Year && gm.Genre.Name == newDbGenre.Name).ToListAsync();
@@ -163,6 +186,13 @@ namespace Captioneer.API.Data.OMDb
             }
         }
 
+        /// <summary>
+        /// Caches any genres that are not already present in the database
+        /// </summary>
+        /// <param name="genres">String containing the genres, delimited with ", "</param>
+        /// <param name="context">The database context</param>
+        /// <param name="show">The TVShow object which contains the genres</param>
+        /// <returns></returns>
         private static async Task CacheGenres(string genres, CaptioneerDBContext context, TVShow show)
         {
             var genresSplit = genres.Split(", ");
@@ -188,6 +218,13 @@ namespace Captioneer.API.Data.OMDb
             }
         }
 
+        /// <summary>
+        /// Caches any actors that are not already present in the database
+        /// </summary>
+        /// <param name="actors">String containing the actors, delimited with ", "</param>
+        /// <param name="context">The database context</param>
+        /// <param name="movie">The Movie object which contains the actors</param>
+        /// <returns></returns>
         private static async Task CacheActors(string actors, CaptioneerDBContext context, Movie movie)
         {
             var actorsSplit = actors.Split(", ");
@@ -215,6 +252,13 @@ namespace Captioneer.API.Data.OMDb
             }
         }
 
+        /// <summary>
+        /// Caches any actors that are not already present in the database
+        /// </summary>
+        /// <param name="actors">String containing the actors, delimited with ", "</param>
+        /// <param name="context">The database context</param>
+        /// <param name="show">The TVShow object which contains the actors</param>
+        /// <returns></returns>
         private static async Task CacheActors(string actors, CaptioneerDBContext context, TVShow show)
         {
             var actorsSplit = actors.Split(", ");
@@ -242,6 +286,14 @@ namespace Captioneer.API.Data.OMDb
             }
         }
 
+        /// <summary>
+        /// Caches any creators that are not already present in the database
+        /// </summary>
+        /// <param name="writers">String containing the writers, delimited with ", "</param>
+        /// <param name="directors">String containing the directors, delimited with ", "</param>
+        /// <param name="context">The database context</param>
+        /// <param name="movie">The Movie object which contains the creators</param>
+        /// <returns></returns>
         private static async Task CacheCreators(string? writers, string? directors, CaptioneerDBContext context, Movie movie)
         {
             if (writers == "N/A" || writers == null)
@@ -251,10 +303,12 @@ namespace Captioneer.API.Data.OMDb
 
             var writersSplit = new List<string>(writers.Split(", "));
             var directorsSplit = new List<string>(directors.Split(", "));
+            // Unify the creators into one list so they can be iterated on all at the same time
             var creators = new List<string>();
             creators.AddRange(writersSplit);
             creators.AddRange(directorsSplit);
 
+            // Only grab the distinct ones to prevent adding duplicates
             foreach (var creator in creators.Distinct().ToList())
             {
                 if (creator == "")
@@ -270,6 +324,7 @@ namespace Captioneer.API.Data.OMDb
                     await context.Creators.AddAsync(newCreator);
                 }
 
+                // If newCreator is null, then we can grab the creator from the database
                 if (newCreator == null)
                     newCreator = dbCreator.First();
 
@@ -301,6 +356,14 @@ namespace Captioneer.API.Data.OMDb
             }
         }
 
+        /// <summary>
+        /// Caches any creators that are not already present in the database
+        /// </summary>
+        /// <param name="writers">String containing the writers, delimited with ", "</param>
+        /// <param name="directors">String containing the directors, delimited with ", "</param>
+        /// <param name="context">The database context</param>
+        /// <param name="show">The TVShow object which contains the creators</param>
+        /// <returns></returns>
         private static async Task CacheCreators(string? writers, string? directors, CaptioneerDBContext context, TVShow show)
         {
             if (writers == "N/A" || writers == null)
@@ -360,6 +423,13 @@ namespace Captioneer.API.Data.OMDb
             }
         }
 
+        /// <summary>
+        /// Caches any shooting places that are not already present in the database
+        /// </summary>
+        /// <param name="country">String containing the filming country</param>
+        /// <param name="context">The database context</param>
+        /// <param name="movie">The Movie object containing the shooting places</param>
+        /// <returns></returns>
         private static async Task CacheShootingPlace(string country, CaptioneerDBContext context, Movie movie)
         {
             var countriesSplit = country.Split(", ");
@@ -386,6 +456,13 @@ namespace Captioneer.API.Data.OMDb
             }
         }
 
+        /// <summary>
+        /// Caches any shooting places that are not already present in the database
+        /// </summary>
+        /// <param name="country">String containing the filming country</param>
+        /// <param name="context">The database context</param>
+        /// <param name="show">The TVShow object containing the shooting places</param>
+        /// <returns></returns>
         private static async Task CacheShootingPlace(string country, CaptioneerDBContext context, TVShow show)
         {
             var countriesSplit = country.Split(", ");

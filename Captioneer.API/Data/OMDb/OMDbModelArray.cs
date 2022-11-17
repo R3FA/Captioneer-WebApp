@@ -2,6 +2,9 @@
 
 namespace Captioneer.API.Data.OMDb
 {
+    /// <summary>
+    /// Model class for the JSON result from the OMDb API that sends a list of models
+    /// </summary>
     public class OMDbModelArray
     {
         [JsonProperty("Search")]

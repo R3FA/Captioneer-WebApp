@@ -2,6 +2,9 @@
 
 namespace Captioneer.API.Data.OMDb
 {
+    /// <summary>
+    /// Short form model of the OMDbModel class
+    /// </summary>
     public class OMDbModelShort
     {
         [JsonProperty("Title")]

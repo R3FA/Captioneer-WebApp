@@ -2,6 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace Captioneer.API.Data.OMDb
 {
+    /// <summary>
+    /// Model class for the JSON result from the OMDb API
+    /// </summary>
     public class OMDbModel
     {
         [JsonPropertyName("Title")]
@@ -83,6 +86,9 @@ namespace Captioneer.API.Data.OMDb
         public string? TotalSeasons { get; set; }
     }
 
+    /// <summary>
+    /// Model class for the JSON property relating to ratings
+    /// </summary>
     public class OMDbRating
     {
         [JsonPropertyName("Source")]

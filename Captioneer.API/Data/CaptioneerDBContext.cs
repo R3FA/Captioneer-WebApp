@@ -22,6 +22,9 @@ namespace Captioneer.API.Data
             return false;
         }
 
+        /// <summary>
+        /// Overriding the OnModelCreating() method in order to ensure that foreign keys of some tables are properly set up to be composite primary keys as well
+        /// </summary>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ActorMovie>().HasKey(table => new

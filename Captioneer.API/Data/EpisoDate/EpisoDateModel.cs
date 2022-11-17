@@ -2,6 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace Captioneer.API.Data.EpisoDate
 {
+    /// <summary>
+    /// Model class for the JSON result from EpisoDate's API
+    /// </summary>
     public class EpisoDateModel
     {
         [JsonPropertyName("tvShow")]
