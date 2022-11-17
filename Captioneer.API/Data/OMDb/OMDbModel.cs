@@ -1,85 +1,95 @@
-﻿using Newtonsoft.Json;
+﻿
+using System.Text.Json.Serialization;
 
 namespace Captioneer.API.Data.OMDb
 {
     public class OMDbModel
     {
-        [JsonProperty("Title")]
+        [JsonPropertyName("Title")]
         public string? Title { get; set; }
 
-        [JsonProperty("Year")]
+        [JsonPropertyName("Year")]
         public string? Year { get; set; }
 
-        [JsonProperty("Rated")]
+        [JsonPropertyName("Rated")]
         public string? Rated { get; set; }
 
-        [JsonProperty("Released")]
+        [JsonPropertyName("Released")]
         public string? Released { get; set; }
 
-        [JsonProperty("Runtime")]
+        [JsonPropertyName("Runtime")]
         public string? Runtime { get; set; }
 
-        [JsonProperty("Genre")]
+        [JsonPropertyName("Genre")]
         public string? Genre { get; set; }
 
-        [JsonProperty("Director")]
+        [JsonPropertyName("Director")]
         public string? Director { get; set; }
 
-        [JsonProperty("Writer")]
+        [JsonPropertyName("Writer")]
         public string? Writer { get; set; }
 
-        [JsonProperty("Actors")]
+        [JsonPropertyName("Actors")]
         public string? Actors { get; set; }
 
-        [JsonProperty("Plot")]
+        [JsonPropertyName("Plot")]
         public string? Plot { get; set; }
 
-        [JsonProperty("Language")]
+        [JsonPropertyName("Language")]
         public string? Language { get; set; }
 
-        [JsonProperty("Country")]
+        [JsonPropertyName("Country")]
         public string? Country { get; set; }
 
-        [JsonProperty("Awards")]
+        [JsonPropertyName("Awards")]
         public string? Awards { get; set; }
 
-        [JsonProperty("Poster")]
+        [JsonPropertyName("Poster")]
         public Uri? Poster { get; set; }
 
-        [JsonProperty("Ratings")]
+        [JsonPropertyName("Ratings")]
         public OMDbRating[]? Ratings { get; set; }
 
-        [JsonProperty("Metascore")]
+        [JsonPropertyName("Metascore")]
         public string? Metascore { get; set; }
 
-        [JsonProperty("imdbRating")]
+        [JsonPropertyName("imdbRating")]
         public string? ImdbRating { get; set; }
 
-        [JsonProperty("imdbVotes")]
+        [JsonPropertyName("imdbVotes")]
         public string? ImdbVotes { get; set; }
 
-        [JsonProperty("imdbID")]
+        [JsonPropertyName("imdbID")]
         public string? ImdbId { get; set; }
 
-        [JsonProperty("Type")]
+        [JsonPropertyName("Type")]
         public string? Type { get; set; }
 
-        [JsonProperty("DVD")]
+        [JsonPropertyName("DVD")]
         public string? Dvd { get; set; }
 
-        [JsonProperty("BoxOffice")]
+        [JsonPropertyName("BoxOffice")]
         public string? BoxOffice { get; set; }
 
-        [JsonProperty("Production")]
+        [JsonPropertyName("Production")]
         public string? Production { get; set; }
 
-        [JsonProperty("Website")]
+        [JsonPropertyName("Website")]
         public string? Website { get; set; }
 
-        [JsonProperty("Response")]
+        [JsonPropertyName("Response")]
         public string? Response { get; set; }
 
-        [JsonProperty("totalSeasons")]
+        [JsonPropertyName("totalSeasons")]
         public string? TotalSeasons { get; set; }
+    }
+
+    public class OMDbRating
+    {
+        [JsonPropertyName("Source")]
+        public string? Source { get; set; }
+
+        [JsonPropertyName("Value")]
+        public string? Value { get; set; }
     }
 }

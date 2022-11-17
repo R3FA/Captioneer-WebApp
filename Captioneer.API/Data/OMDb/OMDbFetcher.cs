@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
 using System.Text.Json;
 
 namespace Captioneer.API.Data.OMDb
@@ -26,7 +26,15 @@ namespace Captioneer.API.Data.OMDb
 
             try
             {
-                return await httpClient.GetFromJsonAsync<OMDbModel>(url);
+                var result = await httpClient.GetAsync(url);
+
+                if (result.StatusCode == HttpStatusCode.NotFound || result.StatusCode == HttpStatusCode.NoContent)
+                    return default(OMDbModel?);
+
+                var body = await result.Content.ReadAsStreamAsync();
+                var asObj = await JsonSerializer.DeserializeAsync<OMDbModel>(body);
+
+                return asObj;
             }
             catch (HttpRequestException)
             {
@@ -41,7 +49,7 @@ namespace Captioneer.API.Data.OMDb
                 Console.WriteLine("Invalid JSON");
             }
 
-            return null;
+            return default(OMDbModel?);
         }
     }
 }

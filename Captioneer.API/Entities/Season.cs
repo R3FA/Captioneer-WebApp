@@ -9,9 +9,10 @@ namespace Captioneer.API.Entities
 
         public virtual TVShow TVShow { get; set; }
 
-        [Required]
+        public int SeasonNumber { get; set; }
+
         [Range(1, int.MaxValue)]
-        public int EpisodeCount { get; set; }
+        public int? EpisodeCount { get; set; }
 
         public string? CoverArt { get; set; }
     }

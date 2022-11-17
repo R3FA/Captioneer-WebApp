@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Captioneer.API.Data;
+using Captioneer.API.Data.EpisoDate;
 using Captioneer.API.Data.OMDb;
 using Captioneer.API.Entities;
 
@@ -48,8 +49,10 @@ namespace Captioneer.API.Controllers
                 if (show == null)
                     return NotFound();
 
-                return Ok(show);
+                showsFiltered.Add(show);
             }
+
+            await EpisoDateCacher.Cache(showsFiltered, _context);
 
             return Ok(showsFiltered);
         }
