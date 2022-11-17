@@ -3,6 +3,7 @@ using System;
 using Captioneer.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Captioneer.API.Migrations
 {
     [DbContext(typeof(CaptioneerDBContext))]
-    partial class CaptioneerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221117153110_ChangeSeason")]
+    partial class ChangeSeason
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,6 +222,15 @@ namespace Captioneer.API.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<int>("RatingCount")
+                        .HasColumnType("int");
+
+                    b.Property<double>("RatingValue")
+                        .HasColumnType("double");
+
+                    b.Property<int>("Runtime")
+                        .HasColumnType("int");
 
                     b.Property<int>("SeasonID")
                         .HasColumnType("int");

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Captioneer.API.Migrations
 {
     [DbContext(typeof(CaptioneerDBContext))]
-    [Migration("20221116155334_FixActorTVShowFK")]
-    partial class FixActorTVShowFK
+    [Migration("20221117183102_AddEpisodeNumber")]
+    partial class AddEpisodeNumber
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -223,15 +223,6 @@ namespace Captioneer.API.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int>("RatingCount")
-                        .HasColumnType("int");
-
-                    b.Property<double>("RatingValue")
-                        .HasColumnType("double");
-
-                    b.Property<int>("Runtime")
-                        .HasColumnType("int");
-
                     b.Property<int>("SeasonID")
                         .HasColumnType("int");
 
@@ -369,7 +360,10 @@ namespace Captioneer.API.Migrations
                     b.Property<string>("CoverArt")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("EpisodeCount")
+                    b.Property<int?>("EpisodeCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeasonNumber")
                         .HasColumnType("int");
 
                     b.Property<int>("TVShowID")
