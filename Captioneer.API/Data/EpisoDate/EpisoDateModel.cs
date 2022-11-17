@@ -1,49 +1,55 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Captioneer.API.Data.EpisoDate
 {
     public class EpisoDateModel
     {
-        [JsonProperty("name")]
+        [JsonPropertyName("tvShow")]
+        public EpisoDateShow Show { get; set; }
+    }
+
+    public class EpisoDateShow
+    {
+        [JsonPropertyName("name")]
         public string? Name { get; set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string? Description { get; set; }
 
-        [JsonProperty("start_date")]
+        [JsonPropertyName("start_date")]
         public string? StartDate { get; set; }
 
-        [JsonProperty("end_date")]
+        [JsonPropertyName("end_date")]
         public string? EndDate { get; set;}
 
-        [JsonProperty("country")]
+        [JsonPropertyName("country")]
         public string? Country { get; set; }
 
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public string? Status { get; set; }
 
-        [JsonProperty("runtime")]
+        [JsonPropertyName("runtime")]
         public int? Runtime { get; set; }
 
-        [JsonProperty("image_path")]
+        [JsonPropertyName("image_path")]
         public string? ImagePath { get; set; }
 
-        [JsonProperty("episodes")]
-        public EpisoDateEpisodeModel[]? Episodes { get; set; }
+        [JsonPropertyName("episodes")]
+        public List<EpisoDateEpisodeModel> Episodes { get; set; }
     }
 
     public class EpisoDateEpisodeModel
     {
-        [JsonProperty("season")]
+        [JsonPropertyName("season")]
         public int? Season { get; set; }
 
-        [JsonProperty("episode")]
+        [JsonPropertyName("episode")]
         public int? EpisodeNumber { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string? Name { get; set; }
 
-        [JsonProperty("air_date")]
+        [JsonPropertyName("air_date")]
         public string? AirDate { get; set; }
     }
 }

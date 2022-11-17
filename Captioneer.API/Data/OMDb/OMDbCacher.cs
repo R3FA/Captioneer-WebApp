@@ -87,7 +87,6 @@ namespace Captioneer.API.Data.OMDb
             int runtime = 0;
             string rottenTomatoes = "";
             string metacritic = "";
-            int seasonCount = 0;
             string poster = "";
 
             foreach (var rating in show.Ratings)
@@ -100,7 +99,6 @@ namespace Captioneer.API.Data.OMDb
 
             double.TryParse(show.ImdbRating, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out imdbRating);
             int.TryParse(show.ImdbVotes, NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out imdbVotes);
-            int.TryParse(show.TotalSeasons, out seasonCount);
 
             if (show.Runtime != null)
             {
@@ -118,12 +116,13 @@ namespace Captioneer.API.Data.OMDb
                 IMDBId = show.ImdbId == null? "" : show.ImdbId,
                 Synopsis = show.Plot == null? "" : show.Plot,
                 Year = show.Year == null? "" : show.Year,
-                SeasonCount = seasonCount,
+                SeasonCount = 0,
                 IMDBRatingCount = imdbVotes,
                 IMDBRatingValue = imdbRating,
                 RottenTomatoesValue = rottenTomatoes,
                 MetacriticValue = metacritic,
-                CoverArt = poster
+                CoverArt = poster,
+                EpisodeCount = 0
             };
 
             if (show.Genre != null)
