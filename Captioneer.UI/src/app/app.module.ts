@@ -13,13 +13,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MainHeaderComponent } from './Components/Main-Header/main-header/main-header.component';
 import { MainFooterComponent } from './Components/Main-Footer/main-footer/main-footer.component';
+import { SignupPageComponent } from './signup-page/signup-page.component';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes:Routes=[
+{path:'signup',component:SignupPageComponent}
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
     MainHeaderComponent,
-    MainFooterComponent
+    MainFooterComponent,
+    SignupPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +37,7 @@ import { MainFooterComponent } from './Components/Main-Footer/main-footer/main-f
     MatInputModule,
     ReactiveFormsModule,
     MatIconModule,
-    FlexLayoutModule
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

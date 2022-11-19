@@ -37,3 +37,11 @@ h3 {
     margin-left: 10px;
     color: #C3E1B5;
 }
+mat-card {
+    max-width: 600px;
+    margin: 10em auto;
+    text-align: center;
+    max-height: 600px;
+    background-color: #235c5fe7;
+    height: 355px;
+}

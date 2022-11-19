@@ -1,0 +1,52 @@
+<section class="signup py-5 bg-light" id="background">
+    <div class="container">
+        <div class="row g-0" id="foreground">
+            <div class="col-lg-5">
+                <img src="assets\Pictures\imgbin_subtitle-television-show-film-png.png" class="img-fluid"alt="logo">
+            </div>
+            <div class="col-lg-7 text-center" id="rightSide">
+                <h1 class="text-center">Welcome!</h1>
+                      <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForm">
+                <div class="email-input">
+                    <mat-form-field [style.margin]="'0'"  class="full-hight" appearance="outline">
+                        <mat-label>E-mail</mat-label>
+                        <input formControlName="email" matInput required />
+                        <mat-error *ngIf="!loginForm.controls['email'].valid">
+                            E-mail address is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="username-input">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Username</mat-label>
+                        <input formControlName="text" matInput required />
+                        <mat-error *ngIf="!loginForm.controls['text'].valid">
+                            Username is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input formControlName="password" matInput [type]=" hide ? 'text' : 'password'" required />
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
+                            [attr.aria-pressed]="hide">
+                            <mat-icon>
+                                {{hide ? 'visibility_off' : 'visibility'}}
+                            </mat-icon>
+                        </button>
+                        <mat-error *ngIf="!loginForm.controls['password'].valid">
+                            Password is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <label class="form-label" for="btn">If you are finished then Sign up !</label>
+                <input class="btn btn-outline-success w-100" type="submit" value="Sign Up">
+                <label class="form-label" for="btn">If you want to go back :</label>
+                <p>
+                <button type="button" class="btn btn-outline-danger" routerLink="">Cancel</button>
+            </form>
+                </div>
+            </div>
+        </div>
+</section>
