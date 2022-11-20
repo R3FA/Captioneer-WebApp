@@ -1,0 +1,40 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    color: #235c5fe7;
+}
+@font-face {
+    font-family: 'BerunFont1';
+    src: url('src\assets\Fonts\MARDE SAUVE.otf');
+}
+
+@font-face {
+    font-family: 'BerunFont2';
+    src: url('src\assets\Fonts\railway.regular.otf');
+}
+
+@font-face {
+    font-family: 'BerunFont3';
+    src: url('src\assets\Fonts\Raleway-Bold.ttf');
+}
+h1{
+    font-family: BerunFont1;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    align-self: center;
+}
+h3{
+    align-items: center;
+    font-family: BerunFont3;
+}
+button{
+    font-family: BerunFont2;
+    align-self: center;
+    padding: 3%;
+}
+.container{
+    margin: auto;
+    align-items: center;
+    text-align: center;
+}

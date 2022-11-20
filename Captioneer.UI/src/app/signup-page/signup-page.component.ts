@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
-
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { SignUpDoneComponent } from '../Components/sign-up-done/sign-up-done.component';
 @Component({
   selector: 'app-signup-page',
   templateUrl: './signup-page.component.html',
@@ -8,19 +10,40 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 })
 export class SignupPageComponent implements OnInit {
   hide: boolean = false;
-  constructor(private fb: FormBuilder) { }
+
+  User={
+    Email:'',
+    Username:'',
+    Password:''
+  }
+  constructor(private fb: FormBuilder,private http:HttpClient,private dialogRef:MatDialog) { 
+  }
 
   ngOnInit(): void { }
-  loginForm: FormGroup = this.fb.group(
+  SignupForm: FormGroup = this.fb.group(
     {
       email: new FormControl('', [Validators.required, Validators.email]),
       text: new FormControl('', [Validators.required, Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.minLength(12)])
+      password: new FormControl('', [Validators.required, Validators.minLength(12),Validators.maxLength(15)])
     }
   );
   
-    onLogin() {
-  
+    onSignup():void {
+      console.warn('You have signed up !', this.SignupForm.value) 
+      this.User.Email=this.SignupForm.value.email
+      this.User.Username=this.SignupForm.value.text
+      this.User.Password=this.SignupForm.value.password
+      this.http.post<any>("https://localhost:7207/api/Users",this.User).subscribe((data=>{
+          console.log(data)
+        }))
+    //  this.SignupForm.reset();
+    // this.http.get("https://localhost:7207/api/Movies").subscribe((data=>{
+    //   console.log(data)
+    // }))
     }
-  
+ 
+
+    openDialog(){
+      this.dialogRef.open(SignUpDoneComponent);
+    }
 }
