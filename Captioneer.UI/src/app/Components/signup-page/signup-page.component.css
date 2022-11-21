@@ -1,9 +1,10 @@
-*{
+* {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
     color: #C3E1B5;
 }
+
 @font-face {
     font-family: 'BerunFont1';
     src: url('src\assets\Fonts\MARDE SAUVE.otf');
@@ -18,59 +19,78 @@
     font-family: 'BerunFont3';
     src: url('src\assets\Fonts\Raleway-Bold.ttf');
 }
-.row{
+
+.row {
     background: white;
     border-radius: 30px;
     box-shadow: 12px 12px 22px;
 }
-.container{
+
+.container {
     margin: auto;
 }
-#background{
+
+#background {
     background-image: url('src\assets\Pictures\final-background-slika.jpg');
     background-size: cover;
 }
-#foreground{
+
+#foreground {
     background-color: #235c5fe7;
 }
-section{
+
+section {
     width: 100%;
     height: 100%;
 }
-img{
+
+img {
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
 }
-#check{
-    align-items:left;
+
+#check {
+    align-items: left;
 }
-button{
+
+button {
     width: 100%;
     padding: 1.5%;
 }
-#rightSide
-{
+
+#rightSide {
     padding-right: 5%;
     padding-bottom: 5%;
     padding-left: 5%;
 }
-h1{
+
+h1 {
     font-family: BerunFont1;
     padding-top: 3%;
     padding-bottom: 3%;
 }
-input{
+
+input {
     padding: 1.5%;
 }
-mat-form-field{
+
+mat-form-field {
     width: 100%;
     height: 50%;
 }
-::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.2em 0px !important;}
-::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
+
+::ng-deep .mat-form-field-flex>.mat-form-field-infix {
+    padding: 0.2em 0px !important;
+}
+
+::ng-deep .mat-form-field-label-wrapper {
+    top: -1.5em;
+}
+
 ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
     transform: translateY(-1.1em) scale(.50);
 }
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline,
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick,
 mat-label {

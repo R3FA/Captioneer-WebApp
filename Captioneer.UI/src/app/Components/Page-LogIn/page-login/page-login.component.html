@@ -1,0 +1,54 @@
+<div class="main-container">
+    <div class="body-content" FxLayoutAlign="center center">
+        <mat-card class="content-mat-card">
+            <mat-card-content>
+                <div class="header-title">
+                    <h1>CAPTIONEER</h1>
+                    <h3>The subtitle page</h3>
+                </div>
+                <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForma">
+                    <div class="email-input">
+                        <mat-form-field class="content-mat-form-field" appearance="outline">
+                            <mat-label>E-mail</mat-label>
+                            <input formControlName="email" matInput required />
+                            <mat-error *ngIf="!loginForma.controls['email'].valid">
+                                E-mail address is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="password-input">
+                        <span>
+                            <a class="text-link" class="aLink" routerLink="/auth/forgot-password">Forgot Password?</a>
+                        </span>
+                        <mat-form-field class="content-mat-form-field" appearance="outline">
+                            <mat-label>Password</mat-label>
+                            <input formControlName="password" matInput [type]=" sakrij ? 'text' : 'password'"
+                                required />
+                            <button mat-icon-button matSuffix (click)="sakrij = !sakrij"
+                                [attr.aria-label]="'Hide Password'" [attr.aria-pressed]="sakrij">
+                                <mat-icon matSuffix (click)="sakrij = !sakrij">
+                                    {{sakrij?'visibility_off':'visibility'}}
+                                </mat-icon>
+                            </button>
+                            <mat-error *ngIf="!loginForma.controls['password'].valid">
+                                Password is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="mat-form-button">
+                        <button mat-flat-button class="dugme">SIGN IN</button>
+                        <button mat-flat-button class="Cancel-Dugme">CANCEL</button>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="signup-mat-card">
+            <mat-card-content>
+                <span>
+                    <a class="SignUp-Span">No account? </a>
+                    <a class="text-link" class="SignUp-Span" routerLink="signup">Click on me!</a>
+                </span>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
