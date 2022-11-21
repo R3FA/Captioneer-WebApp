@@ -39,7 +39,11 @@ namespace Captioneer.API.Controllers
             if (searchQuery.StartsWith("tt"))
                 showsFiltered = await _context.TVShows.Where(tv => tv.IMDBId == searchQuery).ToListAsync();
             else
-                showsFiltered = await _context.TVShows.Where(tv => tv.Title.ToLower().Contains(searchQuery)).ToListAsync();
+            {
+                var filter = searchQuery.Replace(" ", string.Empty);
+                filter = filter.ToLower();
+                showsFiltered = await _context.TVShows.Where(tv => tv.Title.ToLower().Replace(" ", string.Empty).Contains(filter)).ToListAsync();
+            }
 
             if (showsFiltered.Count == 0)
             {
