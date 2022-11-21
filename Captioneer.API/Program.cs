@@ -5,8 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 var serverVersion = ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 // Add services to the container.
+// Add CORS
 builder.Services.AddCors();
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -19,6 +19,7 @@ builder.Services.AddDbContext<CaptioneerDBContext>(options =>
 
 var app = builder.Build();
 
+// Allow any header, origin and method to be called
 app.UseCors ( builder=> {
     builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
 }

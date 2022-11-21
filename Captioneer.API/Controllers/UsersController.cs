@@ -22,13 +22,6 @@ namespace Captioneer.API.Controllers
             _context = context;
         }
 
-        // GET: api/Users
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        {
-            return await _context.Users.ToListAsync();
-        }
-
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
@@ -79,24 +72,21 @@ namespace Captioneer.API.Controllers
         [HttpPost]
         public async Task<ActionResult<UserViewModel>> PostUser(UserViewModel user)
         {
-           return Ok(user);
-
             //KAD BUDE BAZA SPREMNA ONDA SAMO OTKOMENTARISATI
 
             //Dodavanje novog User-a
 
-            //User newUser = new User()
-            //{
-            //    Email = user.Email,
-            //    Password = user.Password,
-            //    Username = user.Username,
-            //};
-            //if (_context.Users.ToList().Count == 0)
-            //    newUser.ID = 1;
-            //else
-            //    newUser.ID = _context.Users.ToList().Last().ID + 1;
-            //_context.Users.Add(newUser);
-            //_context.SaveChanges();
+            User newUser = new User()
+            {
+                Email = user.Email,
+                Password = user.Password,
+                Username = user.Username,
+            };
+
+            await _context.Users.AddAsync(newUser);
+            await _context.SaveChangesAsync();
+
+           return Ok(newUser);
         }
 
         // DELETE: api/Users/5

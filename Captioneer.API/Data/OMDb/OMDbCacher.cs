@@ -105,12 +105,15 @@ namespace Captioneer.API.Data.OMDb
             string metacritic = "";
             string poster = "";
 
-            foreach (var rating in show.Ratings)
+            if (show.Ratings != null)
             {
-                if (rating.Source == "Rotten Tomatoes")
-                    rottenTomatoes = rating.Value;
-                if (rating.Source == "Metacritic")
-                    metacritic = rating.Value;
+                foreach (var rating in show.Ratings)
+                {
+                    if (rating.Source == "Rotten Tomatoes")
+                        rottenTomatoes = rating.Value;
+                    if (rating.Source == "Metacritic")
+                        metacritic = rating.Value;
+                }
             }
 
             double.TryParse(show.ImdbRating, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out imdbRating);
