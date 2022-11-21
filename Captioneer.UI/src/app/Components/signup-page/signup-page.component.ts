@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { SignUpDoneComponent } from '../Components/sign-up-done/sign-up-done.component';
+import { SignUpDoneComponent } from '../sign-up-done/sign-up-done.component';
 @Component({
   selector: 'app-signup-page',
   templateUrl: './signup-page.component.html',
