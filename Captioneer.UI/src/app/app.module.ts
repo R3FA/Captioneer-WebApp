@@ -14,6 +14,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageLoginComponent } from './Components/Page-LogIn/page-login/page-login.component';
 import { HeaderComponentComponent } from './Components/Main-Header/header-component/header-component.component';
 import { FooterComponentComponent } from './Components/Main-Footer/footer-component/footer-component.component';
+import { HttpClientModule } from '@angular/common/http';
+import{MatDialogModule} from '@angular/material/dialog';
+import { SignUpDoneComponent } from './Components/sign-up-done/sign-up-done.component';
 
 const routes:Routes=[
 {path:'signup',component:SignupPageComponent}
@@ -26,6 +29,7 @@ const routes:Routes=[
     PageLoginComponent,
     HeaderComponentComponent,
     FooterComponentComponent,
+    SignUpDoneComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +41,8 @@ const routes:Routes=[
     ReactiveFormsModule,
     MatIconModule,
     FlexLayoutModule,
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

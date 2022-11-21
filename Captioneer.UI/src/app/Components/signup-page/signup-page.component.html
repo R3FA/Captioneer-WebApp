@@ -6,12 +6,12 @@
             </div>
             <div class="col-lg-7 text-center" id="rightSide">
                 <h1 class="text-center">Welcome!</h1>
-                      <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForm">
+                      <form (ngSubmit)="onSignup()" name="SignupForm" [formGroup]="SignupForm">
                 <div class="email-input">
                     <mat-form-field [style.margin]="'0'"  class="full-hight" appearance="outline">
                         <mat-label>E-mail</mat-label>
                         <input formControlName="email" matInput required />
-                        <mat-error *ngIf="!loginForm.controls['email'].valid">
+                        <mat-error *ngIf="!SignupForm.controls['email'].valid">
                             E-mail address is required
                         </mat-error>
                     </mat-form-field>
@@ -20,7 +20,7 @@
                     <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Username</mat-label>
                         <input formControlName="text" matInput required />
-                        <mat-error *ngIf="!loginForm.controls['text'].valid">
+                        <mat-error *ngIf="!SignupForm.controls['text'].valid">
                             Username is required
                         </mat-error>
                     </mat-form-field>
@@ -35,13 +35,13 @@
                                 {{hide ? 'visibility_off' : 'visibility'}}
                             </mat-icon>
                         </button>
-                        <mat-error *ngIf="!loginForm.controls['password'].valid">
-                            Password is required
+                        <mat-error *ngIf="!SignupForm.controls['password'].valid">
+                            Password is required (min 6 characters ; max 15)
                         </mat-error>
                     </mat-form-field>
                 </div>
                 <label class="form-label" for="btn">If you are finished then Sign up !</label>
-                <input class="btn btn-outline-success w-100" type="submit" value="Sign Up">
+                <button  class="btn btn-outline-success w-100" type="submit" [disabled]="!SignupForm.valid" value="Sign Up" (click)="openDialog()">Sign Up</button>>
                 <label class="form-label" for="btn">If you want to go back :</label>
                 <p>
                 <button type="button" class="btn btn-outline-danger" routerLink="">Cancel</button>
