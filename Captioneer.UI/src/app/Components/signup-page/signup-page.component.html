@@ -29,22 +29,23 @@
                     <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Password</mat-label>
                         <input formControlName="password" matInput [type]=" hide ? 'text' : 'password'" required />
-                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
-                            [attr.aria-pressed]="hide">
-                            <mat-icon>
+                        <!-- <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
+                            [attr.aria-pressed]="hide"> -->
+                            <!-- <mat-icon>
                                 {{hide ? 'visibility_off' : 'visibility'}}
-                            </mat-icon>
-                        </button>
+                            </mat-icon> -->
+                        <!-- </button> -->
                         <mat-error *ngIf="!SignupForm.controls['password'].valid">
-                            Password is required (min 6 characters ; max 15)
+                            Password is required (min 6 characters ; min 1 number)
                         </mat-error>
                     </mat-form-field>
                 </div>
                 <label class="form-label" for="btn">If you are finished then Sign up !</label>
-                <button  class="btn btn-outline-success w-100" type="submit" [disabled]="!SignupForm.valid" value="Sign Up" (click)="openDialog()">Sign Up</button>>
+                <button  class="btn btn-outline-success w-100" type="submit" [disabled]="!SignupForm.valid" value="Sign Up">Sign Up</button>
                 <label class="form-label" for="btn">If you want to go back :</label>
                 <p>
                 <button type="button" class="btn btn-outline-danger" routerLink="">Cancel</button>
+                <h3>{{errorMessage}}</h3>
             </form>
                 </div>
             </div>

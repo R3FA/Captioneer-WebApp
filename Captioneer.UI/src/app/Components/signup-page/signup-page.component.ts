@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { SignUpDoneComponent } from '../sign-up-done/sign-up-done.component';
+import { stringToKeyValue } from '@angular/flex-layout/extended/style/style-transforms';
 @Component({
   selector: 'app-signup-page',
   templateUrl: './signup-page.component.html',
@@ -10,12 +11,12 @@ import { SignUpDoneComponent } from '../sign-up-done/sign-up-done.component';
 })
 export class SignupPageComponent implements OnInit {
   hide: boolean = false;
-
   User={
     Email:'',
     Username:'',
     Password:''
-  }
+  };
+  errorMessage!: string;
   constructor(private fb: FormBuilder,private http:HttpClient,private dialogRef:MatDialog) { 
   }
 
@@ -24,7 +25,7 @@ export class SignupPageComponent implements OnInit {
     {
       email: new FormControl('', [Validators.required, Validators.email]),
       text: new FormControl('', [Validators.required, Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.minLength(12),Validators.maxLength(15)])
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
     }
   );
   
@@ -35,7 +36,13 @@ export class SignupPageComponent implements OnInit {
       this.User.Password=this.SignupForm.value.password
       this.http.post<any>("https://localhost:7207/api/Users",this.User).subscribe((data=>{
           console.log(data)
-        }))
+          this.dialogRef.open(SignUpDoneComponent);
+        }),
+        (err)=>{
+          this.errorMessage=err.error;
+        }
+        )
+
     //  this.SignupForm.reset();
     // this.http.get("https://localhost:7207/api/Movies").subscribe((data=>{
     //   console.log(data)
@@ -43,7 +50,7 @@ export class SignupPageComponent implements OnInit {
     }
  
 
-    openDialog(){
-      this.dialogRef.open(SignUpDoneComponent);
-    }
+    // openDialog(){
+    //     this.dialogRef.open(SignUpDoneComponent);
+    // }
 }

@@ -83,19 +83,24 @@ namespace Captioneer.API.Controllers
         [HttpPost]
         public async Task<ActionResult<UserViewModel>> PostUser(UserViewModel user)
         {
-            var hashedPassword = BCryptHasher.Hash(user.Password);
-
-            var newUser = new User()
+            if (!UserExistsEmail(user)&&!UserExistsName(user))
             {
-                Email = user.Email,
-                Password = hashedPassword,
-                Username = user.Username,
-            };
+                var hashedPassword = BCryptHasher.Hash(user.Password);
 
-            await _context.Users.AddAsync(newUser);
-            await _context.SaveChangesAsync();
+                var newUser = new User()
+                {
+                    Email = user.Email,
+                    Password = hashedPassword,
+                    Username = user.Username,
+                };
 
-           return Ok(newUser);
+                await _context.Users.AddAsync(newUser);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            else
+                return UserExistsEmail(user)?BadRequest("Email is in use"):BadRequest("Username exists");
         }
 
         // DELETE: api/Users/5
@@ -114,6 +119,14 @@ namespace Captioneer.API.Controllers
             return NoContent();
         }
 
+        private bool UserExistsEmail(UserViewModel user)
+        {
+            return _context.Users.Any(e => e.Email == user.Email);
+        } 
+        private bool UserExistsName(UserViewModel user)
+        {
+            return _context.Users.Any(e => e.Username == user.Username);
+        }
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.ID == id);
