@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Captioneer.API.Migrations
 {
     [DbContext(typeof(CaptioneerDBContext))]
-    [Migration("20221116155334_FixActorTVShowFK")]
-    partial class FixActorTVShowFK
+    [Migration("20221122162909_RemoveUsernamePasswordGuards")]
+    partial class RemoveUsernamePasswordGuards
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -218,19 +218,13 @@ namespace Captioneer.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("EpisodeNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
-
-                    b.Property<int>("RatingCount")
-                        .HasColumnType("int");
-
-                    b.Property<double>("RatingValue")
-                        .HasColumnType("double");
-
-                    b.Property<int>("Runtime")
-                        .HasColumnType("int");
 
                     b.Property<int>("SeasonID")
                         .HasColumnType("int");
@@ -369,7 +363,10 @@ namespace Captioneer.API.Migrations
                     b.Property<string>("CoverArt")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("EpisodeCount")
+                    b.Property<int?>("EpisodeCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeasonNumber")
                         .HasColumnType("int");
 
                     b.Property<int>("TVShowID")
@@ -638,16 +635,14 @@ namespace Captioneer.API.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ProfileImage")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("ID");
 
