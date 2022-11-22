@@ -13,6 +13,9 @@ namespace Captioneer.API.Entities
         [Required]
         public string EnglishName { get; set; } = string.Empty;
 
+        [Required]
+        public string LanguageCode { get; set; } = string.Empty;
+
         public string? Flag { get; set; } = string.Empty;
     }
 }
