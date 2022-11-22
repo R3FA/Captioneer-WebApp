@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Captioneer.API.Data;
 using Captioneer.API.Entities;
+using Captioneer.API.Utils;
 using Captioneer.API.ViewModels;
 
 namespace Captioneer.API.Controllers
@@ -72,15 +73,13 @@ namespace Captioneer.API.Controllers
         [HttpPost]
         public async Task<ActionResult<UserViewModel>> PostUser(UserViewModel user)
         {
-            //KAD BUDE BAZA SPREMNA ONDA SAMO OTKOMENTARISATI
+            var hashedPassword = BCryptHasher.Hash(user.Password);
 
-            //Dodavanje novog User-a
-
-            User newUser = new User()
+            var newUser = new User()
             {
                 Email = user.Email,
                 Password = user.Password,
-                Username = user.Username,
+                Username = hashedPassword,
             };
 
             await _context.Users.AddAsync(newUser);
