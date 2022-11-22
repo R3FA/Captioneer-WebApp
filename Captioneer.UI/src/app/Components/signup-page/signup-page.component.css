@@ -2,7 +2,7 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-    color: #C3E1B5;
+    color: #F18F01;
 }
 
 @font-face {
@@ -23,20 +23,21 @@
 .row {
     background: white;
     border-radius: 30px;
-    box-shadow: 12px 12px 22px;
+    box-shadow: 5px 5px 55px;
 }
-
 .container {
     margin: auto;
 }
 
 #background {
-    background-image: url('src\assets\Pictures\final-background-slika.jpg');
+    background-image: url('src\assets\Pictures\background-slika.jpg');
     background-size: cover;
 }
 
 #foreground {
-    background-color: #235c5fe7;
+    background-color: #2e4057de;
+    border: 3px solid #F18F01;
+    border-radius: 1.5em;
 }
 
 section {
@@ -94,5 +95,5 @@ mat-form-field {
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline,
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick,
 mat-label {
-    color: #C3E1B5;
+    color: #F18F01;
 }
