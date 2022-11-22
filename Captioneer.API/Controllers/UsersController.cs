@@ -37,35 +37,45 @@ namespace Captioneer.API.Controllers
             return user;
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        // PUT: api/Users/adivonslav
+        [HttpPut("{username}")]
+        public async Task<IActionResult> PutUser(string username, UserUpdateViewModel userUpdateVM)
         {
-            if (id != user.ID)
+            if (userUpdateVM.Password == string.Empty)
             {
-                return BadRequest();
+                return BadRequest("Must provide a password to make any changes");
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            var dbUser = _context.Users.FirstOrDefault(u => u.Username == username);
+
+            if (dbUser == null)
+            {
+                return NotFound("The User does not exist in the database");
+            }
+
+
+            if (!BCryptHasher.Verify(userUpdateVM.Password, dbUser.Password))
+            {
+                return BadRequest("The provided password is incorrect");
+            }
+
+            if (userUpdateVM.NewEmail != null)
+                dbUser.Email = userUpdateVM.NewEmail;
+            if (userUpdateVM.NewPassword != null)
+                dbUser.Password = BCryptHasher.Hash(userUpdateVM.NewPassword);
+            if (userUpdateVM.NewUsername != null)
+                dbUser.Username = userUpdateVM.NewUsername;
 
             try
-            {
+            { 
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateException e)
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(e.Message);
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Users
@@ -78,8 +88,8 @@ namespace Captioneer.API.Controllers
             var newUser = new User()
             {
                 Email = user.Email,
-                Password = user.Password,
-                Username = hashedPassword,
+                Password = hashedPassword,
+                Username = user.Username,
             };
 
             await _context.Users.AddAsync(newUser);
