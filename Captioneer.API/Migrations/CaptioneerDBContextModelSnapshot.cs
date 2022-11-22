@@ -649,6 +649,21 @@ namespace Captioneer.API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Captioneer.API.Entities.UserLanguage", b =>
+                {
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LanguageID")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserID", "LanguageID");
+
+                    b.HasIndex("LanguageID");
+
+                    b.ToTable("UsersLanguages");
+                });
+
             modelBuilder.Entity("Captioneer.API.Entities.ActorMovie", b =>
                 {
                     b.HasOne("Captioneer.API.Entities.Actor", "Actor")
@@ -975,6 +990,25 @@ namespace Captioneer.API.Migrations
                     b.HasOne("Captioneer.API.Entities.Admin", null)
                         .WithMany("BannedUsers")
                         .HasForeignKey("AdminID");
+                });
+
+            modelBuilder.Entity("Captioneer.API.Entities.UserLanguage", b =>
+                {
+                    b.HasOne("Captioneer.API.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Captioneer.API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Language");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Captioneer.API.Entities.Admin", b =>
