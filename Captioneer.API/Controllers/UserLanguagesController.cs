@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,35 +29,41 @@ namespace Captioneer.API.Controllers
         [HttpGet("{username}")]
         public async Task<ActionResult<IEnumerable<UserLanguageViewModel>>> GetUserLanguage(string username)
         {
-            var userLanguage = await _context.UsersLanguages.Where(ul => ul.User.Username == username).ToListAsync();
+            var userLanguages = await _context.UsersLanguages.Where(ul => ul.User.Username == username).ToListAsync();
 
-            if (userLanguage.Count == 0)
+            if (userLanguages.Count == 0)
             {
                 return NotFound("No UserLanguage exists for the given parameters");
             }
 
             var viewModels = new List<UserLanguageViewModel>();
 
-            userLanguage.ForEach(ul =>
+            foreach (var userLanguage in userLanguages)
             {
+                var dbUser = await _context.Users.FindAsync(userLanguage.UserID);
+                var dbLanguage = await _context.Languages.FindAsync(userLanguage.LanguageID);
+
                 viewModels.Add(new UserLanguageViewModel()
                 {
-                    Username = ul.User.Username,
-                    LanguageName = ul.Language.Name,
-                    EnglishLanguageName = ul.Language.EnglishName,
-                    Flag = ul.Language.Flag,
+                    Username = userLanguage.User.Username,
+                    LanguageName = userLanguage.Language.Name,
+                    EnglishLanguageName = userLanguage.Language.EnglishName,
+                    Flag = userLanguage.Language.Flag,
                 });
-            });
+            }
 
             return Ok(viewModels);
         }
 
-        // POST: api/UserLanguages
-        [HttpPost]
-        public async Task<ActionResult<UserLanguageViewModel>> PostUserLanguage(UserLanguageViewModel userLanguageVM)
+        // POST: api/UserLanguages/adivonslav
+        [HttpPost("{username}")]
+        public async Task<ActionResult<UserLanguageViewModel>> PostUserLanguage(string username, string englishLanguageName)
         {
-            var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == userLanguageVM.Username);
-            var dbLanguage = await _context.Languages.FirstOrDefaultAsync(l => l.Name == userLanguageVM.LanguageName);
+            if (englishLanguageName == "")
+                return BadRequest("Must provide language query");
+
+            var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var dbLanguage = await _context.Languages.FirstOrDefaultAsync(l => l.EnglishName == englishLanguageName);
 
             if (dbUser == null || dbLanguage == null)
                 return NotFound("The user or language does not exist in the database");
@@ -80,15 +87,18 @@ namespace Captioneer.API.Controllers
                 return BadRequest(e.Message);
             }
 
-            return Ok(userLanguageVM);
+            return Ok();
         }
 
         // DELETE: api/UserLanguages
-        [HttpDelete]
-        public async Task<IActionResult> DeleteUserLanguage(UserLanguageViewModel userLanguageVM)
+        [HttpDelete("{username}")]
+        public async Task<IActionResult> DeleteUserLanguage(string username, string englishLanguageName)
         {
+            if (englishLanguageName == "")
+                return BadRequest("Must provide language query");
+
             var dbUserLanguage = await _context.UsersLanguages.
-                FirstOrDefaultAsync(ul => ul.User.Username == userLanguageVM.Username && ul.Language.Name == userLanguageVM.LanguageName);
+                FirstOrDefaultAsync(ul => ul.User.Username == username && ul.Language.EnglishName == englishLanguageName);
 
             if (dbUserLanguage == null)
                 return NotFound("The UserLanguage does not exist");
