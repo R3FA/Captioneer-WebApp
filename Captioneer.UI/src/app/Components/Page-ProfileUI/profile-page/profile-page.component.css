@@ -1,0 +1,354 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: BerunFont2;
+    /* background-color: #2E4057;
+    color: #F18F01; */
+}
+
+@font-face {
+    font-family: 'BerunFont1';
+    src: url('src\assets\Fonts\MARDE SAUVE.otf');
+}
+
+@font-face {
+    font-family: 'BerunFont2';
+    src: url('src\assets\Fonts\railway.regular.otf');
+}
+
+@font-face {
+    font-family: 'BerunFont3';
+    src: url('src\assets\Fonts\Raleway-Bold.ttf');
+}
+
+.main-container {
+    position: relative;
+    top: 75px;
+    height: calc(100% - 145px);
+    background: url('src\assets\Pictures\background-slika.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.sub-container {
+    border: 3px solid #F18F01;
+    border-radius: 0.5em;
+    width: 85%;
+    height: 95%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.profile-mat-card-div {
+    width: 100%;
+    height: 20%;
+    margin: auto;
+    border-bottom: 2.5px solid #F18F01;
+}
+
+.profile-mat-card {
+    width: 100%;
+    height: 100%;
+    /* border: 2px solid black; */
+    background-color: #2e4057de;
+    border-radius: 0.5em;
+    color: #F18F01;
+}
+
+.mat-card-container {
+    /* border: 2px solid aqua; */
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.picture-profile-div {
+    /* border: 2px solid blue; */
+    width: 8%;
+    height: 100%;
+}
+
+.picture-profile {
+    width: 100%;
+    height: 100%;
+}
+
+.username-profile-div {
+    /* border: 2px solid red; */
+    height: 100%;
+    width: 25%;
+    position: relative;
+}
+
+.username {
+    /* border: 2px solid black; */
+    height: 50%;
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.username h2 {
+    height: 70%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.role {
+    height: 50%;
+    width: 100%;
+    /* border: 2px solid aqua; */
+    text-align: center;
+    position: relative;
+}
+
+.role h5 {
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.userIcon-mat-card {
+    width: 7%;
+    height: 100%;
+    position: absolute;
+    /* border: 2px solid aqua; */
+}
+
+.profile-mat-card mat-card-header {
+    /* border: 2px solid red; */
+    width: 100%;
+}
+
+.userPage-info {
+    /* border: 2px solid lime; */
+    height: 100%;
+    width: 35%;
+    position: relative;
+    margin: auto;
+}
+
+.userPage-info-designation {
+    /* border: 2px solid red; */
+    height: 50%;
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.userPage-info-designation h5 {
+    height: 70%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.userPage-info-online {
+    height: 50%;
+    width: 100%;
+    /* border: 2px solid aqua; */
+    text-align: center;
+    position: relative;
+}
+
+.userPage-info-online h5 {
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.message-and-settings {
+    /* border: 2px solid red; */
+    margin: auto 0;
+    width: fit-content;
+    height: fit-content;
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.message-button,
+.editPage-button {
+    background-color: #F18F01;
+    color: #2E4057;
+    margin-left: 1em;
+}
+
+.info-container {
+    width: 100%;
+    height: 80%;
+    background-color: #2e4057de;
+    display: flex;
+    border-radius: 0.5em;
+}
+
+.personal-info-mat-card-div {
+    border: 2.5px solid #F18F01;
+    border-radius: 0.5em;
+    width: 30%;
+    height: 90%;
+    margin: auto;
+}
+
+.personal-info-mat-card {
+    width: 100%;
+    height: 100%;
+    background-color: #2e4057b5;
+    color: #F18F01;
+}
+
+.personal-main-title {
+    /* border: 2px solid red; */
+    width: 100%;
+    height: 10%;
+    position: relative;
+}
+
+.personal-main-title h5 {
+    /* border: 2px solid blue; */
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.personal-username {
+    height: 15%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.data-responsive h5 {
+    color: #99C24D;
+}
+
+.field-data {
+    width: 100%;
+    height: 15%;
+    /* border: 2px solid red; */
+    position: relative;
+}
+
+.data-responsive {
+    width: 100%;
+    height: fit-content;
+    /* border: 2px solid blue; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/*  */
+
+.public-info-mat-card-div {
+    border: 2.5px solid #F18F01;
+    border-radius: 0.5em;
+    width: 65%;
+    height: 90%;
+    margin: auto;
+}
+
+.public-info-mat-card {
+    width: 100%;
+    height: 100%;
+    background-color: #2e4057b5;
+    color: #F18F01;
+}
+
+.page-information {
+    /* border: 2px solid red; */
+    width: 100%;
+    height: 20%;
+    display: flex;
+}
+
+.page-information-1,
+.page-information-2,
+.page-information-3 {
+    /* border: 2px solid lime; */
+    height: 100%;
+    width: 33.3%;
+    position: relative;
+}
+
+.page-information-responsive {
+    width: 100%;
+    height: fit-content;
+    /* border: 2px solid black; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.connected-apps {
+    /* border: 2px solid red; */
+    display: flex;
+    width: fit-content;
+    margin: auto;
+}
+
+.connected-apps svg {
+    margin-left: 0.5em;
+}
+
+.favorite-movies-div {
+    /* border: 2px solid blue; */
+    width: 100%;
+    height: 80%;
+}
+
+.favorite-movies-title {
+    /* border: 2px solid red; */
+    height: 15%;
+    position: relative;
+}
+
+.favorite-movies-title h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.movie-container {
+    /* border: 2px solid black; */
+    box-sizing: border-box;
+    height: 85%;
+    display: flex;
+}
+
+.fav-movie-1,
+.fav-movie-2,
+.fav-movie-3,
+.fav-movie-4 {
+    border: 1.5px solid #F18F01;
+    border-radius: 0.5em;
+    height: 100%;
+    width: 20%;
+    margin: auto;
+}
+
+.movie {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5em;
+}

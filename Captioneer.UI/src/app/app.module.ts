@@ -17,6 +17,7 @@ import { FooterComponentComponent } from './Components/Main-Footer/footer-compon
 import { HttpClientModule } from '@angular/common/http';
 import{MatDialogModule} from '@angular/material/dialog';
 import { SignUpDoneComponent } from './Components/sign-up-done/sign-up-done.component';
+import { ProfilePageComponent } from './Components/Page-ProfileUI/profile-page/profile-page.component';
 
 const routes:Routes=[
 {path:'signup',component:SignupPageComponent}
@@ -30,6 +31,7 @@ const routes:Routes=[
     HeaderComponentComponent,
     FooterComponentComponent,
     SignUpDoneComponent,
+    ProfilePageComponent,
   ],
   imports: [
     BrowserModule,
