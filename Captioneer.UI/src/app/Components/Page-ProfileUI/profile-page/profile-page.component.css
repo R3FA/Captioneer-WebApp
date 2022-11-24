@@ -352,3 +352,83 @@
     height: 100%;
     border-radius: 0.5em;
 }
+
+
+/* 
+--------------------
+ EDIT PROFILE SECTION 
+---------------------
+*/
+
+.btn-group  {
+    width: 50%;
+    margin: 0 25% 0 25%;
+    text-align: center;
+    padding-bottom: 2%;
+}
+
+.btn-group input+label {
+    display: block;
+    width: 50%;
+    background-color: #2E4057;
+    border: 1px solid #F18F01;
+    cursor: pointer;
+}
+
+.btn-group input:checked+label  {
+    background-color: #F18F01;
+    border: none;
+    color: #2E4057;
+}
+
+.btn-group input:hover+label  {
+    background-color: #F18F01;
+    border: none;
+    color: #2E4057;
+}
+
+#changeUsernameBtn+label {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+}
+
+#changeEmailBtn+label {
+    border-bottom-left-radius: 0.5em;
+    border-top-left-radius: 0.5em;
+}
+
+#changePasswordBtn+label {
+    border-radius: 0;
+    border-right: none;
+}
+
+#deleteProfileBtn+label {
+    border-bottom-right-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+}
+
+.editprofile-button {
+    user-select: none;
+}
+
+.editprofile-div    {
+    width: 30%;
+}
+
+.submit-button  {
+    background-color: #F18F01;
+}
+
+.submit-button:hover  {
+    background-color: #c07300;
+}
+
+.error-text {
+    color: crimson;
+    font-weight: 100;
+}
+
+form {
+    padding-top: 5%;
+}
