@@ -48,13 +48,13 @@
                             </svg>
                             Message
                         </button>
-                        <button mat-flat-button class="editPage-button">
+                        <button (click)="togglePublicInfo()" mat-flat-button class="editPage-button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-pen-fill" viewBox="0 0 16 16">
                                 <path
                                     d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z" />
                             </svg>
-                            Edit profile
+                            {{ editProfileBtnText }}
                         </button>
                     </div>
                 </div>
@@ -204,7 +204,7 @@
                     </div>
                 </mat-card>
             </div>
-            <div class="public-info-mat-card-div">
+            <div [hidden]="showEditProfile" class="public-info-mat-card-div">
                 <mat-card class="public-info-mat-card">
                     <div class="page-information">
                         <div class="page-information-1">
@@ -290,6 +290,129 @@
                                 <img src="assets\Pictures\interstellar-dummy.jpg" class="movie">
                             </div>
                         </div>
+                    </div>
+                </mat-card>
+            </div>
+            <div [hidden]="!showEditProfile" class="public-info-mat-card-div">
+                <mat-card class="public-info-mat-card">
+                    <div class="btn-group" role="group">
+                        <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
+                            id="changeEmailBtn" autocomplete="off" checked>
+                        <label class="editprofile-button" for="changeEmailBtn">Change email</label>
+
+                        <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
+                            id="changeUsernameBtn" autocomplete="off">
+                        <label class="editprofile-button" for="changeUsernameBtn">Change username</label>
+
+                        <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
+                            id="changePasswordBtn" autocomplete="off">
+                        <label class="editprofile-button" for="changePasswordBtn">Change password</label>
+
+                        <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
+                            id="deleteProfileBtn" autocomplete="off">
+                        <label class="editprofile-button" for="deleteProfileBtn">Delete account</label>
+                    </div>
+                    <div class="editprofile-div">
+                        <div [hidden]="!successText" class="alert alert-success" role="alert">{{ successText }}</div>
+                        <div [hidden]="!errorText" class="alert alert-danger" role="alert">{{ errorText }}</div>
+                        <form [hidden]="!showChangeEmailForm" [formGroup]="changeEmailForm" (ngSubmit)="changeEmail()">
+                            <div class="mb-3">
+                                <label for="enterPassword" class="form-label">Current password</label>
+                                <input type="password" name="enterPassword" formControlName="enterPassword"
+                                    [ngClass]="{'is-invalid':submitted && changeEmailForm.controls['enterPassword'].errors}"
+                                    class="form-control">
+                                <div class="error-text"
+                                    *ngIf="submitted && changeEmailForm.controls['enterPassword'].errors">You must enter
+                                    your password.</div>
+                                <div class="form-text">We need your password to confirm the change.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="enterEmail" class="form-label">New email</label>
+                                <input type="email" name="enterEmail" formControlName="enterEmail" class="form-control"
+                                    [ngClass]="{'is-invalid':submitted && changeEmailForm.controls['enterEmail'].errors}"
+                                    aria-describedby="emailHelp">
+                                <div class="error-text"
+                                    *ngIf="submitted && changeEmailForm.controls['enterEmail'].errors">You must enter a
+                                    valid email.</div>
+                            </div>
+                            <button type="submit" mat-flat-button class="submit-button">Submit</button>
+                        </form>
+                        <form [hidden]="!showChangeUsernameForm" [formGroup]="changeUsernameForm"
+                            (ngSubmit)="changeUsername()">
+                            <div class="mb-3">
+                                <label for="enterPassword" class="form-label">Current password</label>
+                                <input type="password" name="enterPassword" formControlName="enterPassword"
+                                    [ngClass]="{'is-invalid':submitted && changeUsernameForm.controls['enterPassword'].errors}"
+                                    class="form-control">
+                                <div class="error-text"
+                                    *ngIf="submitted && changeUsernameForm.controls['enterPassword'].errors">You must
+                                    enter your password.</div>
+                                <div class="form-text">We need your password to confirm the change.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="enterUsername" class="form-label">New username</label>
+                                <input type="username" name="enterUsername" formControlName="enterUsername"
+                                    [ngClass]="{'is-invalid':submitted && changeUsernameForm.controls['enterUsername'].errors}"
+                                    class="form-control">
+                                <div class="error-text"
+                                    *ngIf="submitted && changeUsernameForm.controls['enterUsername'].errors">You must
+                                    enter a username up to 15 characters long.</div>
+                            </div>
+                            <button type="submit" mat-flat-button class="submit-button">Submit</button>
+                        </form>
+                        <form [hidden]="!showChangePasswordForm" [formGroup]="changePasswordForm"
+                            (ngSubmit)="changePassword()">
+                            <div class="mb-3">
+                                <label for="enterPassword" class="form-label">Current password</label>
+                                <input type="password" name="enterPassword" formControlName="enterPassword"
+                                    [ngClass]="{'is-invalid':submitted && changePasswordForm.controls['enterPassword'].errors}"
+                                    class="form-control">
+                                <div class="error-text"
+                                    *ngIf="submitted && changePasswordForm.controls['enterPassword'].errors">You must
+                                    enter your password.</div>
+                                <div class="form-text">We need your password to confirm the change.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="enterNewPassword" class="form-label">New password</label>
+                                <input type="password" name="enterNewPassword" formControlName="enterNewPassword"
+                                    [ngClass]="{'is-invalid':submitted && changePasswordForm.controls['enterNewPassword'].errors}"
+                                    class="form-control">
+                                <div class="error-text"
+                                    *ngIf="submitted && changePasswordForm.controls['enterNewPassword'].errors">You must
+                                    enter a new password that is at least 6 characters long.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="enterNewPasswordRepeat" class="form-label">Confirm new password</label>
+                                <input type="password" name="enterNewPasswordRepeat"
+                                    formControlName="enterNewPasswordRepeat"
+                                    [ngClass]="{'is-invalid':submitted && changePasswordForm.controls['enterNewPasswordRepeat'].errors}"
+                                    class="form-control">
+                                <div class="error-text"
+                                    *ngIf="submitted && changePasswordForm.controls['enterNewPasswordRepeat'].errors">
+                                    Passwords do not match.</div>
+                            </div>
+                            <button type="submit" mat-flat-button class="submit-button">Submit</button>
+                        </form>
+                        <form [hidden]="!showDeleteProfileForm" [formGroup]="deleteProfileForm"
+                            (ngSubmit)="deleteProfile()">
+                            <div class="mb-3">
+                                <label for="enterPassword" class="form-label">Current password</label>
+                                <input type="password" name="enterPassword" formControlName="enterPassword"
+                                    [ngClass]="{'is-invalid':submitted && changePasswordForm.controls['enterPassword'].errors}"
+                                    class="form-control">
+                                <div class="error-text"
+                                    *ngIf="submitted && changePasswordForm.controls['enterPassword'].errors">You must
+                                    enter your password.</div>
+                                <div class="form-text">We need your password to confirm deletion.</div>
+                            </div>
+
+                            <button type="submit" mat-flat-button class="submit-button">Delete account</button>
+                            <div class="error-text">Warning: After deletion account recovery is not possible</div>
+                        </form>
                     </div>
                 </mat-card>
             </div>

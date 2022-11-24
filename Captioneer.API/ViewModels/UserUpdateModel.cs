@@ -1,6 +1,6 @@
 ﻿namespace Captioneer.API.ViewModels
 {
-    public class UserUpdateViewModel
+    public class UserUpdateModel
     {
         public string Password { get; set; }
 

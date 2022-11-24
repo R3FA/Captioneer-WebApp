@@ -39,9 +39,9 @@ namespace Captioneer.API.Controllers
 
         // PUT: api/Users/adivonslav
         [HttpPut("{username}")]
-        public async Task<IActionResult> PutUser(string username, UserUpdateViewModel userUpdateVM)
+        public async Task<IActionResult> PutUser(string username, UserUpdateModel userUpdate)
         {
-            if (userUpdateVM.Password == string.Empty)
+            if (userUpdate.Password == string.Empty)
             {
                 return BadRequest("Must provide a password to make any changes");
             }
@@ -54,17 +54,17 @@ namespace Captioneer.API.Controllers
             }
 
 
-            if (!BCryptHasher.Verify(userUpdateVM.Password, dbUser.Password))
+            if (!BCryptHasher.Verify(userUpdate.Password, dbUser.Password))
             {
                 return BadRequest("The provided password is incorrect");
             }
 
-            if (userUpdateVM.NewEmail != null)
-                dbUser.Email = userUpdateVM.NewEmail;
-            if (userUpdateVM.NewPassword != null)
-                dbUser.Password = BCryptHasher.Hash(userUpdateVM.NewPassword);
-            if (userUpdateVM.NewUsername != null)
-                dbUser.Username = userUpdateVM.NewUsername;
+            if (userUpdate.NewEmail != null)
+                dbUser.Email = userUpdate.NewEmail;
+            if (userUpdate.NewPassword != null)
+                dbUser.Password = BCryptHasher.Hash(userUpdate.NewPassword);
+            if (userUpdate.NewUsername != null)
+                dbUser.Username = userUpdate.NewUsername;
 
             try
             { 
@@ -81,7 +81,7 @@ namespace Captioneer.API.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserViewModel>> PostUser(UserViewModel user)
+        public async Task<ActionResult<UserViewModel>> PostUser(UserPostModel user)
         {
             if (!UserExistsEmail(user)&&!UserExistsName(user))
             {
@@ -94,8 +94,15 @@ namespace Captioneer.API.Controllers
                     Username = user.Username,
                 };
 
-                await _context.Users.AddAsync(newUser);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.Users.AddAsync(newUser);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException e)
+                {
+                    return BadRequest(e.Message);
+                }
 
                 return Ok();
             }
@@ -103,27 +110,36 @@ namespace Captioneer.API.Controllers
                 return UserExistsEmail(user)?BadRequest("Email is in use"):BadRequest("Username exists");
         }
 
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        // DELETE: api/Users
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUser(UserPostModel user)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
+
+            if (dbUser == null)
+                return NotFound("Could not find a User with the provided username");
+
+            if (!BCryptHasher.Verify(user.Password, dbUser.Password))
+                return BadRequest("The provided password is incorrect!");
+
+            try
             {
-                return NotFound();
+                _context.Users.Remove(dbUser);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                return BadRequest(e.Message);
             }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok();
         }
 
-        private bool UserExistsEmail(UserViewModel user)
+        private bool UserExistsEmail(UserPostModel user)
         {
             return _context.Users.Any(e => e.Email == user.Email);
         } 
-        private bool UserExistsName(UserViewModel user)
+        private bool UserExistsName(UserPostModel user)
         {
             return _context.Users.Any(e => e.Username == user.Username);
         }
