@@ -361,8 +361,8 @@
 */
 
 .btn-group  {
-    width: 50%;
-    margin: 0 25% 0 25%;
+    width: 90%;
+    margin: 0 5% 0 5%;
     text-align: center;
     padding-bottom: 2%;
 }
@@ -408,6 +408,10 @@
     border-top-right-radius: 0.5em;
 }
 
+#changeProfileImageBtn+label {
+    border-right: none;
+}
+
 .editprofile-button {
     user-select: none;
 }
@@ -431,4 +435,12 @@
 
 form {
     padding-top: 5%;
+}
+
+#fileUpload {
+    display: none;
+}
+
+#imageUploadBtn {
+    margin-left: 4%;
 }

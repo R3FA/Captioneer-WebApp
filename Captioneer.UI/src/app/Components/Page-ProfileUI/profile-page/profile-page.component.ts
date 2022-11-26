@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserPost } from 'src/app/models/user-post';
 import { UserUpdate } from 'src/app/models/user-update';
 import { UserService } from 'src/app/services/user.service';
+import { Utils } from 'src/app/utils/utils'
 
 @Component({
   selector: 'app-profile-page',
@@ -11,16 +12,20 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfilePageComponent implements OnInit, AfterViewInit {
 
+  // In bytes
+  private maxUploadSize = 2 * 1024 * 1024;
+
   private _showEditProfile! : boolean;
   private _showChangeEmailForm! : boolean;
   private _showChangeUsernameForm! : boolean;
-  private _showChangeProfileImageForm! : boolean;
   private _showChangePasswordForm! : boolean;
+  private _showChangeProfileImageForm! : boolean;
   private _showDeleteProfileForm! : boolean;
 
   public changeEmailForm! : FormGroup;
   public changeUsernameForm! : FormGroup;
   public changePasswordForm! : FormGroup;
+  public changeProfileImageForm! : FormGroup;
   public deleteProfileForm! : FormGroup;
 
   private enterPassword! : FormControl;
@@ -28,11 +33,14 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   private enterUsername! : FormControl;
   private enterNewPassword! : FormControl;
   private enterNewPasswordRepeat! : FormControl;
+  private enterNewImage! : FormControl;
 
   public submitted! : boolean;
   public successText! : string;
   public errorText! : string;
   public editProfileBtnText! : string;
+  public fileName! : string;
+  public requestInProgress! : boolean;
 
   public get showEditProfile() : boolean {
     return this._showEditProfile;
@@ -45,59 +53,65 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   public get showChangeUsernameForm() : boolean {
     return this._showChangeUsernameForm;
   }
-
-  public get showChangeProfileImageForm() : boolean {
-    return this._showChangeProfileImageForm;
-  }
   
   public get showChangePasswordForm() : boolean {
     return this._showChangePasswordForm;
+  }
+
+  public get showChangeProfileImageForm() : boolean {
+    return this._showChangeProfileImageForm;
   }
 
   public get showDeleteProfileForm() : boolean {
     return this._showDeleteProfileForm;
   }
   
-  
-  constructor(private formBuilder : FormBuilder, private userService : UserService) {}
+  constructor(private formBuilder : FormBuilder, private userService : UserService, private renderer : Renderer2) {}
   
   ngOnInit(): void {
-    this._showEditProfile = true;
+    this._showEditProfile = false;
     this._showChangeEmailForm = true;
+    this._showChangeUsernameForm = false;
     this._showChangePasswordForm = false;
     this._showChangeProfileImageForm = false;
-    this._showChangeUsernameForm = false;
     this._showDeleteProfileForm = false;
     this.submitted = false;
     this.successText = "";
     this.errorText = "";
     this.editProfileBtnText = "Edit profile";
+    this.fileName = "";
+    this.requestInProgress = false;
 
     this.enterPassword = new FormControl('', [Validators.required]);
     this.enterEmail = new FormControl('', [Validators.required, Validators.email]);
     this.enterUsername = new FormControl('', [Validators.required, Validators.maxLength(10)]);
     this.enterNewPassword = new FormControl('', [Validators.required, Validators.minLength(6)]);
     this.enterNewPasswordRepeat = new FormControl('', [Validators.required, this.validatePasswordMatch()]);
+    this.enterNewImage = new FormControl('', [Validators.required]);
 
     this.changeEmailForm = this.formBuilder.group({
       enterPassword : this.enterPassword,
       enterEmail : this.enterEmail
-    })
+    });
 
     this.changeUsernameForm = this.formBuilder.group({
       enterPassword : this.enterPassword,
       enterUsername : this.enterUsername
-    })
+    });
 
     this.changePasswordForm = this.formBuilder.group({
       enterPassword : this.enterPassword,
       enterNewPassword : this.enterNewPassword,
       enterNewPasswordRepeat : this.enterNewPasswordRepeat
-    })
+    });
+
+    this.changeProfileImageForm = this.formBuilder.group({
+      enterNewImage: this.enterNewImage
+    });
 
     this.deleteProfileForm = this.formBuilder.group({
       enterPassword : this.enterPassword
-    })
+    });
   }
   
   ngAfterViewInit() {
@@ -137,7 +151,27 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     return (control : AbstractControl) : ValidationErrors | null => {
       const isValid : boolean = this.enterNewPassword.value == control.value;
 
-      return isValid? null : { error : true }
+      return isValid? null : { error : true };
+    }
+  }
+
+  // Custom file validation method that bypasses Angular's form control validation
+  validateFileUpload(event : any) : void  {
+    const file : File = event.target.files[0];
+    this.fileName = file.name;
+    this.submitted = true;
+
+    if (file.size == 0 || file.size > this.maxUploadSize) {
+      this.enterNewImage.setErrors({error: true});
+      this.fileName = "";
+    }
+    else if (file.type != "image/jpeg" && file.type != "image/png")  {
+      this.enterNewImage.setErrors({error: true});
+      this.fileName = "";
+    }
+    else  {
+      this.enterNewImage.setErrors(null);
+      this.changeProfileImage(file);
     }
   }
 
@@ -149,30 +183,40 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       this._showChangeEmailForm = !this._showChangeEmailForm;
       this._showChangePasswordForm = false;
       this._showChangeUsernameForm = false;
+      this._showChangeProfileImageForm = false;
       this._showDeleteProfileForm = false;
-      this.clearForms();
     }
     else if (input.id == "changeUsernameBtn")  {
       this._showChangeUsernameForm = !this._showChangeUsernameForm;
       this._showChangePasswordForm = false;
       this._showChangeEmailForm = false;
+      this._showChangeProfileImageForm = false;
       this._showDeleteProfileForm = false;
-      this.clearForms();
     }
     else if (input.id == "changePasswordBtn")  {
       this._showChangePasswordForm = !this._showChangePasswordForm;
       this._showChangeUsernameForm = false;
       this._showChangeEmailForm = false;
+      this._showChangeProfileImageForm = false;
       this._showDeleteProfileForm = false;
-      this.clearForms();
+    }
+    else if (input.id == "changeProfileImageBtn") {
+      this._showChangeProfileImageForm = !this._showChangeProfileImageForm;
+      this._showChangeUsernameForm = false;
+      this._showChangeEmailForm = false;
+      this._showChangePasswordForm = false;
+      this._showDeleteProfileForm = false;
     }
     else if (input.id == "deleteProfileBtn")  {
       this._showDeleteProfileForm = true;
       this._showChangeUsernameForm = false;
       this._showChangeEmailForm = false;
+      this._showChangeProfileImageForm = false;
       this._showChangePasswordForm = false;
-      this.clearForms();
     }
+
+    this.fileName = "";
+    this.clearForms();
   }
 
   changeEmail() : void  {
@@ -181,6 +225,8 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     if (this.changeEmailForm.invalid) {
       return;
     }
+
+    this.requestInProgress = true;
 
     var userUpdate : UserUpdate = {
       password: this.enterPassword.value,
@@ -198,6 +244,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       complete: () => {
         this.successText = "Succesfully changed email"
         this.errorText = "";
+        this.requestInProgress = false;
       }
     });
   }
@@ -209,11 +256,14 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    this.requestInProgress = true;
+
     var userUpdate : UserUpdate = {
       password: this.enterPassword.value,
       newUsername: this.enterUsername.value
     }
 
+    // Test username. Replace with actual username of logged user when implemented
     this.userService.putUser(userUpdate, "newuser").subscribe({
       next: (response) => console.log(response),
       error: (err) => {
@@ -224,6 +274,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       complete: () => {
         this.successText = "Succesfully changed username";
         this.errorText = "";
+        this.requestInProgress = false;
       }
     });
   }
@@ -235,11 +286,14 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    this.requestInProgress = true;
+
     var userUpdate : UserUpdate = {
       password: this.enterPassword.value,
       newPassword: this.enterPassword.value
     }
 
+    // Test username. Replace with actual username of logged user when implemented
     this.userService.putUser(userUpdate, "newuser").subscribe({
       next: (response) => console.log(response),
       error: (err) => {
@@ -250,6 +304,36 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       complete: () => {
         this.successText = "Succesfully changed password";
         this.errorText = "";
+        this.requestInProgress = false;
+      }
+    });
+  }
+
+  async changeProfileImage(file : File) : Promise<void> {
+    this.submitted = true;
+
+    if (this.changeProfileImageForm.invalid)  {
+      return;
+    }
+
+    this.requestInProgress = true;
+
+    var userUpdate : UserUpdate = {
+      newProfileImage: await Utils.ToBase64(file)
+    };
+
+    // Test username. Replace with actual username of logged user when implemented
+    this.userService.putUser(userUpdate, "newuser").subscribe({
+      next: (response) => console.log(response),
+      error: (err) => {
+        this.successText = "";
+        this.errorText = err.error;
+        console.error(err.error);
+      },
+      complete: () => {
+        this.successText = "Succesfully changed profile image";
+        this.errorText = "";
+        this.requestInProgress = false;
       }
     });
   }
@@ -260,6 +344,8 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     if (this.deleteProfileForm.invalid) {
       return;
     }
+
+    this.requestInProgress = true;
 
     // Test data for user. Replace with actual logged in user when implemented
     var userPost : UserPost = {
@@ -278,6 +364,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       complete: () => {
         this.successText = "Account has been succesfully deleted"
         this.errorText = "";
+        this.requestInProgress = false;
       }
     });
   }
