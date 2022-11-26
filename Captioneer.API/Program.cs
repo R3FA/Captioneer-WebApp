@@ -20,7 +20,7 @@ builder.Services.AddDbContext<CaptioneerDBContext>(options =>
 var app = builder.Build();
 
 // Allow any header, origin and method to be called
-app.UseCors ( builder=> {
+app.UseCors ( builder => {
     builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
 }
 );
@@ -31,6 +31,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 

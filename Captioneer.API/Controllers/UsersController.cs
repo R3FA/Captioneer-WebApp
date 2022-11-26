@@ -16,11 +16,14 @@ namespace Captioneer.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IWebHostEnvironment _hostEnvironment;
+
         private readonly CaptioneerDBContext _context;
 
-        public UsersController(CaptioneerDBContext context)
+        public UsersController(CaptioneerDBContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _hostEnvironment = environment;
         }
 
         // GET: api/Users/5
@@ -41,7 +44,8 @@ namespace Captioneer.API.Controllers
         [HttpPut("{username}")]
         public async Task<IActionResult> PutUser(string username, UserUpdateModel userUpdate)
         {
-            if (userUpdate.Password == string.Empty)
+            // Password can only be null if the user wishes to update their profile image
+            if (userUpdate.Password == null && userUpdate.NewProfileImage == null)
             {
                 return BadRequest("Must provide a password to make any changes");
             }
@@ -53,10 +57,13 @@ namespace Captioneer.API.Controllers
                 return NotFound("The User does not exist in the database");
             }
 
-
-            if (!BCryptHasher.Verify(userUpdate.Password, dbUser.Password))
+            // Verify that the passed password is correct if the user's username, password or email is being updated
+            if (userUpdate.Password != null)
             {
-                return BadRequest("The provided password is incorrect");
+                if (!BCryptHasher.Verify(userUpdate.Password!, dbUser.Password))
+                {
+                    return BadRequest("The provided password is incorrect");
+                }
             }
 
             if (userUpdate.NewEmail != null)
@@ -65,6 +72,18 @@ namespace Captioneer.API.Controllers
                 dbUser.Password = BCryptHasher.Hash(userUpdate.NewPassword);
             if (userUpdate.NewUsername != null)
                 dbUser.Username = userUpdate.NewUsername;
+            if (userUpdate.NewProfileImage != null)
+            {
+                var writeName = dbUser.Username;
+                var filePath = await ImageSerializer.Serialize(userUpdate.NewProfileImage, _hostEnvironment.WebRootPath,  writeName);
+
+                if (filePath == null)
+                {
+                    return BadRequest("Failed to save image, check the format and size again");
+                }
+
+                dbUser.ProfileImage = filePath;
+            }
 
             try
             { 
