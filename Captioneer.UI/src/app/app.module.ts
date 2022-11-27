@@ -20,10 +20,8 @@ import { SignUpDoneComponent } from './Components/sign-up-done/sign-up-done.comp
 import { ProfilePageComponent } from './Components/Page-ProfileUI/profile-page/profile-page.component';
 import { PageSearchComponent } from './Components/Page-Search/page-search/page-search.component';
 import { FooterV2Component } from './Components/Main-Footer-v2/footer-v2/footer-v2.component';
-
-const routes:Routes=[
-{path:'signup',component:SignupPageComponent}
-];
+import { HomepageComponent } from './Components/homepage/homepage.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -36,6 +34,7 @@ const routes:Routes=[
     ProfilePageComponent,
     PageSearchComponent,
     FooterV2Component,
+    HomepageComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +47,8 @@ const routes:Routes=[
     MatIconModule,
     FlexLayoutModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxPaginationModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

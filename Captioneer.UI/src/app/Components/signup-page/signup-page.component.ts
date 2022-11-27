@@ -3,7 +3,6 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { SignUpDoneComponent } from '../sign-up-done/sign-up-done.component';
-import { stringToKeyValue } from '@angular/flex-layout/extended/style/style-transforms';
 @Component({
   selector: 'app-signup-page',
   templateUrl: './signup-page.component.html',
@@ -42,15 +41,8 @@ export class SignupPageComponent implements OnInit {
           this.errorMessage=err.error;
         }
         )
-
-    //  this.SignupForm.reset();
     // this.http.get("https://localhost:7207/api/Movies").subscribe((data=>{
     //   console.log(data)
     // }))
     }
- 
-
-    // openDialog(){
-    //     this.dialogRef.open(SignUpDoneComponent);
-    // }
 }
