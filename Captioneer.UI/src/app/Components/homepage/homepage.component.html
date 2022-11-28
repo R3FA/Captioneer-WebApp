@@ -1,0 +1,47 @@
+<app-header-component></app-header-component>
+<section class="signup py-5 bg-light"  id="background">
+    <div class="main-container">
+        <div class="row" id="main-row">
+            <pagination-controls (pageChange)="temp=$event" class="my-pagination">
+            </pagination-controls>
+            <div class="col-8">
+                <div class="container">
+                    <div class="row g-0" id="foreground">
+                        <div (click)="loadMovie(m)" *ngFor="let m of Movies | paginate: {itemsPerPage: 6, currentPage: temp}">
+                            <div class="col-sm" id="movie-container">
+                                <img src="{{m.coverArt}}" class="movie">
+                                <p>{{m.title}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="container">
+                    <div class="row g-0" id="foreground">
+            <div col-md-6 left-box>
+                <h3>{{selected.title}}</h3>
+            </div>
+            <div class="col-sm" id="movie-container">
+                <img src="{{selected.coverArt}}" class="selected-movie">
+            </div>
+            <div col-md-6 left-box>
+            <p>Synopsis:{{selected.synopsis}}</p>
+            <p>Year:{{selected.year}}</p>
+            <p>Runtime:{{selected.runtime}}</p>
+            <p>
+            </div>
+            <div class="container">
+            <div class="row">
+            <div col>
+                    <button class="btn" id="download-button" mat-flat-button>More info</button>
+            </div>
+            </div>
+        </div>
+                </div>
+    </div>
+    </div>
+      </div>
+    </div>
+</section>
+<app-footer-component></app-footer-component>
