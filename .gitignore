@@ -8,6 +8,8 @@ Captioneer.UI/.angular/cache
 
 # Angular build files
 Captioneer.UI/dist/
+Captioneer.UI/dist/captioneer.ui/*
+Captioneer.UI/dist/*
 
 # Visual Studio solution file
 *.sln
