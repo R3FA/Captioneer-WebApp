@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -9,6 +11,6 @@ export class PaginationService {
 
   getData()
   {
-    return this.httpService.get("https://localhost:7207/api/Movies");
+    return this.httpService.get(environment.apiURL + "/Movies");
   }
 }
