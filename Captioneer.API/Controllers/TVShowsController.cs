@@ -18,9 +18,12 @@ namespace Captioneer.API.Controllers
     {
         private readonly CaptioneerDBContext _context;
 
-        public TVShowsController(CaptioneerDBContext context)
+        private readonly IConfiguration _configuration;
+
+        public TVShowsController(CaptioneerDBContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         // GET: api/TVShows
@@ -47,7 +50,8 @@ namespace Captioneer.API.Controllers
 
             if (showsFiltered.Count == 0)
             {
-                var model = await OMDbFetcher.Fetch(searchQuery, "series");
+                var apiKey = _configuration["ApiKeys:OMDBKey"];
+                var model = await OMDbFetcher.Fetch(searchQuery, "series", apiKey);
                 var show = await OMDbCacher.CacheShow(model, _context);
 
                 if (show == null)

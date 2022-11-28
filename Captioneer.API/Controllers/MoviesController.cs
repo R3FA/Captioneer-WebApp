@@ -17,9 +17,12 @@ namespace Captioneer.API.Controllers
     {
         private readonly CaptioneerDBContext _context;
 
-        public MoviesController(CaptioneerDBContext context)
+        private readonly IConfiguration _configuration;
+
+        public MoviesController(CaptioneerDBContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         // GET: api/Movies
@@ -47,7 +50,8 @@ namespace Captioneer.API.Controllers
 
             if (moviesFiltered.Count <= 0)
             {
-                var omdbModel = await OMDbFetcher.Fetch(searchQuery, "movie");
+                var apiKey = _configuration["ApiKeys:OMDBKey"];
+                var omdbModel = await OMDbFetcher.Fetch(searchQuery, "movie", apiKey);
                 var movie = await OMDbCacher.CacheMovie(omdbModel, _context);
 
                 if (movie == null)

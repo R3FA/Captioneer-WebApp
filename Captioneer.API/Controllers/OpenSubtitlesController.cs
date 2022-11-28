@@ -9,12 +9,20 @@ namespace Captioneer.API.Controllers
     [ApiController]
     public class OpenSubtitlesController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
+
+        public OpenSubtitlesController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         // GET: api/OpenSubtitles/tt0944947/en
         // GET: api/OpenSubtitles/tt0944947/en?seasonNumber=1&episodeNumber=1
         [HttpGet("{imdbID}/{language}")]
         public async Task<ActionResult<IEnumerable<OpenSubtitlesViewModel>?>> Get(string imdbID, string language, int? seasonNumber = null, int? episodeNumber = null)
         {
-            var model = await OpenSubtitlesFetcher.FetchSubtitles(imdbID, language, seasonNumber, episodeNumber);
+            var apiKey = _configuration["ApiKeys:OpenSubtitlesKey"];
+            var model = await OpenSubtitlesFetcher.FetchSubtitles(imdbID, language, seasonNumber, episodeNumber, apiKey);
 
             if (model == null)
             {
@@ -40,10 +48,12 @@ namespace Captioneer.API.Controllers
             return Ok(viewModels);
         }
 
+        // POST: api/OpenSubtitles/OpenSubtitlesFileID
         [HttpPost("{fileID}")]
         public async Task<ActionResult<OpenSubtitlesDownloadModel?>> Download(string fileID)
         {
-            var link = await OpenSubtitlesFetcher.GetDownloadLink(fileID);
+            var apiKey = _configuration["ApiKeys:OpenSubtitlesKey"];
+            var link = await OpenSubtitlesFetcher.GetDownloadLink(fileID, apiKey);
 
             if (link == null)
                 return NotFound();

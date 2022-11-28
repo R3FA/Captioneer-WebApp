@@ -6,11 +6,10 @@ namespace Captioneer.API.Data.OpenSubtitles
     public static class OpenSubtitlesFetcher
     {
         private static readonly string apiURL = "https://api.opensubtitles.com/api/v1";
-        private static readonly string apiKey = "pTk9coQrEEwg3qON0BI1n23D8TAgako4";
 
         private static readonly HttpClient httpClient= new HttpClient();
 
-        public static async Task<OpenSubtitlesModel?> FetchSubtitles(string imdbID, string language, int? seasonNumber, int? episodeNumber)
+        public static async Task<OpenSubtitlesModel?> FetchSubtitles(string imdbID, string language, int? seasonNumber, int? episodeNumber, string apiKey)
         {
             imdbID = imdbID.TrimStart('t');
             imdbID = imdbID.TrimStart('0');
@@ -63,7 +62,7 @@ namespace Captioneer.API.Data.OpenSubtitles
             return default(OpenSubtitlesModel);
         }
 
-        public static async Task<OpenSubtitlesDownloadModel?> GetDownloadLink(string fileID)
+        public static async Task<OpenSubtitlesDownloadModel?> GetDownloadLink(string fileID, string apiKey)
         {
             var requestURL = apiURL + $"/download";
 

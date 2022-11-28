@@ -6,7 +6,6 @@ namespace Captioneer.API.Data.OMDb
     public static class OMDbFetcher
     {
         private static readonly string apiURL = "http://www.omdbapi.com/?";
-        private static readonly string apiKey = "bac09921";
 
         private static readonly HttpClient httpClient = new HttpClient();
 
@@ -15,8 +14,9 @@ namespace Captioneer.API.Data.OMDb
         /// </summary>
         /// <param name="searchQuery">Movie/show to search for</param>
         /// <param name="type">Whether to search for a movie or TV show (valid: movie, series, episode)</param>
+        /// /// <param name="apiKey">Api key from OMDb</param>
         /// <returns>OMDbModel object containing all of the information</returns>
-        public static async Task<OMDbModel?> Fetch(string searchQuery, string type)
+        public static async Task<OMDbModel?> Fetch(string searchQuery, string type, string apiKey)
         {
             searchQuery = searchQuery.Replace(' ', '+');
             var url = $"{apiURL}t={searchQuery}&type={type}&apiKey={apiKey}";
