@@ -7,7 +7,7 @@
                     <h1>CAPTIONEER</h1>
                     <h3>The subtitle page</h3>
                 </div>
-                <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForma">
+                <form  name="loginForm" [formGroup]="loginForma">
                     <div class="email-input">
                         <mat-form-field class="content-mat-form-field" appearance="outline">
                             <mat-label>E-mail</mat-label>
@@ -37,7 +37,7 @@
                         </mat-form-field>
                     </div>
                     <div class="mat-form-button">
-                        <button mat-flat-button class="dugme">SIGN IN</button>
+                        <button mat-flat-button class="dugme" (click)="onLogin()">SIGN IN</button>
                         <button mat-flat-button class="Cancel-Dugme">CANCEL</button>
                     </div>
                 </form>
