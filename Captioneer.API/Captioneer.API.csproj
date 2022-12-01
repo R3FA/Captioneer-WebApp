@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if not exist $(TargetDir)cert mkdir $(TargetDir)cert&#xD;&#xA;%25SystemRoot%25\system32\xcopy.exe /Q /Y &quot;wwwroot\cert\DigiCertGlobalRootCA.crt.pem&quot; &quot;$(TargetDir)cert&quot;" />
+    <Exec Command="%25SystemRoot%25\system32\xcopy.exe /Q /Y /I &quot;wwwroot\cert\DigiCertGlobalRootCA.crt.pem&quot; &quot;$(TargetDir)cert\&quot;" />
   </Target>
 
 </Project>
