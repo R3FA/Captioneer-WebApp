@@ -39,7 +39,6 @@ namespace Captioneer.API.Controllers
 
             return user;
         }
-
         // PUT: api/Users/adivonslav
         [HttpPut("{username}")]
         public async Task<IActionResult> PutUser(string username, UserUpdateModel userUpdate)
@@ -129,6 +128,23 @@ namespace Captioneer.API.Controllers
                 return UserExistsEmail(user)?BadRequest("Email is in use"):BadRequest("Username exists");
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> loginUser([FromBody] UserLoginModel sentCredentials)
+        {
+            if (sentCredentials == null)
+                return BadRequest();
+
+            var credential = await this._context.Users.FirstOrDefaultAsync(x => (x.Email == sentCredentials.Email)
+            && (x.Password == sentCredentials.Password));
+
+            if (credential == null)
+                return NotFound(new { Message = "Your e-mail or password are incorrect!" });
+
+            return Ok(new
+            {
+                Message = "You are logged in!"
+            });
+        }
         // DELETE: api/Users
         [HttpDelete]
         public async Task<IActionResult> DeleteUser(UserPostModel user)
@@ -157,7 +173,7 @@ namespace Captioneer.API.Controllers
         private bool UserExistsEmail(UserPostModel user)
         {
             return _context.Users.Any(e => e.Email == user.Email);
-        } 
+        }
         private bool UserExistsName(UserPostModel user)
         {
             return _context.Users.Any(e => e.Username == user.Username);
