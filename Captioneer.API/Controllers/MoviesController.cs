@@ -37,6 +37,7 @@ namespace Captioneer.API.Controllers
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovie(string searchQuery)
         {
             var moviesFiltered = new List<Movie>();
+            searchQuery = searchQuery.Trim();
 
             if (searchQuery.StartsWith("tt"))
                 moviesFiltered = await _context.Movies.Where(m => m.IMDBId == searchQuery).ToListAsync();
