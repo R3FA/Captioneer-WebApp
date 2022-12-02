@@ -9,7 +9,6 @@
         <div class="page-elements">
             <ul>
                 <li><a routerLink="../home">Home</a></li>
-                <li><a routerLink="searchsubtitles">Movie subtitles</a></li>
                 <li><a routerLink="">Upload a subtitle</a></li>
                 <li><a routerLink="">Profile Page</a></li>
             </ul>
@@ -18,13 +17,19 @@
             <form class="subtitle-form">
                 <mat-form-field class="subtitle-mat-form" appearance="outline" [style.width.px]=327>
                     <mat-label>
-                        Search a subtitle
+                        Find a movie subtitle (IMDb ID)
                     </mat-label>
-                    <input matInput>
+                    <input type="text" matInput [matAutocomplete]="auto" [formControl]="myControl"
+                        [(ngModel)]="movieName">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectMovie($event.option.value)">
+                        <mat-option *ngFor="let movie of finalData |async | slice:0:5 " [value]="movie.title">
+                            {{movie.title}} ({{movie.year}})
+                        </mat-option>
+                    </mat-autocomplete>
                 </mat-form-field>
             </form>
             <button mat-flat-button><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-search" viewBox="0 0 16 16">
+                    class="bi bi-search" viewBox="0 0 16 16" (click)="onClick()">
                     <path
                         d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                 </svg></button>
