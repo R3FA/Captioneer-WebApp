@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { PageLoginComponent } from './Components/Page-LogIn/page-login/page-login.component';
 import { SignupPageComponent } from './Components/signup-page/signup-page.component';
 import { ProfilePageComponent } from './Components/Page-ProfileUI/profile-page/profile-page.component';
-import { PageSearchComponent } from './Components/Page-Search/page-search/page-search.component';
 
 import { HomepageComponent } from './Components/homepage/homepage.component';
 const routes: Routes = [
@@ -19,10 +18,6 @@ const routes: Routes = [
   {
     path: 'signin',
     component: PageLoginComponent
-  },
-  {
-    path: 'searchsubtitles',
-    component: PageSearchComponent
   },
   {
     path:'home',

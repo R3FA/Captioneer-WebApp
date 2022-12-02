@@ -18,7 +18,6 @@ import { HttpClientModule } from '@angular/common/http';
 import{MatDialogModule} from '@angular/material/dialog';
 import { SignUpDoneComponent } from './Components/sign-up-done/sign-up-done.component';
 import { ProfilePageComponent } from './Components/Page-ProfileUI/profile-page/profile-page.component';
-import { PageSearchComponent } from './Components/Page-Search/page-search/page-search.component';
 import { FooterV2Component } from './Components/Main-Footer-v2/footer-v2/footer-v2.component';
 import { HomepageComponent } from './Components/homepage/homepage.component';
 import {NgxPaginationModule} from 'ngx-pagination';
@@ -33,7 +32,6 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     FooterComponentComponent,
     SignUpDoneComponent,
     ProfilePageComponent,
-    PageSearchComponent,
     FooterV2Component,
     HomepageComponent,
   ],
