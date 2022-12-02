@@ -22,6 +22,7 @@ import { PageSearchComponent } from './Components/Page-Search/page-search/page-s
 import { FooterV2Component } from './Components/Main-Footer-v2/footer-v2/footer-v2.component';
 import { HomepageComponent } from './Components/homepage/homepage.component';
 import {NgxPaginationModule} from 'ngx-pagination';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
     HttpClientModule,
     MatDialogModule,
     NgxPaginationModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]
