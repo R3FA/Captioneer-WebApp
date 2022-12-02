@@ -30,7 +30,7 @@ steps:
 - task: ArchiveFiles@2
   displayName: 'Archive build files'
   inputs:
-    rootFolderOrFile: 'Captioneer.UI/dist/captioneer-ui'
+    rootFolderOrFile: 'Captioneer.UI/dist/captioneer.ui'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/dist.zip'
