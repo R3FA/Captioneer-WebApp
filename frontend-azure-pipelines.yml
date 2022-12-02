@@ -27,5 +27,14 @@ steps:
     ng build --configuration production
   displayName: 'npm install and build'
   
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'Captioneer.UI/dist'
+    Contents: '**'
+    TargetFolder: '$(build.artifactstagingdirectory)/dist'
+    CleanTargetFolder: true
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
