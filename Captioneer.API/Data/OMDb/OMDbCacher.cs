@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Captioneer.API.Controllers;
 using Captioneer.API.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -28,12 +29,15 @@ namespace Captioneer.API.Data.OMDb
             string metacritic = "";
             string poster = "";
 
-            foreach (var rating in movie.Ratings)
+            if (movie.Ratings != null)
             {
-                if (rating.Source == "Rotten Tomatoes")
-                    rottenTomatoes = rating.Value;
-                if (rating.Source == "Metacritic")
-                    metacritic = rating.Value;
+                foreach (var rating in movie.Ratings)
+                {
+                    if (rating.Source == "Rotten Tomatoes")
+                        rottenTomatoes = rating.Value;
+                    if (rating.Source == "Metacritic")
+                        metacritic = rating.Value;
+                }
             }
 
             // Returns 0 if the input JSON cannot be parsed into double and int
