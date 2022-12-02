@@ -26,3 +26,6 @@ steps:
     npm install
     ng build --configuration production
   displayName: 'npm install and build'
+  
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts'
