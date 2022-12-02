@@ -33,10 +33,10 @@ steps:
     rootFolderOrFile: 'Captioneer.UI/dist/captioneer-ui'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/dist.zip'
     replaceExistingArchive: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
   inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)/$(Build.BuildId).zip'
+    PathtoPublish: '$(build.artifactstagingdirectory)/dist.zip'
