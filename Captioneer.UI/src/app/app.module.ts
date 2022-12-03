@@ -22,6 +22,7 @@ import { FooterV2Component } from './Components/Main-Footer-v2/footer-v2/footer-
 import { HomepageComponent } from './Components/homepage/homepage.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { SubtitlePageComponent } from './Components/Page-SubtitleUI/subtitle-page/subtitle-page.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     ProfilePageComponent,
     FooterV2Component,
     HomepageComponent,
+    SubtitlePageComponent,
   ],
   imports: [
     BrowserModule,
