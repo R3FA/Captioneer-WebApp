@@ -22,13 +22,14 @@ export class HomepageComponent implements OnInit {
     this.page.getData().subscribe(
       (data)=>{
         this.Movies=data;
-        console.log(this.Movies)
         this.selected=this.Movies[0];
       }
     )
   }
   loadMovie(movie:any){
     this.selected=movie;
-    console.log(this.selected)
+  }
+  saveMovie(){
+    localStorage.setItem('selected movie',JSON.stringify(this.selected));
   }
 }

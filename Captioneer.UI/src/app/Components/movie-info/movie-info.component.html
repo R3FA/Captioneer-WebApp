@@ -1,0 +1,90 @@
+<app-header-component></app-header-component>
+<section class="signup py-5 bg-light"  id="background">
+    <div class="main-container">
+        <div class="row" id="main-row">
+            <div class="col-8">
+                <div class="container">
+                    <div id="foreground">
+                            <div class="row" id="movie-container">
+                                <div class="col-sm">
+                                <img src="{{movieObject.coverArt}}" class="movie">
+                                </div>
+                                <div class="col-sm">
+                                <h3>{{movieObject.title}}</h3>
+                                <div class = "vertical"></div>
+                                <hr>
+                                <div>
+                                    <h4>Synopsis</h4>
+                                    <p>{{movieObject.synopsis}}<p>
+                                </div>
+                                <hr>
+                                <div>
+                                    <h5>Year</h5>
+                                    <p>{{movieObject.year}}</p>
+                                    <hr>
+                                </div>
+                                <div>
+                                    <h5>Runtime</h5>
+                                    <p>{{movieObject.runtime}} minutes</p>
+                                    <hr>
+                                </div>
+                                <div>
+                                    <h5> Actors</h5>
+                                    <div *ngFor="let actor of actors" style="display:inline-block;">
+                                      {{ actor.firstName }}
+                                      {{actor.lastName}}
+                                    </div>
+                                    <hr>
+                                </div>
+                                </div>
+                                <div class="col-sm" id="ratings">
+                                <h5 class="center">IMDb Rating</h5>
+                                <div style="display:inline-block;">
+                                <img src="..\assets\Pictures\imdb.png" id="imdb">
+                                    {{movieObject.imdbRatingValue}} / 10
+                                </div>
+                                <h5 class="center">Rotten Tomatoes</h5>
+                                <div style="display:inline-block;" id="imdb">
+                                <img src="..\assets\Pictures\rottenTomatoes.png" id="rottentomatoes">
+                                    <p>{{movieObject.rottenTomatoesValue}} / 100%
+                                </div>
+                                <h5 class="center">metacritic Rating</h5>
+                                <div style="display:inline-block;" id="imdb">
+                                <img src="..\assets\Pictures\metacritic.png" id="rottentomatoes">
+                                    {{movieObject.rottenTomatoesValue}} / 100
+                                </div>
+                                <div>
+                                <button class="search-button" mat-flat-button>DOWNLOAD</button>
+                                <button class="search-button" mat-flat-button (click)="back()">BACK</button>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Comment:</label>
+                                <textarea class="form-control" rows="5" id="comment"></textarea>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="container">
+                        <div class="row g-0" id="foreground">
+                <div col-md-6 left-box>
+                    <h3>Google maps</h3>
+                </div>
+                <div id="movie-container">
+                <p>{{movieObject.id}}</p>
+
+
+                <div class="container">
+                <div class="row">
+                </div>
+            </div>
+                    </div>
+        </div>
+        </div>
+          </div>
+            </div>
+    </div>
+</section>
+<app-footer-component></app-footer-component>
