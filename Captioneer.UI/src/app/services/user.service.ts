@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -18,6 +18,9 @@ export class UserService {
 
   getUser(): Observable<HttpResponse<UserViewModel>> {
     return this.httpClient.get<UserViewModel>(this.url, { observe: 'response' });
+  }
+  getUserByEmail(email: string): Observable<HttpResponse<UserViewModel>> {
+    return this.httpClient.get<UserViewModel>(this.url+'/'+email,{ observe: 'response'});
   }
 
   postUser(user: UserPost): Observable<HttpResponse<UserPost>> {

@@ -9,6 +9,10 @@ using Captioneer.API.Data;
 using Captioneer.API.Entities;
 using Captioneer.API.Utils;
 using Captioneer.API.ViewModels;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Captioneer.API.Controllers
 {
@@ -20,25 +24,32 @@ namespace Captioneer.API.Controllers
 
         private readonly CaptioneerDBContext _context;
 
+
         public UsersController(CaptioneerDBContext context, IWebHostEnvironment environment)
         {
             _context = context;
             _hostEnvironment = environment;
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        //GEt: Aapi/Users/example@mail.com
+        [HttpGet("{mail}")]
+        public async Task<ActionResult<UserViewModel>> GetUserByEmail(string? mail)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == mail);
 
-            if (user == null)
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
+            UserViewModel userReturn= new UserViewModel()
             {
-                return NotFound();
-            }
-
-            return user;
+            Email = user.Email,
+            ProfileImage= user.ProfileImage,
+            Username= user.Username,
+            }; 
+            return userReturn;
         }
+
         // PUT: api/Users/adivonslav
         [HttpPut("{username}")]
         public async Task<IActionResult> PutUser(string username, UserUpdateModel userUpdate)
@@ -129,21 +140,30 @@ namespace Captioneer.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> loginUser([FromBody] UserLoginModel sentCredentials)
+        public async Task<IResult> loginUser([FromBody] UserLoginModel sentCredentials)
         {
+            var builder = WebApplication.CreateBuilder();
             if (sentCredentials == null)
-                return BadRequest();
+                return (IResult)BadRequest();
 
-            var credential = await this._context.Users.FirstOrDefaultAsync(x => (x.Email == sentCredentials.Email)
-            && (x.Password == sentCredentials.Password));
+            var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == sentCredentials.Email);
 
-            if (credential == null)
-                return NotFound(new { Message = "Your e-mail or password are incorrect!" });
+            if (dbUser == null)
+                return (IResult)BadRequest("email or password is wrong");
 
-            return Ok(new
-            {
-                Message = "You are logged in!"
-            });
+            
+            if (!BCryptHasher.Verify(sentCredentials.Password, dbUser.Password))
+                return (IResult)BadRequest("email or password is wrong");
+
+            //ovo bi se trebalo koristiti da se provjeri password posto je password hash vrijednost
+
+            //return Ok(new
+            //{
+            //    Message = "You are logged in!"
+            //});
+            var stringToken = GenerateJwt(sentCredentials);
+            return Results.Ok(stringToken);
+
         }
         // DELETE: api/Users
         [HttpDelete]
@@ -181,6 +201,35 @@ namespace Captioneer.API.Controllers
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.ID == id);
+        }
+        private string GenerateJwt(UserLoginModel sentCredentials)
+        {
+            var builder = WebApplication.CreateBuilder();
+            var issuer = builder.Configuration["Jwt:Issuer"];
+            var audience = builder.Configuration["Jwt:Audience"];
+            var key = Encoding.ASCII.GetBytes
+            (builder.Configuration["Jwt:Key"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                new Claim("Id", Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, sentCredentials.Email),
+                new Claim(JwtRegisteredClaimNames.Email, sentCredentials.Email),
+                new Claim(JwtRegisteredClaimNames.Jti,
+                Guid.NewGuid().ToString())
+             }),
+                Expires = DateTime.UtcNow.AddMonths(1),
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = new SigningCredentials
+                (new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha512Signature)
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var stringToken = tokenHandler.WriteToken(token);
+            return stringToken;
         }
     }
 }
