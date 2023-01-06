@@ -208,7 +208,7 @@ namespace Captioneer.API.Controllers
             var issuer = builder.Configuration["Jwt:Issuer"];
             var audience = builder.Configuration["Jwt:Audience"];
             var key = Encoding.ASCII.GetBytes
-            (builder.Configuration["Jwt:Key"]);
+                (builder.Configuration["Jwt:Key"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
