@@ -23,6 +23,7 @@ import { HomepageComponent } from './Components/homepage/homepage.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { SubtitlePageComponent } from './Components/Page-SubtitleUI/subtitle-page/subtitle-page.component';
+import { FavoriteMoviesComponent } from './Components/favorite-movies/favorite-movies.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SubtitlePageComponent } from './Components/Page-SubtitleUI/subtitle-pag
     FooterV2Component,
     HomepageComponent,
     SubtitlePageComponent,
+    FavoriteMoviesComponent,
   ],
   imports: [
     BrowserModule,
