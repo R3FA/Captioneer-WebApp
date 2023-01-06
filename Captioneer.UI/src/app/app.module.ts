@@ -24,6 +24,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { SubtitlePageComponent } from './Components/Page-SubtitleUI/subtitle-page/subtitle-page.component';
 import { FavoriteMoviesComponent } from './Components/favorite-movies/favorite-movies.component';
+import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
+
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { FavoriteMoviesComponent } from './Components/favorite-movies/favorite-m
     HomepageComponent,
     SubtitlePageComponent,
     FavoriteMoviesComponent,
+    MovieInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,7 @@ import { FavoriteMoviesComponent } from './Components/favorite-movies/favorite-m
     HttpClientModule,
     MatDialogModule,
     NgxPaginationModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

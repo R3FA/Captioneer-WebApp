@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { stringToKeyValue } from '@angular/flex-layout/extended/style/style-transforms';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserLogin } from 'src/app/models/user-login';
 import { UserPost } from 'src/app/models/user-post';
 import { UserService } from 'src/app/services/user.service';
@@ -27,18 +27,28 @@ export class PageLoginComponent implements OnInit {
     email: ['', Validators.required],
     password: ['', Validators.required]
   });
-
-
   onLogin() {
     if (this.loginForma.invalid)
       return;
     this.loginService.loginUser(this.loginForma.value).subscribe({
       next: (response) => {
-        alert("You are logged in!")
-      },
+        if(response){
+          alert("You are logged in!")
+          console.log(response.status)
+          sessionStorage.setItem(
+            'token',
+            JSON.parse(JSON.stringify(response.body))['value']
+            )
+            sessionStorage.setItem(
+              'email',
+              JSON.parse(JSON.stringify((<HTMLInputElement>document.getElementById("email")).value))
+              )
+              window.location.href = "../home";
+            };
+          },
       error: (err) => {
-        alert(err.error.message)
-      }
+        alert("Ups something went wrong")
+      },
     });
   }
 }

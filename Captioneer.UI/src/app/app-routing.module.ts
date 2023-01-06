@@ -6,6 +6,7 @@ import { SignupPageComponent } from './Components/signup-page/signup-page.compon
 import { ProfilePageComponent } from './Components/Page-ProfileUI/profile-page/profile-page.component';
 
 import { HomepageComponent } from './Components/homepage/homepage.component';
+import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
 const routes: Routes = [
   {
     path: '',
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path:'home',
     component:HomepageComponent
+  },
+  {
+    path:'movie',
+    component:MovieInfoComponent
   }
 ];
 

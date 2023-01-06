@@ -11,7 +11,7 @@
                     <div class="email-input">
                         <mat-form-field class="content-mat-form-field" appearance="outline">
                             <mat-label>E-mail</mat-label>
-                            <input formControlName="email" matInput required />
+                            <input id="email" formControlName="email" matInput required />
                             <mat-error *ngIf="!loginForma.controls['email'].valid">
                                 E-mail address is required
                             </mat-error>
