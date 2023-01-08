@@ -12,9 +12,10 @@ import { UserLogin } from '../models/user-login';
 })
 export class UserService {
 
+  private currentUser : UserViewModel | null
   private url: string = environment.apiURL + "/Users"
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { this.currentUser = null; }
 
   getUser(): Observable<HttpResponse<UserViewModel>> {
     return this.httpClient.get<UserViewModel>(this.url, { observe: 'response' });
@@ -38,4 +39,7 @@ export class UserService {
   deleteUser(user: UserPost): Observable<HttpResponse<UserPost>> {
     return this.httpClient.delete<UserPost>(this.url, { observe: 'response', body: user });
   }
+
+  setCurrentUser(user : UserViewModel) { this.currentUser = user; }
+  getCurrentUser() : UserViewModel | null { return this.currentUser; }
 }

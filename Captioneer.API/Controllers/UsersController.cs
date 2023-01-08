@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Build.ObjectModelRemoting;
 
 namespace Captioneer.API.Controllers
 {
@@ -31,7 +32,7 @@ namespace Captioneer.API.Controllers
             _hostEnvironment = environment;
         }
 
-        //GEt: Aapi/Users/example@mail.com
+        //GET: Aapi/Users/example@mail.com
         [HttpGet("{mail}")]
         public async Task<ActionResult<UserViewModel>> GetUserByEmail(string? mail)
         {
@@ -60,7 +61,7 @@ namespace Captioneer.API.Controllers
                 return BadRequest("Must provide a password to make any changes");
             }
 
-            var dbUser = _context.Users.FirstOrDefault(u => u.Username == username);
+            var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
             if (dbUser == null)
             {

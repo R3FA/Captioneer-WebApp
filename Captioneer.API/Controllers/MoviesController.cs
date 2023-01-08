@@ -31,6 +31,7 @@ namespace Captioneer.API.Controllers
         {
             return await _context.Movies.ToListAsync();
         }
+
         // GET: api/Movies/Guardians+of+The+Galaxy
         // GET: api/Movies/tt8425532
         [HttpGet("{searchQuery}")]
