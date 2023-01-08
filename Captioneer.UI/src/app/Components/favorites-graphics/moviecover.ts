@@ -155,7 +155,7 @@ export class MovieCover {
         this.frontBackVertCount = 6 * 2; // 6 vertices per face
         this.sideVertCount = 6 * 4; // 6 vertices per face
 
-        this.position = [0.0, 0.0, 0.0];
+        this.position = [-2.5, 0.0, 0.0];
         this.rotationAngles = vec3.create();
         this.scale = [1.0, 1.0, 1.0];
         this.modelMatrix = mat4.create();

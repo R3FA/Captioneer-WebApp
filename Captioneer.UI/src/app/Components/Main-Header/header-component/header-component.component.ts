@@ -71,7 +71,6 @@ export class HeaderComponentComponent implements OnInit {
       (data)=>{
         var userName=data.body?.username;
         this.name=userName!;
-        this.userService.setCurrentUser(data.body!);
       }
     )
   }

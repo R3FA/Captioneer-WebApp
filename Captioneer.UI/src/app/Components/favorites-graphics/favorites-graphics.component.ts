@@ -8,13 +8,17 @@ import { MovieCover } from './moviecover';
 import { Camera } from './camera';
 import { mat4 } from 'gl-matrix';
 import { Stand } from './stand';
+import { FavoriteMoviesService } from 'src/app/services/favoritemovies.service';
+import { UserService } from 'src/app/services/user.service';
+import { UserViewModel } from 'src/app/models/user-viewmodel';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-favorite-movies',
-  templateUrl: './favorite-movies.component.html',
-  styleUrls: ['./favorite-movies.component.css']
+  selector: 'app-favorites-graphics',
+  templateUrl: './favorites-graphics.component.html',
+  styleUrls: ['./favorites-graphics.component.css']
 })
-export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
+export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
   @ViewChild("canvas") private canvas! : ElementRef<HTMLCanvasElement>;
 
@@ -32,11 +36,9 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
   private deltaTime! : number;
   private allowedTraversal! : number;
 
-  // Dummy cover image
-  private image1 = "../../assets/Pictures/heat-dummy.jpg";
-  //
+  private shouldLoad! : boolean;
 
-  constructor(private webglService : WebGLService) { }
+  constructor(private webglService : WebGLService, private favoriteMoviesService : FavoriteMoviesService, private userService : UserService) { }
 
   ngOnInit(): void {
 
@@ -46,10 +48,18 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
     this.lastTime = 0.0;
     this.deltaTime = 0.0;
     this.allowedTraversal = 0.0;
+    this.shouldLoad = true;
   }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit(): Promise<void> {
+
     if (!this.webglService.initWebGL(this.canvas.nativeElement)) {
+      return;
+    }
+
+    await this.loadImages();
+
+    if (!this.shouldLoad) {
       return;
     }
 
@@ -74,16 +84,8 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
     this.standShader = shaderProgram;
 
     this.webglService.bindShader(this.defaultShader);
-
-    this.coverImages.push(new Image());
-    
-    this.loadMovieCovers();
     this.loadStand();
-    this.loadImages();
     
-    this.coverImages[0].crossOrigin = "anonymous";
-    this.coverImages[0].src = this.image1;
-
     this.canvas.nativeElement.addEventListener("mousedown", (e) => {
       this.camera.onMouseEvent(e, this.deltaTime, this.allowedTraversal);
     })
@@ -162,21 +164,6 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private loadMovieCovers() : void {
-
-    var lastPos = -2.5;
-    this.movieCovers.push(new MovieCover(this.webglService));
-    this.movieCovers[0].setPosition([-2.5, 0.0, -5.0]);
-
-    for (var i = 1; i < 10; i++) {
-      this.movieCovers.push(new MovieCover(this.webglService));
-      this.movieCovers[i].setPosition([lastPos + 2.5, 0.0, -5.0]);
-      lastPos += 2.5;
-    }
-
-    this.allowedTraversal = lastPos;
-  }
-
   private loadStand() : void {
     this.stand = new Stand(this.webglService, this.movieCovers.length * 2.5);
     this.stand.setPosition([-3.0, -1.0, -6.0]);
@@ -184,11 +171,35 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
     this.stand.setRotation([0, 1, 0], -45 * (Math.PI / 180.0));
   }
 
-  private loadImages() : void {
+  private async loadImages() : Promise<void> {
+
+    var currentUser = await this.userService.getCurrentUser();
+    const favoriteMovies = await firstValueFrom(this.favoriteMoviesService.getFavoriteMovies(currentUser!.username));
+
+    if (!favoriteMovies.ok) {
+      this.shouldLoad = false;
+      return;
+    }
+
+    for (var i = 0; i < favoriteMovies.body!.length; i++) {
+      var image = new Image();
+      image.src = favoriteMovies.body![i].coverArt;
+      image.crossOrigin = "anonymous";
+      this.coverImages.push(image);
+    }
+
+    var lastPos = -2.5;
+    for (var i = 0; i < this.coverImages.length; i++) {
+      this.movieCovers.push(new MovieCover(this.webglService));
+      this.movieCovers[i].setPosition([lastPos, 0.0, -5.0]);
+      lastPos += 2.5;
+    }
+
+    this.allowedTraversal = lastPos;
 
     let copy = (i : number) : void => {
-      this.coverImages[0].addEventListener("load", () => {
-        this.webglService.copyToTexture(this.movieCovers[i].getMainTex(), this.coverImages[0]);
+      this.coverImages[i].addEventListener("load", () => {
+        this.webglService.copyToTexture(this.movieCovers[i].getMainTex(), this.coverImages[i]);
       });
     };
 

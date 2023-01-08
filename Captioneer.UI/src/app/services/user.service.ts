@@ -6,16 +6,16 @@ import { UserPost } from '../models/user-post';
 import { UserUpdate } from '../models/user-update'
 import { UserViewModel } from '../models/user-viewmodel';
 import { UserLogin } from '../models/user-login';
+import { firstValueFrom } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private currentUser : UserViewModel | null
   private url: string = environment.apiURL + "/Users"
 
-  constructor(private httpClient: HttpClient) { this.currentUser = null; }
+  constructor(private httpClient: HttpClient) { }
 
   getUser(): Observable<HttpResponse<UserViewModel>> {
     return this.httpClient.get<UserViewModel>(this.url, { observe: 'response' });
@@ -40,6 +40,16 @@ export class UserService {
     return this.httpClient.delete<UserPost>(this.url, { observe: 'response', body: user });
   }
 
-  setCurrentUser(user : UserViewModel) { this.currentUser = user; }
-  getCurrentUser() : UserViewModel | null { return this.currentUser; }
+  async getCurrentUser() : Promise<UserViewModel | null> {
+
+    var email = window.sessionStorage.getItem("email");
+
+    if (!email) {
+      return null;
+    }
+
+    var user = await firstValueFrom(this.getUserByEmail(email));
+
+    return user.body;
+  }
 }

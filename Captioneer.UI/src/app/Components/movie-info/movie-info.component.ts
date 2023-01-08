@@ -45,7 +45,7 @@ export class MovieInfoComponent implements OnInit {
     window.location.href = "../home";
   }
 
-  favoriteMovie() : void {
+  async favoriteMovie() : Promise<void> {
 
     if (this.userService.getCurrentUser() == null) {
       return;
@@ -63,8 +63,10 @@ export class MovieInfoComponent implements OnInit {
     movieModel.metacriticValue = this.movieObject.metacriticValue;
     movieModel.coverArt = this.movieObject.coverArt;
 
+    var currentUser = await this.userService.getCurrentUser();
+  
     if (!this.favorited) {
-      this.favoriteMovieService.postFavoriteMovie(this.userService.getCurrentUser()!.username, movieModel).subscribe({
+      this.favoriteMovieService.postFavoriteMovie(currentUser!.username, movieModel).subscribe({
         next: (response) => {
         },
         error: (err) => {
@@ -76,7 +78,7 @@ export class MovieInfoComponent implements OnInit {
       });
     }
     else  {
-      this.favoriteMovieService.deleteFavoriteMovie(this.userService.getCurrentUser()!.username, movieModel).subscribe({
+      this.favoriteMovieService.deleteFavoriteMovie(currentUser!.username, movieModel).subscribe({
         next: (response) => {
         },
         error: (err) => {
