@@ -2,6 +2,8 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { WebGLService } from 'src/app/services/webgl.service';
 import vertexSrc from '../../../assets/shaders/vertex.glsl';
 import fragmentSrc from '../../../assets/shaders/fragment.glsl';
+import standVertexSrc from '../../../assets/shaders/stand_vertex.glsl';
+import standFragmentSrc from '../../../assets/shaders/stand_fragment.glsl';
 import { MovieCover } from './moviecover';
 import { Camera } from './camera';
 import { mat4 } from 'gl-matrix';
@@ -17,6 +19,7 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
   @ViewChild("canvas") private canvas! : ElementRef<HTMLCanvasElement>;
 
   private defaultShader! : WebGLProgram;
+  private standShader! : WebGLProgram;
 
   private movieCovers! : MovieCover[];
   private stand! : Stand;
@@ -61,12 +64,21 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
     }
 
     this.defaultShader = shaderProgram;
+
+    shaderProgram = this.webglService.createShaderProgram(standVertexSrc, standFragmentSrc);
+
+    if (!shaderProgram) {
+      return;
+    }
+
+    this.standShader = shaderProgram;
+
     this.webglService.bindShader(this.defaultShader);
 
     this.coverImages.push(new Image());
     
     this.loadMovieCovers();
-    this.stand = new Stand(this.webglService, 5);
+    this.loadStand();
     this.loadImages();
     
     this.coverImages[0].crossOrigin = "anonymous";
@@ -94,9 +106,15 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
     
     this.webglService.clear();
 
+    this.webglService.bindShader(this.defaultShader);
     this.webglService.setUniformMatrix(this.defaultShader, "uProj", this.camera.getProjMatrix());
     this.webglService.setUniformMatrix(this.defaultShader, "uView", this.camera.getViewMatrix());
-    
+    this.webglService.bindShader(this.standShader);
+    this.webglService.setUniformMatrix(this.standShader, "uProj", this.camera.getProjMatrix());
+    this.webglService.setUniformMatrix(this.standShader, "uView", this.camera.getViewMatrix());
+
+    this.webglService.bindShader(this.defaultShader);
+
     this.movieCovers.forEach(movieCover => {
         
       this.webglService.bindVAO(movieCover.getFrontBackVAO());
@@ -110,6 +128,12 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
 
       this.webglService.drawArrays(0, movieCover.getSideVertCount() - 1);
     });
+
+    this.webglService.bindShader(this.standShader);
+
+    this.webglService.bindVAO(this.stand.getVAO());
+    this.webglService.setUniformMatrix(this.standShader, "uModel", this.stand.getModelMatrix());
+    this.webglService.drawArrays(0, this.stand.getVertCount()); 
 
     this.onResize();
     this.camera.updateView();
@@ -144,13 +168,20 @@ export class FavoriteMoviesComponent implements OnInit, AfterViewInit {
     this.movieCovers.push(new MovieCover(this.webglService));
     this.movieCovers[0].setPosition([-2.5, 0.0, -5.0]);
 
-    for (var i = 1; i < 6; i++) {
+    for (var i = 1; i < 10; i++) {
       this.movieCovers.push(new MovieCover(this.webglService));
       this.movieCovers[i].setPosition([lastPos + 2.5, 0.0, -5.0]);
       lastPos += 2.5;
     }
 
     this.allowedTraversal = lastPos;
+  }
+
+  private loadStand() : void {
+    this.stand = new Stand(this.webglService, this.movieCovers.length * 2.5);
+    this.stand.setPosition([-3.0, -1.0, -6.0]);
+    this.stand.setRotation([0, 0, 1], -90 * (Math.PI / 180.0));
+    this.stand.setRotation([0, 1, 0], -45 * (Math.PI / 180.0));
   }
 
   private loadImages() : void {

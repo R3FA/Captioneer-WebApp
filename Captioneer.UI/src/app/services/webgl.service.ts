@@ -13,7 +13,7 @@ export enum DataType {
 export class WebGLService {
 
   private gl! : WebGL2RenderingContext;
-  private uniformLocations! : Map<string, WebGLUniformLocation>
+  private uniformLocations! : Map<WebGLProgram, Map<string, WebGLUniformLocation>>
 
   constructor() { }
 
@@ -45,7 +45,22 @@ export class WebGLService {
   }
 
   setUniformMatrix(shader : WebGLProgram, uniform : string, matrix : mat4) : void {
-    if (!this.uniformLocations.has(uniform)) {
+
+    this.cacheUniform(shader, uniform);
+    this.gl.uniformMatrix4fv(<WebGLUniformLocation>this.uniformLocations.get(shader)?.get(uniform), false, matrix);
+  }
+
+  setUniformInteger(shader : WebGLProgram, uniform : string, value : number) : void {
+
+    this.cacheUniform(shader, uniform);
+    this.gl.uniform1iv(<WebGLUniformLocation>this.uniformLocations.get(shader)?.get(uniform), [value]);
+  }
+
+  private cacheUniform(shader : WebGLProgram, uniform : string) : void {
+
+    var cachedShader = this.uniformLocations.get(shader);
+
+    if (cachedShader == undefined)  {
       let location = this.gl.getUniformLocation(shader, uniform);
 
       if (!location) {
@@ -53,10 +68,27 @@ export class WebGLService {
         return;
       }
 
-      this.uniformLocations.set(uniform, location);
+      this.uniformLocations.set(shader, new Map(
+        [
+          [uniform, location]
+        ]
+      ));
     }
+    else {
 
-    this.gl.uniformMatrix4fv(<WebGLUniformLocation>this.uniformLocations.get(uniform), false, matrix);
+      if (cachedShader.get(uniform) != undefined) {
+        return;
+      }
+
+      let location = this.gl.getUniformLocation(shader, uniform);
+
+      if (!location) {
+        console.error("The provided uniform was not found on the shader!");
+        return;
+      }
+
+      cachedShader.set(uniform, location);
+    }
   }
 
   createBuffer(dataType : DataType, data : number[]) : WebGLBuffer | null { 
