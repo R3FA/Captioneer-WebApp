@@ -6,6 +6,7 @@ import { UserPost } from '../models/user-post';
 import { UserUpdate } from '../models/user-update'
 import { UserViewModel } from '../models/user-viewmodel';
 import { UserLogin } from '../models/user-login';
+import { firstValueFrom } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,18 @@ export class UserService {
 
   deleteUser(user: UserPost): Observable<HttpResponse<UserPost>> {
     return this.httpClient.delete<UserPost>(this.url, { observe: 'response', body: user });
+  }
+
+  async getCurrentUser() : Promise<UserViewModel | null> {
+
+    var email = window.sessionStorage.getItem("email");
+
+    if (!email) {
+      return null;
+    }
+
+    var user = await firstValueFrom(this.getUserByEmail(email));
+
+    return user.body;
   }
 }

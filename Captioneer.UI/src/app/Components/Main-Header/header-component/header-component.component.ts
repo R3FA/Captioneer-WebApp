@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms'
 import { Observable } from 'rxjs'
 import { map, startWith } from 'rxjs/operators'
-import { Movies } from 'src/app/models/movies';
+import { MovieViewModel } from '../../../models/movie-viewmodel'
 import { MovieService } from 'src/app/services/movie.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -15,10 +15,10 @@ import { UserViewModel } from 'src/app/models/user-viewmodel';
 })
 export class HeaderComponentComponent implements OnInit {
 
-  movies: Movies[] = [];
+  movies: MovieViewModel[] = [];
   movieName: string = "";
   myControl = new FormControl('');
-  finalData!: Observable<Movies[]>;
+  finalData!: Observable<MovieViewModel[]>;
   isNotLogedIn!:boolean;
   name!:string;
   user!:UserViewModel;
@@ -35,8 +35,8 @@ export class HeaderComponentComponent implements OnInit {
     });
     window.location.reload();
   }
-  constructor(private moviesService: MovieService,private http:HttpClient,private router:Router,private User:UserService) {
-    this.moviesService.getMovies().subscribe((result: Movies[]) => (this.movies = result));
+  constructor(private moviesService: MovieService,private http:HttpClient,private router:Router,private userService:UserService) {
+    this.moviesService.getMovies().subscribe((result: MovieViewModel[]) => (this.movies = result));
   }
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class HeaderComponentComponent implements OnInit {
 
   }
 
-  private _filter(moviesName: string): Movies[] {
+  private _filter(moviesName: string): MovieViewModel[] {
     const filterValue = moviesName.toLowerCase();
     console.log(filterValue);
     return this.movies.filter(opt => opt.title.toLowerCase().includes(filterValue));
@@ -67,7 +67,7 @@ export class HeaderComponentComponent implements OnInit {
     alert(movieName);
   }
   getData(email:any){
-    this.User.getUserByEmail(email).subscribe(
+    this.userService.getUserByEmail(email).subscribe(
       (data)=>{
         var userName=data.body?.username;
         this.name=userName!;

@@ -1,5 +1,5 @@
 import { Injectable, Input } from '@angular/core';
-import { Movies } from '../models/movies';
+import { MovieViewModel } from '../models/movie-viewmodel';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -12,11 +12,11 @@ export class MovieService {
 
   private url: string = environment.apiURL + "/Movies";
 
-  public getMovieByParameter(movieName: string): Observable<HttpResponse<Movies[]>> {
-    return this.httpClient.get<Movies[]>(`${this.url}/ ${movieName}`, { observe: 'response' });
+  public getMovieByParameter(movieName: string): Observable<HttpResponse<MovieViewModel[]>> {
+    return this.httpClient.get<MovieViewModel[]>(`${this.url}/ ${movieName}`, { observe: 'response' });
   }
 
-  public getMovies(): Observable<Movies[]> {
-    return this.httpClient.get<Movies[]>(this.url);
+  public getMovies(): Observable<MovieViewModel[]> {
+    return this.httpClient.get<MovieViewModel[]>(this.url);
   }
 }

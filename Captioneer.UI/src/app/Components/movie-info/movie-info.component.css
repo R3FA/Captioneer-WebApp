@@ -135,23 +135,28 @@ h3 {
 #imdb{
     width: 10%;
     height: 10%;
-    margin-left: 25%;
 }
 .center{
     margin-top: 5%;
-    margin-left: 25%;
 }
 #rottentomatoes{
     width: 70%;
     height: 70%;
     display: inline-block;
 }
-button{
-margin: auto 0;
-margin-top: 5%;
-margin-left: 25%;
-background-color: #F18F01;
-color: black;
+
+button {
+    margin: auto 0;
+    background-color: #F18F01;
+    color: black;
+    margin: 1%;
+}
+
+#ratings {
+    border-left: 1px solid #F18F01;
+    border-left-width: 3px;
+    margin-left: 3%;
+    padding: 1%;
 }
 .full{
     width: 33vw;

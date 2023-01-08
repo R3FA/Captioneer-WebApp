@@ -3,6 +3,7 @@ using System;
 using Captioneer.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,13 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Captioneer.API.Migrations
 {
     [DbContext(typeof(CaptioneerDBContext))]
-    partial class CaptioneerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230108135011_AddUserMovies")]
+    partial class AddUserMovies
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.12")
+                .HasAnnotation("ProductVersion", "6.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Captioneer.API.Entities.Actor", b =>
@@ -683,21 +685,6 @@ namespace Captioneer.API.Migrations
                     b.ToTable("UsersMovies");
                 });
 
-            modelBuilder.Entity("Captioneer.API.Entities.UserTVShows", b =>
-                {
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TVShowID")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserID", "TVShowID");
-
-                    b.HasIndex("TVShowID");
-
-                    b.ToTable("UsersTVShows");
-                });
-
             modelBuilder.Entity("Captioneer.API.Entities.ActorMovie", b =>
                 {
                     b.HasOne("Captioneer.API.Entities.Actor", "Actor")
@@ -1060,25 +1047,6 @@ namespace Captioneer.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Movie");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Captioneer.API.Entities.UserTVShows", b =>
-                {
-                    b.HasOne("Captioneer.API.Entities.TVShow", "TVShow")
-                        .WithMany()
-                        .HasForeignKey("TVShowID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Captioneer.API.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TVShow");
 
                     b.Navigation("User");
                 });
