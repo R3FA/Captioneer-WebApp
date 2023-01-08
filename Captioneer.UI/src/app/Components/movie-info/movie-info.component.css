@@ -37,6 +37,11 @@ section {
     border-radius: 1.5em;
     padding-bottom: 2%;
 }
+#foreground2 {
+    background-color: #2e4057de;
+    border-radius: 1.5em;
+    padding-bottom: 2%;
+}
 #background {
     background-image: url('src\assets\Pictures\background-slika.jpg');
     background-size: cover;
@@ -147,4 +152,9 @@ margin-top: 5%;
 margin-left: 25%;
 background-color: #F18F01;
 color: black;
+}
+.full{
+    width: 33vw;
+    height: 70vh;
+    border: 2px solid #F18F01;
 }
