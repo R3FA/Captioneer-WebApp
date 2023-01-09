@@ -1,20 +1,21 @@
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <app-header-component></app-header-component>
-<section class="signup py-5 bg-light"  id="background">
+<section class="signup py-5 bg-light" id="background">
     <div class="main-container">
         <div class="row" id="main-row">
             <div class="col-8">
                 <div class="container">
                     <div id="foreground">
-                            <div class="row" id="movie-container">
-                                <div class="col-sm">
+                        <div class="row" id="movie-container">
+                            <div class="col-sm">
                                 <img src="{{movieObject.coverArt}}" class="movie">
-                                </div>
-                                <div class="col-sm">
+                            </div>
+                            <div class="col-sm">
                                 <h3>{{movieObject.title}}</h3>
                                 <div>
                                     <h4>Synopsis</h4>
-                                    <p>{{movieObject.synopsis}}<p>
+                                    <p>{{movieObject.synopsis}}
+                                    <p>
                                 </div>
                                 <hr>
                                 <div>
@@ -30,74 +31,213 @@
                                 <div>
                                     <h5> Actors</h5>
                                     <div *ngFor="let actor of actors" style="display:inline-block;">
-                                      {{ actor.firstName }}
-                                      {{actor.lastName}}
+                                        {{ actor.firstName }}
+                                        {{actor.lastName}}
                                     </div>
                                     <hr>
                                 </div>
-                                </div>
-                                <div class="col-sm" id="ratings">
+                            </div>
+                            <div class="col-sm" id="ratings">
                                 <h5 class="center">IMDb Rating</h5>
                                 <div style="display:inline-block;">
-                                <img src="..\assets\Pictures\imdb.png" id="imdb">
+                                    <img src="..\assets\Pictures\imdb.png" id="imdb">
                                     {{movieObject.imdbRatingValue}} / 10
                                 </div>
                                 <h5 class="center">Rotten Tomatoes</h5>
                                 <div style="display:inline-block;" id="imdb">
-                                <img src="..\assets\Pictures\rottenTomatoes.png" id="rottentomatoes">
+                                    <img src="..\assets\Pictures\rottenTomatoes.png" id="rottentomatoes">
                                     <p>{{movieObject.rottenTomatoesValue}} / 100%
                                 </div>
                                 <h5 class="center">metacritic Rating</h5>
                                 <div style="display:inline-block;" id="imdb">
-                                <img src="..\assets\Pictures\metacritic.png" id="rottentomatoes">
+                                    <img src="..\assets\Pictures\metacritic.png" id="rottentomatoes">
                                     {{movieObject.rottenTomatoesValue}} / 100
                                 </div>
                                 <div>
-                                <button class="search-button" mat-flat-button>DOWNLOAD</button>
-                                <button class="search-button" mat-flat-button (click)="favoriteMovie()" [hidden]="!this.displayFavorite">
-                                    <div [hidden]="this.favorited" class="not-favorited">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="" class="bi bi-star" viewBox="0 0 16 16">
-                                            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-                                        </svg>
-                                    </div>
-                                    <div [hidden]="!this.favorited" id="favorited">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                        </svg>
-                                    </div>
-                                </button>
-                                <button class="search-button" mat-flat-button (click)="back()">BACK</button>
+                                    <button class="search-button" mat-flat-button data-bs-toggle="modal"
+                                        data-bs-target="#modalMovieDownload">DOWNLOAD</button>
+                                    <button class="search-button" mat-flat-button (click)="favoriteMovie()"
+                                        [hidden]="!this.displayFavorite">
+                                        <div [hidden]="this.favorited" class="not-favorited">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill=""
+                                                class="bi bi-star" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                                            </svg>
+                                        </div>
+                                        <div [hidden]="!this.favorited" id="favorited">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill=""
+                                                class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                    <button class="search-button" mat-flat-button (click)="back()">BACK</button>
                                 </div>
                             </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="comment">Comment:</label>
-                                <textarea class="form-control" rows="5" id="comment"></textarea>
-                              </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Comment:</label>
+                            <textarea class="form-control" rows="5" id="comment"></textarea>
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="container">
-                        <div class="row g-0" id="foreground2">
-
-                    <h2>Try to find the shooting locations !</h2>
-                    <div class="full" id="map"></div>
-
-                    
-                <div id="movie-container">
-                Good luck !
-
-
+            </div>
+            <div class="col-4">
                 <div class="container">
-                <div class="row">
+                    <div class="row g-0" id="foreground2">
+
+                        <h2>Try to find the shooting locations !</h2>
+                        <div class="full" id="map"></div>
+
+
+                        <div id="movie-container">
+                            Good luck !
+
+
+                            <div class="container">
+                                <div class="row">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- FARIS SKOPAK KOD -->
+    <!--SubtitleUI Overhaul -->
+    <div class="modal fade" id="modalMovieDownload" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="modalMovieDownloadLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="naslov">
+                        <div class="h5">
+                            <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">Subtitle filter options</h5>
+                        </div>
+                        <div class="h3" *ngIf="!isTVSeries">
+                            <h3>MovieName</h3>
+                        </div>
+                        <div class="h3" *ngIf="isTVSeries">
+                            <h3>TVSeriesName</h3>
+                        </div>
                     </div>
-        </div>
-        </div>
-          </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <hr>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Select language of the subtitle:</label>
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="0">All</option>
+                                <option value="1">Language1</option>
+                                <option value="2">Language2</option>
+                                <option value="3">Language3</option>
+                            </select>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Select the subtitle uploader:</label>
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="0" selected>All</option>
+                                <option value="1">User1</option>
+                                <option value="2">User2</option>
+                                <option value="3">User3</option>
+                            </select>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                            <div class="serija form-group row" *ngIf="isTVSeries">
+                                <label class="col-sm-2 col-form-label">Season number:</label>
+                                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr class="serija" *ngIf="isTVSeries">
+                        <div class="form-group row">
+                            <div class="serija form-group row" *ngIf="isTVSeries">
+                                <label class="col-sm-2 col-form-label">Episode number:</label>
+                                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr class="serija" *ngIf="isTVSeries">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-search" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#modalSearch">Search</button>
+                </div>
             </div>
+        </div>
+    </div>
+
+    <!-- SearchingSubtitle Modal -->
+
+    <!--SubtitleUI Modal -->
+    <div class="modal fade" id="modalSearch" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="modalSearchLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="naslov">
+                        <div class="h5">
+                            <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">List of subtitles</h5>
+                        </div>
+                        <div class="h3" *ngIf="!isTVSeries">
+                            <h3>MovieName</h3>
+                        </div>
+                        <div class="h3" *ngIf="isTVSeries">
+                            <h3>TVSeriesName</h3>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row formaDiv">
+
+                            <div class="titleDiv">
+                                <div class="labelDiv">
+                                    <label class="col-sm-2 col-form-label">Video-Format</label>
+                                </div>
+                                <div class="divAboutSelect">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                                            (click)="boxChecked()">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault"
+                                            (click)="boxChecked()">Select</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div *ngIf="clicked" class="ratingButton form-group row">
+                                    <label class="col-sm-2 col-form-label" id="ratinglabel">Subtitle rating:</label>
+                                    <div class="divRatingStars">
+                                        <ngx-star-rating [id]="'rating'" class="ratingStars"></ngx-star-rating>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-delete" type="button" class="btn btn-primary"
+                        *ngIf="clicked && isAdmin">Delete</button>
+                    <button id="btn-download" type="button" class="btn btn-primary" *ngIf="clicked">Download</button>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 <app-footer-component></app-footer-component>

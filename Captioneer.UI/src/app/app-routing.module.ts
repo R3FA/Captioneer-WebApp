@@ -10,6 +10,10 @@ import { MovieInfoComponent } from './Components/movie-info/movie-info.component
 const routes: Routes = [
   {
     path: '',
+    component: HomepageComponent
+  },
+  {
+    path: 'profile-page',
     component: ProfilePageComponent
   },
   {
@@ -21,12 +25,8 @@ const routes: Routes = [
     component: PageLoginComponent
   },
   {
-    path:'home',
-    component:HomepageComponent
-  },
-  {
-    path:'movie',
-    component:MovieInfoComponent
+    path: 'movie',
+    component: MovieInfoComponent
   }
 ];
 

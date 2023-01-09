@@ -1,7 +1,8 @@
 * {
-    
+
     box-sizing: border-box;
     color: #F18F01;
+    font-family: BerunFont2;
 }
 
 @font-face {
@@ -18,6 +19,7 @@
     font-family: 'BerunFont3';
     src: url('src\assets\Fonts\Raleway-Bold.ttf');
 }
+
 section {
 
     max-width: 100%;
@@ -26,9 +28,11 @@ section {
     margin: 0;
     padding: 0;
 }
-#main-row{
+
+#main-row {
     width: 100%;
 }
+
 /* .col-4{
 margin: 0;
 padding: 0;
@@ -38,18 +42,21 @@ width: 40%;
 /* .container {
     width: 100%;
 } */
+
 #foreground {
     background-color: #2e4057de;
     border: 3px solid #F18F01;
     border-radius: 1.5em;
     padding-bottom: 2%;
 }
+
 #foreground2 {
     background-color: #2e4057de;
     border-radius: 1.5em;
     padding-bottom: 2%;
     align-items: center;
 }
+
 #background {
     background-image: url('src\assets\Pictures\background-slika.jpg');
     background-size: cover;
@@ -57,9 +64,11 @@ width: 40%;
     padding: 0;
     width: 100%;
 }
-#invisible{
+
+#invisible {
     background: red;
 }
+
 .main-container {
     position: relative;
     top: 5%;
@@ -70,86 +79,100 @@ width: 40%;
     padding: 0;
     margin: 0;
 }
+
 h3 {
     font-family: BerunFont1;
     padding-top: 3%;
     padding-bottom: 3%;
 }
-.full{
+
+.full {
     width: 100%;
     height: 100%;
 }
+
 .movie {
     width: 70%;
     height: 100%;
     border-radius: 0.5em;
     border: 2px solid #F18F01;
 }
+
 .vertical {
     border-left: 2px solid #F18F01;
     height: 30%;
-    position:absolute;
+    position: absolute;
     left: 50%;
 }
+
 #movie-container {
     height: 100%;
     width: 100%;
     margin-top: 2%;
 }
-.ng-star-inserted
-{
+
+.ng-star-inserted {
     margin-bottom: 2%;
     padding: 0;
     width: 33%;
 }
+
 .dropdown {
     position: relative;
     display: inline-block;
-  }
-  
-  .dropdown-content {
+}
+
+.dropdown-content {
     text-align: center;
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     padding: 12px 16px;
     z-index: 1;
-  }
-.search-button:hover{
+}
+
+.search-button:hover {
     background-color: transparent;
     border: 1px solid #F18F01;
     color: #f9f9f9;
 }
+
 button {
     margin: auto 0;
     background-color: #F18F01;
     color: black;
     margin: 1%;
 }
-.page-item{
+
+.page-item {
     width: 5%;
 }
-.page-link{
+
+.page-link {
     background-color: #F18F01;
     color: black;
     padding-right: 100%;
-    border:1px solid #4e77acde;
+    border: 1px solid #4e77acde;
 }
-.page-link:hover{
+
+.page-link:hover {
     background-color: transparent;
     border: 2px solid #F18F01;
     color: #f9f9f9;
 }
-#imdb{
+
+#imdb {
     width: 10%;
     height: 10%;
 }
-.center{
+
+.center {
     margin-top: 5%;
 }
-#rottentomatoes{
+
+#rottentomatoes {
     width: 70%;
     height: 70%;
     display: inline-block;
@@ -162,8 +185,149 @@ button {
     margin-left: 3%;
     padding: 1%;
 }
-.full{
+
+.full {
     width: 31vw;
     height: 70vh;
     border: 2px solid #F18F01;
+}
+
+/* Faris Modal CSS */
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.glavnaGlavna {
+    border: 2px solid red;
+    height: 100%;
+    width: 80%;
+    margin: auto;
+}
+
+.modal {
+    margin: auto 0;
+}
+
+.glavniDivModal {
+    width: 100%;
+    height: 100%;
+    border: 1px solid red;
+}
+
+::ng-deep label.star {
+    padding: 0 5px !important;
+    font-size: 30px !important;
+}
+
+.modal-header {
+    border: none;
+}
+
+.modal-content {
+    width: 100%;
+    height: 100%;
+    border: 3px solid #F18F01;
+    background-color: #2e4057;
+}
+
+.naslov {
+    display: block;
+    width: 100%;
+    position: relative;
+}
+
+.h5,
+.h3 {
+    width: fit-content;
+    margin: auto;
+    color: #F18F01;
+}
+
+h3 {
+    font-family: BerunFont1;
+}
+
+
+.divRatingStars {
+    width: fit-content;
+    margin: auto;
+}
+
+.modal-footer {
+    width: 100%;
+    border: none;
+}
+
+#btn-download {
+    margin-left: auto;
+}
+
+#btn-search {
+    margin: auto;
+}
+
+#btn-delete {
+    margin-right: auto;
+    background-color: red;
+}
+
+.form-select {
+    background-color: #2e405700;
+    width: 80%;
+    margin: auto;
+    border: 2px solid #F18F01;
+}
+
+.form-select option {
+    margin: auto;
+}
+
+.col-sm-2 {
+    width: 80%;
+    margin: auto;
+}
+
+hr {
+    color: #F18F01;
+    height: 1px;
+}
+
+.btn {
+    background-color: #F18F01;
+    color: black;
+    border: none;
+}
+
+.titleDiv {
+    border-top: 0.5px solid #F18F01;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.formaDiv {
+    border-bottom: 0.5px solid #F18F01 !important;
+}
+
+.labelDiv {
+    width: 70%;
+    height: 100%;
+}
+
+.divAboutSelect {
+    width: 30%;
+    height: 100%;
+    margin: auto;
+}
+
+.ratingButton {
+    width: 100%;
+    height: 100%;
+}
+
+.serija {
+    width: 100%;
+    height: 100%;
 }
