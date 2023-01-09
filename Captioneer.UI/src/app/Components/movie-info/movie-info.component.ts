@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { ActorMovies } from 'src/app/models/actor-movies';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { ThisReceiver } from '@angular/compiler';
 import { MovieViewModel } from 'src/app/models/movie-viewmodel';
 import { FavoriteMoviesService } from 'src/app/services/favoritemovies.service';
@@ -25,7 +25,7 @@ export class MovieInfoComponent implements OnInit {
   public favorited! : boolean;
   public displayFavorite! : boolean;
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     let loader=new Loader({
       apiKey:'AIzaSyCF4XwMfvYr_nME5E_nBbl9WgNqzfk6dLM'
     })
@@ -60,6 +60,22 @@ export class MovieInfoComponent implements OnInit {
     })
     this.actors=JSON.parse(localStorage.getItem('actors')!)
     console.log(this.actors)
+
+    var currentUser = await this.userService.getCurrentUser();
+
+    if (currentUser)  {
+      
+      var favoriteMovies = await firstValueFrom(this.favoriteMovieService.getFavoriteMovies(currentUser!.username))
+
+      if (favoriteMovies.body)  {
+
+        favoriteMovies.body.forEach(favoriteMovie => {
+          if (favoriteMovie.title == this.movieObject.title && favoriteMovie.year == this.movieObject.year) {
+            this.favorited = true;
+          }
+        });
+      }
+    }
   }
   getMovies(): Observable<ActorMovies> {
     return this.httpClient.get<ActorMovies>(this.url+'/'+this.movieObject.id);
