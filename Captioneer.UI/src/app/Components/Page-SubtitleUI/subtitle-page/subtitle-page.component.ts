@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class SubtitlePageComponent implements OnInit {
 
   constructor() { }
-  isAdmin: boolean = false;
-  isTVSeries: boolean = false;
+  isAdmin: boolean = true;
+  isTVSeries: boolean = true;
   ngOnInit() { }
 }

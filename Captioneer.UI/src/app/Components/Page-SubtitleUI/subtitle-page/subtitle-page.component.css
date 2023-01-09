@@ -79,8 +79,7 @@ h3 {
 }
 
 #btn-delete {
-    margin-right: auto;
-    background-color: red;
+    margin: auto;
 }
 
 .form-select {
