@@ -23,6 +23,7 @@ import { HomepageComponent } from './Components/homepage/homepage.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { SubtitlePageComponent } from './Components/Page-SubtitleUI/subtitle-page/subtitle-page.component';
+import { FavoritesGraphicsComponent } from './Components/favorites-graphics/favorites-graphics.component';
 import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
 import { NgxStarRatingModule } from 'ngx-star-rating';
 @NgModule({
@@ -37,6 +38,7 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
     FooterV2Component,
     HomepageComponent,
     SubtitlePageComponent,
+    FavoritesGraphicsComponent,
     MovieInfoComponent,
   ],
   imports: [

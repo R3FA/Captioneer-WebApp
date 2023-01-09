@@ -71,6 +71,16 @@ namespace Captioneer.API.Data
             {
                 table.UserID, table.LanguageID
             });
+
+            modelBuilder.Entity<UserMovies>().HasKey(table => new
+            {
+                table.UserID, table.MovieID
+            });
+
+            modelBuilder.Entity<UserTVShows>().HasKey(table => new
+            {
+                table.UserID, table.TVShowID
+            });
         }
 
         public DbSet<Actor> Actors { get; set; }
@@ -99,6 +109,8 @@ namespace Captioneer.API.Data
         public DbSet<TVShow> TVShows { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserLanguage> UsersLanguages { get; set; }
+        public DbSet<UserMovies> UsersMovies { get; set; }
+        public DbSet<UserTVShows> UsersTVShows { get; set; }
     }
 
 }
