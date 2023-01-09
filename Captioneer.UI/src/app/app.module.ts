@@ -24,8 +24,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { SubtitlePageComponent } from './Components/Page-SubtitleUI/subtitle-page/subtitle-page.component';
 import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
-
-
+import { NgxStarRatingModule } from 'ngx-star-rating';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +53,7 @@ import { MovieInfoComponent } from './Components/movie-info/movie-info.component
     MatDialogModule,
     NgxPaginationModule,
     MatAutocompleteModule,
+    NgxStarRatingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

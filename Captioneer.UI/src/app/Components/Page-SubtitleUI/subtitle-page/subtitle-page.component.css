@@ -1,371 +1,111 @@
 * {
-    margin: 0;
-    padding: 0;
+    color: #F18F01;
     font-family: BerunFont2;
-    /* background-color: #2E4057; */
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.glavnaGlavna {
+    border: 2px solid red;
+    height: 100%;
+    width: 80%;
+    margin: auto;
+}
+
+.modal {
+    margin: auto 0;
+}
+
+.glavniDivModal {
+    width: 100%;
+    height: 100%;
+    border: 1px solid red;
+}
+
+::ng-deep label.star {
+    padding: 0 5px !important;
+    font-size: 30px !important;
+}
+
+.modal-header {
+    border: none;
+}
+
+.modal-content {
+    width: 100%;
+    height: 100%;
+    border: 3px solid #F18F01;
+    background-color: #2e4057;
+}
+
+.naslov {
+    display: block;
+    width: 100%;
+    position: relative;
+}
+
+.h5,
+.h3 {
+    width: fit-content;
+    margin: auto;
     color: #F18F01;
 }
 
-@font-face {
-    font-family: 'BerunFont1';
-    src: url('src\assets\Fonts\MARDE SAUVE.otf');
+h3 {
+    font-family: BerunFont1;
 }
 
-@font-face {
-    font-family: 'BerunFont2';
-    src: url('src\assets\Fonts\railway.regular.otf');
-}
 
-@font-face {
-    font-family: 'BerunFont3';
-    src: url('src\assets\Fonts\Raleway-Bold.ttf');
-}
-
-.main-container {
-    position: relative;
-    height: 200%;
+.col-sm-2 {
     width: 100%;
-    background: url('src\assets\Pictures\background-slika.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
-.content-div {
-    position: relative;
-    top: 75px;
-    /* border: 2px solid red; */
-    width: 100%;
-    height: calc(100% - 75px);
-}
-
-.wrapper-page {
-    height: 100%;
-    width: 95%;
-    background-color: #2e4057c3;
-    /* border: 2px solid blue; */
-    margin: auto;
-    box-sizing: content-box;
-    border-left: 2px solid #F18F01;
-    border-right: 2px solid #F18F01;
-}
-
-.main-movie-info {
-    width: 100%;
-    height: 12%;
-    /* border: 2px solid lime; */
-    display: flex;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-.movie-picture {
-    width: 20%;
-    height: 100%;
-    /* border: 2px solid red; */
-}
-
-.movie-picture img {
-    width: 100%;
-    height: 100%;
-}
-
-.optional-movie-info {
-    width: 100%;
-    height: 100%;
-    /* border: 2px solid red; */
-}
-
-.movie-title {
-    /* border: 2px solid blueviolet; */
-    width: 100%;
-    height: 20%;
-    position: relative;
-}
-
-.movie-title h3 {
-    text-align: center;
+.divRatingStars {
     width: fit-content;
-    height: fit-content;
     margin: auto;
 }
 
-.other {
+.modal-footer {
     width: 100%;
-    height: 80%;
-    display: flex;
+    border: none;
 }
 
-.movie-length-genre {
-    width: 30%;
-    height: 100%;
-    /* border: 2px solid seagreen; */
-    position: relative;
-    /* border: 1.5px solid #F18F01; */
-    border-top: #F18F01 2px solid;
-    border-left: 2px solid #F18F01;
-}
-
-.movie-length-genre-final {
-    width: 40%;
-    height: 100%;
-    /* border: 2px solid seagreen; */
-    position: relative;
-    /* border: 1.5px solid #F18F01; */
-    border-top: 2px solid #F18F01;
-    border-left: 2px solid #F18F01;
-}
-
-.movie-length-genre-final h4 {
-    width: fit-content;
-    height: fit-content;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.length-genre {
-    width: 100%;
-    height: 50%;
-    position: relative;
-    border-bottom: 1.5px solid #F18F01;
-}
-
-.length-genre-final {
-    width: 100%;
-    height: 50%;
-    /* border: 2px solid aqua; */
-    position: relative;
-    border-bottom: 1.5px solid #F18F01;
-}
-
-.length-genre-final h5 {
-    width: 95%;
-    height: fit-content;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: #99C24D;
-    font-size: 16px;
-}
-
-.length-genre h5 {
-    width: 80%;
-    height: fit-content;
-    /* border: 2px solid red; */
-    margin: auto;
-    color: #99C24D;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    font-size: 16px;
-}
-
-.responsive {
-    width: 100%;
-    height: 50%;
-    position: relative;
-    /* border: 2px solid aqua; */
-}
-
-.imdb-picture {
-    width: 25%;
-    height: fit-content;
-    /* border: 2px solid red; */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.imdb-picture img {
-    width: 100%;
-    height: 100%;
-}
-
-/*  */
-
-.subtitle-info-comments {
-    width: 100%;
-    height: 88%;
-    /* border: 2px solid khaki; */
-}
-
-.menu-container {
-    width: 60%;
-    height: 3em;
-    /* border: 2px solid red; */
-    margin: auto;
-    margin-top: 1em;
-    font-size: 20px;
-}
-
-.menu-toggler {
-    /* padding: 10px; */
-    border: 2px solid #F18F01;
-    border-radius: 0.3em;
-    background-color: #2e4057b5;
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.menu-toggler h4 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: fit-content;
-    height: fit-content;
-}
-
-.menu {
-    background-color: #2e4057b5;
-    /* border-radius: 0.3em; */
-    color: #F18F01;
-    border-left: #F18F01 2px solid;
-    border-right: #F18F01 2px solid;
-    border-bottom: #F18F01 2px solid;
-    /* padding: 10px; */
-    /* border: 2px solid aqua; */
-    display: flex;
-    position: relative;
-}
-
-.additional-menu {
-    /* border: 2px solid lime; */
-    width: 100%;
-}
-
-.menu-item {
-    margin-top: 5px;
-    cursor: pointer;
-    /* border: 2px solid khaki; */
-    width: fit-content;
-    height: fit-content;
-    margin-left: 0.4em;
-}
-
-.menu-item:hover {
-    text-decoration: underline;
-}
-
-.button-search {
-    /* border: 2px solid red; */
-    width: 40%;
-    height: fit-content;
-    margin: auto;
-    position: relative;
-}
-
-.button {
-    background-color: #F18F01;
-    color: #2e4057;
-    position: absolute;
-    width: 80%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-::ng-deep .mat-form-field-flex>.mat-form-field-infix {
-    padding: 0.4em 0px !important;
-}
-
-::ng-deep .mat-form-field-label-wrapper {
-    top: -1.5em;
-}
-
-::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-    transform: translateY(-1.1em) scale(.75);
-    width: 133.33333%;
-}
-
-.subtitle-container {
-    width: 100%;
-    height: 8em;
-    margin: auto;
-    border: 2px solid #F18F01;
-    background-color: #2e4057b5;
-    border-radius: 0.5em;
-    margin-top: 2em;
-    padding-top: 10px;
-}
-
-.flex-div {
-    width: 100%;
-    height: 20%;
-    display: flex;
-}
-
-.subtitle-id {
-    width: 33.3%;
-    height: fit-content;
-    /* border: 2px solid blue; */
-    text-align: center;
-}
-
-.sezona-epizoda-div {
-    width: 33.3%;
-    height: fit-content;
-    /* border: 2px solid lime; */
-    text-align: center;
-}
-
-.language-titla {
-    width: 33.3%;
-    height: fit-content;
-    text-align: center;
-}
-
-.movie-version {
-    width: 33.3%;
-    height: 100%;
-    text-align: center;
-    /* border: 2px solid aqua; */
-    position: relative;
-}
-
-h4,
-h5 {
-    color: #99C24D;
-}
-
-.movie-version h5 {
-    width: fit-content;
-    height: fit-content;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #99C24D;
-}
-
-.download-div {
-    /* border: 2px solid khaki; */
-    width: 33.3%;
-    position: relative;
+#btn-download {
     margin-left: auto;
 }
 
-.button-download {
-    background-color: #F18F01;
-    color: #2e4057;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 100%;
+#btn-delete {
+    margin-right: auto;
+    background-color: red;
 }
 
-.responsive-div {
-    height: 80%;
-    width: 100%;
-    display: flex;
+.form-select {
+    background-color: #2e405700;
+    width: 80%;
+    margin: auto;
+    border: 2px solid #F18F01;
+}
+
+.form-select option {
+    margin: auto;
+}
+
+.col-sm-2 {
+    width: 80%;
+    margin: auto;
+}
+
+hr {
+    color: #F18F01;
+    height: 1px;
+}
+
+.btn {
+    background-color: #F18F01;
+    color: black;
+    border: none;
 }

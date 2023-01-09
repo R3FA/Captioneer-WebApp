@@ -19,6 +19,7 @@
     font-family: 'BerunFont3';
     src: url('src\assets\Fonts\Raleway-Bold.ttf');
 }
+
 section {
     width: 100%;
     /* height: 92.5%; */
@@ -26,30 +27,36 @@ section {
     margin: 0;
     padding: 0;
 }
+
 .container {
     margin: 0;
     padding: 0;
     margin: auto;
 }
+
 #foreground {
     background-color: #2e4057de;
     border: 3px solid #F18F01;
     border-radius: 1.5em;
     padding-bottom: 2%;
 }
+
 #foreground2 {
     background-color: #2e4057de;
     border-radius: 1.5em;
     padding-bottom: 2%;
 }
+
 #background {
     background-image: url('src\assets\Pictures\background-slika.jpg');
     background-size: cover;
     font-family: BerunFont2;
 }
-#invisible{
+
+#invisible {
     background: red;
 }
+
 .main-container {
     position: relative;
     top: 5%;
@@ -58,102 +65,118 @@ section {
     height: 100%;
     background-color: none;
 }
+
 h3 {
     font-family: BerunFont1;
     padding-top: 3%;
     padding-bottom: 3%;
 }
-.full{
+
+.full {
     width: 100%;
     height: 100%;
 }
+
 .movie {
     width: 50%;
     height: 100%;
     border-radius: 0.5em;
     border: 2px solid #F18F01;
 }
+
 .vertical {
     border-left: 2px solid #F18F01;
     height: 30%;
-    position:absolute;
+    position: absolute;
     left: 50%;
 }
+
 #movie-container {
     height: 100%;
     width: 100%;
     margin-top: 2%;
 }
-.ng-star-inserted
-{
+
+.ng-star-inserted {
     margin-bottom: 2%;
     padding: 0;
     width: 33%;
 }
+
 .dropdown {
     position: relative;
     display: inline-block;
-  }
-  
-  .dropdown-content {
+}
+
+.dropdown-content {
     text-align: center;
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     padding: 12px 16px;
     z-index: 1;
-  }
-  #download-button{
+}
+
+#download-button {
     font-family: BerunFont2;
     margin: 5%;
     width: 30%;
     background-color: #F18F01;
     color: black;
     border: 2px solid #F18F01;
-  }
-#download-button:hover{
+}
+
+#download-button:hover {
     background-color: transparent;
     border: 2px solid #F18F01;
     color: #f9f9f9;
 }
-.page-item{
+
+.page-item {
     width: 5%;
 }
-.page-link{
+
+.page-link {
     background-color: #F18F01;
     color: black;
     padding-right: 100%;
-    border:1px solid #4e77acde;
+    border: 1px solid #4e77acde;
 }
-.page-link:hover{
+
+.page-link:hover {
     background-color: transparent;
     border: 2px solid #F18F01;
     color: #f9f9f9;
 }
-#imdb{
+
+#imdb {
     width: 10%;
     height: 10%;
     margin-left: 25%;
 }
-.center{
+
+.center {
     margin-top: 5%;
     margin-left: 25%;
 }
-#rottentomatoes{
+
+#rottentomatoes {
     width: 70%;
     height: 70%;
     display: inline-block;
 }
-button{
-margin: auto 0;
-margin-top: 5%;
-margin-left: 25%;
-background-color: #F18F01;
-color: black;
+
+button {
+    margin: auto 0;
+    margin-top: 5%;
+    margin-left: 25%;
+    background-color: #F18F01;
+    color: black;
 }
-.full{
+
+.full {
     width: 33vw;
     height: 70vh;
     border: 2px solid #F18F01;
