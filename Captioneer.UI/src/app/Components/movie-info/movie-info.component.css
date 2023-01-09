@@ -117,18 +117,16 @@ h3 {
     padding: 12px 16px;
     z-index: 1;
   }
-  #download-button{
-    font-family: BerunFont2;
-    margin: 5%;
-    width: 30%;
+.search-button:hover{
+    background-color: transparent;
+    border: 1px solid #F18F01;
+    color: #f9f9f9;
+}
+button {
+    margin: auto 0;
     background-color: #F18F01;
     color: black;
-    border: 2px solid #F18F01;
-  }
-#download-button:hover{
-    background-color: transparent;
-    border: 2px solid #F18F01;
-    color: #f9f9f9;
+    margin: 1%;
 }
 .page-item{
     width: 5%;
@@ -157,12 +155,6 @@ h3 {
     display: inline-block;
 }
 
-button {
-    margin: auto 0;
-    background-color: #F18F01;
-    color: black;
-    margin: 1%;
-}
 
 #ratings {
     border-left: 1px solid #F18F01;

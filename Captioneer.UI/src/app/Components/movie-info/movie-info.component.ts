@@ -8,6 +8,7 @@ import { MovieViewModel } from 'src/app/models/movie-viewmodel';
 import { FavoriteMoviesService } from 'src/app/services/favoritemovies.service';
 import { UserService } from 'src/app/services/user.service';
 import { Loader } from '@googlemaps/js-api-loader';
+import{TokenValidatorService}from 'src/app/services/token-validator.service'
 
 @Component({
   selector: 'app-movie-info',
@@ -16,7 +17,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 })
 export class MovieInfoComponent implements OnInit {
 
-  constructor(private httpClient: HttpClient, private userService : UserService, private favoriteMovieService : FavoriteMoviesService) { }
+  constructor(private httpClient: HttpClient, private userService : UserService, private favoriteMovieService : FavoriteMoviesService, private tokenValidation:TokenValidatorService) { }
   movie:any;
   movieObject:any;
   actors!:any;
@@ -91,6 +92,10 @@ export class MovieInfoComponent implements OnInit {
     if (this.userService.getCurrentUser() == null) {
       return;
     }
+    
+    if(!this.tokenValidation.validateToken())
+    return;
+
 
     let movieModel = new MovieViewModel();
     movieModel.title = this.movieObject.title;
