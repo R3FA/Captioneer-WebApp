@@ -25,6 +25,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FavoritesGraphicsComponent } from './Components/favorites-graphics/favorites-graphics.component';
 import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
 import { NgxStarRatingModule } from 'ngx-star-rating';
+import { PageCommentComponent } from './Components/Page-Comments/page-comment/page-comment.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +39,7 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
     HomepageComponent,
     FavoritesGraphicsComponent,
     MovieInfoComponent,
+    PageCommentComponent,
   ],
   imports: [
     BrowserModule,
