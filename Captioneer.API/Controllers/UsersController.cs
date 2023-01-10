@@ -32,7 +32,7 @@ namespace Captioneer.API.Controllers
             _hostEnvironment = environment;
         }
 
-        //GET: Aapi/Users/example@mail.com
+        //GET: api/Users/example@mail.com
         [HttpGet("{mail}")]
         public async Task<ActionResult<UserViewModel>> GetUserByEmail(string? mail)
         {
