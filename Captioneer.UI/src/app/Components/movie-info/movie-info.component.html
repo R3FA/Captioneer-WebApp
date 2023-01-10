@@ -131,22 +131,12 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Select language of the subtitle:</label>
+                            <label class="col-sm-2 col-form-label">Select the subtitle language:</label>
                             <select class="form-select form-select-sm" aria-label=".form-select-sm example">
                                 <option value="0">All</option>
                                 <option value="1">Language1</option>
                                 <option value="2">Language2</option>
                                 <option value="3">Language3</option>
-                            </select>
-                        </div>
-                        <hr>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Select the subtitle uploader:</label>
-                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option value="0" selected>All</option>
-                                <option value="1">User1</option>
-                                <option value="2">User2</option>
-                                <option value="3">User3</option>
                             </select>
                         </div>
                         <hr>
@@ -203,13 +193,25 @@
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Select the subtitle uploader:</label>
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option value="0" selected>All</option>
+                        <option value="1">User1</option>
+                        <option value="2">User2</option>
+                        <option value="3">User3</option>
+                    </select>
+                </div>
                 <div class="modal-body">
                     <form>
                         <div class="form-group row formaDiv">
 
                             <div class="titleDiv">
                                 <div class="labelDiv">
-                                    <label class="col-sm-2 col-form-label">Video-Format</label>
+                                    <label class="col-sm-2 col-form-label">Release</label>
+                                </div>
+                                <div class="userDiv">
+                                    <label class="col-sm-2 col-form-label">Uploader</label>
                                 </div>
                                 <div class="divAboutSelect">
                                     <div class="form-check form-switch">
@@ -217,6 +219,14 @@
                                             (click)="boxChecked()">
                                         <label class="form-check-label" for="flexSwitchCheckDefault"
                                             (click)="boxChecked()">Select</label>
+                                    </div>
+                                </div>
+                                <div class="divTranslateLanguage">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                                            (click)="translateCheck()">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault"
+                                            (click)="translateCheck()">Translate</label>
                                     </div>
                                 </div>
                             </div>
@@ -228,13 +238,24 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="serija form-group row" *ngIf="translateClicked">
+                                <label class="col-sm-2 col-form-label">Select the subtitle language for
+                                    translation:</label>
+                                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                    <option value="0">All</option>
+                                    <option value="1">Language1</option>
+                                    <option value="2">Language2</option>
+                                    <option value="3">Language3</option>
+                                </select>
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button id="btn-delete" type="button" class="btn btn-primary"
                         *ngIf="clicked && isAdmin">Delete</button>
-                    <button id="btn-download" type="button" class="btn btn-primary" *ngIf="clicked">Download</button>
+                    <button id="btn-download" type="button" class="btn btn-primary"
+                        *ngIf="clicked || translateClicked">Download</button>
                 </div>
             </div>
         </div>

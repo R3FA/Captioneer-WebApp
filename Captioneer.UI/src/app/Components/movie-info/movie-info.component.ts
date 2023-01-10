@@ -28,6 +28,7 @@ export class MovieInfoComponent implements OnInit {
   isAdmin: boolean = false;
   isTVSeries: boolean = false;
   clicked: boolean = false;
+  translateClicked: boolean = false;
 
 
   async ngOnInit(): Promise<void> {
@@ -150,6 +151,14 @@ export class MovieInfoComponent implements OnInit {
     else {
       this.clicked = false;
       console.log('ugaseno');
+    }
+  }
+
+  translateCheck() {
+    if (!this.translateClicked)
+      this.translateClicked = true;
+    else {
+      this.translateClicked = false;
     }
   }
 }

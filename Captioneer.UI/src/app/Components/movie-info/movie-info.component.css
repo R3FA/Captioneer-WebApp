@@ -311,13 +311,24 @@ hr {
     border-bottom: 0.5px solid #F18F01 !important;
 }
 
+.userDiv {
+    width: 25%;
+    height: 100%;
+}
+
 .labelDiv {
-    width: 70%;
+    width: 25%;
     height: 100%;
 }
 
 .divAboutSelect {
-    width: 30%;
+    width: 25%;
+    height: 100%;
+    margin: auto;
+}
+
+.divTranslateLanguage {
+    width: 25%;
     height: 100%;
     margin: auto;
 }
