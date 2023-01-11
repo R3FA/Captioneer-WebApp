@@ -6,5 +6,5 @@ export class UserViewModel  {
     subtitleUpload?:number
     subtitleDownload?:number
     funFact?:string
-    registrationDate!:Date
+    registrationDate?:Date
 }

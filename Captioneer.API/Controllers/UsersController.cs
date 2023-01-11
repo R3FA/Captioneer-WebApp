@@ -110,6 +110,10 @@ namespace Captioneer.API.Controllers
 
                 dbUser.ProfileImage = filePath;
             }
+            if (userUpdate.Designation != null)
+                dbUser.Designation = userUpdate.Designation;
+            if (userUpdate.funFact != null)
+                dbUser.funFact = userUpdate.funFact;
 
             try
             { 

@@ -14,7 +14,7 @@ import { Utils } from 'src/app/utils/utils'
 })
 export class ProfilePageComponent implements OnInit, AfterViewInit {
 
-  private loggedUser! : UserViewModel | null;
+  private loggedUser!: UserViewModel | null;
   // In bytes
   private maxUploadSize = 2 * 1024 * 1024;
 
@@ -24,12 +24,14 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   private _showChangePasswordForm!: boolean;
   private _showChangeProfileImageForm!: boolean;
   private _showDeleteProfileForm!: boolean;
+  private _showChangePublicInformationForm!: boolean;
 
   public changeEmailForm!: FormGroup;
   public changeUsernameForm!: FormGroup;
   public changePasswordForm!: FormGroup;
   public changeProfileImageForm!: FormGroup;
   public deleteProfileForm!: FormGroup;
+  public changePublicInformationForm!: FormGroup;
 
   private enterPassword!: FormControl;
   private enterEmail!: FormControl;
@@ -37,6 +39,9 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   private enterNewPassword!: FormControl;
   private enterNewPasswordRepeat!: FormControl;
   private enterNewImage!: FormControl;
+  private enterDesignation!: FormControl;
+  private enterPreferredLanguage!: FormControl;
+  private enterfunFact!: FormControl;
 
   public submitted!: boolean;
   public successText!: string;
@@ -44,6 +49,15 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   public editProfileBtnText!: string;
   public fileName!: string;
   public requestInProgress!: boolean;
+
+  public userName!: string;
+  public email!: string;
+  public profileImage!: string;
+  public designation!: string;
+  public subtitleUpload?: number;
+  public subtitleDownload?: number;
+  public funFact?: string;
+  public registrationDate?: Date;
 
   public get showEditProfile(): boolean {
     return this._showEditProfile;
@@ -69,7 +83,11 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     return this._showDeleteProfileForm;
   }
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private renderer: Renderer2, private tokenValidator : TokenValidatorService) { }
+  public get showChangePublicInformationForm(): boolean {
+    return this._showChangePublicInformationForm;
+  }
+
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private renderer: Renderer2, private tokenValidator: TokenValidatorService) { }
 
   ngOnInit(): void {
 
@@ -79,6 +97,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this._showChangePasswordForm = false;
     this._showChangeProfileImageForm = false;
     this._showDeleteProfileForm = false;
+    this._showChangePublicInformationForm = false;
     this.submitted = false;
     this.successText = "";
     this.errorText = "";
@@ -92,6 +111,9 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.enterNewPassword = new FormControl('', [Validators.required, Validators.minLength(6)]);
     this.enterNewPasswordRepeat = new FormControl('', [Validators.required, this.validatePasswordMatch()]);
     this.enterNewImage = new FormControl('', [Validators.required]);
+    this.enterDesignation = new FormControl('', [Validators.maxLength(25)]);
+    this.enterPreferredLanguage = new FormControl();
+    this.enterfunFact = new FormControl('', [Validators.maxLength(25)]);
 
     this.changeEmailForm = this.formBuilder.group({
       enterPassword: this.enterPassword,
@@ -116,6 +138,12 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.deleteProfileForm = this.formBuilder.group({
       enterPassword: this.enterPassword
     });
+
+    this.changePublicInformationForm = this.formBuilder.group({
+      enterPassword: this.enterPassword,
+      enterDesignation: this.enterDesignation,
+      enterfunFact: this.enterfunFact
+    });
   }
 
   async ngAfterViewInit() {
@@ -124,6 +152,26 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     if (!this.tokenValidator.validateToken()) {
       this.loggedUser = null;
     }
+    this.userName = this.loggedUser!.username;
+    this.email = this.loggedUser!.email;
+    this.profileImage = "assets/Pictures/userIcon.png";
+    var serverPictureRequest = await this.userService.getUserProfileImage(`${this.userName}`);
+    if (serverPictureRequest != null) {
+      this.profileImage = serverPictureRequest;
+    }
+    if (this.loggedUser?.designation != null) {
+      this.designation = this.loggedUser?.designation;
+    } else {
+      this.designation = "NOT SPECIFIED";
+    }
+    this.subtitleDownload = this.loggedUser!.subtitleDownload;
+    this.subtitleUpload = this.loggedUser!.subtitleUpload;
+    if (this.loggedUser?.designation != null) {
+      this.funFact = this.loggedUser!.funFact;
+    } else {
+      this.funFact = "NOT SPECIFIED";
+    }
+    this.registrationDate = this.loggedUser?.registrationDate;
   }
 
   clearForms(): void {
@@ -198,6 +246,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       this._showChangeUsernameForm = false;
       this._showChangeProfileImageForm = false;
       this._showDeleteProfileForm = false;
+      this._showChangePublicInformationForm = false;
     }
     else if (input.id == "changeUsernameBtn") {
       this._showChangeUsernameForm = !this._showChangeUsernameForm;
@@ -205,6 +254,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       this._showChangeEmailForm = false;
       this._showChangeProfileImageForm = false;
       this._showDeleteProfileForm = false;
+      this._showChangePublicInformationForm = false;
     }
     else if (input.id == "changePasswordBtn") {
       this._showChangePasswordForm = !this._showChangePasswordForm;
@@ -212,6 +262,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       this._showChangeEmailForm = false;
       this._showChangeProfileImageForm = false;
       this._showDeleteProfileForm = false;
+      this._showChangePublicInformationForm = false;
     }
     else if (input.id == "changeProfileImageBtn") {
       this._showChangeProfileImageForm = !this._showChangeProfileImageForm;
@@ -219,6 +270,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       this._showChangeEmailForm = false;
       this._showChangePasswordForm = false;
       this._showDeleteProfileForm = false;
+      this._showChangePublicInformationForm = false;
     }
     else if (input.id == "deleteProfileBtn") {
       this._showDeleteProfileForm = true;
@@ -226,6 +278,14 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       this._showChangeEmailForm = false;
       this._showChangeProfileImageForm = false;
       this._showChangePasswordForm = false;
+      this._showChangePublicInformationForm = false;
+    } else if (input.id == 'editPublicInformationBtn') {
+      this._showDeleteProfileForm = false;
+      this._showChangeUsernameForm = false;
+      this._showChangeEmailForm = false;
+      this._showChangeProfileImageForm = false;
+      this._showChangePasswordForm = false;
+      this._showChangePublicInformationForm = true;
     }
 
     this.fileName = "";
@@ -382,12 +442,40 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private reloadPage() : void {
+  private reloadPage(): void {
     setTimeout(() => {
       window.location.reload();
     }, 1500);
   }
 
-  //Profile Page Connection with User
-  
+  changePublicInformation(): void {
+    this.submitted = true;
+
+    if (this.changePublicInformationForm.invalid) {
+      return;
+    }
+
+    this.requestInProgress = true;
+
+    var pubInfoChange: UserUpdate = {
+      password: this.enterPassword.value,
+      designation: this.enterDesignation.value,
+      funFact: this.enterfunFact.value
+    }
+
+    this.userService.putUser(pubInfoChange, this.loggedUser!.username).subscribe({
+      next: (response) => console.log(response),
+      error: (err) => {
+        this.successText = "";
+        this.errorText = err.error;
+        console.error(err.error);
+      },
+      complete: () => {
+        this.successText = "Succesfully changed public information";
+        this.errorText = "";
+        this.requestInProgress = false;
+        this.reloadPage();
+      }
+    });
+  }
 }
