@@ -34,12 +34,34 @@ namespace Captioneer.API.Utils
         }
 
         /// <summary>
+        /// Deserializes and returns the Base64 representation of an image from the given path
+        /// </summary>
+        /// <param name="imagePath">Path to the image on disk</param>
+        /// <returns>Base64 representation of the image or null if conversion failed</returns>
+        public static async Task<string?> Deserialize(string imagePath)
+        {
+            if (!File.Exists(imagePath))
+            {
+                return null;
+            }
+
+            var encodedImage = EncodeImage(imagePath);
+
+            if (encodedImage == null)
+            {
+                return null;
+            }
+
+            return encodedImage;
+        }
+
+        /// <summary>
         /// Decodes an image from a Base64 string
         /// </summary>
         /// <param name="encodedImage">The image encoded as a Base64 string</param>
         /// <param name="imageFormat">Reference to a format object so the image's format can be recorded</param>
         /// <returns>The decoded image or null if decoding has failed</returns>
-        public static Image? DecodeImage(string encodedImage, ref IImageFormat? imageFormat)
+        private static Image? DecodeImage(string encodedImage, ref IImageFormat? imageFormat)
         {
             // Remove header information before conversion
             encodedImage = encodedImage.Substring(encodedImage.LastIndexOf("base64,", StringComparison.InvariantCulture) + 7);
@@ -62,6 +84,32 @@ namespace Captioneer.API.Utils
             imageFormat = format;
 
             return decodedImage;
+        }
+
+        /// <summary>
+        /// Encodes an image to a Base64 string
+        /// </summary>
+        /// <param name="imagePath">Path to the image on disk</param>
+        /// <returns>Base64 representation of the image or null if the conversion failed</returns>
+        private static string? EncodeImage(string imagePath) 
+        {
+            var type = imagePath.Substring(imagePath.LastIndexOf('.'), 3);
+
+            try
+            {
+                var imageBytes = File.ReadAllBytes(imagePath);
+                var base64 = Convert.ToBase64String(imageBytes);
+
+                if (type == ".png")
+                    return "data:image/png;charset=utf-8;base64," + base64;
+                else
+                    return "data:image/jpg;charset=utf-8;base64," + base64;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
         /// <summary>

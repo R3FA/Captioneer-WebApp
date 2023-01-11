@@ -24,6 +24,7 @@
     "@googlemaps/js-api-loader": "^1.15.1",
     "@types/googlemaps": "^3.43.3",
     "bootstrap": "^5.2.2",
+    "buffer": "^6.0.3",
     "gl-matrix": "^3.4.3",
     "glslify-loader": "^2.0.0",
     "jquery": "^3.6.1",

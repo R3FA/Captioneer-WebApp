@@ -7,6 +7,7 @@ import { UserUpdate } from '../models/user-update'
 import { UserViewModel } from '../models/user-viewmodel';
 import { UserLogin } from '../models/user-login';
 import { firstValueFrom } from 'rxjs'
+import { Utils } from '../utils/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +52,17 @@ export class UserService {
     var user = await firstValueFrom(this.getUserByEmail(email));
 
     return user.body;
+  }
+
+  async getUserProfileImage(username : string) : Promise<string | null> {
+    
+    var response = await firstValueFrom(this.httpClient.get(`${this.url}/${username}/profileimage`, { observe: 'response', responseType: 'text'}));
+
+    if (!response.ok) {
+      console.error("Failed to get profile image from server: " + response.statusText);
+      return null;
+    }
+
+    return response.body;
   }
 }
