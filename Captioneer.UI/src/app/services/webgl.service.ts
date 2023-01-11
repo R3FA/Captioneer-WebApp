@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { mat4 } from 'gl-matrix';
+import { mat4, vec2, vec3 } from 'gl-matrix';
 import { MovieCover } from '../Components/favorites-graphics/moviecover';
 
 export enum DataType {
@@ -56,6 +56,24 @@ export class WebGLService {
     this.gl.uniform1iv(<WebGLUniformLocation>this.uniformLocations.get(shader)?.get(uniform), [value]);
   }
 
+  setUniformFloat(shader : WebGLProgram, uniform : string, value : number) : void {
+
+    this.cacheUniform(shader, uniform);
+    this.gl.uniform1fv(<WebGLUniformLocation>this.uniformLocations.get(shader)?.get(uniform), [value]);
+  }
+
+  setUniformVec2(shader : WebGLProgram, uniform : string, value : vec2) : void {
+
+    this.cacheUniform(shader, uniform);
+    this.gl.uniform2fv(<WebGLUniformLocation>this.uniformLocations.get(shader)?.get(uniform), value);
+  }
+  
+  setUniformVec3(shader : WebGLProgram, uniform : string, value : vec3) : void {
+
+    this.cacheUniform(shader, uniform);
+    this.gl.uniform3fv(<WebGLUniformLocation>this.uniformLocations.get(shader)?.get(uniform), value);
+  }
+
   private cacheUniform(shader : WebGLProgram, uniform : string) : void {
 
     var cachedShader = this.uniformLocations.get(shader);
@@ -76,7 +94,7 @@ export class WebGLService {
     }
     else {
 
-      if (cachedShader.get(uniform) != undefined) {
+      if (cachedShader.get(uniform) !== undefined) {
         return;
       }
 

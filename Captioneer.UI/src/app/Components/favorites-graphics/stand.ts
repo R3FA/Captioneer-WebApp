@@ -14,48 +14,50 @@ export class Stand {
 
     constructor(webglService : WebGLService, length : number) { 
 
+        // 0 - Front, 1 -Back, 2 - Left, 3 - Right, 4 - Top, 5 - Bottom
+
         var positions = [
-           0,  length,  0.05,
-            2,  length,  0.05,
-            2, -1.5,     0.05,
-           0, -1.5,     0.05,
-           0,  length,  0.05,
-            2, -1.5,     0.05,
+            0,  length,  0.05, 0.0,
+            2,  length,  0.05, 0.0,
+            2, -1.5,     0.05, 0.0,
+            0, -1.5,     0.05, 0.0,
+            0,  length,  0.05, 0.0,
+            2, -1.5,     0.05, 0.0,
 
-            2,  length, -0.05,
-           0,  length, -0.05,
-           0, -1.5,    -0.05,
-            2, -1.5,    -0.05,
-            2,  length, -0.05,
-           0, -1.5,    -0.05,
+            2,  length, -0.05, 1.0,
+            0,  length, -0.05, 1.0,
+            0, -1.5,    -0.05, 1.0,
+            2, -1.5,    -0.05, 1.0,
+            2,  length, -0.05, 1.0,
+            0, -1.5,    -0.05, 1.0,
 
-           0,  length, -0.05,
-           0,  length,  0.05,
-           0, -1.5,     0.05,
-           0, -1.5,    -0.05,
-           0,  length, -0.05,
-           0, -1.5,     0.05,
+            0,  length, -0.05, 2.0,
+            0,  length,  0.05, 2.0,
+            0, -1.5,     0.05, 2.0,
+            0, -1.5,    -0.05, 2.0,
+            0,  length, -0.05, 2.0,
+            0, -1.5,     0.05, 2.0,
 
-            2,  length,  0.05,
-            2,  length, -0.05,
-            2, -1.5,    -0.05,
-            2, -1.5,     0.05,
-            2,  length,  0.05,
-            2, -1.5,    -0.05,
+            2,  length,  0.05, 3.0,
+            2,  length, -0.05, 3.0,
+            2, -1.5,    -0.05, 3.0,
+            2, -1.5,     0.05, 3.0,
+            2,  length,  0.05, 3.0,
+            2, -1.5,    -0.05, 3.0,
 
-           0,  length, -0.05,
-            2,  length, -0.05,
-            2,  length,  0.05,
-           0,  length,  0.05,
-           0,  length, -0.05,
-            2,  length,  0.05,
+            0,  length, -0.05, 4.0,
+            2,  length, -0.05, 4.0,
+            2,  length,  0.05, 4.0,
+            0,  length,  0.05, 4.0,
+            0,  length, -0.05, 4.0,
+            2,  length,  0.05, 4.0,
 
-           0, -1.5,     0.05,
-            2, -1.5,     0.05,
-            2, -1.5,    -0.05,
-           0, -1.5,    -0.05,
-           0, -1.5,     0.05,
-            2, -1.5,    -0.05,
+            0, -1.5,     0.05, 5.0,
+            2, -1.5,     0.05, 5.0,
+            2, -1.5,    -0.05, 5.0,
+            0, -1.5,    -0.05, 5.0,
+            0, -1.5,     0.05, 5.0,
+            2, -1.5,    -0.05, 5.0,
         ];
 
         var posBuffer = webglService.createBuffer(DataType.GL_FLOAT, positions);
@@ -76,7 +78,7 @@ export class Stand {
 
         this.vao = vao;
 
-        webglService.addBuffer(this.vao, this.positionBuffer, 0, 3, DataType.GL_FLOAT);
+        webglService.addBuffer(this.vao, this.positionBuffer, 0, 4, DataType.GL_FLOAT);
 
         this.vertCount = 23;
 
