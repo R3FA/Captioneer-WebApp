@@ -15,18 +15,16 @@ import { PageLoginComponent } from './Components/Page-LogIn/page-login/page-logi
 import { HeaderComponentComponent } from './Components/Main-Header/header-component/header-component.component';
 import { FooterComponentComponent } from './Components/Main-Footer/footer-component/footer-component.component';
 import { HttpClientModule } from '@angular/common/http';
-import{MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { SignUpDoneComponent } from './Components/sign-up-done/sign-up-done.component';
 import { ProfilePageComponent } from './Components/Page-ProfileUI/profile-page/profile-page.component';
 import { FooterV2Component } from './Components/Main-Footer-v2/footer-v2/footer-v2.component';
 import { HomepageComponent } from './Components/homepage/homepage.component';
-import {NgxPaginationModule} from 'ngx-pagination';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { SubtitlePageComponent } from './Components/Page-SubtitleUI/subtitle-page/subtitle-page.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FavoritesGraphicsComponent } from './Components/favorites-graphics/favorites-graphics.component';
 import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
-
-
+import { NgxStarRatingModule } from 'ngx-star-rating';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +36,6 @@ import { MovieInfoComponent } from './Components/movie-info/movie-info.component
     ProfilePageComponent,
     FooterV2Component,
     HomepageComponent,
-    SubtitlePageComponent,
     FavoritesGraphicsComponent,
     MovieInfoComponent,
   ],
@@ -56,6 +53,7 @@ import { MovieInfoComponent } from './Components/movie-info/movie-info.component
     MatDialogModule,
     NgxPaginationModule,
     MatAutocompleteModule,
+    NgxStarRatingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -28,6 +28,7 @@
     "glslify-loader": "^2.0.0",
     "jquery": "^3.6.1",
     "ngx-pagination": "^6.0.3",
+    "ngx-star-rating": "^2.1.0",
     "popper.js": "^1.16.1",
     "raw-loader": "^4.0.2",
     "rxjs": "~7.5.0",

@@ -12,28 +12,15 @@ namespace Captioneer.API.Controllers
     public class TokenControlerController : ControllerBase
     {
         // GET: api/<TokenControlerController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        //[HttpGet]
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
 
         // GET api/<TokenControlerController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<TokenControlerController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<TokenControlerController>/5
-        [HttpPut("value")]
-        public bool PutTokenValidation(string? value)
+        [HttpGet("{value}")]
+        public bool Get(string? value)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             if (tokenHandler.CanReadToken(value))
@@ -42,7 +29,7 @@ namespace Captioneer.API.Controllers
                 var validationParameters = new TokenValidationParameters()
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"])),
-                ValidAudience = builder.Configuration["Jwt:Audience"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
                     ValidateLifetime = true,
                     ValidateAudience = true,
@@ -65,6 +52,18 @@ namespace Captioneer.API.Controllers
                 return true;
             }
             return false;
+        }
+
+        // POST api/<TokenControlerController>
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+        }
+
+        // PUT api/<TokenControlerController>/5
+        [HttpPut]
+        public void Put([FromBody] string value)
+        {
         }
 
         // DELETE api/<TokenControlerController>/5

@@ -1,4 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'BerunFont1';
+    src: url('src\assets\Fonts\MARDE SAUVE.otf');
+}
+
+@font-face {
+    font-family: 'BerunFont2';
+    src: url('src\assets\Fonts\railway.regular.otf');
+}
+
+@font-face {
+    font-family: 'BerunFont3';
+    src: url('src\assets\Fonts\Raleway-Bold.ttf');
+}
+
 html,
 body {
     height: 100%;
