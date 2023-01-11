@@ -1,7 +1,7 @@
 import { mat4, vec3 } from "gl-matrix";
 import { DataType, WebGLService } from "src/app/services/webgl.service";
 
-export class MovieCover {
+export class Cover {
     
     private frontBackPositionBuffer! : WebGLBuffer | null;
     private frontBackTexCoordBuffer! : WebGLBuffer | null;
@@ -23,55 +23,58 @@ export class MovieCover {
     private modelMatrix! : mat4;
 
     constructor(webglService : WebGLService) {
+
+        // 0 - Front, 1 -Back, 2 - Left, 3 - Right, 4 - Top, 5 - Bottom
+
         var frontBackPositions = [
             // Front
-            -1.0,  1.5,  0.05,
-            1.0,  1.5,  0.05,
-            1.0, -1.5,  0.05,
-            -1.0, -1.5,  0.05,
-            -1.0,  1.5,  0.05,
-            1.0, -1.5,  0.05,
+           -1.0,  1.5,  0.05, 0.0,
+            1.0,  1.5,  0.05, 0.0,
+            1.0, -1.5,  0.05, 0.0,
+           -1.0, -1.5,  0.05, 0.0,
+           -1.0,  1.5,  0.05, 0.0,
+            1.0, -1.5,  0.05, 0.0,
 
             //Back
-            1.0,  1.5, -0.05,
-            -1.0,  1.5, -0.05,
-            -1.0, -1.5, -0.05,
-            1.0, -1.5, -0.05,
-            1.0,  1.5, -0.05,
-            -1.0, -1.5, -0.05,
+            1.0,  1.5, -0.05, 1.0,
+           -1.0,  1.5, -0.05, 1.0,
+           -1.0, -1.5, -0.05, 1.0,
+            1.0, -1.5, -0.05, 1.0,
+            1.0,  1.5, -0.05, 1.0,
+           -1.0, -1.5, -0.05, 1.0,
         ];
         var sidePositions = [
             //Left
-           -1.0,  1.5, -0.05,
-           -1.0,  1.5,  0.05,
-           -1.0, -1.5,  0.05,
-           -1.0, -1.5, -0.05,
-           -1.0,  1.5, -0.05,
-           -1.0, -1.5,  0.05,
+           -1.0,  1.5, -0.05, 2.0,
+           -1.0,  1.5,  0.05, 2.0, 
+           -1.0, -1.5,  0.05, 2.0,
+           -1.0, -1.5, -0.05, 2.0,
+           -1.0,  1.5, -0.05, 2.0,
+           -1.0, -1.5,  0.05, 2.0,
 
             //Right
-            1.0,  1.5,  0.05,
-            1.0,  1.5, -0.05,
-            1.0, -1.5, -0.05,
-            1.0, -1.5,  0.05,
-            1.0,  1.5,  0.05,
-            1.0, -1.5, -0.05,
+            1.0,  1.5,  0.05, 3.0,
+            1.0,  1.5, -0.05, 3.0,
+            1.0, -1.5, -0.05, 3.0,
+            1.0, -1.5,  0.05, 3.0,
+            1.0,  1.5,  0.05, 3.0,
+            1.0, -1.5, -0.05, 3.0
 
             //Top
-           -1.0,  1.5, -0.05,
-            1.0,  1.5, -0.05,
-            1.0,  1.5,  0.05,
-           -1.0,  1.5,  0.05,
-           -1.0,  1.5, -0.05,
-            1.0,  1.5,  0.05,
+           -1.0,  1.5, -0.05, 4.0,
+            1.0,  1.5, -0.05, 4.0,
+            1.0,  1.5,  0.05, 4.0,
+           -1.0,  1.5,  0.05, 4.0,
+           -1.0,  1.5, -0.05, 4.0,
+            1.0,  1.5,  0.05, 4.0,
 
             //Bottom
-           -1.0, -1.5,  0.05,
-            1.0, -1.5,  0.05,
-            1.0, -1.5, -0.05,
-           -1.0, -1.5, -0.05
-           -1.0, -1.5,  0.05,
-            1.0, -1.5, -0.05,
+           -1.0, -1.5,  0.05, 5.0,
+            1.0, -1.5,  0.05, 5.0,
+            1.0, -1.5, -0.05, 5.0,
+           -1.0, -1.5, -0.05, 5.0,
+           -1.0, -1.5,  0.05, 5.0,
+            1.0, -1.5, -0.05, 5.0,
         ];
 
         var frontBackTexCoords = [
@@ -138,10 +141,10 @@ export class MovieCover {
             return;
         }
 
-        webglService.addBuffer(this.frontBackVAO, this.frontBackPositionBuffer, 0, 3, DataType.GL_FLOAT);
+        webglService.addBuffer(this.frontBackVAO, this.frontBackPositionBuffer, 0, 4, DataType.GL_FLOAT);
         webglService.addBuffer(this.frontBackVAO, this.frontBackTexCoordBuffer, 1, 2, DataType.GL_BYTE);
 
-        webglService.addBuffer(this.sideVAO, this.sidePositionBuffer, 0, 3, DataType.GL_FLOAT);
+        webglService.addBuffer(this.sideVAO, this.sidePositionBuffer, 0, 4, DataType.GL_FLOAT);
         webglService.addBuffer(this.sideVAO, this.sideTexCoordBuffer, 1, 2, DataType.GL_BYTE);
 
         this.mainTexture = webglService.createTexture();
