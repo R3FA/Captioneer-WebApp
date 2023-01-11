@@ -23,9 +23,9 @@ steps:
 - script: |
     cd Captioneer.UI
     npm install -g @angular/cli
-    npm install
+    npm install --force
     ng build --configuration production
-  displayName: 'npm install and build'
+  displayName: 'Install npm packages and build Angular'
   
 - task: ArchiveFiles@2
   displayName: 'Archive build files'
