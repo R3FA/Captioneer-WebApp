@@ -17,5 +17,10 @@ namespace Captioneer.API.Entities
         public string Password { get; set; } = string.Empty;
 
         public string? ProfileImage { get; set; } = string.Empty;
+        public string? Designation { get; set; } = "Not specified";
+        public int SubtitleUpload { get; set; } = 0;
+        public int SubtitleDownload { get; set; } = 0;
+        public string? funFact { get; set; } = string.Empty;
+        public DateTime RegistrationDate { get; set; }
     }
 }

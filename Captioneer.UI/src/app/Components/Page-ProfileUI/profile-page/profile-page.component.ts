@@ -387,4 +387,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       window.location.reload();
     }, 1500);
   }
+
+  //Profile Page Connection with User
+  
 }
