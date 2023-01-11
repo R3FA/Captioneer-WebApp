@@ -4,14 +4,13 @@ import vertexSrc from '../../../assets/shaders/vertex.glsl';
 import fragmentSrc from '../../../assets/shaders/fragment.glsl';
 import standVertexSrc from '../../../assets/shaders/stand_vertex.glsl';
 import standFragmentSrc from '../../../assets/shaders/stand_fragment.glsl';
-import { MovieCover } from './moviecover';
+import { Cover } from './cover';
 import { Camera } from './camera';
-import { mat4 } from 'gl-matrix';
 import { Stand } from './stand';
 import { FavoriteMoviesService } from 'src/app/services/favoritemovies.service';
 import { UserService } from 'src/app/services/user.service';
-import { UserViewModel } from 'src/app/models/user-viewmodel';
 import { firstValueFrom } from 'rxjs';
+import { mat4, vec2, vec3 } from 'gl-matrix';
 
 @Component({
   selector: 'app-favorites-graphics',
@@ -25,7 +24,7 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
   private defaultShader! : WebGLProgram;
   private standShader! : WebGLProgram;
 
-  private movieCovers! : MovieCover[];
+  private covers! : Cover[];
   private stand! : Stand;
   private coverImages! : HTMLImageElement[];
   private camera! : Camera;
@@ -35,6 +34,10 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
   private lastTime! : number;
   private deltaTime! : number;
   private allowedTraversal! : number;
+  private mousePosition! : vec2;
+  private canvasRectTopLeft! : vec2;
+  private canvasRectDimensions! : vec2;
+  private lightPosition! : vec3;
 
   private shouldLoad! : boolean;
 
@@ -42,12 +45,16 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.movieCovers = new Array();
+    this.covers = new Array();
     this.coverImages = new Array();
     this.camera = new Camera();
     this.lastTime = 0.0;
     this.deltaTime = 0.0;
     this.allowedTraversal = 0.0;
+    this.mousePosition = vec2.create();
+    this.canvasRectTopLeft = vec2.create();
+    this.canvasRectDimensions = vec2.create();
+    this.lightPosition = vec3.create();
     this.shouldLoad = true;
   }
 
@@ -65,7 +72,7 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
     this.webglService.setViewport(this.canvas.nativeElement.width, this.canvas.nativeElement.height);
     this.aspectRatio = this.canvas.nativeElement.width / this.canvas.nativeElement.height;
-    this.camera.updatePerspective(45.0, this.aspectRatio, 0.1, 1000.0);
+    this.camera.onResize(45.0, this.aspectRatio, 0.1, 1000.0);
 
     let shaderProgram = this.webglService.createShaderProgram(vertexSrc, fragmentSrc);
 
@@ -74,6 +81,11 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
     }
 
     this.defaultShader = shaderProgram;
+
+    this.webglService.bindShader(this.defaultShader);
+    this.webglService.setUniformVec3(this.defaultShader, "uMaterial.specular", [0.7, 0.7, 0.7]);
+    this.webglService.setUniformFloat(this.defaultShader, "uMaterial.shininess", 32.0);
+    this.webglService.bindShader(null);
 
     shaderProgram = this.webglService.createShaderProgram(standVertexSrc, standFragmentSrc);
 
@@ -86,6 +98,9 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
     this.webglService.bindShader(this.defaultShader);
     this.loadStand();
     
+    this.canvasRectTopLeft = [this.canvas.nativeElement.getBoundingClientRect().left, this.canvas.nativeElement.getBoundingClientRect().top];
+    this.canvasRectDimensions = [this.canvas.nativeElement.getBoundingClientRect().width, this.canvas.nativeElement.getBoundingClientRect().height];
+
     this.canvas.nativeElement.addEventListener("mousedown", (e) => {
       this.camera.onMouseEvent(e, this.deltaTime, this.allowedTraversal);
     })
@@ -94,6 +109,8 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
     })
     this.canvas.nativeElement.addEventListener("mousemove", (e) => {
       this.camera.onMouseEvent(e, this.deltaTime, this.allowedTraversal);
+      this.calculateMousePosition(e);
+      this.calculateLightPosition();
     })
     this.canvas.nativeElement.addEventListener("mouseleave", (e) => {
       this.camera.onMouseEvent(e, this.deltaTime, this.allowedTraversal);
@@ -105,19 +122,21 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
   }
 
   draw(timestamp : number) : void {
-    
+
     this.webglService.clear();
 
     this.webglService.bindShader(this.defaultShader);
     this.webglService.setUniformMatrix(this.defaultShader, "uProj", this.camera.getProjMatrix());
     this.webglService.setUniformMatrix(this.defaultShader, "uView", this.camera.getViewMatrix());
+    this.webglService.setUniformVec2(this.defaultShader, "uLightPos", [this.lightPosition[0], this.lightPosition[1]]);
     this.webglService.bindShader(this.standShader);
     this.webglService.setUniformMatrix(this.standShader, "uProj", this.camera.getProjMatrix());
     this.webglService.setUniformMatrix(this.standShader, "uView", this.camera.getViewMatrix());
+    this.webglService.setUniformVec2(this.standShader, "uLightPos", [this.lightPosition[0], this.lightPosition[1]]);
 
     this.webglService.bindShader(this.defaultShader);
 
-    this.movieCovers.forEach(movieCover => {
+    this.covers.forEach(movieCover => {
         
       this.webglService.bindVAO(movieCover.getFrontBackVAO());
       this.webglService.bindTexture(movieCover.getMainTex());
@@ -138,7 +157,7 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
     this.webglService.drawArrays(0, this.stand.getVertCount()); 
 
     this.onResize();
-    this.camera.updateView();
+    this.camera.onUpdate();
 
     this.deltaTime = (timestamp - this.lastTime) / 1000.0;
     this.lastTime = timestamp;
@@ -160,12 +179,15 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
       this.webglService.setViewport(this.canvas.nativeElement.width, this.canvas.nativeElement.height);
       this.aspectRatio = this.canvas.nativeElement.width / this.canvas.nativeElement.height;
-      this.camera.updatePerspective(45.0, this.aspectRatio, 0.1, 1000.0);
+      this.camera.onResize(45.0, this.aspectRatio, 0.1, 1000.0);
+
+      this.canvasRectTopLeft = [this.canvas.nativeElement.getBoundingClientRect().left, this.canvas.nativeElement.getBoundingClientRect().top];
+      this.canvasRectDimensions = [this.canvas.nativeElement.getBoundingClientRect().width, this.canvas.nativeElement.getBoundingClientRect().height];
     }
   }
 
   private loadStand() : void {
-    this.stand = new Stand(this.webglService, this.movieCovers.length * 2.5);
+    this.stand = new Stand(this.webglService, this.covers.length * 2.5);
     this.stand.setPosition([-3.0, -1.0, -6.0]);
     this.stand.setRotation([0, 0, 1], -90 * (Math.PI / 180.0));
     this.stand.setRotation([0, 1, 0], -45 * (Math.PI / 180.0));
@@ -190,21 +212,36 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
     var lastPos = -2.5;
     for (var i = 0; i < this.coverImages.length; i++) {
-      this.movieCovers.push(new MovieCover(this.webglService));
-      this.movieCovers[i].setPosition([lastPos, 0.0, -5.0]);
+      this.covers.push(new Cover(this.webglService));
+      this.covers[i].setPosition([lastPos, 0.0, -5.0]);
       lastPos += 2.5;
     }
 
-    this.allowedTraversal = lastPos;
+    this.allowedTraversal = lastPos - 2.5;
 
     let copy = (i : number) : void => {
       this.coverImages[i].addEventListener("load", () => {
-        this.webglService.copyToTexture(this.movieCovers[i].getMainTex(), this.coverImages[i]);
+        this.webglService.copyToTexture(this.covers[i].getMainTex(), this.coverImages[i]);
       });
     };
 
-    for (var i = 0; i < this.movieCovers.length; i++) {
+    for (var i = 0; i < this.covers.length; i++) {
       copy(i);
     }
+  }
+
+  private calculateMousePosition(event : MouseEvent)  {
+
+    this.mousePosition = [event.clientX - this.canvasRectTopLeft[0], event.clientY - this.canvasRectTopLeft[1]];
+  }
+
+  private calculateLightPosition() : void {
+    
+    const clipX = this.mousePosition[0] / this.canvasRectDimensions[0] * 2 - 1;
+    const clipY = this.mousePosition[1] / this.canvasRectDimensions[1] * -2 + 1;
+
+    console.log(clipX);
+
+    vec3.transformMat4(this.lightPosition, [clipX, clipY, -1], this.camera.getInverseViewProjMatrix());
   }
 }

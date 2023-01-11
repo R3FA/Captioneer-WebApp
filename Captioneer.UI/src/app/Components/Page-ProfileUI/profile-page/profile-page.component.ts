@@ -2,6 +2,8 @@ import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserPost } from 'src/app/models/user-post';
 import { UserUpdate } from 'src/app/models/user-update';
+import { UserViewModel } from 'src/app/models/user-viewmodel';
+import { TokenValidatorService } from 'src/app/services/token-validator.service';
 import { UserService } from 'src/app/services/user.service';
 import { Utils } from 'src/app/utils/utils'
 
@@ -12,6 +14,7 @@ import { Utils } from 'src/app/utils/utils'
 })
 export class ProfilePageComponent implements OnInit, AfterViewInit {
 
+  private loggedUser! : UserViewModel | null;
   // In bytes
   private maxUploadSize = 2 * 1024 * 1024;
 
@@ -66,9 +69,10 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     return this._showDeleteProfileForm;
   }
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private renderer: Renderer2) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private renderer: Renderer2, private tokenValidator : TokenValidatorService) { }
 
   ngOnInit(): void {
+
     this._showEditProfile = false;
     this._showChangeEmailForm = true;
     this._showChangeUsernameForm = false;
@@ -114,8 +118,12 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
+    this.loggedUser = await this.userService.getCurrentUser();
 
+    if (!this.tokenValidator.validateToken()) {
+      this.loggedUser = null;
+    }
   }
 
   clearForms(): void {
@@ -132,6 +140,11 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   }
 
   togglePublicInfo(): void {
+
+    if (!this.loggedUser) {
+      return;
+    }
+
     this._showEditProfile = !this.showEditProfile;
 
     this.successText = "";
@@ -233,8 +246,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       newEmail: this.enterEmail.value
     }
 
-    // Test username. Replace with actual username of logged user when implemented
-    this.userService.putUser(userUpdate, "newuser").subscribe({
+    this.userService.putUser(userUpdate, this.loggedUser!.username).subscribe({
       next: (response) => console.log(response),
       error: (err) => {
         this.successText = "";
@@ -245,6 +257,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
         this.successText = "Succesfully changed email"
         this.errorText = "";
         this.requestInProgress = false;
+        this.reloadPage();
       }
     });
   }
@@ -263,8 +276,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       newUsername: this.enterUsername.value
     }
 
-    // Test username. Replace with actual username of logged user when implemented
-    this.userService.putUser(userUpdate, "newuser").subscribe({
+    this.userService.putUser(userUpdate, this.loggedUser!.username).subscribe({
       next: (response) => console.log(response),
       error: (err) => {
         this.successText = "";
@@ -275,6 +287,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
         this.successText = "Succesfully changed username";
         this.errorText = "";
         this.requestInProgress = false;
+        this.reloadPage();
       }
     });
   }
@@ -293,8 +306,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       newPassword: this.enterPassword.value
     }
 
-    // Test username. Replace with actual username of logged user when implemented
-    this.userService.putUser(userUpdate, "newuser").subscribe({
+    this.userService.putUser(userUpdate, this.loggedUser!.username).subscribe({
       next: (response) => console.log(response),
       error: (err) => {
         this.successText = "";
@@ -305,6 +317,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
         this.successText = "Succesfully changed password";
         this.errorText = "";
         this.requestInProgress = false;
+        this.reloadPage();
       }
     });
   }
@@ -322,8 +335,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       newProfileImage: await Utils.ToBase64(file)
     };
 
-    // Test username. Replace with actual username of logged user when implemented
-    this.userService.putUser(userUpdate, "newuser").subscribe({
+    this.userService.putUser(userUpdate, this.loggedUser!.username).subscribe({
       next: (response) => console.log(response),
       error: (err) => {
         this.successText = "";
@@ -334,6 +346,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
         this.successText = "Succesfully changed profile image";
         this.errorText = "";
         this.requestInProgress = false;
+        this.reloadPage();
       }
     });
   }
@@ -347,11 +360,10 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
     this.requestInProgress = true;
 
-    // Test data for user. Replace with actual logged in user when implemented
     var userPost: UserPost = {
       password: this.enterPassword.value,
-      username: "newuser",
-      email: "newuser",
+      username: this.loggedUser!.username,
+      email: this.loggedUser!.email,
     }
 
     this.userService.deleteUser(userPost).subscribe({
@@ -365,7 +377,14 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
         this.successText = "Account has been succesfully deleted"
         this.errorText = "";
         this.requestInProgress = false;
+        this.reloadPage();
       }
     });
+  }
+
+  private reloadPage() : void {
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
   }
 }
