@@ -4,7 +4,7 @@ import vertexSrc from '../../../assets/shaders/vertex.glsl';
 import fragmentSrc from '../../../assets/shaders/fragment.glsl';
 import standVertexSrc from '../../../assets/shaders/stand_vertex.glsl';
 import standFragmentSrc from '../../../assets/shaders/stand_fragment.glsl';
-import { MovieCover } from './moviecover';
+import { Cover } from './cover';
 import { Camera } from './camera';
 import { Stand } from './stand';
 import { FavoriteMoviesService } from 'src/app/services/favoritemovies.service';
@@ -24,7 +24,7 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
   private defaultShader! : WebGLProgram;
   private standShader! : WebGLProgram;
 
-  private movieCovers! : MovieCover[];
+  private covers! : Cover[];
   private stand! : Stand;
   private coverImages! : HTMLImageElement[];
   private camera! : Camera;
@@ -45,7 +45,7 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.movieCovers = new Array();
+    this.covers = new Array();
     this.coverImages = new Array();
     this.camera = new Camera();
     this.lastTime = 0.0;
@@ -136,7 +136,7 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
     this.webglService.bindShader(this.defaultShader);
 
-    this.movieCovers.forEach(movieCover => {
+    this.covers.forEach(movieCover => {
         
       this.webglService.bindVAO(movieCover.getFrontBackVAO());
       this.webglService.bindTexture(movieCover.getMainTex());
@@ -187,7 +187,7 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
   }
 
   private loadStand() : void {
-    this.stand = new Stand(this.webglService, this.movieCovers.length * 2.5);
+    this.stand = new Stand(this.webglService, this.covers.length * 2.5);
     this.stand.setPosition([-3.0, -1.0, -6.0]);
     this.stand.setRotation([0, 0, 1], -90 * (Math.PI / 180.0));
     this.stand.setRotation([0, 1, 0], -45 * (Math.PI / 180.0));
@@ -212,8 +212,8 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
     var lastPos = -2.5;
     for (var i = 0; i < this.coverImages.length; i++) {
-      this.movieCovers.push(new MovieCover(this.webglService));
-      this.movieCovers[i].setPosition([lastPos, 0.0, -5.0]);
+      this.covers.push(new Cover(this.webglService));
+      this.covers[i].setPosition([lastPos, 0.0, -5.0]);
       lastPos += 2.5;
     }
 
@@ -221,11 +221,11 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
     let copy = (i : number) : void => {
       this.coverImages[i].addEventListener("load", () => {
-        this.webglService.copyToTexture(this.movieCovers[i].getMainTex(), this.coverImages[i]);
+        this.webglService.copyToTexture(this.covers[i].getMainTex(), this.coverImages[i]);
       });
     };
 
-    for (var i = 0; i < this.movieCovers.length; i++) {
+    for (var i = 0; i < this.covers.length; i++) {
       copy(i);
     }
   }

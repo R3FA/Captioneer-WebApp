@@ -1,7 +1,7 @@
 import { mat4, vec3 } from "gl-matrix";
 import { DataType, WebGLService } from "src/app/services/webgl.service";
 
-export class MovieCover {
+export class Cover {
     
     private frontBackPositionBuffer! : WebGLBuffer | null;
     private frontBackTexCoordBuffer! : WebGLBuffer | null;

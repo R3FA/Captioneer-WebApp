@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { mat4, vec2, vec3 } from 'gl-matrix';
-import { MovieCover } from '../Components/favorites-graphics/moviecover';
+import { Cover } from '../Components/favorites-graphics/cover';
 
 export enum DataType {
   GL_FLOAT = 1,
