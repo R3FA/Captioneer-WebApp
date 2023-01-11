@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Captioneer.API.Data;
 using Captioneer.API.Entities;
@@ -13,7 +8,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Build.ObjectModelRemoting;
 
 namespace Captioneer.API.Controllers
 {
@@ -50,6 +44,26 @@ namespace Captioneer.API.Controllers
                 SubtitleUpload=user.SubtitleUpload
             }; 
             return userReturn;
+        }
+
+        // GET: api/Users/adivonslav/profileimage
+        [HttpGet("{username}/profileimage")]
+        public async Task<ActionResult<string>> GetProfileImage(string username)
+        {
+            var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+            if (dbUser == null)
+                return NotFound("Could not find the user with the provided username!");
+
+            if (dbUser.ProfileImage == null)
+                return NotFound("The provided user does not have a profile image!");
+
+            var encodedImage = await ImageSerializer.Deserialize(dbUser.ProfileImage);
+
+            if (encodedImage == null)
+                return StatusCode(500, "Could not encode image to Base64!");
+
+            return Ok(encodedImage);
         }
 
         // PUT: api/Users/adivonslav
