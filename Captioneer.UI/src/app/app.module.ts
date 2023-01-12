@@ -10,11 +10,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SignupPageComponent } from './Components/signup-page/signup-page.component';
-import { RouterModule, Routes } from '@angular/router';
 import { PageLoginComponent } from './Components/Page-LogIn/page-login/page-login.component';
 import { HeaderComponentComponent } from './Components/Main-Header/header-component/header-component.component';
 import { FooterComponentComponent } from './Components/Main-Footer/footer-component/footer-component.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SignUpDoneComponent } from './Components/sign-up-done/sign-up-done.component';
 import { ProfilePageComponent } from './Components/Page-ProfileUI/profile-page/profile-page.component';
@@ -25,6 +24,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FavoritesGraphicsComponent } from './Components/favorites-graphics/favorites-graphics.component';
 import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
 import { NgxStarRatingModule } from 'ngx-star-rating';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PageCommentComponent } from './Components/Page-Comments/page-comment/page-comment.component';
 @NgModule({
   declarations: [
@@ -55,9 +56,20 @@ import { PageCommentComponent } from './Components/Page-Comments/page-comment/pa
     MatDialogModule,
     NgxPaginationModule,
     MatAutocompleteModule,
-    NgxStarRatingModule
+    NgxStarRatingModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function httpTranslateLoader(http : HttpClient) {
+  return new TranslateHttpLoader(http);
+}

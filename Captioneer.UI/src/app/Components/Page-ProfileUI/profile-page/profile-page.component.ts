@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
 import { UserPost } from 'src/app/models/user-post';
 import { UserUpdate } from 'src/app/models/user-update';
 import { UserViewModel } from 'src/app/models/user-viewmodel';
@@ -94,7 +96,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     return this._showChangePublicInformationForm;
   }
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private renderer: Renderer2, private tokenValidator: TokenValidatorService, private languageService: LanguageService, private userLanguageService: UserlanguageService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private renderer: Renderer2, private tokenValidator: TokenValidatorService, public translate : TranslateService, private languageService: LanguageService, private userLanguageService: UserlanguageService) { }
 
   ngOnInit(): void {
 
@@ -201,7 +203,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.enterNewPasswordRepeat.setErrors(null);
   }
 
-  togglePublicInfo(): void {
+  async togglePublicInfo(): Promise<void> {
 
     if (!this.loggedUser) {
       return;
@@ -322,13 +324,15 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
     this.userService.putUser(userUpdate, this.loggedUser!.username).subscribe({
       next: (response) => console.log(response),
-      error: (err) => {
+      error: async (err) => {
+        var result = await firstValueFrom(this.translate.get('EmailChangeError'));
         this.successText = "";
-        this.errorText = err.error;
+        this.errorText = result;
         console.error(err.error);
       },
-      complete: () => {
-        this.successText = "Succesfully changed email"
+      complete: async () => {
+        var result = await firstValueFrom(this.translate.get('EmailChangeSuccess'));
+        this.successText = result;
         this.errorText = "";
         this.requestInProgress = false;
         this.reloadPage();
@@ -352,13 +356,15 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
     this.userService.putUser(userUpdate, this.loggedUser!.username).subscribe({
       next: (response) => console.log(response),
-      error: (err) => {
+      error: async (err) => {
+        var result = await firstValueFrom(this.translate.get('UsernameChangeError'));
         this.successText = "";
-        this.errorText = err.error;
+        this.errorText = result;
         console.error(err.error);
       },
-      complete: () => {
-        this.successText = "Succesfully changed username";
+      complete: async () => {
+        var result = await firstValueFrom(this.translate.get('UsernameChangeSuccess'));
+        this.successText = result;
         this.errorText = "";
         this.requestInProgress = false;
         this.reloadPage();
@@ -382,13 +388,15 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
     this.userService.putUser(userUpdate, this.loggedUser!.username).subscribe({
       next: (response) => console.log(response),
-      error: (err) => {
+      error: async (err) => {
+        var result = await firstValueFrom(this.translate.get('PasswordChangeError'));
         this.successText = "";
-        this.errorText = err.error;
+        this.errorText = result;
         console.error(err.error);
       },
-      complete: () => {
-        this.successText = "Succesfully changed password";
+      complete: async () => {
+        var result = await firstValueFrom(this.translate.get('PasswordChangeSuccess'));
+        this.successText = result;
         this.errorText = "";
         this.requestInProgress = false;
         this.reloadPage();
@@ -411,13 +419,15 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
     this.userService.putUser(userUpdate, this.loggedUser!.username).subscribe({
       next: (response) => console.log(response),
-      error: (err) => {
+      error: async (err) => {
+        var result = await firstValueFrom(this.translate.get('ProfileImageChangeError'));
         this.successText = "";
-        this.errorText = err.error;
+        this.errorText = result;
         console.error(err.error);
       },
-      complete: () => {
-        this.successText = "Succesfully changed profile image";
+      complete: async () => {
+        var result = await firstValueFrom(this.translate.get('ProfileImageChangeSuccess'));
+        this.successText = result;
         this.errorText = "";
         this.requestInProgress = false;
         this.reloadPage();
@@ -442,13 +452,15 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
     this.userService.deleteUser(userPost).subscribe({
       next: (response) => console.log(response),
-      error: (err) => {
+      error: async (err) => {
+        var result = await firstValueFrom(this.translate.get('DeleteAccountError'));
         this.successText = "";
-        this.errorText = err.error;
+        this.errorText = result;
         console.error(err.error);
       },
-      complete: () => {
-        this.successText = "Account has been succesfully deleted"
+      complete: async () => {
+        var result = await firstValueFrom(this.translate.get('DeleteAccountSuccess'));
+        this.successText = result;
         this.errorText = "";
         this.requestInProgress = false;
         this.reloadPage();
@@ -460,6 +472,70 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       window.location.reload();
     }, 1500);
+  }
+
+  changePublicInformation(): void {
+    this.submitted = true;
+
+    if (this.changePublicInformationForm.invalid) {
+      return;
+    }
+
+    this.requestInProgress = true;
+
+    var pubInfoChange: UserUpdate = {
+      password: this.enterPassword.value,
+      designation: this.enterDesignation.value,
+      funFact: this.enterfunFact.value
+    }
+
+    this.userService.putUser(pubInfoChange, this.loggedUser!.username).subscribe({
+      next: (response) => console.log(response),
+      error: (err) => {
+        this.successText = "";
+        this.errorText = err.error;
+        console.error(err.error);
+      },
+      complete: () => {
+        this.successText = "Succesfully changed public information";
+        this.errorText = "";
+        this.requestInProgress = false;
+        this.reloadPage();
+      }
+    });
+
+    this.userLanguageService.postUserLanguage(this.loggedUser!.username, this.prefferedLanguage!).subscribe({
+      next: (response) => console.log(response),
+      error: async (err) => {
+        var result = await firstValueFrom(this.translate.get('DeleteAccountError'));
+        this.successText = "";
+        this.errorText = result;
+        console.error(err.error);
+      },
+      complete: () => {
+        this.successText = "Succesfully changed public information";
+        this.errorText = "";
+        this.requestInProgress = false;
+        this.reloadPage();
+      }
+    });
+  }
+
+  deleteUserLanguage() {
+    this.userLanguageService.deleteUserLanguage(this.loggedUser!.username, this.prefferedLanguage!).subscribe({
+      next: (response) => console.log(response),
+      error: (err) => {
+        this.successText = "";
+        this.errorText = err.error;
+        console.error(err.error);
+      },
+      complete: () => {
+        this.successText = "Succesfully changed public information";
+        this.errorText = "";
+        this.requestInProgress = false;
+        this.reloadPage();
+      }
+    });
   }
 
   changePublicInformation(): void {
