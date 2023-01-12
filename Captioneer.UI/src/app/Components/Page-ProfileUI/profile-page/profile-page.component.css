@@ -307,15 +307,17 @@
 
 .favoriteMovieDIV {
     height: 100%;
-    width: 80%;
+    width: 90%;
     margin: auto;
     /* border: 2px solid red; */
     position: relative;
 }
 
-.favoriteMovieDIV h4 {
+.favoriteMovieDIV h4,
+.favoriteMovieDIV h6 {
     font-family: BerunFont1;
     text-align: center;
+    padding-top: 10px;
 }
 
 .justForCenter {
