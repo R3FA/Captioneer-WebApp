@@ -9,9 +9,9 @@ namespace Captioneer.API.Entities
 
         public virtual User User { get; set; }
 
-        public virtual SubtitleMovie SubtitleMovie  { get; set; }
+        public virtual SubtitleMovie? SubtitleMovie  { get; set; }
 
-        public virtual SubtitleTVShow SubtitleTVShow { get; set; }
+        public virtual SubtitleTVShow? SubtitleTVShow { get; set; }
 
         [Required]
         [StringLength(100)]

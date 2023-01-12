@@ -3,6 +3,7 @@ using System;
 using Captioneer.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Captioneer.API.Migrations
 {
     [DbContext(typeof(CaptioneerDBContext))]
-    partial class CaptioneerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230110205310_NullableCommentFKs")]
+    partial class NullableCommentFKs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -631,9 +633,6 @@ namespace Captioneer.API.Migrations
                     b.Property<int?>("AdminID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Designation")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -645,20 +644,8 @@ namespace Captioneer.API.Migrations
                     b.Property<string>("ProfileImage")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("SubtitleDownload")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubtitleUpload")
-                        .HasColumnType("int");
-
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("funFact")
                         .HasColumnType("longtext");
 
                     b.HasKey("ID");

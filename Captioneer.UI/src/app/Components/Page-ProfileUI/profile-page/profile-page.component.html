@@ -5,11 +5,11 @@
             <mat-card class="profile-mat-card">
                 <div class="mat-card-container">
                     <div class="picture-profile-div">
-                        <img src="assets\Pictures\userIcon.png" class="picture-profile">
+                        <img src={{profileImage}} class="picture-profile">
                     </div>
                     <div class="username-profile-div">
                         <div class="username">
-                            <h2>Faris Skopak</h2>
+                            <h2>{{userName}}</h2>
                         </div>
                         <div class="role">
                             <h5>{{'DesignationAdmin' | translate}}</h5>
@@ -25,17 +25,19 @@
                                     <path
                                         d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z" />
                                 </svg>
-                                Designation: Frontend Developer
+                                {{'Designation' | translate}}: {{designation}}
                             </h5>
                         </div>
                         <div class="userPage-info-online">
                             <h5>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-alarm-fill" viewBox="0 0 16 16">
+                                    class="bi bi-calendar3" viewBox="0 0 16 16">
                                     <path
-                                        d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07a7.001 7.001 0 0 1 3.274 12.474l.601.602a.5.5 0 0 1-.707.708l-.746-.746A6.97 6.97 0 0 1 8 16a6.97 6.97 0 0 1-3.422-.892l-.746.746a.5.5 0 0 1-.707-.708l.602-.602A7.001 7.001 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5zm2.5 5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5zM.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.035 8.035 0 0 0 .86 5.387zM11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.035 8.035 0 0 0-3.527-3.527z" />
+                                        d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                                    <path
+                                        d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
                                 </svg>
-                                Last online: 5 minutes ago
+                                {{'RegistrationDate' | translate}}: {{registrationDate | date:"MM/dd/yyyy"}}
                             </h5>
                         </div>
                     </div>
@@ -91,7 +93,7 @@
                                     <path
                                         d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
-                                R3FA
+                                {{userName}}
                             </h6>
                         </div>
                     </div>
@@ -112,7 +114,7 @@
                                     <path
                                         d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
-                                skopakfaris@hotmail.com
+                                {{email}}
                             </h6>
                         </div>
                     </div>
@@ -133,7 +135,7 @@
                                     <path
                                         d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
-                                17
+                                {{subtitleUpload}}
                             </h6>
                         </div>
                     </div>
@@ -154,7 +156,7 @@
                                     <path
                                         d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
-                                74
+                                {{subtitleDownload}}
                             </h6>
                         </div>
                     </div>
@@ -171,14 +173,11 @@
                                 </svg>
                                 {{'PreferredLanguages' | translate}}:
                             </h5>
-                            <h6>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-                                    <path
-                                        d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-                                </svg>
-                                English
-                            </h6>
+                            <div class="userLangDiV">
+                                <h6 *ngFor="let userLanguage of getUserLanguage">
+                                    {{userLanguage.englishLanguageName}}
+                                </h6>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -198,7 +197,7 @@
                                     <path
                                         d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
-                                Berun je fin
+                                {{funFact}}
                             </h6>
                         </div>
                     </div>
@@ -207,68 +206,10 @@
             <div [hidden]="showEditProfile" class="public-info-mat-card-div">
                 <mat-card class="public-info-mat-card">
                     <div class="page-information">
-                        <div class="page-information-1">
-                            <div class="page-information-responsive">
-                                <h5>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-calendar3" viewBox="0 0 16 16">
-                                        <path
-                                            d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
-                                        <path
-                                            d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                                    </svg>
-                                    {{'RegistrationDate' | translate}}:
-                                </h5>
-                                <h6>23rd November 2022</h6>
-                            </div>
-                        </div>
-                        <div class="page-information-2">
-                            <div class="page-information-responsive">
-                                <h5>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-star" viewBox="0 0 16 16">
-                                        <path
-                                            d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                    </svg>
-                                    {{'Role' | translate}}:
-                                </h5>
-                                <h6>{{'DesignationAdmin' | translate}}</h6>
-                            </div>
-                        </div>
-                        <div class="page-information-3">
-                            <div class="page-information-responsive">
-                                <h5>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-menu-app" viewBox="0 0 16 16">
-                                        <path
-                                            d="M0 1.5A1.5 1.5 0 0 1 1.5 0h2A1.5 1.5 0 0 1 5 1.5v2A1.5 1.5 0 0 1 3.5 5h-2A1.5 1.5 0 0 1 0 3.5v-2zM1.5 1a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-2zM0 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8zm1 3v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2H1zm14-1V8a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2h14zM2 8.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z" />
-                                    </svg>
-                                    Connected apps:
-                                </h5>
-                                <div class="connected-apps">
-                                    <h6>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-steam" viewBox="0 0 16 16">
-                                            <path
-                                                d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006 4.304 1.769A2.198 2.198 0 0 1 5.62 8.88l1.96-2.844-.001-.04a3.046 3.046 0 0 1 3.042-3.043 3.046 3.046 0 0 1 3.042 3.043 3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11 2.217 2.217 0 0 1-1.312-1.568L.33 10.333Z" />
-                                            <path
-                                                d="M4.868 12.683a1.715 1.715 0 0 0 1.318-3.165 1.705 1.705 0 0 0-1.263-.02l1.023.424a1.261 1.261 0 1 1-.97 2.33l-.99-.41a1.7 1.7 0 0 0 .882.84Zm3.726-6.687a2.03 2.03 0 0 0 2.027 2.029 2.03 2.03 0 0 0 2.027-2.029 2.03 2.03 0 0 0-2.027-2.027 2.03 2.03 0 0 0-2.027 2.027Zm2.03-1.527a1.524 1.524 0 1 1-.002 3.048 1.524 1.524 0 0 1 .002-3.048Z" />
-                                        </svg>
-
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-spotify" viewBox="0 0 16 16">
-                                            <path
-                                                d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.669 11.538a.498.498 0 0 1-.686.165c-1.879-1.147-4.243-1.407-7.028-.77a.499.499 0 0 1-.222-.973c3.048-.696 5.662-.397 7.77.892a.5.5 0 0 1 .166.686zm.979-2.178a.624.624 0 0 1-.858.205c-2.15-1.321-5.428-1.704-7.972-.932a.625.625 0 0 1-.362-1.194c2.905-.881 6.517-.454 8.986 1.063a.624.624 0 0 1 .206.858zm.084-2.268C10.154 5.56 5.9 5.419 3.438 6.166a.748.748 0 1 1-.434-1.432c2.825-.857 7.523-.692 10.492 1.07a.747.747 0 1 1-.764 1.288z" />
-                                        </svg>
-
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
-                                            <path
-                                                d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z" />
-                                        </svg>
-                                    </h6>
-                                </div>
-                            </div>
+                        <!-- MORAS URADIT OVO -->
+                        <div class="favoriteMovieDIV">
+                            <h4>{{userName}}</h4>
+                            <h6>FAVORITE MOVIE AND TV SHOWS</h6>
                         </div>
                     </div>
                     <hr>
@@ -286,19 +227,28 @@
 
                         <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
                             id="changeUsernameBtn" autocomplete="off">
-                        <label class="editprofile-button" for="changeUsernameBtn">{{'ChangeUsername' | translate}}</label>
+                        <label class="editprofile-button" for="changeUsernameBtn">{{'ChangeUsername' |
+                            translate}}</label>
 
                         <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
                             id="changePasswordBtn" autocomplete="off">
-                        <label class="editprofile-button" for="changePasswordBtn">{{'ChangePassword' | translate}}</label>
+                        <label class="editprofile-button" for="changePasswordBtn">{{'ChangePassword' |
+                            translate}}</label>
 
                         <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
                             id="changeProfileImageBtn" autocomplete="off">
-                        <label class="editprofile-button" for="changeProfileImageBtn">{{'ChangeProfileImage' | translate}}</label>
+                        <label class="editprofile-button" for="changeProfileImageBtn">{{'ChangeProfileImage' |
+                            translate}}</label>
 
                         <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
                             id="deleteProfileBtn" autocomplete="off">
                         <label class="editprofile-button" for="deleteProfileBtn">{{'DeleteAccount' | translate}}</label>
+
+                        <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
+                            id="editPublicInformationBtn" autocomplete="off">
+                        <label class="editprofile-button" for="editPublicInformationBtn">{{"ChangePublicInformation" |
+                            translate}}</label>
+
                     </div>
                     <div class="editprofile-div">
                         <div [hidden]="!successText" class="alert alert-success" role="alert">{{ successText }}</div>
@@ -313,7 +263,8 @@
                                     [ngClass]="{'is-invalid':submitted && changeEmailForm.controls['enterPassword'].errors}"
                                     class="form-control">
                                 <div class="error-text"
-                                    *ngIf="submitted && changeEmailForm.controls['enterPassword'].errors">{{'EnterPassword' | translate}}.</div>
+                                    *ngIf="submitted && changeEmailForm.controls['enterPassword'].errors">
+                                    {{'EnterPassword' | translate}}.</div>
                                 <div class="form-text">{{'PasswordConfirm' | translate}}</div>
                             </div>
 
@@ -323,9 +274,11 @@
                                     [ngClass]="{'is-invalid':submitted && changeEmailForm.controls['enterEmail'].errors}"
                                     aria-describedby="emailHelp">
                                 <div class="error-text"
-                                    *ngIf="submitted && changeEmailForm.controls['enterEmail'].errors">{{'EnterEmail' | translate}}</div>
+                                    *ngIf="submitted && changeEmailForm.controls['enterEmail'].errors">{{'EnterEmail' |
+                                    translate}}</div>
                             </div>
-                            <button type="submit" mat-flat-button class="submit-button">{{'SubmitButton' | translate}}</button>
+                            <button type="submit" mat-flat-button class="submit-button">{{'SubmitButton' |
+                                translate}}</button>
                         </form>
                         <form [hidden]="!showChangeUsernameForm" [formGroup]="changeUsernameForm"
                             (ngSubmit)="changeUsername()">
@@ -335,7 +288,8 @@
                                     [ngClass]="{'is-invalid':submitted && changeUsernameForm.controls['enterPassword'].errors}"
                                     class="form-control">
                                 <div class="error-text"
-                                    *ngIf="submitted && changeUsernameForm.controls['enterPassword'].errors">{{'EnterPassword' | translate}}</div>
+                                    *ngIf="submitted && changeUsernameForm.controls['enterPassword'].errors">
+                                    {{'EnterPassword' | translate}}</div>
                                 <div class="form-text">{{'PasswordConfirm' | translate}}</div>
                             </div>
 
@@ -345,9 +299,11 @@
                                     [ngClass]="{'is-invalid':submitted && changeUsernameForm.controls['enterUsername'].errors}"
                                     class="form-control">
                                 <div class="error-text"
-                                    *ngIf="submitted && changeUsernameForm.controls['enterUsername'].errors">{{'UsernameLength' | translate}}</div>
+                                    *ngIf="submitted && changeUsernameForm.controls['enterUsername'].errors">
+                                    {{'UsernameLength' | translate}}</div>
                             </div>
-                            <button type="submit" mat-flat-button class="submit-button">{{'SubmitButton' | translate}}</button>
+                            <button type="submit" mat-flat-button class="submit-button">{{'SubmitButton' |
+                                translate}}</button>
                         </form>
                         <form [hidden]="!showChangePasswordForm" [formGroup]="changePasswordForm"
                             (ngSubmit)="changePassword()">
@@ -357,7 +313,8 @@
                                     [ngClass]="{'is-invalid':submitted && changePasswordForm.controls['enterPassword'].errors}"
                                     class="form-control">
                                 <div class="error-text"
-                                    *ngIf="submitted && changePasswordForm.controls['enterPassword'].errors">{{'EnterPassword' | translate}}</div>
+                                    *ngIf="submitted && changePasswordForm.controls['enterPassword'].errors">
+                                    {{'EnterPassword' | translate}}</div>
                                 <div class="form-text">{{'PasswordConfirm' | translate}}</div>
                             </div>
 
@@ -367,11 +324,13 @@
                                     [ngClass]="{'is-invalid':submitted && changePasswordForm.controls['enterNewPassword'].errors}"
                                     class="form-control">
                                 <div class="error-text"
-                                    *ngIf="submitted && changePasswordForm.controls['enterNewPassword'].errors">{{'PasswordLength' | translate}}</div>
+                                    *ngIf="submitted && changePasswordForm.controls['enterNewPassword'].errors">
+                                    {{'PasswordLength' | translate}}</div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="enterNewPasswordRepeat" class="form-label">{{'PasswordRepeat' | translate}}</label>
+                                <label for="enterNewPasswordRepeat" class="form-label">{{'PasswordRepeat' |
+                                    translate}}</label>
                                 <input type="password" name="enterNewPasswordRepeat"
                                     formControlName="enterNewPasswordRepeat"
                                     [ngClass]="{'is-invalid':submitted && changePasswordForm.controls['enterNewPasswordRepeat'].errors}"
@@ -380,7 +339,8 @@
                                     *ngIf="submitted && changePasswordForm.controls['enterNewPasswordRepeat'].errors">
                                     {{'PasswordRepeatError' | translate}}</div>
                             </div>
-                            <button type="submit" mat-flat-button class="submit-button">{{'SubmitButton' | translate}}</button>
+                            <button type="submit" mat-flat-button class="submit-button">{{'SubmitButton' |
+                                translate}}</button>
                         </form>
                         <form [hidden]="!showDeleteProfileForm" [formGroup]="deleteProfileForm"
                             (ngSubmit)="deleteProfile()">
@@ -390,11 +350,13 @@
                                     [ngClass]="{'is-invalid':submitted && changePasswordForm.controls['enterPassword'].errors}"
                                     class="form-control">
                                 <div class="error-text"
-                                    *ngIf="submitted && changePasswordForm.controls['enterPassword'].errors">{{'EnterPassword' | translate}}</div>
+                                    *ngIf="submitted && changePasswordForm.controls['enterPassword'].errors">
+                                    {{'EnterPassword' | translate}}</div>
                                 <div class="form-text">{{'PasswordConfirm' | translate}}</div>
                             </div>
 
-                            <button type="submit" mat-flat-button class="submit-button">{{'DeleteAccount' | translate}}</button>
+                            <button type="submit" mat-flat-button class="submit-button">{{'DeleteAccount' |
+                                translate}}</button>
                             <div class="error-text">{{'DeleteAccountWarning' | translate}}</div>
                         </form>
                         <form [hidden]="!showChangeProfileImageForm" [formGroup]="changeProfileImageForm">
@@ -419,7 +381,55 @@
                                     [ngClass]="{'is-invalid':submitted && changeProfileImageForm.controls['enterNewImage'].errors}"
                                     (change)="validateFileUpload($event)">
                                 <div class="error-text"
-                                    *ngIf="submitted && changeProfileImageForm.controls['enterNewImage'].errors">{{'ProfileImageError' | translate}}</div>
+                                    *ngIf="submitted && changeProfileImageForm.controls['enterNewImage'].errors">
+                                    {{'ProfileImageError' | translate}}</div>
+                            </div>
+                        </form>
+                        <!-- ovdje -->
+                        <form [hidden]="!showChangePublicInformationForm" [formGroup]="changePublicInformationForm"
+                            (ngSubmit)="changePublicInformation()">
+                            <div class="publicInfoMainDiv">
+                                <div class="mb-3">
+                                    <label for="enterPassword" class="form-label">{{'CurrentPassword' |
+                                        translate}}</label>
+                                    <input type="password" name="enterPassword" formControlName="enterPassword"
+                                        [ngClass]="{'is-invalid':submitted && changeEmailForm.controls['enterPassword'].errors}"
+                                        class="form-control">
+                                    <div class="error-text"
+                                        *ngIf="submitted && changeEmailForm.controls['enterPassword'].errors">
+                                        {{'EnterPassword' | translate}}</div>
+                                    <div class="form-text">{{'PasswordConfirm' | translate}}</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="enterDesignation" class="form-label">{{'InsertDesignation' |
+                                        translate}}</label>
+                                    <input class="inputPubInfo" name="enterDesignation"
+                                        formControlName="enterDesignation" maxlength="25" value={{designation}}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="enterfunFact" class="form-label">{{'InsertFunFact' |
+                                        translate}}:</label>
+                                    <input class="inputPubInfo" name="enterfunFact" formControlName="enterfunFact"
+                                        maxlength="25" value={{funFact}}>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="enterPreferredLanguage" class="form-label">{{'InsertPrefferedLanguage' |
+                                        translate}}</label>
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                        name="enterPreferredLanguage" formControlName="enterPreferredLanguage"
+                                        [(ngModel)]="prefferedLanguage">
+                                        <option value="0">Choose language</option>
+                                        <option id="prefferedLanguageOption" *ngFor="let language of getLanguages">
+                                            {{language.englishName}}</option>
+                                    </select>
+                                </div>
+                                <div class="btn-Div">
+                                    <button class="deleteLangaugeBtn" type="submit" mat-flat-button
+                                        (click)="deleteUserLanguage()">{{'DeleteButton' | translate}}</button>
+                                    <button type="submit" mat-flat-button class="submit-button">{{'SubmitButton' |
+                                        translate}}</button>
+                                </div>
                             </div>
                         </form>
                     </div>

@@ -6,8 +6,7 @@ import { UserPost } from '../models/user-post';
 import { UserUpdate } from '../models/user-update'
 import { UserViewModel } from '../models/user-viewmodel';
 import { UserLogin } from '../models/user-login';
-import { firstValueFrom } from 'rxjs'
-import { Utils } from '../utils/utils';
+import { firstValueFrom } from 'rxjs';import { Utils } from '../utils/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,7 @@ export class UserService {
     return this.httpClient.get<UserViewModel>(this.url, { observe: 'response' });
   }
   getUserByEmail(email: string): Observable<HttpResponse<UserViewModel>> {
-    return this.httpClient.get<UserViewModel>(this.url+'/'+email,{ observe: 'response'});
+    return this.httpClient.get<UserViewModel>(this.url + '/' + email, { observe: 'response' });
   }
 
   postUser(user: UserPost): Observable<HttpResponse<UserPost>> {
@@ -41,7 +40,7 @@ export class UserService {
     return this.httpClient.delete<UserPost>(this.url, { observe: 'response', body: user });
   }
 
-  async getCurrentUser() : Promise<UserViewModel | null> {
+  async getCurrentUser(): Promise<UserViewModel | null> {
 
     var email = window.sessionStorage.getItem("email");
 

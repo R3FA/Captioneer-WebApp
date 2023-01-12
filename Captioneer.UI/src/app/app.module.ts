@@ -26,6 +26,7 @@ import { MovieInfoComponent } from './Components/movie-info/movie-info.component
 import { NgxStarRatingModule } from 'ngx-star-rating';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { PageCommentComponent } from './Components/Page-Comments/page-comment/page-comment.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +40,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     HomepageComponent,
     FavoritesGraphicsComponent,
     MovieInfoComponent,
+    PageCommentComponent,
   ],
   imports: [
     BrowserModule,

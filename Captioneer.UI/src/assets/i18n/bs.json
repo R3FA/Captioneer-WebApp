@@ -98,5 +98,10 @@
     "SubmitButton": "Pošalji",
     "UsernameRequired": "Korisničko ime je obavezno",
     "Next": "Sljedeće",
-    "Previous": "Nazad"
+    "Previous": "Nazad",
+    "ChangePublicInformation" : "Promijenite javne informacije",
+    "InsertDesignation": "Unesite vase zanimanje",
+    "InsertFunFact": "Unesite vas motto",
+    "InsertPrefferedLanguage": "Odaberite vas preferirani jezik",
+    "Designation": "Zanimanje"
 }

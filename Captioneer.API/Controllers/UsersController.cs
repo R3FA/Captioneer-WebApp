@@ -26,21 +26,22 @@ namespace Captioneer.API.Controllers
             _hostEnvironment = environment;
         }
 
-        //GET: Aapi/Users/example@mail.com
+        //GET: api/Users/example@mail.com
         [HttpGet("{mail}")]
         public async Task<ActionResult<UserViewModel>> GetUserByEmail(string? mail)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == mail);
-
-            //if (user == null)
-            //{
-            //    return NotFound();
-            //}
-            UserViewModel userReturn= new UserViewModel()
+            if(user == null) { return NotFound("User doesn't exist!"); }
+            UserViewModel userReturn = new UserViewModel()
             {
-            Email = user.Email,
-            ProfileImage= user.ProfileImage,
-            Username= user.Username,
+                Email = user.Email,
+                ProfileImage = user.ProfileImage,
+                Username = user.Username,
+                Designation= user.Designation,
+                funFact=user.funFact,
+                RegistrationDate=user.RegistrationDate,
+                SubtitleDownload=user.SubtitleDownload,
+                SubtitleUpload=user.SubtitleUpload
             }; 
             return userReturn;
         }
@@ -109,6 +110,10 @@ namespace Captioneer.API.Controllers
 
                 dbUser.ProfileImage = filePath;
             }
+            if (userUpdate.Designation != null)
+                dbUser.Designation = userUpdate.Designation;
+            if (userUpdate.funFact != null)
+                dbUser.funFact = userUpdate.funFact;
 
             try
             { 
@@ -136,6 +141,7 @@ namespace Captioneer.API.Controllers
                     Email = user.Email,
                     Password = hashedPassword,
                     Username = user.Username,
+                    RegistrationDate = DateTime.Now,
                 };
 
                 try

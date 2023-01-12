@@ -98,5 +98,10 @@
     "SubmitButton": "Submit",
     "UsernameRequired": "Username is required",
     "Next": "Next",
-    "Previous": "Previous"
+    "Previous": "Previous",
+    "ChangePublicInformation" : "Change public information",
+    "InsertDesignation": "Enter your designation",
+    "InsertFunFact": "Enter your motto",
+    "InsertPrefferedLanguage": "Select your preferred language",
+    "Designation": "Designation"
 }

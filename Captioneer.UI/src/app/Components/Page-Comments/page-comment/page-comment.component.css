@@ -1,0 +1,136 @@
+* {
+    color: #F18F01;
+    font-family: BerunFont2;
+}
+
+.main-container {
+    position: relative;
+    top: 75px;
+    min-height: calc(100% - 145px);
+    background: url('src\assets\Pictures\background-slika.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* border: 2px solid red; */
+}
+
+.wrapper-container {
+    width: 80%;
+    min-height: 100vh;
+    /* border: 2px solid blue; */
+    margin: auto;
+    background-color: #2e4057bd;
+    border-left: 2px solid #F18F01;
+    border-right: 2px solid #F18F01;
+}
+
+.movieInfo {
+    width: 100%;
+    height: 8vw;
+    /* border: 2px solid lime; */
+    display: flex;
+}
+
+.moviePicture {
+    width: 20vw;
+    height: 100%;
+    border: 2px solid beige;
+}
+
+.movieName {
+    width: 80vw;
+    height: 100%;
+    border: 2px solid gold;
+}
+
+.comment-container {
+    width: 80%;
+    min-height: 100vh;
+    /* border: 2px solid yellow; */
+    margin: auto;
+    border-left: 1px solid #F18F01;
+    border-right: 1px solid #F18F01;
+}
+
+.insert-comment-container {
+    width: 100%;
+    height: 11vw;
+    /* border: 2px solid red; */
+    display: flex;
+    position: relative;
+    border-bottom: 2px solid #F18F01;
+}
+
+.insert-comment-wrapper {
+    width: 90%;
+    height: 90%;
+    /* border: 2px solid #F18F01; */
+    border-radius: 0.5em;
+    margin: auto;
+    display: flex;
+    position: relative;
+}
+
+.userPicture {
+    width: 12%;
+    height: 50%;
+    /* border: 2px solid blueviolet; */
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.commentInput {
+    width: 80%;
+    height: 100%;
+    /* border: 2px solid magenta; */
+    margin-left: auto;
+    position: relative;
+}
+
+#textArea {
+    margin: auto;
+    height: 65%;
+    resize: none;
+    /* border: 1px solid #F18F01; */
+}
+
+.btn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: #F18F01;
+    color: black;
+    border: none;
+}
+
+#picture {
+    width: 100%;
+    height: 100%;
+}
+
+.availableComments {
+    width: 90%;
+    min-height: 7vw;
+    /* border: 2px solid yellow; */
+    margin: auto;
+    display: flex;
+    margin-top: 1vw;
+}
+
+.availablePictureDiv {
+    width: 12%;
+    height: 100%;
+    /* border: 2px solid red; */
+}
+
+.writtenComment {
+    width: 88%;
+    height: 100;
+    /* border: 2px solid blue; */
+}
+
+#textAreaV2 {
+    height: 100%;
+    width: 100%;
+    resize: none;
+}

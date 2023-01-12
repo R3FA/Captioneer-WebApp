@@ -159,15 +159,18 @@
     /* border: 2px solid aqua; */
     text-align: center;
     position: relative;
+    display: flex;
 }
 
 .userPage-info-online h5 {
-    height: 50%;
+    height: 100%;
     width: 100%;
-    position: absolute;
+    margin: auto;
+    /* position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
+    /* border: 2px solid red; */
 }
 
 .message-and-settings {
@@ -245,6 +248,17 @@
     position: relative;
 }
 
+.userLangDiV {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    /* border: 2px solid red; */
+}
+
+.userLangDiV h6 {
+    padding-left: 15px;
+}
+
 .data-responsive {
     width: 100%;
     height: fit-content;
@@ -277,15 +291,7 @@
     width: 100%;
     height: 20%;
     display: flex;
-}
-
-.page-information-1,
-.page-information-2,
-.page-information-3 {
-    /* border: 2px solid lime; */
-    height: 100%;
-    width: 33.3%;
-    position: relative;
+    /* border: 2px solid blue; */
 }
 
 .page-information-responsive {
@@ -297,6 +303,31 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+}
+
+.favoriteMovieDIV {
+    height: 100%;
+    width: 90%;
+    margin: auto;
+    /* border: 2px solid red; */
+    position: relative;
+}
+
+.favoriteMovieDIV h4,
+.favoriteMovieDIV h6 {
+    font-family: BerunFont1;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.justForCenter {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* border: 2px solid lime; */
 }
 
 .connected-apps {
@@ -327,6 +358,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.deleteLangaugeBtn {
+    background-color: red;
+    margin-right: auto;
 }
 
 .movie-container {
@@ -360,7 +396,7 @@
 ---------------------
 */
 
-.btn-group  {
+.btn-group {
     width: 90%;
     margin: 0 5% 0 5%;
     text-align: center;
@@ -375,13 +411,13 @@
     cursor: pointer;
 }
 
-.btn-group input:checked+label  {
+.btn-group input:checked+label {
     background-color: #F18F01;
     border: none;
     color: #2E4057;
 }
 
-.btn-group input:hover+label  {
+.btn-group input:hover+label {
     background-color: #F18F01;
     border: none;
     color: #2E4057;
@@ -391,6 +427,11 @@
     border-left: none;
     border-right: none;
     border-radius: 0;
+}
+
+#editPublicInformationBtn+label {
+    border-bottom-right-radius: 0.5em;
+    border-top-right-radius: 0.5em;
 }
 
 #changeEmailBtn+label {
@@ -403,11 +444,6 @@
     border-right: none;
 }
 
-#deleteProfileBtn+label {
-    border-bottom-right-radius: 0.5em;
-    border-top-right-radius: 0.5em;
-}
-
 #changeProfileImageBtn+label {
     border-right: none;
 }
@@ -416,15 +452,16 @@
     user-select: none;
 }
 
-.editprofile-div    {
+.editprofile-div {
     width: 30%;
 }
 
-.submit-button  {
+.submit-button {
     background-color: #F18F01;
+    margin-left: 15px;
 }
 
-.submit-button:hover  {
+.submit-button:hover {
     background-color: #c07300;
 }
 
@@ -443,4 +480,14 @@ form {
 
 #imageUploadBtn {
     margin-left: 4%;
+}
+
+.inputPubInfo {
+    width: 100%;
+}
+
+.btn-Div {
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
 }
