@@ -5,23 +5,23 @@
                 <img src="assets\Pictures\logo.png" class="img-fluid"alt="logo">
             </div>
             <div class="col-lg-7 text-center" id="rightSide">
-                <h1 class="text-center">Welcome!</h1>
+                <h1 class="text-center">{{'Welcome' | translate}}</h1>
                       <form (ngSubmit)="onSignup()" name="SignupForm" [formGroup]="SignupForm">
                 <div class="email-input">
                     <mat-form-field [style.margin]="'0'"  class="full-hight" appearance="outline">
                         <mat-label>E-mail</mat-label>
                         <input formControlName="email" matInput required />
                         <mat-error *ngIf="!SignupForm.controls['email'].valid">
-                            E-mail address is required
+                            {{'EmailError' | translate}}
                         </mat-error>
                     </mat-form-field>
                 </div>
                 <div class="username-input">
                     <mat-form-field class="full-width" appearance="outline">
-                        <mat-label>Username</mat-label>
+                        <mat-label>{{'Username' | translate}}</mat-label>
                         <input formControlName="text" matInput required />
                         <mat-error *ngIf="!SignupForm.controls['text'].valid">
-                            Username is required
+                            {{'UsernameRequired' | translate}}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -30,15 +30,15 @@
                         <mat-label>Password</mat-label>
                         <input formControlName="password" matInput [type]=" hide ? 'text' : 'password'" required />
                         <mat-error *ngIf="!SignupForm.controls['password'].valid">
-                            Password is required (min 6 characters ; min 1 number)
+                            {{'PasswordLength' | translate}}
                         </mat-error>
                     </mat-form-field>
                 </div>
-                <label class="form-label" for="btn">If you are finished then Sign up !</label>
+                <label class="form-label" for="btn">{{'SignUp' | translate}}</label>
                 <button  class="btn btn-outline-success w-100" type="submit" [disabled]="!SignupForm.valid" value="Sign Up">Sign Up</button>
-                <label class="form-label" for="btn">If you want to go back :</label>
+                <label class="form-label" for="btn">{{'SignUpCancel' | translate}}:</label>
                 <p>
-                <button type="button" class="btn btn-outline-danger" routerLink="">Cancel</button>
+                <button type="button" class="btn btn-outline-danger" routerLink="">{{'CancelButton' | translate}}</button>
                 <h3>{{errorMessage}}</h3>
             </form>
                 </div>
