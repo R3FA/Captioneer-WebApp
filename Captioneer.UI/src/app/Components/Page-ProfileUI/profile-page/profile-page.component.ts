@@ -5,7 +5,11 @@ import { UserUpdate } from 'src/app/models/user-update';
 import { UserViewModel } from 'src/app/models/user-viewmodel';
 import { TokenValidatorService } from 'src/app/services/token-validator.service';
 import { UserService } from 'src/app/services/user.service';
-import { Utils } from 'src/app/utils/utils'
+import { Language } from 'src/app/models/language';
+import { LanguageService } from 'src/app/services/language.service';
+import { UserlanguageService } from 'src/app/services/userlanguage.service';
+import { UserLanguageModel } from 'src/app/models/userLanguage-viewmodel';
+import { Utils } from 'src/app/utils/utils';
 
 @Component({
   selector: 'app-profile-page',
@@ -17,6 +21,8 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   private loggedUser!: UserViewModel | null;
   // In bytes
   private maxUploadSize = 2 * 1024 * 1024;
+  getLanguages: Language[] = [];
+  public getUserLanguage: UserLanguageModel[] = [];
 
   private _showEditProfile!: boolean;
   private _showChangeEmailForm!: boolean;
@@ -57,6 +63,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   public subtitleUpload?: number;
   public subtitleDownload?: number;
   public funFact?: string;
+  public prefferedLanguage?: string;
   public registrationDate?: Date;
 
   public get showEditProfile(): boolean {
@@ -87,7 +94,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     return this._showChangePublicInformationForm;
   }
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private renderer: Renderer2, private tokenValidator: TokenValidatorService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private renderer: Renderer2, private tokenValidator: TokenValidatorService, private languageService: LanguageService, private userLanguageService: UserlanguageService) { }
 
   ngOnInit(): void {
 
@@ -142,12 +149,18 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.changePublicInformationForm = this.formBuilder.group({
       enterPassword: this.enterPassword,
       enterDesignation: this.enterDesignation,
-      enterfunFact: this.enterfunFact
+      enterfunFact: this.enterfunFact,
+      enterPreferredLanguage: this.enterPreferredLanguage
+    });
+
+    this.languageService.getAllLanguages().subscribe((result: Language[]) => {
+      this.getLanguages = result;
     });
   }
 
   async ngAfterViewInit() {
     this.loggedUser = await this.userService.getCurrentUser();
+    this.userLanguageService.getUserLanguage(this.loggedUser!.username).subscribe((result: UserLanguageModel[]) => this.getUserLanguage = result);
 
     if (!this.tokenValidator.validateToken()) {
       this.loggedUser = null;
@@ -172,6 +185,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       this.funFact = "NOT SPECIFIED";
     }
     this.registrationDate = this.loggedUser?.registrationDate;
+    this.prefferedLanguage
   }
 
   clearForms(): void {
@@ -464,6 +478,38 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     }
 
     this.userService.putUser(pubInfoChange, this.loggedUser!.username).subscribe({
+      next: (response) => console.log(response),
+      error: (err) => {
+        this.successText = "";
+        this.errorText = err.error;
+        console.error(err.error);
+      },
+      complete: () => {
+        this.successText = "Succesfully changed public information";
+        this.errorText = "";
+        this.requestInProgress = false;
+        this.reloadPage();
+      }
+    });
+
+    this.userLanguageService.postUserLanguage(this.loggedUser!.username, this.prefferedLanguage!).subscribe({
+      next: (response) => console.log(response),
+      error: (err) => {
+        this.successText = "";
+        this.errorText = err.error;
+        console.error(err.error);
+      },
+      complete: () => {
+        this.successText = "Succesfully changed public information";
+        this.errorText = "";
+        this.requestInProgress = false;
+        this.reloadPage();
+      }
+    });
+  }
+
+  deleteUserLanguage() {
+    this.userLanguageService.deleteUserLanguage(this.loggedUser!.username, this.prefferedLanguage!).subscribe({
       next: (response) => console.log(response),
       error: (err) => {
         this.successText = "";

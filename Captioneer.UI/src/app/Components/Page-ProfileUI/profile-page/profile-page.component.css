@@ -248,6 +248,17 @@
     position: relative;
 }
 
+.userLangDiV {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    /* border: 2px solid red; */
+}
+
+.userLangDiV h6 {
+    padding-left: 15px;
+}
+
 .data-responsive {
     width: 100%;
     height: fit-content;
@@ -347,6 +358,11 @@
     transform: translate(-50%, -50%);
 }
 
+.deleteLangaugeBtn {
+    background-color: red;
+    margin-right: auto;
+}
+
 .movie-container {
     /* border: 2px solid black; */
     box-sizing: border-box;
@@ -440,6 +456,7 @@
 
 .submit-button {
     background-color: #F18F01;
+    margin-left: 15px;
 }
 
 .submit-button:hover {
@@ -463,7 +480,7 @@ form {
     margin-left: 4%;
 }
 
-#inputPubInfo {
+.inputPubInfo {
     width: 100%;
 }
 

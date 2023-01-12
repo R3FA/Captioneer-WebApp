@@ -173,14 +173,11 @@
                                 </svg>
                                 Preferred language for subtitles:
                             </h5>
-                            <h6>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-                                    <path
-                                        d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-                                </svg>
-                                In progress...
-                            </h6>
+                            <div class="userLangDiV">
+                                <h6 *ngFor="let userLanguage of getUserLanguage">
+                                    {{userLanguage.englishLanguageName}}
+                                </h6>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -399,25 +396,28 @@
 
                                 <div class="mb-3">
                                     <label for="enterDesignation" class="form-label">Enter your designation</label>
-                                    <input id="inputPubInfo" name="enterDesignation" formControlName="enterDesignation"
-                                        maxlength="25" value={{designation}}>
+                                    <input class="inputPubInfo" name="enterDesignation"
+                                        formControlName="enterDesignation" maxlength="25" value={{designation}}>
                                 </div>
                                 <div class="mb-3">
                                     <label for="enterfunFact" class="form-label">Enter your Motto:</label>
-                                    <input id="inputPubInfo" name="enterfunFact" formControlName="enterfunFact"
+                                    <input class="inputPubInfo" name="enterfunFact" formControlName="enterfunFact"
                                         maxlength="25" value={{funFact}}>
                                 </div>
                                 <div class="mb-3">
                                     <label for="enterPreferredLanguage" class="form-label">Pick your preferred
                                         language</label>
-                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                        <option value="0">All</option>
-                                        <option value="1">Language1</option>
-                                        <option value="2">Language2</option>
-                                        <option value="3">Language3</option>
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                        name="enterPreferredLanguage" formControlName="enterPreferredLanguage"
+                                        [(ngModel)]="prefferedLanguage">
+                                        <option value="0">Choose language</option>
+                                        <option id="prefferedLanguageOption" *ngFor="let language of getLanguages">
+                                            {{language.englishName}}</option>
                                     </select>
                                 </div>
                                 <div class="btn-Div">
+                                    <button class="deleteLangaugeBtn" type="submit" mat-flat-button
+                                        (click)="deleteUserLanguage()">DELETE</button>
                                     <button type="submit" mat-flat-button class="submit-button">Submit</button>
                                 </div>
                             </div>
