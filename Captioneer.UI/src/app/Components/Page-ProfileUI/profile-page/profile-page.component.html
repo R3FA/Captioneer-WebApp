@@ -471,50 +471,6 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- ovdje -->
-                        <form [hidden]="!showChangePublicInformationForm" [formGroup]="changePublicInformationForm"
-                            (ngSubmit)="changePublicInformation()">
-                            <div class="publicInfoMainDiv">
-                                <div class="mb-3">
-                                    <label for="enterPassword" class="form-label">Current password</label>
-                                    <input type="password" name="enterPassword" formControlName="enterPassword"
-                                        [ngClass]="{'is-invalid':submitted && changeEmailForm.controls['enterPassword'].errors}"
-                                        class="form-control">
-                                    <div class="error-text"
-                                        *ngIf="submitted && changeEmailForm.controls['enterPassword'].errors">You must
-                                        enter
-                                        your password.</div>
-                                    <div class="form-text">We need your password to confirm the change.</div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="enterDesignation" class="form-label">Enter your designation</label>
-                                    <input class="inputPubInfo" name="enterDesignation"
-                                        formControlName="enterDesignation" maxlength="25" value={{designation}}>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="enterfunFact" class="form-label">Enter your Motto:</label>
-                                    <input class="inputPubInfo" name="enterfunFact" formControlName="enterfunFact"
-                                        maxlength="25" value={{funFact}}>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="enterPreferredLanguage" class="form-label">Pick your preferred
-                                        language</label>
-                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-                                        name="enterPreferredLanguage" formControlName="enterPreferredLanguage"
-                                        [(ngModel)]="prefferedLanguage">
-                                        <option value="0">Choose language</option>
-                                        <option id="prefferedLanguageOption" *ngFor="let language of getLanguages">
-                                            {{language.englishName}}</option>
-                                    </select>
-                                </div>
-                                <div class="btn-Div">
-                                    <button class="deleteLangaugeBtn" type="submit" mat-flat-button
-                                        (click)="deleteUserLanguage()">DELETE</button>
-                                    <button type="submit" mat-flat-button class="submit-button">Submit</button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </mat-card>
             </div>
