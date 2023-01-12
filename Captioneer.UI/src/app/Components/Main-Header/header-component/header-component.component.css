@@ -116,3 +116,16 @@
 mat-label {
     color: #F18F01;
 }
+
+#site-language {
+    width: 10%;
+    height: 70%;
+    padding-top: 1.3%;
+    padding-left: 5%;
+    margin-left: ;
+}
+
+#site-language-select   {
+    width: 100%;
+    height: 100%;
+}

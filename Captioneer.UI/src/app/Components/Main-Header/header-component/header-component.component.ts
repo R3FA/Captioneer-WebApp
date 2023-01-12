@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UserViewModel } from 'src/app/models/user-viewmodel';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-header-component',
   templateUrl: './header-component.component.html',
@@ -35,7 +37,7 @@ export class HeaderComponentComponent implements OnInit {
     });
     window.location.reload();
   }
-  constructor(private moviesService: MovieService,private http:HttpClient,private router:Router,private userService:UserService) {
+  constructor(private moviesService: MovieService,private http:HttpClient,private router:Router,private userService:UserService, public translate : TranslateService) {
     this.moviesService.getMovies().subscribe((result: MovieViewModel[]) => (this.movies = result));
   }
 
@@ -79,5 +81,22 @@ export class HeaderComponentComponent implements OnInit {
     
     sessionStorage.clear();
     window.location.href = "../signin";
+  }
+
+  public getLangName(lang : string) : string {
+
+    switch(lang)
+    {
+      case "en": return "English";
+      case "bs": return "Bosanski";
+      case "de": return "Deutsche";
+    }
+
+    return "Unknown";
+  }
+
+  public switchLang(lang : string) : void {
+
+    this.translate.use(lang);
   }
 }

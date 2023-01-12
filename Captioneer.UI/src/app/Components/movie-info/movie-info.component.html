@@ -13,23 +13,23 @@
                             <div class="col-sm">
                                 <h3>{{movieObject.title}}</h3>
                                 <div>
-                                    <h4>Synopsis</h4>
+                                    <h4>{{'Synopsis' | translate}}</h4>
                                     <p>{{movieObject.synopsis}}
                                     <p>
                                 </div>
                                 <hr>
                                 <div>
-                                    <h5>Year</h5>
+                                    <h5>{{'ReleaseYear' | translate}}</h5>
                                     <p>{{movieObject.year}}</p>
                                     <hr>
                                 </div>
                                 <div>
-                                    <h5>Runtime</h5>
-                                    <p>{{movieObject.runtime}} minutes</p>
+                                    <h5>{{'Runtime' | translate}}</h5>
+                                    <p>{{movieObject.runtime}} {{'Minutes' | translate}}</p>
                                     <hr>
                                 </div>
                                 <div>
-                                    <h5> Actors</h5>
+                                    <h5>{{'Actors' | translate}}</h5>
                                     <div *ngFor="let actor of actors" style="display:inline-block;">
                                         {{ actor.firstName }}
                                         {{actor.lastName}}
@@ -38,24 +38,24 @@
                                 </div>
                             </div>
                             <div class="col-sm" id="ratings">
-                                <h5 class="center">IMDb Rating</h5>
+                                <h5 class="center">{{'IMDBRating' | translate}}</h5>
                                 <div style="display:inline-block;">
                                     <img src="..\assets\Pictures\imdb.png" id="imdb">
                                     {{movieObject.imdbRatingValue}} / 10
                                 </div>
-                                <h5 class="center">Rotten Tomatoes</h5>
+                                <h5 class="center">{{'RottenTomatoes' | translate}}</h5>
                                 <div style="display:inline-block;" id="imdb">
                                     <img src="..\assets\Pictures\rottenTomatoes.png" id="rottentomatoes">
                                     <p>{{movieObject.rottenTomatoesValue}} / 100%
                                 </div>
-                                <h5 class="center">metacritic Rating</h5>
+                                <h5 class="center">{{'Metacritic' | translate}}</h5>
                                 <div style="display:inline-block;" id="imdb">
                                     <img src="..\assets\Pictures\metacritic.png" id="rottentomatoes">
                                     {{movieObject.rottenTomatoesValue}} / 100
                                 </div>
                                 <div>
                                     <button class="search-button" mat-flat-button data-bs-toggle="modal"
-                                        data-bs-target="#modalMovieDownload">DOWNLOAD</button>
+                                        data-bs-target="#modalMovieDownload">{{'DownloadButton' | translate}}</button>
                                     <button class="search-button" mat-flat-button (click)="favoriteMovie()"
                                         [hidden]="!this.displayFavorite">
                                         <div [hidden]="this.favorited" class="not-favorited">
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="comment">Comment:</label>
+                            <label for="comment">{{'Comment' | translate}}:</label>
                             <textarea class="form-control" rows="5" id="comment"></textarea>
                         </div>
                     </div>
@@ -88,12 +88,12 @@
                 <div class="container">
                     <div class="row g-0" id="foreground2">
 
-                        <h2>Try to find the shooting locations !</h2>
+                        <h2>{{'TryShootingLocations' | translate}}</h2>
                         <div class="full" id="map"></div>
 
 
                         <div id="movie-container">
-                            Good luck !
+                            {{'GoodLuck' | translate}}
 
 
                             <div class="container">
@@ -116,7 +116,7 @@
                 <div class="modal-header">
                     <div class="naslov">
                         <div class="h5">
-                            <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">Subtitle filter options</h5>
+                            <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">{{'SubtitleFilterOptions' | translate}}</h5>
                         </div>
                         <div class="h3" *ngIf="!isTVSeries">
                             <h3>MovieName</h3>
@@ -131,7 +131,7 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Select the subtitle language:</label>
+                            <label class="col-sm-2 col-form-label">{{'SelectSubtitleLanguage' | translate}}:</label>
                             <select class="form-select form-select-sm" aria-label=".form-select-sm example">
                                 <option value="0">All</option>
                                 <option value="1">Language1</option>
@@ -142,7 +142,7 @@
                         <hr>
                         <div class="form-group row">
                             <div class="serija form-group row" *ngIf="isTVSeries">
-                                <label class="col-sm-2 col-form-label">Season number:</label>
+                                <label class="col-sm-2 col-form-label">{{'SeasonNumber' | translate}}:</label>
                                 <select class="form-select form-select-sm" aria-label=".form-select-sm example">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -153,7 +153,7 @@
                         <hr class="serija" *ngIf="isTVSeries">
                         <div class="form-group row">
                             <div class="serija form-group row" *ngIf="isTVSeries">
-                                <label class="col-sm-2 col-form-label">Episode number:</label>
+                                <label class="col-sm-2 col-form-label">{{'EpisodeNumber' | translate}}:</label>
                                 <select class="form-select form-select-sm" aria-label=".form-select-sm example">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -166,7 +166,7 @@
                 </div>
                 <div class="modal-footer">
                     <button id="btn-search" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#modalSearch">Search</button>
+                        data-bs-target="#modalSearch">{{'SearchButton' | translate}}</button>
                 </div>
             </div>
         </div>
@@ -182,7 +182,7 @@
                 <div class="modal-header">
                     <div class="naslov">
                         <div class="h5">
-                            <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">List of subtitles</h5>
+                            <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">{{'SubtitleList' | translate}}</h5>
                         </div>
                         <div class="h3" *ngIf="!isTVSeries">
                             <h3>MovieName</h3>
@@ -194,7 +194,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Select the subtitle uploader:</label>
+                    <label class="col-sm-2 col-form-label">{{'SelectSubtitleUploader' | translate}}:</label>
                     <select class="form-select form-select-sm" aria-label=".form-select-sm example">
                         <option value="0" selected>All</option>
                         <option value="1">User1</option>
@@ -208,17 +208,17 @@
 
                             <div class="titleDiv">
                                 <div class="labelDiv">
-                                    <label class="col-sm-2 col-form-label">Release</label>
+                                    <label class="col-sm-2 col-form-label">{{'Release' | translate}}</label>
                                 </div>
                                 <div class="userDiv">
-                                    <label class="col-sm-2 col-form-label">Uploader</label>
+                                    <label class="col-sm-2 col-form-label">{{'Uploader' | translate}}</label>
                                 </div>
                                 <div class="divAboutSelect">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
                                             (click)="boxChecked()">
                                         <label class="form-check-label" for="flexSwitchCheckDefault"
-                                            (click)="boxChecked()">Select</label>
+                                            (click)="boxChecked()">{{'SelectCheckbox' | translate}}</label>
                                     </div>
                                 </div>
                                 <div class="divTranslateLanguage">
@@ -226,21 +226,20 @@
                                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
                                             (click)="translateCheck()">
                                         <label class="form-check-label" for="flexSwitchCheckDefault"
-                                            (click)="translateCheck()">Translate</label>
+                                            (click)="translateCheck()">{{'TranslateCheckbox' | translate}}</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div *ngIf="clicked" class="ratingButton form-group row">
-                                    <label class="col-sm-2 col-form-label" id="ratinglabel">Subtitle rating:</label>
+                                    <label class="col-sm-2 col-form-label" id="ratinglabel">{{'SubtitleRating' | translate}}:</label>
                                     <div class="divRatingStars">
                                         <ngx-star-rating [id]="'rating'" class="ratingStars"></ngx-star-rating>
                                     </div>
                                 </div>
                             </div>
                             <div class="serija form-group row" *ngIf="translateClicked">
-                                <label class="col-sm-2 col-form-label">Select the subtitle language for
-                                    translation:</label>
+                                <label class="col-sm-2 col-form-label">{{'SelectSubtitleLanguageTranslation' | translate}}</label>
                                 <select class="form-select form-select-sm" aria-label=".form-select-sm example">
                                     <option value="0">All</option>
                                     <option value="1">Language1</option>
@@ -253,9 +252,9 @@
                 </div>
                 <div class="modal-footer">
                     <button id="btn-delete" type="button" class="btn btn-primary"
-                        *ngIf="clicked && isAdmin">Delete</button>
+                        *ngIf="clicked && isAdmin">{{'DeleteButton' | translate}}</button>
                     <button id="btn-download" type="button" class="btn btn-primary"
-                        *ngIf="clicked || translateClicked">Download</button>
+                        *ngIf="clicked || translateClicked">{{'DownloadButton' | translate}}</button>
                 </div>
             </div>
         </div>
