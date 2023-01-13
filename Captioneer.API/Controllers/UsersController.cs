@@ -58,7 +58,7 @@ namespace Captioneer.API.Controllers
             if (dbUser.ProfileImage == null)
                 return NotFound("The provided user does not have a profile image!");
 
-            var encodedImage = await ImageSerializer.Deserialize(dbUser.ProfileImage);
+            var encodedImage = await ImageSerializer.Deserialize(_hostEnvironment.WebRootPath, dbUser.ProfileImage);
 
             if (encodedImage == null)
                 return StatusCode(500, "Could not encode image to Base64!");

@@ -18,7 +18,6 @@ namespace Captioneer.API.Utils
         /// <returns>Full path of the newly written file or null if writing has failed</returns>
         public static async Task<string?> Serialize(string encodedimage, string webRootPath, string writeName)
         {
-            var imagesPath = Path.Combine(webRootPath, "images/users");
             IImageFormat? format = null;
             var decodedImage = DecodeImage(encodedimage, ref format);
 
@@ -27,8 +26,16 @@ namespace Captioneer.API.Utils
                 return null;
             }
 
-            var filePath = Path.Combine(imagesPath, writeName + $".{GetFormatString(format!)}");
-            await decodedImage.SaveAsync(filePath);
+            var fileName = $"{writeName}{DateTime.Now}";
+            fileName = fileName.Replace("/", "");
+            fileName = fileName.Replace(":", "");
+            fileName = fileName.Replace(" ", "");
+            fileName += $".{GetFormatString(format!)}";
+            var filePath = $"images/users/{fileName}";
+
+            var savePath = Path.Combine(webRootPath, filePath);
+            await decodedImage.SaveAsync(savePath);
+
 
             return filePath;
         }
@@ -38,14 +45,16 @@ namespace Captioneer.API.Utils
         /// </summary>
         /// <param name="imagePath">Path to the image on disk</param>
         /// <returns>Base64 representation of the image or null if conversion failed</returns>
-        public static async Task<string?> Deserialize(string imagePath)
+        public static async Task<string?> Deserialize(string webRootPath, string imageFilePath)
         {
-            if (!File.Exists(imagePath))
+            var filePath = Path.Combine(webRootPath, imageFilePath);
+
+            if (!File.Exists(filePath))
             {
                 return null;
             }
 
-            var encodedImage = EncodeImage(imagePath);
+            var encodedImage = EncodeImage(filePath);
 
             if (encodedImage == null)
             {
