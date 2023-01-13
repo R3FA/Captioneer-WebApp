@@ -42,15 +42,24 @@ export class UserService {
 
   async getCurrentUser(): Promise<UserViewModel | null> {
 
-    var email = window.sessionStorage.getItem("email");
+    return new Promise((resolve) => {
 
-    if (!email) {
-      return null;
-    }
+      var email = window.sessionStorage.getItem("email");
+  
+      if (!email) {
+        resolve(null);
+      }
 
-    var user = await firstValueFrom(this.getUserByEmail(email));
-
-    return user.body;
+      this.getUserByEmail(email!).subscribe({
+        next: (response) => {
+          resolve(response.body);
+        },
+        error: (err) => {
+          console.error(err);
+          resolve(null);
+        }
+      })
+    });  
   }
 
   async getUserProfileImage(username : string) : Promise<string | null> {
