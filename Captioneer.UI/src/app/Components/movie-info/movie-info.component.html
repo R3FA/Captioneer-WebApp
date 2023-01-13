@@ -118,11 +118,8 @@
                         <div class="h5">
                             <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">{{'SubtitleFilterOptions' | translate}}</h5>
                         </div>
-                        <div class="h3" *ngIf="!isTVSeries">
-                            <h3>MovieName</h3>
-                        </div>
-                        <div class="h3" *ngIf="isTVSeries">
-                            <h3>TVSeriesName</h3>
+                        <div class="h3">
+                            <h3>{{movieObject.title}}</h3>
                         </div>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -132,11 +129,14 @@
                     <form>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">{{'SelectSubtitleLanguage' | translate}}:</label>
-                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option value="0">All</option>
-                                <option value="1">Language1</option>
-                                <option value="2">Language2</option>
-                                <option value="3">Language3</option>
+                            <select #languageSelected  class="form-select form-select-sm" aria-label=".form-select-sm example" (change)="setLanguage(languageSelected.value)" (change)="getUploaders()">
+                                <option>
+                                    Please select an option
+                                    </option>
+                                <option *ngFor="let language of this.languages" 
+                                [value]="language.languageCode">
+                                {{this.language.englishName}}
+                                </option>
                             </select>
                         </div>
                         <hr>
@@ -166,7 +166,7 @@
                 </div>
                 <div class="modal-footer">
                     <button id="btn-search" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#modalSearch">{{'SearchButton' | translate}}</button>
+                        data-bs-target="#modalSearch" (click)="getUploaders()">{{'SearchButton' | translate}}</button>
                 </div>
             </div>
         </div>
@@ -185,7 +185,7 @@
                             <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">{{'SubtitleList' | translate}}</h5>
                         </div>
                         <div class="h3" *ngIf="!isTVSeries">
-                            <h3>MovieName</h3>
+                            <h3>{{movieObject.title}}</h3>
                         </div>
                         <div class="h3" *ngIf="isTVSeries">
                             <h3>TVSeriesName</h3>
@@ -195,11 +195,11 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">{{'SelectSubtitleUploader' | translate}}:</label>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                        <option value="0" selected>All</option>
-                        <option value="1">User1</option>
-                        <option value="2">User2</option>
-                        <option value="3">User3</option>
+                    <select #userSelected class="form-select form-select-sm" aria-label=".form-select-sm example" (change)="loadFileId(userSelected.value)">
+                        <option selected *ngFor="let uploader of this.subtitleDownload"
+                        [value]="uploader.fileId">
+                        By: {{this.uploader.uploader}}  | FPS:{{this.uploader.fps}} | Release: {{this.uploader.release}}
+                        </option>
                     </select>
                 </div>
                 <div class="modal-body">
@@ -240,11 +240,11 @@
                             </div>
                             <div class="serija form-group row" *ngIf="translateClicked">
                                 <label class="col-sm-2 col-form-label">{{'SelectSubtitleLanguageTranslation' | translate}}</label>
-                                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                    <option value="0">All</option>
-                                    <option value="1">Language1</option>
-                                    <option value="2">Language2</option>
-                                    <option value="3">Language3</option>
+                                <select class="form-select form-select-sm" id="languageSelection" aria-label=".form-select-sm example">
+                                    <option *ngFor="let language of this.languages" 
+                                    [value]=language.languageCode>
+                                    {{this.language.englishName}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -253,7 +253,7 @@
                 <div class="modal-footer">
                     <button id="btn-delete" type="button" class="btn btn-primary"
                         *ngIf="clicked && isAdmin">{{'DeleteButton' | translate}}</button>
-                    <button id="btn-download" type="button" class="btn btn-primary"
+                    <button (click)="downloadSubtitle()" id="btn-download" type="button" class="btn btn-primary"
                         *ngIf="clicked || translateClicked">{{'DownloadButton' | translate}}</button>
                 </div>
             </div>
