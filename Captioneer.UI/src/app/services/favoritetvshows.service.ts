@@ -13,15 +13,30 @@ export class FavoriteTVShowsService {
 
   constructor(private httpClient : HttpClient) { }
 
-  getFavoriteTVShows(username : string) : Observable<HttpResponse<TVShowViewModel[]>> {
+  get(username : string) : Observable<HttpResponse<TVShowViewModel[]>> {
     return this.httpClient.get<TVShowViewModel[]>(this.url + `/${username}`, {observe: 'response'});
   }
 
-  postFavoriteTVShow(username : string, tvShow : TVShowViewModel) : Observable<HttpResponse<void>> {
+  post(username : string, tvShow : TVShowViewModel) : Observable<HttpResponse<void>> {
     return this.httpClient.post<void>(this.url + `/${username}`, tvShow, {observe: 'response'});
   }
 
-  deleteFavoriteTVShow(username : string, tvShow : TVShowViewModel) : Observable<HttpResponse<void>> {
+  delete(username : string, tvShow : TVShowViewModel) : Observable<HttpResponse<void>> {
     return this.httpClient.delete<void>(this.url + `/${username}`, {body: tvShow, observe: 'response'});
+  }
+
+  getFavoriteShows(username : string) : Promise<TVShowViewModel[] | null> {
+    
+    return new Promise((resolve) => {
+      this.get(username).subscribe({
+        next: (response) => {
+          resolve(response.body);
+        },
+        error: (err) => {
+          console.error(err);
+          resolve(null);
+        }
+      })
+    });
   }
 }

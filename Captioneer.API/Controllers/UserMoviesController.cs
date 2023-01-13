@@ -28,7 +28,7 @@ namespace Captioneer.API.Controllers
             var dbUserMovies = await _context.UsersMovies.Where(uM => uM.UserID == dbUser.ID).ToListAsync();
             
             if (dbUserMovies.Count == 0)
-                return NotFound("No favorite movies exist for the provided user!");
+                return Ok(new List<MovieViewModel>());
 
             var favoriteMovies = new List<MovieViewModel>();
 
