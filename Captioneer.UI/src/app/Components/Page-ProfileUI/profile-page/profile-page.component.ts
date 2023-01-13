@@ -24,7 +24,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   // In bytes
   private maxUploadSize = 2 * 1024 * 1024;
   getLanguages: Language[] = [];
-  public getUserLanguage: UserLanguageModel[] = [];
+  public userLangauges: UserLanguageModel[] = [];
 
   private _showEditProfile!: boolean;
   private _showChangeEmailForm!: boolean;
@@ -96,7 +96,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     return this._showChangePublicInformationForm;
   }
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private renderer: Renderer2, private tokenValidator: TokenValidatorService, public translate : TranslateService, private languageService: LanguageService, private userLanguageService: UserlanguageService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private renderer: Renderer2, private tokenValidator: TokenValidatorService, public translate: TranslateService, private languageService: LanguageService, private userLanguageService: UserlanguageService) { }
 
   ngOnInit(): void {
 
@@ -162,7 +162,12 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
   async ngAfterViewInit() {
     this.loggedUser = await this.userService.getCurrentUser();
-    this.userLanguageService.getUserLanguage(this.loggedUser!.username).subscribe((result: UserLanguageModel[]) => this.getUserLanguage = result);
+    this.userLanguageService.getUserLanguage(this.loggedUser!.username).subscribe({
+      next: (response) => this.userLangauges = response,
+      error: (err) => {
+        console.error(err.error);
+      },
+    });
 
     if (!this.tokenValidator.validateToken()) {
       this.loggedUser = null;
@@ -170,10 +175,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.userName = this.loggedUser!.username;
     this.email = this.loggedUser!.email;
     this.profileImage = "assets/Pictures/userIcon.png";
-    var serverPictureRequest = await this.userService.getUserProfileImage(`${this.userName}`);
-    if (serverPictureRequest != null) {
-      this.profileImage = serverPictureRequest;
-    }
+
     if (this.loggedUser?.designation != null) {
       this.designation = this.loggedUser?.designation;
     } else {
@@ -187,7 +189,10 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       this.funFact = "NOT SPECIFIED";
     }
     this.registrationDate = this.loggedUser?.registrationDate;
-    this.prefferedLanguage
+    var serverPictureRequest = await this.userService.getUserProfileImage(`${this.userName}`);
+    if (serverPictureRequest != null) {
+      this.profileImage = serverPictureRequest;
+    }
   }
 
   clearForms(): void {
@@ -507,9 +512,8 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.userLanguageService.postUserLanguage(this.loggedUser!.username, this.prefferedLanguage!).subscribe({
       next: (response) => console.log(response),
       error: async (err) => {
-        var result = await firstValueFrom(this.translate.get('DeleteAccountError'));
         this.successText = "";
-        this.errorText = result;
+        this.errorText = err.error;
         console.error(err.error);
       },
       complete: () => {

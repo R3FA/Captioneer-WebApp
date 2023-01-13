@@ -56,7 +56,8 @@
                                 <div>
                                     <button class="search-button" mat-flat-button data-bs-toggle="modal"
                                         data-bs-target="#modalMovieDownload">{{'DownloadButton' | translate}}</button>
-                                    <button class="search-button" mat-flat-button (click)="this.isTVSeries ? favoriteTVShow() : favoriteMovie()"
+                                    <button class="search-button" mat-flat-button
+                                        (click)="this.isTVSeries ? favoriteTVShow() : favoriteMovie()"
                                         [hidden]="!this.displayFavorite">
                                         <div [hidden]="this.favorited" class="not-favorited">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill=""
@@ -238,7 +239,8 @@
                                         <ngx-star-rating [id]="'rating'" class="ratingStars"></ngx-star-rating>
                                     </div>
                                     <div class="example-button-row" id="commentButton">
-                                        <button mat-button [routerLink]="['/comments']">GOTO Comments</button>
+                                        <button mat-button [routerLink]="['/comments']" data-bs-toggle="modal">GOTO
+                                            Comments</button>
                                     </div>
                                 </div>
 
