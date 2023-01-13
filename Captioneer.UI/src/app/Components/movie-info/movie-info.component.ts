@@ -3,15 +3,16 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { ActorMovies } from 'src/app/models/actor-movies';
 import { empty, firstValueFrom, Observable } from 'rxjs';
-import { ThisReceiver } from '@angular/compiler';
 import { MovieViewModel } from 'src/app/models/movie-viewmodel';
 import { FavoriteMoviesService } from 'src/app/services/favoritemovies.service';
+import { FavoriteTVShowsService } from 'src/app/services/favoritetvshows.service';
 import { UserService } from 'src/app/services/user.service';
 import { Loader } from '@googlemaps/js-api-loader';
 import { TokenValidatorService } from 'src/app/services/token-validator.service'
 import {Language} from 'src/app/models/language'
 import{SubtitleDownloads} from 'src/app/models/subtitle-downloads'
 import { TranslateService } from '@ngx-translate/core';
+import { TVShowViewModel } from 'src/app/models/tvshow-viewmodel';
 
 @Component({
   selector: 'app-movie-info',
@@ -20,7 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class MovieInfoComponent implements OnInit {
 
-  constructor(private httpClient: HttpClient, private userService: UserService, private favoriteMovieService: FavoriteMoviesService, private tokenValidation: TokenValidatorService) { }
+  constructor(private httpClient: HttpClient, private userService: UserService, private favoriteMovieService: FavoriteMoviesService, private favoriteTVShowsService : FavoriteTVShowsService, private tokenValidation: TokenValidatorService) { }
   movie: any;
   movieObject: any;
   actors!: any;
@@ -85,20 +86,36 @@ export class MovieInfoComponent implements OnInit {
 
     if (currentUser) {
 
-      var favoriteMovies = await firstValueFrom(this.favoriteMovieService.getFavoriteMovies(currentUser!.username))
+      if (this.isTVSeries)  {
 
-      if (favoriteMovies.body) {
+        var favoriteTVShows = await firstValueFrom(this.favoriteTVShowsService.getFavoriteTVShows(currentUser!.username));
 
-        favoriteMovies.body.forEach(favoriteMovie => {
-          if (favoriteMovie.title == this.movieObject.title && favoriteMovie.year == this.movieObject.year) {
-            this.favorited = true;
-          }
-        });
+        if (favoriteTVShows.body) {
+
+          favoriteTVShows.body.forEach(favoriteTVShow => {
+            if (favoriteTVShow.title == this.movieObject.title && favoriteTVShow.year == this.movieObject.year) {
+              this.favorited = true;
+            }
+          });
+        }
       }
-    }
+      else  {        
 
+        var favoriteMovies = await firstValueFrom(this.favoriteMovieService.getFavoriteMovies(currentUser!.username));
+  
+        if (favoriteMovies.body) {
+  
+          favoriteMovies.body.forEach(favoriteMovie => {
+            if (favoriteMovie.title == this.movieObject.title && favoriteMovie.year == this.movieObject.year) {
+              this.favorited = true;
+            }
+          });
+        }
+      }
+  
     this.getLanguages();
     console.log(this.languages)
+  }
   }
   getMovies(): Observable<ActorMovies> {
     return this.httpClient.get<ActorMovies>(this.url + '/' + this.movieObject.id);
@@ -118,9 +135,61 @@ export class MovieInfoComponent implements OnInit {
     window.location.href = "../home";
   }
 
-  async favoriteMovie(): Promise<void> {
+  async favoriteTVShow() : Promise<void> {
 
-    if (this.userService.getCurrentUser() == null) {
+    var currentUser = await this.userService.getCurrentUser();
+
+    if (currentUser == null) {
+      return;
+    }
+
+    if (!this.tokenValidation.validateToken())
+      return;
+
+      let tvShowModel = new TVShowViewModel();
+      tvShowModel.title = this.movieObject.title;
+      tvShowModel.imdbId = this.movieObject.imdbId;
+      tvShowModel.synopsis = this.movieObject.synopsis;
+      tvShowModel.year = this.movieObject.year;
+      tvShowModel.imdbRatingValue = this.movieObject.imdbRatingValue;
+      tvShowModel.imdbRatingCount = this.movieObject.imdbRatingCount;
+      tvShowModel.rottenTomatoesValue = this.movieObject.rottenTomatoesValue;
+      tvShowModel.metacriticValue = this.movieObject.metacriticValue;
+      tvShowModel.coverArt = this.movieObject.coverArt;
+
+      if (!this.favorited)  {
+        this.favoriteTVShowsService.postFavoriteTVShow(currentUser.username, tvShowModel).subscribe({
+          next: (response) => {
+
+          },
+          error: (err) => {
+            console.error(err);
+          },
+          complete: () => {
+            this.favorited = true;
+          }
+        })
+      }
+      else {
+        this.favoriteTVShowsService.deleteFavoriteTVShow(currentUser.username, tvShowModel).subscribe({
+          next: (response) => {
+
+          },
+          error: (err) => {
+            console.error(err);
+          },
+          complete: () => {
+            this.favorited = true;
+          }
+        })
+      }
+  }
+
+  async favoriteMovie() : Promise<void> {
+
+    var currentUser = await this.userService.getCurrentUser();
+    
+    if (currentUser == null) {
       return;
     }
 
@@ -139,8 +208,6 @@ export class MovieInfoComponent implements OnInit {
     movieModel.rottenTomatoesValue = this.movieObject.rottenTomatoesValue;
     movieModel.metacriticValue = this.movieObject.metacriticValue;
     movieModel.coverArt = this.movieObject.coverArt;
-
-    var currentUser = await this.userService.getCurrentUser();
 
     if (!this.favorited) {
       this.favoriteMovieService.postFavoriteMovie(currentUser!.username, movieModel).subscribe({

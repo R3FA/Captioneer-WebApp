@@ -11,6 +11,7 @@ import { FavoriteMoviesService } from 'src/app/services/favoritemovies.service';
 import { UserService } from 'src/app/services/user.service';
 import { firstValueFrom } from 'rxjs';
 import { mat4, vec2, vec3 } from 'gl-matrix';
+import { FavoriteTVShowsService } from 'src/app/services/favoritetvshows.service';
 
 @Component({
   selector: 'app-favorites-graphics',
@@ -41,7 +42,7 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
   private shouldLoad! : boolean;
 
-  constructor(private webglService : WebGLService, private favoriteMoviesService : FavoriteMoviesService, private userService : UserService) { }
+  constructor(private webglService : WebGLService, private favoriteMoviesService : FavoriteMoviesService, private favoriteTVShowsService : FavoriteTVShowsService, private userService : UserService) { }
 
   ngOnInit(): void {
 
@@ -197,8 +198,9 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
     var currentUser = await this.userService.getCurrentUser();
     const favoriteMovies = await firstValueFrom(this.favoriteMoviesService.getFavoriteMovies(currentUser!.username));
+    const favoriteShows = await firstValueFrom(this.favoriteTVShowsService.getFavoriteTVShows(currentUser!.username));
 
-    if (!favoriteMovies.ok) {
+    if (!favoriteMovies.ok && !favoriteShows.ok) {
       this.shouldLoad = false;
       return;
     }
@@ -206,6 +208,13 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
     for (var i = 0; i < favoriteMovies.body!.length; i++) {
       var image = new Image();
       image.src = favoriteMovies.body![i].coverArt;
+      image.crossOrigin = "anonymous";
+      this.coverImages.push(image);
+    }
+
+    for (var i = 0; i < favoriteShows.body!.length; i++) {
+      var image = new Image();
+      image.src = favoriteShows.body![i].coverArt;
       image.crossOrigin = "anonymous";
       this.coverImages.push(image);
     }
