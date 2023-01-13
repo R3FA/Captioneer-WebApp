@@ -255,6 +255,9 @@ export class MovieInfoComponent implements OnInit {
       this.translateClicked = false;
     }
   }
+    // Faris Skopak TS Code
+
+
   setLanguage(value:any){
     this.selectedLanguage=value
   }

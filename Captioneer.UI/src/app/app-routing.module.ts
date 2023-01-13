@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { PageLoginComponent } from './Components/Page-LogIn/page-login/page-login.component';
 import { SignupPageComponent } from './Components/signup-page/signup-page.component';
 import { ProfilePageComponent } from './Components/Page-ProfileUI/profile-page/profile-page.component';
-
+import { PageCommentComponent } from './Components/Page-Comments/page-comment/page-comment.component';
 import { HomepageComponent } from './Components/homepage/homepage.component';
 import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
 const routes: Routes = [
@@ -27,6 +27,10 @@ const routes: Routes = [
   {
     path: 'movie',
     component: MovieInfoComponent
+  },
+  {
+    path: 'comments',
+    component: PageCommentComponent
   }
 ];
 
