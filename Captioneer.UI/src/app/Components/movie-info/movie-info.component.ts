@@ -88,11 +88,11 @@ export class MovieInfoComponent implements OnInit {
 
       if (this.isTVSeries)  {
 
-        var favoriteTVShows = await firstValueFrom(this.favoriteTVShowsService.getFavoriteTVShows(currentUser!.username));
+        var favoriteTVShows = await this.favoriteTVShowsService.getFavoriteShows(currentUser.username);
 
-        if (favoriteTVShows.body) {
+        if (favoriteTVShows) {
 
-          favoriteTVShows.body.forEach(favoriteTVShow => {
+          favoriteTVShows.forEach(favoriteTVShow => {
             if (favoriteTVShow.title == this.movieObject.title && favoriteTVShow.year == this.movieObject.year) {
               this.favorited = true;
             }
@@ -101,11 +101,11 @@ export class MovieInfoComponent implements OnInit {
       }
       else  {        
 
-        var favoriteMovies = await firstValueFrom(this.favoriteMovieService.getFavoriteMovies(currentUser!.username));
+        var favoriteMovies = await this.favoriteMovieService.getFavoriteMovies(currentUser.username);
   
-        if (favoriteMovies.body) {
+        if (favoriteMovies) {
   
-          favoriteMovies.body.forEach(favoriteMovie => {
+          favoriteMovies.forEach(favoriteMovie => {
             if (favoriteMovie.title == this.movieObject.title && favoriteMovie.year == this.movieObject.year) {
               this.favorited = true;
             }
@@ -158,7 +158,7 @@ export class MovieInfoComponent implements OnInit {
       tvShowModel.coverArt = this.movieObject.coverArt;
 
       if (!this.favorited)  {
-        this.favoriteTVShowsService.postFavoriteTVShow(currentUser.username, tvShowModel).subscribe({
+        this.favoriteTVShowsService.post(currentUser.username, tvShowModel).subscribe({
           next: (response) => {
 
           },
@@ -171,7 +171,7 @@ export class MovieInfoComponent implements OnInit {
         })
       }
       else {
-        this.favoriteTVShowsService.deleteFavoriteTVShow(currentUser.username, tvShowModel).subscribe({
+        this.favoriteTVShowsService.delete(currentUser.username, tvShowModel).subscribe({
           next: (response) => {
 
           },
@@ -210,7 +210,7 @@ export class MovieInfoComponent implements OnInit {
     movieModel.coverArt = this.movieObject.coverArt;
 
     if (!this.favorited) {
-      this.favoriteMovieService.postFavoriteMovie(currentUser!.username, movieModel).subscribe({
+      this.favoriteMovieService.post(currentUser!.username, movieModel).subscribe({
         next: (response) => {
         },
         error: (err) => {
@@ -222,7 +222,7 @@ export class MovieInfoComponent implements OnInit {
       });
     }
     else {
-      this.favoriteMovieService.deleteFavoriteMovie(currentUser!.username, movieModel).subscribe({
+      this.favoriteMovieService.delete(currentUser!.username, movieModel).subscribe({
         next: (response) => {
         },
         error: (err) => {
