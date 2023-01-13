@@ -9,7 +9,7 @@ import { HomepageComponent } from './Components/homepage/homepage.component';
 import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
 const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     component: HomepageComponent
   },
   {
@@ -21,7 +21,7 @@ const routes: Routes = [
     component: SignupPageComponent
   },
   {
-    path: 'signin',
+    path: '',
     component: PageLoginComponent
   },
   {

@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { ActorMovies } from 'src/app/models/actor-movies';
-import { firstValueFrom, Observable } from 'rxjs';
+import { empty, firstValueFrom, Observable } from 'rxjs';
 import { ThisReceiver } from '@angular/compiler';
 import { MovieViewModel } from 'src/app/models/movie-viewmodel';
 import { FavoriteMoviesService } from 'src/app/services/favoritemovies.service';
 import { UserService } from 'src/app/services/user.service';
 import { Loader } from '@googlemaps/js-api-loader';
 import { TokenValidatorService } from 'src/app/services/token-validator.service'
+import {Language} from 'src/app/models/language'
+import{SubtitleDownloads} from 'src/app/models/subtitle-downloads'
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-movie-info',
@@ -29,7 +32,11 @@ export class MovieInfoComponent implements OnInit {
   isTVSeries: boolean = false;
   clicked: boolean = false;
   translateClicked: boolean = false;
-
+  selectedLanguage!:any;
+  languages!:Language[];
+  subtitleDownload!:SubtitleDownloads[];
+  selectedFile!:any;
+  public translate!: TranslateService
 
   async ngOnInit(): Promise<void> {
     let loader = new Loader({
@@ -47,23 +54,30 @@ export class MovieInfoComponent implements OnInit {
       })
 
       this.mapPlaced.addListener("click", (mapsMouseEvent: any) => {
-        // Create a new InfoWindow.
         marker.setPosition(mapsMouseEvent.latLng);
       })
       marker.addListener("click", (mapsMouseEvent: any) => {
         marker.setPosition();
       })
-
     })
+    this.isTVSeries=JSON.parse(window.localStorage.getItem('isTVShow')!)
     let newObject = window.localStorage.getItem("selected movie");
     this.movie = newObject;
     this.movieObject = JSON.parse(this.movie);
     this.favorited = false;
     this.displayFavorite = this.userService.getCurrentUser() != null;
+    if(!this.isTVSeries)
+    {
     this.getMovies().subscribe((data) => {
       this.actors = data;
       localStorage.setItem('actors', JSON.stringify(data));
-    })
+    })}
+    else{
+      this.getTVShow().subscribe((data) => {
+        this.actors = data;
+        localStorage.setItem('actors', JSON.stringify(data));
+      })
+    }
     this.actors = JSON.parse(localStorage.getItem('actors')!)
     console.log(this.actors)
 
@@ -82,9 +96,22 @@ export class MovieInfoComponent implements OnInit {
         });
       }
     }
+
+    this.getLanguages();
+    console.log(this.languages)
   }
   getMovies(): Observable<ActorMovies> {
     return this.httpClient.get<ActorMovies>(this.url + '/' + this.movieObject.id);
+  }
+  getTVShow(): Observable<ActorMovies> {
+    return this.httpClient.get<ActorMovies>(environment.apiURL + "/ActorTVShows/" + this.movieObject.id);
+  }
+
+  getLanguages(){
+    this.httpClient.get<Language>(environment.apiURL + "/Languages").subscribe((data)=>{
+    window.sessionStorage.setItem('Language',JSON.stringify(data))
+    });
+    this.languages=JSON.parse(window.sessionStorage.getItem('Language')!)
   }
   back() {
     localStorage.clear();
@@ -160,5 +187,27 @@ export class MovieInfoComponent implements OnInit {
     else {
       this.translateClicked = false;
     }
+  }
+  setLanguage(value:any){
+    this.selectedLanguage=value
+  }
+  getUploaders(){
+    console.log(this.selectedLanguage)
+    this.httpClient.get<SubtitleDownloads>(environment.apiURL + "/OpenSubtitles"+"/"+this.movieObject.imdbId+"/"+this.selectedLanguage).subscribe((data)=>{
+      window.sessionStorage.setItem('SubtitleDownloads',JSON.stringify(data))
+      });
+      this.subtitleDownload=JSON.parse(window.sessionStorage.getItem('SubtitleDownloads')!)
+      window.sessionStorage.removeItem('SubtitleDownloads')
+  }
+  loadFileId(value:any){
+    this.selectedFile=value;
+    console.log(this.selectedFile)
+  }
+  downloadSubtitle(){
+    this.httpClient.post<string>(environment.apiURL + "/OpenSubtitles"+"/"+this.selectedFile,this.selectedFile).subscribe((data)=>{
+      var link!:any;
+      link=data;
+      window.open(link.link)
+      });
   }
 }

@@ -4,7 +4,10 @@
     box-sizing: border-box;
     color: #F18F01;
 }
-
+html,body{
+    background-image: url('src\assets\Pictures\background-slika.jpg');
+    background-size: cover;
+}
 @font-face {
     font-family: 'BerunFont1';
     src: url('src\assets\Fonts\MARDE SAUVE.otf');
@@ -20,11 +23,9 @@
     src: url('src\assets\Fonts\Raleway-Bold.ttf');
 }
 section {
-    width: 100%;
+    width: 100vw;
     /* height: 92.5%; */
-    height: 100%;
-    margin: 0;
-    padding: 0;
+    height: 100vh;
 }
 .container {
     margin: 0;
@@ -36,11 +37,25 @@ section {
     border: 3px solid #F18F01;
     border-radius: 1.5em;
     padding-bottom: 2%;
+    margin-right: 5%;
+}
+#foreground2 {
+    background-color: #2e4057de;
+    border: 3px solid #F18F01;
+    border-radius: 1.5em;
+    padding-bottom: 2%;
+    margin: 0%;
+    width: 60vw;
+    height: 83vh;
+    margin-left: 5%;
 }
 #background {
     background-image: url('src\assets\Pictures\background-slika.jpg');
     background-size: cover;
+    border: 2px solid black;
     font-family: BerunFont2;
+    width: 100vw;
+    height: 140vh;
 }
 #invisible{
     background: red;
@@ -138,4 +153,7 @@ h3 {
   .my-pagination /deep/ a.ng-star-inserted:hover {
     background-color: #F18F01;
     color: #f9f9f9;
+  }
+  #myPagination{
+    margin-top: 1.5%;
   }

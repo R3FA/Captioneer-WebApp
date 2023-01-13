@@ -2,12 +2,28 @@
 <section class="signup py-5 bg-light"  id="background">
     <div class="main-container">
         <div class="row" id="main-row">
+            <div class="row">
+            <div class="col-3">
+                <button class="btn" id="download-button" mat-flat-button (click)="setMovies()">{{'Movies' | translate}}</button>
+                <button class="btn" id="download-button" mat-flat-button (click)="setTVShow()">{{'TV Series' | translate}}</button>
+            </div>
+                <div class="col-8" id="myPagination">
             <pagination-controls (pageChange)="temp=$event" class="my-pagination">
             </pagination-controls>
+            </div>
+            </div>
             <div class="col-8">
                 <div class="container">
-                    <div class="row g-0" id="foreground">
+                    <div *ngIf="!this.isTVShow" class="row g-0" id="foreground2">
                         <div (click)="loadMovie(m)" *ngFor="let m of Movies | paginate: {itemsPerPage: 6, currentPage: temp}">
+                            <div class="col-sm" id="movie-container">
+                                <img src="{{m.coverArt}}" class="movie">
+                                <p>{{m.title}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="this.isTVShow" class="row g-0" id="foreground2">
+                        <div (click)="loadMovie(m)" *ngFor="let m of TVShows | paginate: {itemsPerPage: 6, currentPage: temp}">
                             <div class="col-sm" id="movie-container">
                                 <img src="{{m.coverArt}}" class="movie">
                                 <p>{{m.title}}</p>
@@ -16,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-4" overflow-y:scroll>
                 <div class="container">
                     <div class="row g-0" id="foreground">
             <div col-md-6 left-box>
@@ -41,6 +57,7 @@
                 </div>
     </div>
     </div>
+
       </div>
     </div>
 </section>

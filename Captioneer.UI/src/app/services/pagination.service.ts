@@ -9,8 +9,12 @@ export class PaginationService {
 
   constructor(private httpService:HttpClient) { }
 
-  getData()
+  getMovieData()
   {
     return this.httpService.get(environment.apiURL + "/Movies");
+  }
+  getTVShowData()
+  {
+    return this.httpService.get(environment.apiURL + "/TVShows");
   }
 }
