@@ -13,15 +13,30 @@ export class FavoriteMoviesService {
 
   constructor(private httpClient : HttpClient) { }
 
-  getFavoriteMovies(username : string) : Observable<HttpResponse<MovieViewModel[]>> {
+  get(username : string) : Observable<HttpResponse<MovieViewModel[]>> {
     return this.httpClient.get<MovieViewModel[]>(this.url + `/${username}`, {observe: 'response'});
   }
 
-  postFavoriteMovie(username : string, movie : MovieViewModel) : Observable<HttpResponse<void>> {
+  post(username : string, movie : MovieViewModel) : Observable<HttpResponse<void>> {
     return this.httpClient.post<void>(this.url + `/${username}`, movie, {observe: 'response'});
   }
 
-  deleteFavoriteMovie(username : string, movie : MovieViewModel) : Observable<HttpResponse<void>> {
+  delete(username : string, movie : MovieViewModel) : Observable<HttpResponse<void>> {
     return this.httpClient.delete<void>(this.url + `/${username}`, {body: movie, observe: 'response'});
+  }
+
+  getFavoriteMovies(username : string) : Promise<MovieViewModel[] | null> {
+    
+    return new Promise((resolve) => {
+      this.get(username).subscribe({
+        next: (response) => {
+          resolve(response.body);
+        },
+        error: (err) => {
+          console.error(err);
+          resolve(null);
+        }
+      })
+    });
   }
 }

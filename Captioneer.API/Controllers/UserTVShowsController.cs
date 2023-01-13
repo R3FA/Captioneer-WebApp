@@ -28,7 +28,7 @@ namespace Captioneer.API.Controllers
             var dbUserTVShows = await _context.UsersTVShows.Where(uM => uM.UserID == dbUser.ID).ToListAsync();
             
             if (dbUserTVShows.Count == 0)
-                return NotFound("No favorite TV shows exist for the provided user!");
+                return Ok(new List<TVShowViewModel>());
 
             var favoriteTVShows = new List<TVShowViewModel>();
 

@@ -12,6 +12,8 @@ import { UserService } from 'src/app/services/user.service';
 import { firstValueFrom } from 'rxjs';
 import { mat4, vec2, vec3 } from 'gl-matrix';
 import { FavoriteTVShowsService } from 'src/app/services/favoritetvshows.service';
+import { MovieViewModel } from 'src/app/models/movie-viewmodel';
+import { TVShowViewModel } from 'src/app/models/tvshow-viewmodel';
 
 @Component({
   selector: 'app-favorites-graphics',
@@ -197,26 +199,30 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
   private async loadImages() : Promise<void> {
 
     var currentUser = await this.userService.getCurrentUser();
-    const favoriteMovies = await firstValueFrom(this.favoriteMoviesService.getFavoriteMovies(currentUser!.username));
-    const favoriteShows = await firstValueFrom(this.favoriteTVShowsService.getFavoriteTVShows(currentUser!.username));
 
-    if (!favoriteMovies.ok && !favoriteShows.ok) {
-      this.shouldLoad = false;
+    if (!currentUser) {
       return;
     }
-
-    for (var i = 0; i < favoriteMovies.body!.length; i++) {
-      var image = new Image();
-      image.src = favoriteMovies.body![i].coverArt;
-      image.crossOrigin = "anonymous";
-      this.coverImages.push(image);
+    
+    var favoriteMovies = await this.favoriteMoviesService.getFavoriteMovies(currentUser.username);
+    var favoriteShows = await this.favoriteTVShowsService.getFavoriteShows(currentUser.username);
+  
+    if (favoriteMovies) {
+      for (var i = 0; i < favoriteMovies.length; i++) {
+        var image = new Image();
+        image.src = favoriteMovies[i].coverArt;
+        image.crossOrigin = "anonymous";
+        this.coverImages.push(image);
+      }
     }
 
-    for (var i = 0; i < favoriteShows.body!.length; i++) {
-      var image = new Image();
-      image.src = favoriteShows.body![i].coverArt;
-      image.crossOrigin = "anonymous";
-      this.coverImages.push(image);
+    if (favoriteShows) {
+      for (var i = 0; i < favoriteShows.length; i++) {
+        var image = new Image();
+        image.src = favoriteShows[i].coverArt;
+        image.crossOrigin = "anonymous";
+        this.coverImages.push(image);
+      }
     }
 
     var lastPos = -2.5;
