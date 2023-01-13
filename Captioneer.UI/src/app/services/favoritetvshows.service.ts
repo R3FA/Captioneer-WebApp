@@ -14,14 +14,14 @@ export class FavoriteTVShowsService {
   constructor(private httpClient : HttpClient) { }
 
   getFavoriteTVShows(username : string) : Observable<HttpResponse<TVShowViewModel[]>> {
-    return this.httpClient.get<TVShowViewModel[]>(this.url + username, {observe: 'response'});
+    return this.httpClient.get<TVShowViewModel[]>(this.url + `/${username}`, {observe: 'response'});
   }
 
   postFavoriteTVShow(username : string, tvShow : TVShowViewModel) : Observable<HttpResponse<void>> {
-    return this.httpClient.post<void>(this.url + username, tvShow, {observe: 'response'});
+    return this.httpClient.post<void>(this.url + `/${username}`, tvShow, {observe: 'response'});
   }
 
   deleteFavoriteTVShow(username : string, tvShow : TVShowViewModel) : Observable<HttpResponse<void>> {
-    return this.httpClient.delete<void>(this.url + username, {body: tvShow, observe: 'response'});
+    return this.httpClient.delete<void>(this.url + `/${username}`, {body: tvShow, observe: 'response'});
   }
 }
