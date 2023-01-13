@@ -77,10 +77,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="comment">{{'Comment' | translate}}:</label>
-                            <textarea class="form-control" rows="5" id="comment"></textarea>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -116,7 +112,8 @@
                 <div class="modal-header">
                     <div class="naslov">
                         <div class="h5">
-                            <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">{{'SubtitleFilterOptions' | translate}}</h5>
+                            <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">{{'SubtitleFilterOptions' |
+                                translate}}</h5>
                         </div>
                         <div class="h3">
                             <h3>{{movieObject.title}}</h3>
@@ -129,13 +126,14 @@
                     <form>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">{{'SelectSubtitleLanguage' | translate}}:</label>
-                            <select #languageSelected  class="form-select form-select-sm" aria-label=".form-select-sm example" (change)="setLanguage(languageSelected.value)" (change)="getUploaders()">
+                            <select #languageSelected class="form-select form-select-sm"
+                                aria-label=".form-select-sm example" (change)="setLanguage(languageSelected.value)"
+                                (change)="getUploaders()">
                                 <option>
                                     Please select an option
-                                    </option>
-                                <option *ngFor="let language of this.languages" 
-                                [value]="language.languageCode">
-                                {{this.language.englishName}}
+                                </option>
+                                <option *ngFor="let language of this.languages" [value]="language.languageCode">
+                                    {{this.language.englishName}}
                                 </option>
                             </select>
                         </div>
@@ -182,7 +180,8 @@
                 <div class="modal-header">
                     <div class="naslov">
                         <div class="h5">
-                            <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">{{'SubtitleList' | translate}}</h5>
+                            <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">{{'SubtitleList' | translate}}
+                            </h5>
                         </div>
                         <div class="h3" *ngIf="!isTVSeries">
                             <h3>{{movieObject.title}}</h3>
@@ -195,10 +194,11 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">{{'SelectSubtitleUploader' | translate}}:</label>
-                    <select #userSelected class="form-select form-select-sm" aria-label=".form-select-sm example" (change)="loadFileId(userSelected.value)">
-                        <option selected *ngFor="let uploader of this.subtitleDownload"
-                        [value]="uploader.fileId">
-                        By: {{this.uploader.uploader}}  | FPS:{{this.uploader.fps}} | Release: {{this.uploader.release}}
+                    <select #userSelected class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        (change)="loadFileId(userSelected.value)">
+                        <option selected *ngFor="let uploader of this.subtitleDownload" [value]="uploader.fileId">
+                            By: {{this.uploader.uploader}} | FPS:{{this.uploader.fps}} | Release:
+                            {{this.uploader.release}}
                         </option>
                     </select>
                 </div>
@@ -232,18 +232,24 @@
                             </div>
                             <div class="form-group row">
                                 <div *ngIf="clicked" class="ratingButton form-group row">
-                                    <label class="col-sm-2 col-form-label" id="ratinglabel">{{'SubtitleRating' | translate}}:</label>
+                                    <label class="col-sm-2 col-form-label" id="ratinglabel">{{'SubtitleRating' |
+                                        translate}}:</label>
                                     <div class="divRatingStars">
                                         <ngx-star-rating [id]="'rating'" class="ratingStars"></ngx-star-rating>
                                     </div>
+                                    <div class="example-button-row" id="commentButton">
+                                        <button mat-button [routerLink]="['/comments']">GOTO Comments</button>
+                                    </div>
                                 </div>
+
                             </div>
                             <div class="serija form-group row" *ngIf="translateClicked">
-                                <label class="col-sm-2 col-form-label">{{'SelectSubtitleLanguageTranslation' | translate}}</label>
-                                <select class="form-select form-select-sm" id="languageSelection" aria-label=".form-select-sm example">
-                                    <option *ngFor="let language of this.languages" 
-                                    [value]=language.languageCode>
-                                    {{this.language.englishName}}
+                                <label class="col-sm-2 col-form-label">{{'SelectSubtitleLanguageTranslation' |
+                                    translate}}</label>
+                                <select class="form-select form-select-sm" id="languageSelection"
+                                    aria-label=".form-select-sm example">
+                                    <option *ngFor="let language of this.languages" [value]=language.languageCode>
+                                        {{this.language.englishName}}
                                     </option>
                                 </select>
                             </div>

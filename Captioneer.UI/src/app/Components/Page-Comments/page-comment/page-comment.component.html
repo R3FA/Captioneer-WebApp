@@ -2,36 +2,109 @@
 <div class="main-container">
     <div class="wrapper-container">
         <div class="movieInfo">
-            <div class="moviePicture">
-
+            <div class="moviePictureDiv">
+                <div class="moviePicture">
+                    <img src="{{asObjectMovie.coverArt}}" class="moviePicture">
+                </div>
             </div>
             <div class="movieName">
-
+                <div class="movieSeriesName">
+                    <h1>{{asObjectMovie.title}} ({{asObjectMovie.year}})</h1>
+                </div>
+                <div class="selectedTitleName">
+                    <h3>{{asObjectSubtitle[0].fileName}}</h3>
+                </div>
             </div>
         </div>
         <div class="comment-container">
             <div class="insert-comment-container">
                 <div class="insert-comment-wrapper">
-                    <div class="userPicture">
-                        <img src="assets/Pictures/userIcon.png" id="picture">
+                    <div class="userPictureDiv">
+                        <div class="userPicture">
+                            <img src="assets/Pictures/userIcon.png" id="picture">
+                        </div>
                     </div>
-                    <div class="commentInput">
-                        <textarea class="form-control" id="textArea" rows="4" style="background: #fff;"
-                            placeholder="Insert a comment"></textarea>
-                        <button type="button" class="btn btn-primary">Post a comment</button>
+                    <div class="commentInputDiv">
+                        <div class="commentInput">
+                            <textarea class="form-control" id="textArea" rows="4" style="background: #fff;"
+                                placeholder="Insert a comment"></textarea>
+                            <button type="button" class="btn btn-primary">Post a comment</button>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="availableComments">
                 <div class="availablePictureDiv">
-                    <img src="assets/Pictures/userIcon.png" id="picture">
+                    <div class="availablePicture">
+                        <img src="assets/Pictures/userIcon.png" id="picture">
+                    </div>
+                    <div class="labelUser">
+                        <label>Korisnik1</label>
+                    </div>
                 </div>
-                <div class="writtenComment">
-                    <textarea class="form-control" id="textAreaV2" rows="4" style="background: #fff;"
-                        disabled="disabled"></textarea>
+                <div class="writtenCommentDiv">
+                    <div class="writtenComment">
+                        <textarea class="form-control" id="textAreaV2" rows="4" style="background: #fff;"
+                            disabled="disabled" placeholder="Pase i za verziju Bluray 1080p YIFY"></textarea>
+                    </div>
+                    <button id="deleteButton" type="button" class="btn-close btn-close-white" aria-label="Close"
+                        *ngIf="isAdmin"></button>
+                </div>
+            </div>
+            <div class="availableComments">
+                <div class="availablePictureDiv">
+                    <div class="availablePicture">
+                        <img src="assets/Pictures/userIcon.png" id="picture">
+                    </div>
+                    <div class="labelUser">
+                        <label>Korisnik2</label>
+                    </div>
+                </div>
+                <div class="writtenCommentDiv">
+                    <div class="writtenComment">
+                        <textarea class="form-control" id="textAreaV2" rows="4" style="background: #fff;"
+                            disabled="disabled" placeholder="Hvala puno!"></textarea>
+                    </div>
+                    <button id="deleteButton" type="button" class="btn-close btn-close-white" aria-label="Close"
+                        *ngIf="isAdmin"></button>
+                </div>
+            </div>
+            <div class="availableComments">
+                <div class="availablePictureDiv">
+                    <div class="availablePicture">
+                        <img src="assets/Pictures/userIcon.png" id="picture">
+                    </div>
+                    <div class="labelUser">
+                        <label>Korisnik3</label>
+                    </div>
+                </div>
+                <div class="writtenCommentDiv">
+                    <div class="writtenComment">
+                        <textarea class="form-control" id="textAreaV2" rows="4" style="background: #fff;"
+                            disabled="disabled" placeholder="Hvala na tacnom prevodu"></textarea>
+                    </div>
+                    <button id="deleteButton" type="button" class="btn-close btn-close-white" aria-label="Close"
+                        *ngIf="isAdmin"></button>
+                </div>
+            </div>
+            <div class="availableComments">
+                <div class="availablePictureDiv">
+                    <div class="availablePicture">
+                        <img src="assets/Pictures/userIcon.png" id="picture">
+                    </div>
+                    <div class="labelUser">
+                        <label>Korisnik4</label>
+                    </div>
+                </div>
+                <div class="writtenCommentDiv">
+                    <div class="writtenComment">
+                        <textarea class="form-control" id="textAreaV2" rows="4" style="background: #fff;"
+                            disabled="disabled" placeholder="Veoma dobra stranica za skidanje titlova!"></textarea>
+                    </div>
+                    <button id="deleteButton" type="button" class="btn-close btn-close-white" aria-label="Close"
+                        *ngIf="isAdmin"></button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <app-footer-component></app-footer-component> -->
 </div>

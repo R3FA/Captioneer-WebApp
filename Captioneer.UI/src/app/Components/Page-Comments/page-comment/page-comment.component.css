@@ -25,21 +25,66 @@
 
 .movieInfo {
     width: 100%;
-    height: 8vw;
+    height: 12vw;
     /* border: 2px solid lime; */
     display: flex;
+    border-bottom: 2px solid #F18F01;
+}
+
+.moviePictureDiv {
+    width: 25%;
+    height: 100%;
+    /* border: 2px solid beige; */
 }
 
 .moviePicture {
-    width: 20vw;
+    width: 100%;
     height: 100%;
-    border: 2px solid beige;
+    /* border: 2px solid lime; */
+    border-right: 1.5px solid #F18F01;
 }
 
 .movieName {
-    width: 80vw;
+    width: 75%;
     height: 100%;
-    border: 2px solid gold;
+    /* border: 2px solid gold; */
+}
+
+.movieSeriesName {
+    width: 90%;
+    height: 50%;
+    /* border: 2px solid red; */
+    margin: auto;
+    position: relative;
+    border-bottom: 1.5px solid #F18F01;
+}
+
+.movieSeriesName h1 {
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: BerunFont2;
+}
+
+.selectedTitleName {
+    width: 90%;
+    height: 50%;
+    /* border: 2px solid blue; */
+    margin: auto;
+    position: relative;
+}
+
+.selectedTitleName h3{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: BerunFont2;
 }
 
 .comment-container {
@@ -57,34 +102,66 @@
     /* border: 2px solid red; */
     display: flex;
     position: relative;
-    border-bottom: 2px solid #F18F01;
+    /* border-bottom: 2px solid #F18F01; */
 }
 
 .insert-comment-wrapper {
-    width: 90%;
-    height: 90%;
-    /* border: 2px solid #F18F01; */
+    width: 95%;
+    height: 80%;
     border-radius: 0.5em;
     margin: auto;
     display: flex;
     position: relative;
+    background-color: #2e4057eb;
+    border: 1.5px solid #F18F01;
+}
+
+.userPictureDiv {
+    width: 25%;
+    height: 100%;
+    position: relative;
+    /* border: 2px solid blueviolet; */
 }
 
 .userPicture {
-    width: 12%;
-    height: 50%;
-    /* border: 2px solid blueviolet; */
+    width: 60%;
+    height: 90%;
     position: absolute;
     top: 50%;
-    transform: translate(0%, -50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.commentInputDiv {
+    width: 75%;
+    height: 100%;
+    /* border: 2px solid magenta; */
+    border-left: 1px solid #F18F01;
+    margin-left: auto;
+    position: relative;
 }
 
 .commentInput {
-    width: 80%;
-    height: 100%;
-    /* border: 2px solid magenta; */
-    margin-left: auto;
-    position: relative;
+    width: 95%;
+    height: 80%;
+    display: block;
+    /* border: 2px solid lime; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.commentInput textarea {
+    background-color: #2e4057eb !important;
+    color: #F18F01;
+    border-color: #F18F01;
+}
+
+.commentInput textarea::placeholder {
+    color: #F18F01;
 }
 
 #textArea {
@@ -95,12 +172,11 @@
 }
 
 .btn {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    margin-top: 10px;
     background-color: #F18F01;
     color: black;
     border: none;
+    float: right;
 }
 
 #picture {
@@ -109,24 +185,80 @@
 }
 
 .availableComments {
-    width: 90%;
-    min-height: 7vw;
-    /* border: 2px solid yellow; */
+    width: 95%;
+    height: 7vw;
+    border: 1.5px solid #F18F01;
+    border-radius: 0.5em;
     margin: auto;
     display: flex;
     margin-top: 1vw;
+    background-color: #2e4057eb;
 }
 
-.availablePictureDiv {
-    width: 12%;
-    height: 100%;
+.availableCommentDiV {
     /* border: 2px solid red; */
 }
 
-.writtenComment {
-    width: 88%;
-    height: 100;
+.availablePictureDiv {
+    width: 20%;
+    height: 100%;
+    display: block;
+    /* border: 2px solid RED; */
+    /* border: 2px solid red; */
+}
+
+.labelUser {
+    /* border: 2px solid lime; */
+    height: 20%;
+    width: fit-content;
+    margin: auto;
+}
+
+.availablePicture {
+    width: 50%;
+    /* border: 2px solid red; */
+    height: 70%;
+    margin: auto;
+}
+
+.writtenCommentDiv {
+    width: 80%;
+    height: 100%;
     /* border: 2px solid blue; */
+    position: relative;
+    border-left: 1px solid #F18F01;
+}
+
+
+#deleteButton {
+    width: 2%;
+    height: 5%;
+    /* border: 2px solid lime; */
+    color: #F18F01 !important;
+    position: absolute;
+    top: 0.4vw;
+    right: 0.4vw;
+    border: none;
+}
+
+.writtenComment {
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.writtenComment textarea {
+    background-color: #2e4057eb !important;
+    color: #F18F01;
+    border-color: #F18F01;
+}
+
+.writtenComment textarea::placeholder {
+    color: #F18F01;
 }
 
 #textAreaV2 {
