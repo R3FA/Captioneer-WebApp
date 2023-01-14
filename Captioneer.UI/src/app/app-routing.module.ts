@@ -7,6 +7,7 @@ import { ProfilePageComponent } from './Components/Page-ProfileUI/profile-page/p
 import { PageCommentComponent } from './Components/Page-Comments/page-comment/page-comment.component';
 import { HomepageComponent } from './Components/homepage/homepage.component';
 import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
+import { PageDirectMessagesComponent } from './Components/page-direct-messages/page-direct-messages.component';
 const routes: Routes = [
   {
     path: 'home',
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'comments',
     component: PageCommentComponent
+  },
+  {
+    path: 'directmessages',
+    component: PageDirectMessagesComponent
   }
 ];
 
