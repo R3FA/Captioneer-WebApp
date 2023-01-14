@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { ActorMovies } from 'src/app/models/actor-movies';
@@ -13,15 +13,16 @@ import {Language} from 'src/app/models/language'
 import{SubtitleDownloads} from 'src/app/models/subtitle-downloads'
 import { TranslateService } from '@ngx-translate/core';
 import { TVShowViewModel } from 'src/app/models/tvshow-viewmodel';
+import{LanguageService} from 'src/app/services/language.service'
 
 @Component({
   selector: 'app-movie-info',
   templateUrl: './movie-info.component.html',
   styleUrls: ['./movie-info.component.css']
 })
-export class MovieInfoComponent implements OnInit {
+export class MovieInfoComponent implements OnInit,AfterViewInit {
 
-  constructor(private httpClient: HttpClient, private userService: UserService, private favoriteMovieService: FavoriteMoviesService, private favoriteTVShowsService : FavoriteTVShowsService, private tokenValidation: TokenValidatorService) { }
+  constructor(private httpClient: HttpClient, private userService: UserService, private favoriteMovieService: FavoriteMoviesService, private favoriteTVShowsService : FavoriteTVShowsService, private tokenValidation: TokenValidatorService, private languageService:LanguageService) { }
   movie: any;
   movieObject: any;
   actors!: any;
@@ -38,6 +39,12 @@ export class MovieInfoComponent implements OnInit {
   subtitleDownload!:SubtitleDownloads[];
   selectedFile!:any;
   public translate!: TranslateService
+
+  async ngAfterViewInit(): Promise<void> {
+
+    this.languages=await this.getLanguages();
+    console.log(this.languages)
+  }
 
   async ngOnInit(): Promise<void> {
     let loader = new Loader({
@@ -112,10 +119,9 @@ export class MovieInfoComponent implements OnInit {
           });
         }
       }
-  
-    this.getLanguages();
-    console.log(this.languages)
+
   }
+  
   }
   getMovies(): Observable<ActorMovies> {
     return this.httpClient.get<ActorMovies>(this.url + '/' + this.movieObject.id);
@@ -123,13 +129,13 @@ export class MovieInfoComponent implements OnInit {
   getTVShow(): Observable<ActorMovies> {
     return this.httpClient.get<ActorMovies>(environment.apiURL + "/ActorTVShows/" + this.movieObject.id);
   }
-
-  getLanguages(){
-    this.httpClient.get<Language>(environment.apiURL + "/Languages").subscribe((data)=>{
-    window.sessionStorage.setItem('Language',JSON.stringify(data))
-    });
-    this.languages=JSON.parse(window.sessionStorage.getItem('Language')!)
-  }
+  async getLanguages():Promise<Language[]>{
+        return new Promise((resolve)=>{
+          this.languageService.getAllLanguages().subscribe((data)=>{
+            resolve(data);
+          })
+        })
+    }
   back() {
     localStorage.clear();
     window.location.href = "../home";
@@ -279,5 +285,8 @@ export class MovieInfoComponent implements OnInit {
       link=data;
       window.open(link.link)
       });
+  }
+  UploadSubtitle(){
+
   }
 }

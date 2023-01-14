@@ -78,9 +78,9 @@ export class HeaderComponentComponent implements OnInit {
   }
   signOut()
   {
-    
     sessionStorage.clear();
-    window.location.href = "../signin";
+    localStorage.clear();
+    window.location.href = "";
   }
 
   public getLangName(lang : string) : string {

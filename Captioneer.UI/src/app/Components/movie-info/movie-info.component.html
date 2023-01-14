@@ -75,6 +75,8 @@
                                         </div>
                                     </button>
                                     <button class="search-button" mat-flat-button (click)="back()">BACK</button>
+                                    <button class="search-button" mat-flat-button data-bs-toggle="modal"
+                                    data-bs-target="#modalMovieDownload2">{{'Upload Button' | translate}}</button>
                                 </div>
                             </div>
                         </div>
@@ -170,6 +172,70 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalMovieDownload2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalMovieDownloadLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="naslov">
+                    <div class="h5">
+                        <h5 class="modal-title fs-5" id="modalMovieDownloadLabel">{{'SubtitleFilterOptions' |
+                            translate}}</h5>
+                    </div>
+                    <div class="h3">
+                        <h3>{{movieObject.title}}</h3>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <hr>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">{{'SelectSubtitleLanguage' | translate}}:</label>
+                        <select #languageSelected class="form-select form-select-sm"
+                            aria-label=".form-select-sm example" (change)="setLanguage(languageSelected.value)"
+                            (change)="getUploaders()">
+                            <option>
+                                Please select an option
+                            </option>
+                            <option *ngFor="let language of this.languages" [value]="language.languageCode">
+                                {{this.language.englishName}}
+                            </option>
+                        </select>
+                    </div>
+                    <hr>
+                    <div class="form-group row">
+                        <div class="serija form-group row" *ngIf="isTVSeries">
+                            <label class="col-sm-2 col-form-label">{{'SeasonNumber' | translate}}:</label>
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr class="serija" *ngIf="isTVSeries">
+                    <div class="form-group row">
+                        <div class="serija form-group row" *ngIf="isTVSeries">
+                            <label class="col-sm-2 col-form-label">{{'EpisodeNumber' | translate}}:</label>
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr class="serija" *ngIf="isTVSeries">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-search" type="button" class="btn btn-primary" (click)="UploadSubtitle()">{{'Upload' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- SearchingSubtitle Modal -->
 
