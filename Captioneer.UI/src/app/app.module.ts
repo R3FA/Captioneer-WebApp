@@ -27,6 +27,7 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PageCommentComponent } from './Components/Page-Comments/page-comment/page-comment.component';
+import { PageDirectMessagesComponent } from './Components/page-direct-messages/page-direct-messages.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +42,7 @@ import { PageCommentComponent } from './Components/Page-Comments/page-comment/pa
     FavoritesGraphicsComponent,
     MovieInfoComponent,
     PageCommentComponent,
+    PageDirectMessagesComponent,
   ],
   imports: [
     BrowserModule,
