@@ -99,7 +99,7 @@ h3 {
 
 .movie {
     width: 70%;
-    height: 100%;
+    height: 70%;
     border-radius: 0.5em;
     border: 2px solid #F18F01;
 }
@@ -110,7 +110,9 @@ h3 {
     position: absolute;
     left: 50%;
 }
-
+#position{
+    color: chartreuse;
+}
 #movie-container {
     height: 100%;
     width: 100%;
@@ -285,7 +287,16 @@ h3 {
     margin: auto;
     border: 2px solid #F18F01;
 }
-
+.form-control{
+    background-color: #2e405700;
+    width: 80%;
+    margin: auto;
+    border: 2px solid #F18F01;
+    color: #F18F01;
+}
+.form-control option {
+    margin: auto;
+}
 .form-select option {
     margin: auto;
 }
@@ -348,4 +359,13 @@ hr {
 .serija {
     width: 100%;
     height: 100%;
+}
+#successful{
+    color: chartreuse;
+}
+#failed{
+    color: rgb(227, 48, 48);
+}
+#message{
+    text-align: center;
 }

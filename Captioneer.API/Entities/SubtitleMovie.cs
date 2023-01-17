@@ -8,7 +8,7 @@ namespace Captioneer.API.Entities
         public int ID { get; set; }
 
         public virtual Movie Movie { get; set; }
-        
+
         public virtual Language Language { get; set; }
 
         [Required]
@@ -25,5 +25,9 @@ namespace Captioneer.API.Entities
         [Required]
         [Range(0, int.MaxValue)]
         public int RatingCount { get; set; }
+
+        public string? Release {get; set;}
+
+        public int? FrameRate { get; set; }
     }
 }

@@ -14,6 +14,8 @@ import{SubtitleDownloads} from 'src/app/models/subtitle-downloads'
 import { TranslateService } from '@ngx-translate/core';
 import { TVShowViewModel } from 'src/app/models/tvshow-viewmodel';
 import{LanguageService} from 'src/app/services/language.service'
+import { Creator } from 'src/app/models/creator';
+import { CreatorService } from 'src/app/services/creator.service';
 
 @Component({
   selector: 'app-movie-info',
@@ -22,7 +24,7 @@ import{LanguageService} from 'src/app/services/language.service'
 })
 export class MovieInfoComponent implements OnInit,AfterViewInit {
 
-  constructor(private httpClient: HttpClient, private userService: UserService, private favoriteMovieService: FavoriteMoviesService, private favoriteTVShowsService : FavoriteTVShowsService, private tokenValidation: TokenValidatorService, private languageService:LanguageService) { }
+  constructor(private httpClient: HttpClient, private userService: UserService, private favoriteMovieService: FavoriteMoviesService, private favoriteTVShowsService : FavoriteTVShowsService, private tokenValidation: TokenValidatorService, private languageService:LanguageService,private creatorService:CreatorService) { }
   movie: any;
   movieObject: any;
   actors!: any;
@@ -35,15 +37,23 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
   clicked: boolean = false;
   translateClicked: boolean = false;
   selectedLanguage!:any;
+  selectedLanguage2!:any;
   languages!:Language[];
   subtitleDownload!:SubtitleDownloads[];
   selectedFile!:any;
-  public translate!: TranslateService
+  public translate!: TranslateService;
+  creators!: Creator[];
+  public fileName: string="";
+  file!:File;
+  validSubtitle:boolean=false;
+  fileSize:any;
+  type:string="";
+  uploadButtonPressed:boolean=false;
 
   async ngAfterViewInit(): Promise<void> {
 
     this.languages=await this.getLanguages();
-    console.log(this.languages)
+    this.creators=await this.getCreators();
   }
 
   async ngOnInit(): Promise<void> {
@@ -136,6 +146,15 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
           })
         })
     }
+  
+  async getCreators():Promise<Creator[]>{
+    return new Promise((resolve)=>{
+      this.creatorService.getCreators(this.isTVSeries,this.movieObject.id).subscribe((data)=>{
+        resolve(data);
+      })
+    })
+  }
+
   back() {
     localStorage.clear();
     window.location.href = "../home";
@@ -265,7 +284,12 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
 
 
   setLanguage(value:any){
-    this.selectedLanguage=value
+    this.selectedLanguage=value;
+    console.log(this.selectedLanguage);
+  }
+  setLanguage2(value:any){
+    this.selectedLanguage2=value;
+    console.log(this.selectedLanguage2);
   }
   getUploaders(){
     console.log(this.selectedLanguage)
@@ -286,7 +310,58 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
       window.open(link.link)
       });
   }
-  UploadSubtitle(){
+  async UploadSubtitle(){
+    this.uploadButtonPressed=true;
+    var currentUser = await this.userService.getCurrentUser();
+    if(!this.validSubtitle)
+    {
+      console.log("Baaad request");
+      return;
+    }
+    this.selectedLanguage;
+    this.movieObject.id;
 
+    console.log(this.selectedLanguage2);
+    var release=(<HTMLInputElement>document.getElementById("release")).value
+    var fps=parseInt((<HTMLInputElement>document.getElementById("fps")).value)
+    if(!release)
+      release="";
+    if(isNaN(fps))
+      fps=0;
+    const formData: FormData = new FormData();
+
+    formData.append('fileName', this.fileName);
+    formData.append('file', this.file);
+
+    console.log(formData);
+    const params=new HttpParams()
+                    .set('movieId',this.movieObject.id)
+                    .set('languageCode',this.selectedLanguage2)
+                    .set('userEmail',currentUser!.email)
+                    .set('release',release)
+                    .set('frameRate',fps)
+
+    this.httpClient.post<any>(environment.apiURL+"/SubtitleMovie",formData,{params:params}).subscribe((data)=>
+    console.log(data)
+    );
+    console.log("done");
   }
+  validateFileUpload(event: any): void {
+    this.file= event.target.files[0];
+    this.fileName = this.file.name;
+    let lastDot=this.fileName.lastIndexOf('.');
+    this.type=this.fileName.slice(lastDot+1).trim();
+
+    if (this.file.size == 0 && this.file.size>300000) {
+      return;
+    }
+    if (this.type != "srt") {
+      return;
+  }
+  else{
+  this.fileSize=this.file.size/1000;
+  this.fileSize=Math.round(this.fileSize);
+  this.validSubtitle=true;
+  }
+}
 }

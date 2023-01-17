@@ -36,6 +36,17 @@
                                     </div>
                                     <hr>
                                 </div>
+                                <div>
+                                    <h5>{{'Creators' | translate}}</h5>
+                                    <div *ngFor="let creator of creators" style="display:inline-block;">
+                                        {{ creator.firstName }}
+                                        {{creator.lastName}}
+                                        <div id="position">
+                                            {{creator.position}}
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <hr>
                             </div>
                             <div class="col-sm" id="ratings">
                                 <h5 class="center">{{'IMDBRating' | translate}}</h5>
@@ -130,8 +141,8 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">{{'SelectSubtitleLanguage' | translate}}:</label>
                             <select #languageSelected class="form-select form-select-sm"
-                                aria-label=".form-select-sm example" (change)="setLanguage(languageSelected.value)"
-                                (change)="getUploaders()">
+                                aria-label=".form-select-sm example" (change)="setLanguage(languageSelected.value)"                            
+                                 (change)="getUploaders()">
                                 <option>
                                     Please select an option
                                 </option>
@@ -176,7 +187,7 @@
     <div class="modal fade" id="modalMovieDownload2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalMovieDownloadLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content" id="message">
             <div class="modal-header">
                 <div class="naslov">
                     <div class="h5">
@@ -194,9 +205,8 @@
                 <form>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">{{'SelectSubtitleLanguage' | translate}}:</label>
-                        <select #languageSelected class="form-select form-select-sm"
-                            aria-label=".form-select-sm example" (change)="setLanguage(languageSelected.value)"
-                            (change)="getUploaders()">
+                        <select #languageSelected2 class="form-select form-select-sm"
+                            aria-label=".form-select-sm example" (change)="setLanguage2(languageSelected2.value)">
                             <option>
                                 Please select an option
                             </option>
@@ -205,6 +215,16 @@
                             </option>
                         </select>
                     </div>
+                    <hr>
+                    <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">{{'Please enter the release you are uploading the subtitle for' | translate}}:</label>
+                    <input class="form-control form-control-sm" id="release" type="text" placeholder="example: Blue-Ray">
+                </div>
+                <hr>
+                <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{'Please enter the framerate of the relese for the subtitle' | translate}}:</label>
+                <input class="form-control form-control-sm" id="fps" type="text" placeholder="example: 25">
+            </div>
                     <hr>
                     <div class="form-group row">
                         <div class="serija form-group row" *ngIf="isTVSeries">
@@ -228,10 +248,29 @@
                         </div>
                     </div>
                     <hr class="serija" *ngIf="isTVSeries">
+                    <div class="modal-footer">
+                        <button id="btn-search" type="button" class="btn btn-primary" (click)="inputFile.click()">{{'Select subtitle' | translate}}</button>
+                        <input name="file" id="file" type="file" #inputFile hidden (change)="validateFileUpload($event)">
+                    </div>
+                    <hr>
+                    <div *ngIf="this.validSubtitle" style="display: inline;">
+                        <label class="col-sm-2 col-form-label">{{'Selected subtitle name: ' | translate}} {{this.fileName}}</label>
+                        <label class="col-sm-2 col-form-label">{{'Selected subtitle size: ' | translate}} {{this.fileSize}} KB</label>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="btn-search" type="button" class="btn btn-primary" (click)="UploadSubtitle()">{{'Upload' | translate}}</button>
+                <button id="btn-search" type="button" class="btn btn-primary" (click)="UploadSubtitle()">{{'Upload Subtitle' | translate}}</button>
+            </div>
+            <div *ngIf="this.uploadButtonPressed">
+            <div class="modal-footer" *ngIf="!this.validSubtitle" id="message">
+                <hr>
+                <label id="message" class="col-sm-2 col-form-label" id="failed">{{'The upload failed' | translate}}</label>
+            </div>
+            <div class="modal-footer" *ngIf="this.validSubtitle">
+                <hr>
+                <label id="message" class="col-sm-2 col-form-label" id="successful">{{'The upload was successful' | translate}}</label>
+            </div>
             </div>
         </div>
     </div>
