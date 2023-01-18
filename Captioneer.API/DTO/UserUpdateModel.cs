@@ -1,6 +1,6 @@
 ﻿using Captioneer.API.Entities;
 
-namespace Captioneer.API.ViewModels
+namespace Captioneer.API.DTO
 {
     public class UserUpdateModel
     {

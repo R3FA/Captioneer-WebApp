@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Captioneer.API.Data.EpisoDate
+namespace Captioneer.API.DTO
 {
     /// <summary>
     /// Model class for the JSON result from EpisoDate's API
@@ -23,7 +23,7 @@ namespace Captioneer.API.Data.EpisoDate
         public string? StartDate { get; set; }
 
         [JsonPropertyName("end_date")]
-        public string? EndDate { get; set;}
+        public string? EndDate { get; set; }
 
         [JsonPropertyName("country")]
         public string? Country { get; set; }

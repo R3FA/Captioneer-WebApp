@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Text.Json;
+using Captioneer.API.DTO;
 
-namespace Captioneer.API.Data.EpisoDate
+namespace Captioneer.API.Utils
 {
     public static class EpisoDateFetcher
     {
@@ -21,7 +22,7 @@ namespace Captioneer.API.Data.EpisoDate
                 var result = await httpClient.GetAsync(url);
 
                 if (result.StatusCode == HttpStatusCode.NoContent)
-                    return default(EpisoDateModel?);
+                    return default;
 
                 // First reads the get result as a stream and then deserializes the JSON into an EpisoDateModel
                 var body = await result.Content.ReadAsStreamAsync();
@@ -42,7 +43,7 @@ namespace Captioneer.API.Data.EpisoDate
                 Console.WriteLine("Invalid JSON");
             }
 
-            return default(EpisoDateModel?);
+            return default;
         }
     }
 }

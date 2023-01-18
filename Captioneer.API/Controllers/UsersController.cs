@@ -3,11 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Captioneer.API.Data;
 using Captioneer.API.Entities;
 using Captioneer.API.Utils;
-using Captioneer.API.ViewModels;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Captioneer.API.DTO;
+using Captioneer.API.ViewModels;
 
 namespace Captioneer.API.Controllers
 {

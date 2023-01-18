@@ -31,8 +31,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\users\" />
-    <Folder Include="wwwroot\cert\" />
+    <Folder Include="wwwroot\*" />
+    <Folder Include="wwwroot\subtitleMovieUploads\" />
+    <Folder Include="wwwroot\translations\bs\" />
+    <Folder Include="wwwroot\translations\de\" />
+    <Folder Include="wwwroot\translations\ja\" />
+    <Folder Include="wwwroot\translations\temp\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

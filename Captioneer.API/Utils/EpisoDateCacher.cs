@@ -1,7 +1,8 @@
-﻿using Captioneer.API.Entities;
+﻿using Captioneer.API.Data;
+using Captioneer.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Captioneer.API.Data.EpisoDate
+namespace Captioneer.API.Utils
 {
     public static class EpisoDateCacher
     {
@@ -13,7 +14,7 @@ namespace Captioneer.API.Data.EpisoDate
         /// <returns></returns>
         public static async Task Cache(List<TVShow> shows, CaptioneerDBContext context)
         {
-            if (shows.Count == 0) 
+            if (shows.Count == 0)
                 return;
 
             foreach (var show in shows)
@@ -64,7 +65,7 @@ namespace Captioneer.API.Data.EpisoDate
                     {
                         var newEpisode = new Episode()
                         {
-                            Name = episode.Name == null? $"Episode {episode.EpisodeNumber}" : episode.Name,
+                            Name = episode.Name == null ? $"Episode {episode.EpisodeNumber}" : episode.Name,
                             EpisodeNumber = (int)episode.EpisodeNumber!,
                             Season = dbSeason
                         };

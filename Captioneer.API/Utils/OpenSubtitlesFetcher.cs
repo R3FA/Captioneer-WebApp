@@ -1,13 +1,14 @@
 ﻿using System.Net;
 using System.Text.Json;
+using Captioneer.API.DTO;
 
-namespace Captioneer.API.Data.OpenSubtitles
+namespace Captioneer.API.Utils
 {
     public static class OpenSubtitlesFetcher
     {
         private static readonly string apiURL = "https://api.opensubtitles.com/api/v1";
 
-        private static readonly HttpClient httpClient= new HttpClient();
+        private static readonly HttpClient httpClient = new HttpClient();
 
         public static async Task<OpenSubtitlesModel?> FetchSubtitles(string imdbID, string language, int? seasonNumber, int? episodeNumber, string apiKey)
         {
@@ -37,7 +38,7 @@ namespace Captioneer.API.Data.OpenSubtitles
 
                 if (result.StatusCode == HttpStatusCode.NoContent || result.StatusCode == HttpStatusCode.NotFound)
                 {
-                    return default(OpenSubtitlesModel);
+                    return default;
                 }
 
                 var body = await result.Content.ReadAsStreamAsync();
@@ -59,7 +60,7 @@ namespace Captioneer.API.Data.OpenSubtitles
                 Console.WriteLine("Invalid JSON");
             }
 
-            return default(OpenSubtitlesModel);
+            return default;
         }
 
         public static async Task<OpenSubtitlesDownloadModel?> GetDownloadLink(string fileID, string apiKey)
@@ -84,13 +85,15 @@ namespace Captioneer.API.Data.OpenSubtitles
 
                 if (result.StatusCode == HttpStatusCode.NoContent || result.StatusCode == HttpStatusCode.NotFound)
                 {
-                    return default(OpenSubtitlesDownloadModel);
+                    return default;
                 }
 
                 var body = await result.Content.ReadAsStreamAsync();
                 var asObj = await JsonSerializer.DeserializeAsync<OpenSubtitlesDownloadModel>(body);
 
-                return asObj;
+                if (asObj != null)
+                    if (asObj.Link != null)
+                        return asObj;
             }
             catch (HttpRequestException)
             {
@@ -105,7 +108,7 @@ namespace Captioneer.API.Data.OpenSubtitles
                 Console.WriteLine("Invalid JSON");
             }
 
-            return default(OpenSubtitlesDownloadModel);
+            return null;
         }
     }
 }

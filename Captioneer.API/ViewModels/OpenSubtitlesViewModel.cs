@@ -1,5 +1,4 @@
-﻿using Captioneer.API.Data.OpenSubtitles;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Captioneer.API.ViewModels
 {

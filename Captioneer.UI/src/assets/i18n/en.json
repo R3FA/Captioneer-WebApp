@@ -103,5 +103,6 @@
     "InsertDesignation": "Enter your designation",
     "InsertFunFact": "Enter your motto",
     "InsertPrefferedLanguage": "Select your preferred language",
-    "Designation": "Designation"
+    "Designation": "Designation",
+    "TranslateDownloadButton": "Translate & download"
 }
