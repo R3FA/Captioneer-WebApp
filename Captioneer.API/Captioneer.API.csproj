@@ -32,10 +32,27 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\*" />
+    <Compile Remove="wwwroot\translations\bs\**" />
+    <Compile Remove="wwwroot\translations\de\**" />
+    <Compile Remove="wwwroot\translations\ja\**" />
+    <Content Remove="wwwroot\translations\bs\**" />
+    <Content Remove="wwwroot\translations\de\**" />
+    <Content Remove="wwwroot\translations\ja\**" />
+    <EmbeddedResource Remove="wwwroot\translations\bs\**" />
+    <EmbeddedResource Remove="wwwroot\translations\de\**" />
+    <EmbeddedResource Remove="wwwroot\translations\ja\**" />
+    <Folder Remove="wwwroot\translations\bs\**" />
+    <Folder Remove="wwwroot\translations\de\**" />
+    <Folder Remove="wwwroot\translations\ja\**" />
+    <None Remove="wwwroot\translations\bs\**" />
+    <None Remove="wwwroot\translations\de\**" />
+    <None Remove="wwwroot\translations\ja\**" />
+    <Content Remove="wwwroot\images\users\.gitignore" />
+    <Content Remove="wwwroot\subtitleMovieUploads\.gitignore" />
+    <Content Remove="wwwroot\translations\.gitignore" />
+    <Content Remove="wwwroot\translations\temp\.gitignore" />
+    <Content Remove="wwwroot\translations\temp\.gitkeep" />
     <Folder Include="wwwroot\subtitleMovieUploads\" />
-    <Folder Include="wwwroot\translations\bs\" />
-    <Folder Include="wwwroot\translations\de\" />
-    <Folder Include="wwwroot\translations\ja\" />
     <Folder Include="wwwroot\translations\temp\" />
   </ItemGroup>
 
