@@ -11,9 +11,6 @@ Captioneer.UI/dist/
 Captioneer.UI/dist/captioneer.ui/*
 Captioneer.UI/dist/*
 
-# Wwwroot files
-Captioneer.API/wwwroot
-
 # Visual Studio solution file
 *.sln
 
