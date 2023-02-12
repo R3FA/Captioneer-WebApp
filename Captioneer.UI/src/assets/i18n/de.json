@@ -98,5 +98,11 @@
   "SubmitButton": "abgeben",
   "UsernameRequired": "Benutzername wird benötigt",
   "Next": "Weiter",
-  "Previous": "Vorherige"
+  "Previous": "Vorherige",
+  "ChangePublicInformation" : "Change public information",
+  "InsertDesignation": "Enter your designation",
+  "InsertFunFact": "Enter your motto",
+  "InsertPrefferedLanguage": "Select your preferred language",
+  "Designation": "Designation",
+  "TranslateDownloadButton": "Translate & download"
 }

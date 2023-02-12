@@ -300,9 +300,9 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">{{'SelectSubtitleUploader' | translate}}:</label>
-                    <select #userSelected class="form-select form-select-sm" aria-label=".form-select-sm example"
-                        (change)="loadFileId(userSelected.value)">
-                        <option selected *ngFor="let uploader of this.subtitleDownload" [value]="uploader.fileId">
+                    <select name="fileSelected" class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        [(ngModel)]="this.selectedFile">
+                        <option selected *ngFor="let uploader of this.subtitleDownload" [ngValue]="uploader">
                             By: {{this.uploader.uploader}} | FPS:{{this.uploader.fps}} | Release:
                             {{this.uploader.release}}
                         </option>
@@ -353,9 +353,9 @@
                             <div class="serija form-group row" *ngIf="translateClicked">
                                 <label class="col-sm-2 col-form-label">{{'SelectSubtitleLanguageTranslation' |
                                     translate}}</label>
-                                <select class="form-select form-select-sm" id="languageSelection"
-                                    aria-label=".form-select-sm example">
-                                    <option *ngFor="let language of this.languages" [value]=language.languageCode>
+                                <select name="languageSelected" class="form-select form-select-sm" id="languageSelection"
+                                    aria-label=".form-select-sm example" [(ngModel)]="this.languageToTranslate">
+                                    <option selected *ngFor="let language of this.translatableLanguages" [ngValue]="language">
                                         {{this.language.englishName}}
                                     </option>
                                 </select>
@@ -367,7 +367,9 @@
                     <button id="btn-delete" type="button" class="btn btn-primary"
                         *ngIf="clicked && isAdmin">{{'DeleteButton' | translate}}</button>
                     <button (click)="downloadSubtitle()" id="btn-download" type="button" class="btn btn-primary"
-                        *ngIf="clicked || translateClicked">{{'DownloadButton' | translate}}</button>
+                        *ngIf="clicked || translateClicked">
+                        {{ translateClicked ? ('TranslateDownloadButton' | translate) : 'DownloadButton' | translate }}
+                    </button>
                 </div>
             </div>
         </div>

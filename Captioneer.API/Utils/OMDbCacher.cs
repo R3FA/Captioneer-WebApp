@@ -1,10 +1,12 @@
 ﻿using System.Globalization;
 using Captioneer.API.Controllers;
+using Captioneer.API.Data;
+using Captioneer.API.DTO;
 using Captioneer.API.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
-namespace Captioneer.API.Data.OMDb
+namespace Captioneer.API.Utils
 {
     public static class OMDbCacher
     {
@@ -58,15 +60,15 @@ namespace Captioneer.API.Data.OMDb
 
             var newMovie = new Movie()
             {
-                Title = movie.Title == null || movie.Title == "N/A"? string.Empty : movie.Title,
-                IMDBId = movie.ImdbId == null || movie.ImdbId == "N/A"? string.Empty : movie.ImdbId,
+                Title = movie.Title == null || movie.Title == "N/A" ? string.Empty : movie.Title,
+                IMDBId = movie.ImdbId == null || movie.ImdbId == "N/A" ? string.Empty : movie.ImdbId,
                 IMDBRatingCount = imdbVotes,
                 IMDBRatingValue = imdbRating,
-                RottenTomatoesValue = rottenTomatoes == ""? null : rottenTomatoes,
-                MetacriticValue = metacritic == ""? null : metacritic,
+                RottenTomatoesValue = rottenTomatoes == "" ? null : rottenTomatoes,
+                MetacriticValue = metacritic == "" ? null : metacritic,
                 Synopsis = movie.Plot == null || movie.Plot == "N/A" ? string.Empty : movie.Plot,
                 Runtime = runtime,
-                Year = movie.Year == null? "" : movie.Year,
+                Year = movie.Year == null ? "" : movie.Year,
                 CoverArt = poster
             };
 
@@ -135,10 +137,10 @@ namespace Captioneer.API.Data.OMDb
 
             var newShow = new TVShow()
             {
-                Title = show.Title == null? "" : show.Title,
-                IMDBId = show.ImdbId == null? "" : show.ImdbId,
-                Synopsis = show.Plot == null? "" : show.Plot,
-                Year = show.Year == null? "" : show.Year,
+                Title = show.Title == null ? "" : show.Title,
+                IMDBId = show.ImdbId == null ? "" : show.ImdbId,
+                Synopsis = show.Plot == null ? "" : show.Plot,
+                Year = show.Year == null ? "" : show.Year,
                 SeasonCount = 0,
                 IMDBRatingCount = imdbVotes,
                 IMDBRatingValue = imdbRating,
@@ -172,7 +174,7 @@ namespace Captioneer.API.Data.OMDb
         {
             var genresSplit = genres.Split(", ");
 
-            foreach(var genre in genresSplit)
+            foreach (var genre in genresSplit)
             {
                 var dbGenre = await context.Genres.Where(g => g.Name == genre).ToListAsync();
                 Genre newDbGenre = null;
@@ -189,7 +191,7 @@ namespace Captioneer.API.Data.OMDb
                 var dbGenreMovie = await context.GenresMovie.Where(gm => gm.Movie.Title == movie.Title && gm.Movie.Year == movie.Year && gm.Genre.Name == newDbGenre.Name).ToListAsync();
 
                 if (dbGenreMovie.Count == 0)
-                    await context.GenresMovie.AddAsync(new GenreMovie(){Genre = newDbGenre, Movie = movie});
+                    await context.GenresMovie.AddAsync(new GenreMovie() { Genre = newDbGenre, Movie = movie });
             }
         }
 
@@ -204,7 +206,7 @@ namespace Captioneer.API.Data.OMDb
         {
             var genresSplit = genres.Split(", ");
 
-            foreach(var genre in genresSplit)
+            foreach (var genre in genresSplit)
             {
                 var dbGenre = await context.Genres.Where(g => g.Name == genre).ToListAsync();
                 Genre newDbGenre = null;
@@ -221,7 +223,7 @@ namespace Captioneer.API.Data.OMDb
                 var dbGenreTVShow = await context.GenresTVShows.Where(gtv => gtv.Genre.Name == newDbGenre.Name && gtv.TVShow.Title == show.Title && gtv.TVShow.Year == show.Year).ToListAsync();
 
                 if (dbGenreTVShow.Count == 0)
-                    await context.GenresTVShows.AddAsync(new GenreTVShow(){Genre = newDbGenre, TVShow = show});
+                    await context.GenresTVShows.AddAsync(new GenreTVShow() { Genre = newDbGenre, TVShow = show });
             }
         }
 
@@ -338,7 +340,7 @@ namespace Captioneer.API.Data.OMDb
                 if (writersSplit.Contains(creator))
                 {
                     var dbCreatorMovie = await context.CreatorsMovie.Where(
-                        cm => cm.Creator.FirstName == newCreator.FirstName && cm.Creator.Surname == newCreator.Surname 
+                        cm => cm.Creator.FirstName == newCreator.FirstName && cm.Creator.Surname == newCreator.Surname
                         && cm.Movie.Title == movie.Title && cm.Movie.Year == movie.Year && cm.Position == "Writer").ToListAsync();
 
                     if (dbCreatorMovie.Count == 0)
@@ -351,7 +353,7 @@ namespace Captioneer.API.Data.OMDb
                 if (directorsSplit.Contains(creator))
                 {
                     var dbCreatorMovie = await context.CreatorsMovie.Where(
-                        cm => cm.Creator.FirstName == newCreator.FirstName && cm.Creator.Surname == newCreator.Surname 
+                        cm => cm.Creator.FirstName == newCreator.FirstName && cm.Creator.Surname == newCreator.Surname
                         && cm.Movie.Title == movie.Title && cm.Movie.Year == movie.Year && cm.Position == "Director").ToListAsync();
 
                     if (dbCreatorMovie.Count == 0)
@@ -441,7 +443,7 @@ namespace Captioneer.API.Data.OMDb
         {
             var countriesSplit = country.Split(", ");
 
-            foreach(var countrySplit in countriesSplit)
+            foreach (var countrySplit in countriesSplit)
             {
                 var places = await context.ShootingPlaces.Where(sp => sp.Country == countrySplit).ToListAsync();
                 ShootingPlace newPlace = null;
@@ -474,7 +476,7 @@ namespace Captioneer.API.Data.OMDb
         {
             var countriesSplit = country.Split(", ");
 
-            foreach(var countrySplit in countriesSplit)
+            foreach (var countrySplit in countriesSplit)
             {
                 var places = await context.ShootingPlaces.Where(sp => sp.Country == countrySplit).ToListAsync();
                 ShootingPlace newPlace = null;

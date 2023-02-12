@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Captioneer.API.Data;
-using Captioneer.API.Data.EpisoDate;
-using Captioneer.API.Data.OMDb;
 using Captioneer.API.Entities;
+using Captioneer.API.Utils;
 
 namespace Captioneer.API.Controllers
 {

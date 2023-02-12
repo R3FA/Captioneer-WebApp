@@ -1,7 +1,8 @@
 using System.Net;
 using System.Text.Json;
+using Captioneer.API.DTO;
 
-namespace Captioneer.API.Data.OMDb
+namespace Captioneer.API.Utils
 {
     public static class OMDbFetcher
     {
@@ -30,7 +31,7 @@ namespace Captioneer.API.Data.OMDb
                 var result = await httpClient.GetAsync(url);
 
                 if (result.StatusCode == HttpStatusCode.NotFound || result.StatusCode == HttpStatusCode.NoContent)
-                    return default(OMDbModel?);
+                    return default;
 
                 // Reads the resulting body as a stream and then deserializes the JSON as a OMDb model object
                 var body = await result.Content.ReadAsStreamAsync();
@@ -51,7 +52,7 @@ namespace Captioneer.API.Data.OMDb
                 Console.WriteLine("Invalid JSON");
             }
 
-            return default(OMDbModel?);
+            return default;
         }
     }
 }

@@ -16,6 +16,8 @@ import { TVShowViewModel } from 'src/app/models/tvshow-viewmodel';
 import{LanguageService} from 'src/app/services/language.service'
 import { Creator } from 'src/app/models/creator';
 import { CreatorService } from 'src/app/services/creator.service';
+import { SubtitletranslationService } from 'src/app/services/subtitletranslation.service';
+import { TranslationPostModel } from 'src/app/models/translation-post';
 
 @Component({
   selector: 'app-movie-info',
@@ -24,7 +26,17 @@ import { CreatorService } from 'src/app/services/creator.service';
 })
 export class MovieInfoComponent implements OnInit,AfterViewInit {
 
-  constructor(private httpClient: HttpClient, private userService: UserService, private favoriteMovieService: FavoriteMoviesService, private favoriteTVShowsService : FavoriteTVShowsService, private tokenValidation: TokenValidatorService, private languageService:LanguageService,private creatorService:CreatorService) { }
+  constructor(
+    private httpClient: HttpClient,
+    private userService: UserService,
+    private favoriteMovieService: FavoriteMoviesService,
+    private favoriteTVShowsService : FavoriteTVShowsService,
+    private tokenValidation: TokenValidatorService,
+    private languageService:LanguageService,
+    private creatorService:CreatorService,
+    private subtitleTranslationService : SubtitletranslationService)
+    { }
+
   movie: any;
   movieObject: any;
   actors!: any;
@@ -40,7 +52,7 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
   selectedLanguage2!:any;
   languages!:Language[];
   subtitleDownload!:SubtitleDownloads[];
-  selectedFile!:any;
+  public selectedFile! : SubtitleDownloads;
   public translate!: TranslateService;
   creators!: Creator[];
   public fileName: string="";
@@ -50,9 +62,13 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
   type:string="";
   uploadButtonPressed:boolean=false;
 
+  public translatableLanguages! : Language[] | null;
+  public languageToTranslate! : Language | null;
+
   async ngAfterViewInit(): Promise<void> {
 
     this.languages=await this.getLanguages();
+    this.translatableLanguages = await this.subtitleTranslationService.getTranslatableLanguages();
     this.creators=await this.getCreators();
   }
 
@@ -299,17 +315,27 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
       this.subtitleDownload=JSON.parse(window.sessionStorage.getItem('SubtitleDownloads')!)
       window.sessionStorage.removeItem('SubtitleDownloads')
   }
-  loadFileId(value:any){
-    this.selectedFile=value;
-    console.log(this.selectedFile)
+
+  async downloadSubtitle() : Promise<void> {
+    if (!this.translateCheck) {
+      this.httpClient.post<string>(environment.apiURL + "/OpenSubtitles"+"/"+this.selectedFile.fileId,this.selectedFile.fileId).subscribe((data)=>{
+        var link!:any;
+        link=data;
+        window.open(link.link)
+        });
+    }
+    else {
+
+      var model = new TranslationPostModel();
+      model.release = this.selectedFile.release!;
+      model.languageFrom = this.selectedFile.language!;
+      model.languageTo = this.languageToTranslate!.languageCode!;
+      model.fileID = this.selectedFile.fileId!.toString();
+
+      await this.subtitleTranslationService.translate(model);
+    }
   }
-  downloadSubtitle(){
-    this.httpClient.post<string>(environment.apiURL + "/OpenSubtitles"+"/"+this.selectedFile,this.selectedFile).subscribe((data)=>{
-      var link!:any;
-      link=data;
-      window.open(link.link)
-      });
-  }
+
   async UploadSubtitle(){
     this.uploadButtonPressed=true;
     var currentUser = await this.userService.getCurrentUser();
@@ -347,21 +373,25 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
     console.log("done");
   }
   validateFileUpload(event: any): void {
-    this.file= event.target.files[0];
-    this.fileName = this.file.name;
-    let lastDot=this.fileName.lastIndexOf('.');
-    this.type=this.fileName.slice(lastDot+1).trim();
+      this.file= event.target.files[0];
+      this.fileName = this.file.name;
+      let lastDot=this.fileName.lastIndexOf('.');
+      this.type=this.fileName.slice(lastDot+1).trim();
 
-    if (this.file.size == 0 && this.file.size>300000) {
-      return;
+      if (this.file.size == 0 && this.file.size>300000) {
+        return;
+      }
+      if (this.type != "srt") {
+        return;
     }
-    if (this.type != "srt") {
-      return;
+    else{
+    this.fileSize=this.file.size/1000;
+    this.fileSize=Math.round(this.fileSize);
+    this.validSubtitle=true;
+    }
   }
-  else{
-  this.fileSize=this.file.size/1000;
-  this.fileSize=Math.round(this.fileSize);
-  this.validSubtitle=true;
+
+  switchTranslateLanguage(language : Language) : void {
+    this.languageToTranslate = language;
   }
-}
 }

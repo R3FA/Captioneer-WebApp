@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Captioneer.API.Data.OMDb
+namespace Captioneer.API.DTO
 {
     /// <summary>
     /// Short form model of the OMDbModel class

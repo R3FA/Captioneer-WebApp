@@ -87,7 +87,7 @@ namespace Captioneer.API.Controllers
                     Movie = movie,
                     Language = language,
                     DownloadCount = 0,
-                    SubtitlePath = path,
+                    SubtitlePath = Path.Combine("subtitleMovieUploads", fileName),
                     RatingValue = 0,
                     RatingCount = 0,
                     FrameRate=frameRateSet, 

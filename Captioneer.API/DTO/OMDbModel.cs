@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Captioneer.API.Data.OMDb
+namespace Captioneer.API.DTO
 {
     /// <summary>
     /// Model class for the JSON result from the OMDb API

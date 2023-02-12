@@ -9,6 +9,8 @@ namespace Captioneer.API.Entities
 
         public virtual Language Language { get; set; }
 
+        public string Release { get; set; }
+
         [Required]
         public string SubtitlePath { get; set; } = string.Empty;
     }

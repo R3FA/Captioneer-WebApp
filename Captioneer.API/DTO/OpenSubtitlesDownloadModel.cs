@@ -1,14 +1,14 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Captioneer.API.Data.OpenSubtitles
+namespace Captioneer.API.DTO
 {
     public class OpenSubtitlesDownloadModel
     {
         [JsonPropertyName("link")]
-        public string Link { get; set; }
+        public string? Link { get; set; }
 
         [JsonPropertyName("file_name")]
-        public string FileName { get; set; }
+        public string? FileName { get; set; }
 
         [JsonPropertyName("requests")]
         public int Requests { get; set; }
