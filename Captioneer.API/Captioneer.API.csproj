@@ -31,29 +31,49 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\*" />
+    <Compile Remove="wwwroot\.gitignore\**" />
+    <Compile Remove="wwwroot\translations\.gitkeep\**" />
     <Compile Remove="wwwroot\translations\bs\**" />
     <Compile Remove="wwwroot\translations\de\**" />
     <Compile Remove="wwwroot\translations\ja\**" />
+    <Compile Remove="wwwroot\translations\temp\.gitkeep\**" />
+    <Content Remove="wwwroot\.gitignore\**" />
+    <Content Remove="wwwroot\translations\.gitkeep\**" />
     <Content Remove="wwwroot\translations\bs\**" />
     <Content Remove="wwwroot\translations\de\**" />
     <Content Remove="wwwroot\translations\ja\**" />
+    <Content Remove="wwwroot\translations\temp\.gitkeep\**" />
+    <EmbeddedResource Remove="wwwroot\.gitignore\**" />
+    <EmbeddedResource Remove="wwwroot\translations\.gitkeep\**" />
     <EmbeddedResource Remove="wwwroot\translations\bs\**" />
     <EmbeddedResource Remove="wwwroot\translations\de\**" />
     <EmbeddedResource Remove="wwwroot\translations\ja\**" />
+    <EmbeddedResource Remove="wwwroot\translations\temp\.gitkeep\**" />
+    <Folder Remove="wwwroot\.gitignore\**" />
+    <Folder Remove="wwwroot\translations\.gitkeep\**" />
     <Folder Remove="wwwroot\translations\bs\**" />
     <Folder Remove="wwwroot\translations\de\**" />
     <Folder Remove="wwwroot\translations\ja\**" />
+    <None Remove="wwwroot\.gitignore\**" />
+    <None Remove="wwwroot\translations\.gitkeep\**" />
     <None Remove="wwwroot\translations\bs\**" />
     <None Remove="wwwroot\translations\de\**" />
     <None Remove="wwwroot\translations\ja\**" />
+    <None Remove="wwwroot\translations\temp\.gitkeep\**" />
+    <Content Remove="wwwroot\cert\.gitkeep" />
     <Content Remove="wwwroot\images\users\.gitignore" />
     <Content Remove="wwwroot\subtitleMovieUploads\.gitignore" />
+    <Content Remove="wwwroot\subtitleMovieUploads\.gitkeep" />
     <Content Remove="wwwroot\translations\.gitignore" />
+    <Content Remove="wwwroot\translations\.gitkeep" />
     <Content Remove="wwwroot\translations\temp\.gitignore" />
     <Content Remove="wwwroot\translations\temp\.gitkeep" />
     <Folder Include="wwwroot\subtitleMovieUploads\" />
+    <Folder Include="wwwroot\translations\bs\" />
+    <Folder Include="wwwroot\translations\ja\" />
     <Folder Include="wwwroot\translations\temp\" />
+    <Content Remove="wwwroot\translations\**.srt" />
+    <Content Remove="wwwroot\.gitignore" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

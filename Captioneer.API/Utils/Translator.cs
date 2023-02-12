@@ -145,9 +145,6 @@ namespace Captioneer.API.Utils
 
                 if (!timestamp)
                 {
-                    if (counter > blocks.Count - 1)
-                        Debugger.Break();
-
                     if (blocks[counter].Text == "")
                     { 
                         blocks[counter].Text = line;
