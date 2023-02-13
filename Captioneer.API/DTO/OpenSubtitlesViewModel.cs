@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Captioneer.API.ViewModels
+namespace Captioneer.API.DTO
 {
     public class OpenSubtitlesViewModel
     {

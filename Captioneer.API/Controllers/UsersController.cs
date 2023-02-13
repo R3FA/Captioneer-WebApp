@@ -8,7 +8,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Captioneer.API.DTO;
-using Captioneer.API.ViewModels;
 
 namespace Captioneer.API.Controllers
 {
