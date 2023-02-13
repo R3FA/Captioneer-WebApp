@@ -76,6 +76,10 @@
     <Content Remove="wwwroot\.gitignore" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UtilityService\UtilityService.csproj" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="%25SystemRoot%25\system32\xcopy.exe /Q /Y /I &quot;wwwroot\cert\DigiCertGlobalRootCA.crt.pem&quot; &quot;$(TargetDir)cert\&quot;" />
   </Target>
