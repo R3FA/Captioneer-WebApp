@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Captioneer.API.Data;
 using Captioneer.API.Entities;
-using Captioneer.API.ViewModels;
+using Captioneer.API.DTO;
 
 namespace Captioneer.API.Controllers
 {

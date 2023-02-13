@@ -1,4 +1,4 @@
-﻿namespace Captioneer.API.ViewModels
+﻿namespace Captioneer.API.DTO
 {
     public class MovieViewModel
     {

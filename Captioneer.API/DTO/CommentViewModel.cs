@@ -1,12 +1,13 @@
 ﻿using Captioneer.API.Entities;
 
-namespace Captioneer.API.ViewModels
+namespace Captioneer.API.DTO
 {
     public class CommentViewModel
     {
-        public string UserName { get; set; }
-        public string CommentContent { get; set; }
+        public int? ID { get; set; }
+        public string Username { get; set; }
         public int? SubtitleMovieID { get; set; }
         public int? SubtitleTVShowID { get; set; }
+        public string Content { get; set; }
     }
 }

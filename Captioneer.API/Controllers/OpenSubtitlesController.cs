@@ -1,6 +1,5 @@
 ﻿using Captioneer.API.DTO;
 using Captioneer.API.Utils;
-using Captioneer.API.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

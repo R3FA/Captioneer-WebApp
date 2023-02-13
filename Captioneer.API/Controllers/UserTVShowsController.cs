@@ -1,6 +1,6 @@
 ﻿using Captioneer.API.Data;
+using Captioneer.API.DTO;
 using Captioneer.API.Entities;
-using Captioneer.API.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
