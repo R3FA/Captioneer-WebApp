@@ -1,11 +1,9 @@
-﻿using Captioneer.API.Data;
-using Captioneer.API.Entities;
+﻿using API.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -35,7 +33,7 @@ namespace Captioneer.API.Controllers
 
         // POST api/<SubtitleUserController>
         [HttpPost]
-        public async Task<ActionResult>Post(string userEmail,int movieId)
+        public async Task<ActionResult> Post(string userEmail, int movieId)
         {
             //var user = await _context.Users.FirstOrDefaultAsync(u=>u.Email==userEmail);
             //if (user == null)

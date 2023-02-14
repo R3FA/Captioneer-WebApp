@@ -1,12 +1,12 @@
-﻿using Captioneer.API.Data;
-using Captioneer.API.Entities;
+﻿using API.Data;
+using API.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
+using UtilityService.Utils;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -21,32 +21,28 @@ namespace Captioneer.API.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-        // GET: api/<SubtitleMovieController>
+        // GET: api/SubtitleMovie
         [HttpGet]
-        public List<SubtitleMovie> Get()
+        public async Task<ActionResult<List<SubtitleMovie>>> Get()
         {
-            //SubtitleMovie[] result = null;
-            //result= await _context.SubtitleMovies.ToArrayAsync();
-            List<SubtitleMovie> subMovieList= new List<SubtitleMovie>();
-            return _context.SubtitleMovies.Include(s=>s.Movie)
-                                   .Include(s=>s.Language).ToList();
+            var subMovieList = await _context.SubtitleMovies.Include(s => s.Movie).Include(s => s.Language).ToListAsync();
+
+            return Ok(subMovieList);
         }
 
-        // GET api/<SubtitleMovieController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<SubtitleMovieController>
+        // POST api/SubtitleMovie
         [HttpPost]
-        public async Task<ActionResult> Post(int movieId,string languageCode,int? frameRate,string? release,string userEmail,IFormFile file)
+        public async Task<ActionResult> Post(int movieId, string languageCode, int? frameRate, string? release, string userEmail, IFormFile file)
         {
             var movie = await _context.Movies.FirstOrDefaultAsync(m => m.ID == movieId);
+
             if (movie == null)
-                return BadRequest();
-            var language=await _context.Languages.FirstOrDefaultAsync(l=>l.LanguageCode== languageCode);
+            {
+                LoggerManager.GetInstance().LogError($"Could not find movie with ID {movieId}");
+                return BadRequest($"Could not find movie with ID {movieId}");
+            }
+
+            var language = await _context.Languages.FirstOrDefaultAsync(l => l.LanguageCode == languageCode);
 
             string path;
 
@@ -58,15 +54,15 @@ namespace Captioneer.API.Controllers
                 fileName = fileName.Replace("/", "");
                 fileName = fileName.Replace(":", "");
                 fileName = fileName.Replace(" ", "");
-                
-                path = Path.Combine(uploads,fileName);
+
+                path = Path.Combine(uploads, fileName);
                 await Upload(file, path);
 
                 int currentId = await _context.SubtitleMovies.CountAsync();
 
                 int frameRateSet;
-                if (frameRate==null)
-                    frameRateSet= 0;
+                if (frameRate == null)
+                    frameRateSet = 0;
                 else
                     frameRateSet = (int)frameRate;
 
@@ -76,21 +72,25 @@ namespace Captioneer.API.Controllers
                 else
                     releaseSet = release;
 
-                var user= await _context.Users.FirstOrDefaultAsync(u=>u.Email==userEmail);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+
                 if (user == null)
-                    return BadRequest();
+                {
+                    LoggerManager.GetInstance().LogError($"Could not find user with email {userEmail}");
+                    return NotFound($"Could not find user with email {userEmail}");
+                }
 
                 SubtitleMovie subtitleMovie = new SubtitleMovie
                 {
-                    ID= ++currentId,
+                    ID = ++currentId,
                     Movie = movie,
                     Language = language,
                     DownloadCount = 0,
                     SubtitlePath = Path.Combine("subtitleMovieUploads", fileName),
                     RatingValue = 0,
                     RatingCount = 0,
-                    FrameRate=frameRateSet, 
-                    Release=releaseSet,
+                    FrameRate = frameRateSet,
+                    Release = releaseSet,
                 };
                 await _context.SubtitleMovies.AddAsync(subtitleMovie);
                 await _context.SaveChangesAsync();
@@ -109,13 +109,20 @@ namespace Captioneer.API.Controllers
                 return Ok();
             }
             return BadRequest();
-            }
+        }
 
         private static async Task Upload(IFormFile file, string path)
         {
-            using (var fileStream = new FileStream(path, FileMode.Create))
+            try
             {
-                await file.CopyToAsync(fileStream);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            } 
+            catch(Exception e)
+            {
+                LoggerManager.GetInstance().LogError(e.Message);
             }
         }
 

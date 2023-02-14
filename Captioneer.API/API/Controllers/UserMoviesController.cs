@@ -1,10 +1,11 @@
-﻿using Captioneer.API.Data;
-using Captioneer.API.DTO;
-using Captioneer.API.Entities;
+﻿using API.Data;
+using API.DTO;
+using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UtilityService.Utils;
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,21 +24,26 @@ namespace Captioneer.API.Controllers
             var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
             if (dbUser == null)
-                return NotFound("User with the provided username was not found!");
+            {
+                LoggerManager.GetInstance().LogError($"User with {username} was not found!");
+                return NotFound($"User with {username} was not found!");
+            }
 
             var dbUserMovies = await _context.UsersMovies.Where(uM => uM.UserID == dbUser.ID).ToListAsync();
-            
-            if (dbUserMovies.Count == 0)
-                return Ok(new List<MovieViewModel>());
-
             var favoriteMovies = new List<MovieViewModel>();
+
+            if (dbUserMovies.Count == 0)
+                return Ok(favoriteMovies);
 
             foreach (var dbUserMovie in dbUserMovies)
             {
                 var dbMovie = await _context.Movies.FindAsync(dbUserMovie.MovieID);
 
-                if (dbMovie == null )
-                    return NotFound("Could not find one or more favorite movies!");
+                if (dbMovie == null)
+                {
+                    LoggerManager.GetInstance().LogError($"Could not find one or more favorite movies for user {username}");
+                    return NotFound($"Could not find one or more favorite movies for user {username}");
+                }
 
                 favoriteMovies.Add(new MovieViewModel()
                 {
@@ -64,13 +70,22 @@ namespace Captioneer.API.Controllers
             var dbMovie = await _context.Movies.FirstOrDefaultAsync(m => m.Title == movie.Title && movie.Year == m.Year);
 
             if (dbUser == null)
-                return NotFound("User with the provided username was not found!");
+            {
+                LoggerManager.GetInstance().LogError($"User with {username} was not found!");
+                return NotFound($"User with {username} was not found!");
+            }
 
             if (dbMovie == null)
-                return NotFound("The provided movie was not found!");
+            {
+                LoggerManager.GetInstance().LogError($"Movie {movie.Title} was not found");
+                return NotFound($"Movie {movie.Title} was not found");
+            }
 
             if (_context.UsersMovies.Any(uM => uM.UserID == dbUser.ID && uM.MovieID == dbMovie.ID))
-                return BadRequest("The provided movie has already been favorited by the user!");
+            {
+                LoggerManager.GetInstance().LogError($"Movie {movie.Title} has already been favorited by user {username}");
+                return BadRequest($"Movie {movie.Title} has already been favorited by user {username}");
+            }
 
             await _context.UsersMovies.AddAsync(new UserMovies()
             {
@@ -89,16 +104,25 @@ namespace Captioneer.API.Controllers
             var dbMovie = await _context.Movies.FirstOrDefaultAsync(m => m.Title == movie.Title && movie.Year == m.Year);
 
             if (dbUser == null)
-                return NotFound("User with the provided username was not found!");
+            {
+                LoggerManager.GetInstance().LogError($"User with {username} was not found!");
+                return NotFound($"User with {username} was not found!");
+            }
 
             if (dbMovie == null)
-                return NotFound("The provided movie was not found!");
+            {
+                LoggerManager.GetInstance().LogError($"Movie {movie.Title} was not found");
+                return NotFound($"Movie {movie.Title} was not found");
+            }
 
             var dbUserMovie = await _context.UsersMovies.FindAsync(dbUser.ID, dbMovie.ID);
 
             if (dbUserMovie == null)
-                return BadRequest("The provided movie is not favorited by the user!");
-            
+            {
+                LoggerManager.GetInstance().LogError($"Movie {movie.Title} is not favorited by {username} and cannot be deleted");
+                return BadRequest($"Movie {movie.Title} is not favorited by {username} and cannot be deleted");
+            }
+
             _context.UsersMovies.Remove(dbUserMovie);
             await _context.SaveChangesAsync();
 

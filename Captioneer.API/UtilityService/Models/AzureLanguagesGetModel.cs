@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Captioneer.API.DTO
+namespace UtilityService.Models
 {
     public class AzureLanguagesGetModel
     {

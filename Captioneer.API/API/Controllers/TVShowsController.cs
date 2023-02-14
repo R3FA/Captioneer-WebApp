@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Captioneer.API.Data;
-using Captioneer.API.Entities;
-using Captioneer.API.Utils;
+using UtilityService.Utils;
+using API.Data;
+using API.Entities;
+using API.Utils;
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -54,7 +50,10 @@ namespace Captioneer.API.Controllers
                 var show = await OMDbCacher.CacheShow(model, _context);
 
                 if (show == null)
-                    return NotFound();
+                {
+                    LoggerManager.GetInstance().LogError($"Could not fetch show {searchQuery} from OMDb");
+                    return NotFound($"Could not fetch show {searchQuery} from OMDb");
+                }
 
                 showsFiltered.Add(show);
             }

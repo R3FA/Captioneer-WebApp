@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Captioneer.API.Data;
-using Captioneer.API.Entities;
-using Captioneer.API.Utils;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Captioneer.API.DTO;
+using UtilityService.Utils;
+using API.DTO;
+using API.Data;
+using API.Entities;
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -31,18 +31,24 @@ namespace Captioneer.API.Controllers
         public async Task<ActionResult<UserViewModel>> GetUserByEmail(string? mail)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == mail);
-            if(user == null) { return NotFound("User doesn't exist!"); }
+
+            if (user == null)
+            {
+                LoggerManager.GetInstance().LogError($"User with {mail} was not found!");
+                return NotFound($"User with {mail} was not found!");
+            }
+
             UserViewModel userReturn = new UserViewModel()
             {
                 Email = user.Email,
                 ProfileImage = user.ProfileImage,
                 Username = user.Username,
-                Designation= user.Designation,
-                funFact=user.funFact,
-                RegistrationDate=user.RegistrationDate,
-                SubtitleDownload=user.SubtitleDownload,
-                SubtitleUpload=user.SubtitleUpload
-            }; 
+                Designation = user.Designation,
+                funFact = user.funFact,
+                RegistrationDate = user.RegistrationDate,
+                SubtitleDownload = user.SubtitleDownload,
+                SubtitleUpload = user.SubtitleUpload
+            };
             return userReturn;
         }
 
@@ -53,15 +59,24 @@ namespace Captioneer.API.Controllers
             var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
             if (dbUser == null)
-                return NotFound("Could not find the user with the provided username!");
+            {
+                LoggerManager.GetInstance().LogError($"User with {username} was not found!");
+                return NotFound($"User with {username} was not found!");
+            }
 
             if (dbUser.ProfileImage == null)
-                return NotFound("The provided user does not have a profile image!");
+            {
+                LoggerManager.GetInstance().LogError($"User {username} does not have a profile image!");
+                return NotFound($"User {username} does not have a profile image!");
+            }
 
             var encodedImage = await ImageSerializer.Deserialize(_hostEnvironment.WebRootPath, dbUser.ProfileImage);
 
             if (encodedImage == null)
-                return StatusCode(500, "Could not encode image to Base64!");
+            {
+                LoggerManager.GetInstance().LogError($"Could not encode image to Base64 for user {username}");
+                return StatusCode(500, $"Could not encode image to Base64 for user {username}");
+            }
 
             return Ok(encodedImage);
         }
@@ -73,14 +88,16 @@ namespace Captioneer.API.Controllers
             // Password can only be null if the user wishes to update their profile image
             if (userUpdate.Password == null && userUpdate.NewProfileImage == null)
             {
-                return BadRequest("Must provide a password to make any changes");
+                LoggerManager.GetInstance().LogError($"User {username} must provide a password to make any changes");
+                return BadRequest($"User {username} must provide a password to make any changes");
             }
 
             var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
             if (dbUser == null)
             {
-                return NotFound("The User does not exist in the database");
+                LoggerManager.GetInstance().LogError($"User with {username} was not found!");
+                return NotFound($"User with {username} was not found!");
             }
 
             // Verify that the passed password is correct if the user's username, password or email is being updated
@@ -88,24 +105,36 @@ namespace Captioneer.API.Controllers
             {
                 if (!BCryptHasher.Verify(userUpdate.Password!, dbUser.Password))
                 {
-                    return BadRequest("The provided password is incorrect");
+                    LoggerManager.GetInstance().LogInfo($"User {username} provided the wrong password");
+                    return BadRequest($"User {username} provided the wrong password");
                 }
             }
 
             if (userUpdate.NewEmail != null)
                 dbUser.Email = userUpdate.NewEmail;
             if (userUpdate.NewPassword != null)
-                dbUser.Password = BCryptHasher.Hash(userUpdate.NewPassword);
+            {
+                var hashedPassword = BCryptHasher.Hash(userUpdate.NewPassword);
+
+                if (hashedPassword == null)
+                {
+                    LoggerManager.GetInstance().LogError($"Failed to hash password for user {username}");
+                    return StatusCode(500, $"Failed to hash password for user {username}");
+                }
+
+                dbUser.Password = hashedPassword;
+            }
             if (userUpdate.NewUsername != null)
                 dbUser.Username = userUpdate.NewUsername;
             if (userUpdate.NewProfileImage != null)
             {
                 var writeName = dbUser.Username;
-                var filePath = await ImageSerializer.Serialize(userUpdate.NewProfileImage, _hostEnvironment.WebRootPath,  writeName);
+                var filePath = await ImageSerializer.Serialize(userUpdate.NewProfileImage, _hostEnvironment.WebRootPath, writeName);
 
                 if (filePath == null)
                 {
-                    return BadRequest("Failed to save image, check the format and size again");
+                    LoggerManager.GetInstance().LogError($"Failed to save image for user {username}, check the format and size again");
+                    return BadRequest($"Failed to save image for user {username}, check the format and size again");
                 }
 
                 dbUser.ProfileImage = filePath;
@@ -116,14 +145,16 @@ namespace Captioneer.API.Controllers
                 dbUser.funFact = userUpdate.funFact;
 
             try
-            { 
+            {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException e)
             {
+                LoggerManager.GetInstance().LogError(e.Message);
                 return BadRequest(e.Message);
             }
 
+            LoggerManager.GetInstance().LogInfo($"Set new profile image for user {username}");
             return Ok();
         }
 
@@ -132,9 +163,15 @@ namespace Captioneer.API.Controllers
         [HttpPost]
         public async Task<ActionResult<UserViewModel>> PostUser(UserPostModel user)
         {
-            if (!UserExistsEmail(user)&&!UserExistsName(user))
+            if (!UserExistsEmail(user) && !UserExistsName(user))
             {
                 var hashedPassword = BCryptHasher.Hash(user.Password);
+
+                if (hashedPassword == null)
+                {
+                    LoggerManager.GetInstance().LogError($"Failed to hash password for user {user.Username}");
+                    return StatusCode(500, $"Failed to hash password for user {user.Username}");
+                }
 
                 var newUser = new User()
                 {
@@ -151,41 +188,48 @@ namespace Captioneer.API.Controllers
                 }
                 catch (DbUpdateException e)
                 {
+                    LoggerManager.GetInstance().LogError(e.Message);
                     return BadRequest(e.Message);
                 }
 
+                LoggerManager.GetInstance().LogInfo($"Created new user with username {user.Username} and email {user.Email}");
                 return Ok();
             }
             else
-                return UserExistsEmail(user)?BadRequest("Email is in use"):BadRequest("Username exists");
+            {
+                LoggerManager.GetInstance().LogInfo($"User {user.Username} could not be created because it already exists");
+                return UserExistsEmail(user) ? BadRequest("Email is in use") : BadRequest("Username exists");
+            }
         }
 
         [HttpPost("login")]
         public async Task<IResult> loginUser([FromBody] UserLoginModel sentCredentials)
         {
-            var builder = WebApplication.CreateBuilder();
             if (sentCredentials == null)
-                return (IResult)BadRequest();
+            {
+                LoggerManager.GetInstance().LogError("No credentials passed for login");
+                return (IResult)BadRequest("No credentials passed for login");
+            }
 
             var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == sentCredentials.Email);
 
             if (dbUser == null)
-                return (IResult)BadRequest("email or password is wrong");
+            {
+                LoggerManager.GetInstance().LogInfo($"Could not find user with email {sentCredentials.Email}");
+                return (IResult)BadRequest($"Could not find user with email {sentCredentials.Email}");
+            }
 
-            
             if (!BCryptHasher.Verify(sentCredentials.Password, dbUser.Password))
-                return (IResult)BadRequest("email or password is wrong");
+            {
+                LoggerManager.GetInstance().LogInfo($"Password was wrong for user ${sentCredentials.Email}");
+                return (IResult)BadRequest($"Password was wrong for user ${sentCredentials.Email}");
+            }
 
-            //ovo bi se trebalo koristiti da se provjeri password posto je password hash vrijednost
-
-            //return Ok(new
-            //{
-            //    Message = "You are logged in!"
-            //});
             var stringToken = GenerateJwt(sentCredentials);
-            return Results.Ok(stringToken);
 
+            return Results.Ok(stringToken);
         }
+
         // DELETE: api/Users
         [HttpDelete]
         public async Task<IActionResult> DeleteUser(UserPostModel user)
@@ -193,10 +237,16 @@ namespace Captioneer.API.Controllers
             var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
 
             if (dbUser == null)
-                return NotFound("Could not find a User with the provided username");
+            {
+                LoggerManager.GetInstance().LogError($"Could not find user with username {user.Username}");
+                return NotFound($"Could not find user with username {user.Username}");
+            }
 
             if (!BCryptHasher.Verify(user.Password, dbUser.Password))
-                return BadRequest("The provided password is incorrect!");
+            {
+                LoggerManager.GetInstance().LogInfo($"Password was wrong for user ${user.Username}");
+                return BadRequest($"Password was wrong for user ${user.Username}");
+            }
 
             try
             {
@@ -205,7 +255,8 @@ namespace Captioneer.API.Controllers
             }
             catch (DbUpdateException e)
             {
-                return BadRequest(e.Message);
+                LoggerManager.GetInstance().LogError(e.Message);
+                return StatusCode(500, e.Message);
             }
 
             return Ok();

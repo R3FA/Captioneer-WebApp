@@ -1,4 +1,4 @@
-﻿namespace Captioneer.API.Utils
+﻿namespace UtilityService.Utils
 {
     public static class FileDownloader
     {
@@ -15,7 +15,7 @@
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                LoggerManager.GetInstance().LogError(e.Message);
                 return false;
             }
 

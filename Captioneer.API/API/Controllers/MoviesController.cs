@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Captioneer.API.Data;
-using Captioneer.API.Entities;
-using Captioneer.API.Utils;
+using UtilityService.Utils;
+using API.Entities;
+using API.Data;
+using API.Utils;
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class MoviesController : ControllerBase
     {
         private readonly CaptioneerDBContext _context;
-
         private readonly IConfiguration _configuration;
 
         public MoviesController(CaptioneerDBContext context, IConfiguration configuration)
@@ -27,9 +22,11 @@ namespace Captioneer.API.Controllers
 
         // GET: api/Movies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        public async Task<ActionResult<ActionResult<IEnumerable<Movie>>>> GetMovies()
         {
-            return await _context.Movies.ToListAsync();
+            var dbMovies = await _context.Movies.ToListAsync();
+
+            return Ok(dbMovies);
         }
 
         // GET: api/Movies/Guardians+of+The+Galaxy
@@ -56,7 +53,10 @@ namespace Captioneer.API.Controllers
                 var movie = await OMDbCacher.CacheMovie(omdbModel, _context);
 
                 if (movie == null)
-                    return NotFound();
+                {
+                    LoggerManager.GetInstance().LogError($"Status 404: Unable to find movie {searchQuery} on OMDb");
+                    return NotFound($"Unable to find movie {searchQuery} on OMDb");
+                }
 
                 return Ok(movie);
             }

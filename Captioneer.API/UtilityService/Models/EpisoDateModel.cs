@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Captioneer.API.DTO
+namespace UtilityService.Models
 {
     /// <summary>
     /// Model class for the JSON result from EpisoDate's API

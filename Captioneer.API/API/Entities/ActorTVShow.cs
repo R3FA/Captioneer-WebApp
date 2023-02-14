@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Captioneer.API.Entities
+namespace API.Entities
 {
     public class ActorTVShow
     {
         public int ActorID { get; set; }
-        
+
         public int TVShowID { get; set; }
 
         [ForeignKey("ActorID")]

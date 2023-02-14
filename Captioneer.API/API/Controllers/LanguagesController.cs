@@ -1,10 +1,9 @@
-﻿using Captioneer.API.Data;
-using Captioneer.API.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using API.Data;
+using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -14,13 +13,16 @@ namespace Captioneer.API.Controllers
 
         public LanguagesController(CaptioneerDBContext context)
         {
-            this._context = context;
+            _context = context;
         }
-        //GET: api/Langauges
+
+        //GET: api/Languages
         [HttpGet]
-        public async Task<IEnumerable<Language>> getLanguages()
+        public async Task<ActionResult<IEnumerable<Language>>> GetLanguages()
         {
-            return await _context.Languages.ToListAsync();
+            var dbLanguages = await _context.Languages.ToListAsync();
+
+            return Ok(dbLanguages);
         }
     }
 }

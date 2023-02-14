@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Captioneer.API.Entities
+namespace API.Entities
 {
     public class SubtitleTVShow
     {
@@ -8,7 +8,7 @@ namespace Captioneer.API.Entities
         public int ID { get; set; }
 
         public virtual Episode Episode { get; set; }
-        
+
         public virtual Language Language { get; set; }
 
         [Required]

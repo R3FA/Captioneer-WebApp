@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Captioneer.API.Entities
+namespace API.Entities
 {
     public class Creator
     {
@@ -20,7 +20,7 @@ namespace Captioneer.API.Entities
             var creator = obj as Creator;
 
             if (creator != null)
-                return this.FirstName == creator.FirstName && this.Surname == creator.Surname;
+                return FirstName == creator.FirstName && Surname == creator.Surname;
 
             return false;
         }

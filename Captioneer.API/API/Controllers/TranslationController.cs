@@ -1,24 +1,19 @@
-﻿using System.Drawing;
-using System.Net;
-using Captioneer.API.Data;
-using Captioneer.API.DTO;
-using Captioneer.API.Entities;
-using Captioneer.API.Utils;
-using Microsoft.AspNetCore.Http;
+﻿using API.Data;
+using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
+using UtilityService.Models;
+using UtilityService.Utils;
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class TranslationController : ControllerBase
     {
         private readonly CaptioneerDBContext _context;
-
         private readonly IWebHostEnvironment _webHostEnvironment;
-
         private readonly IConfiguration _configuration;
 
         public TranslationController(CaptioneerDBContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
@@ -36,7 +31,8 @@ namespace Captioneer.API.Controllers
 
             if (azureLanguages == null)
             {
-                return NotFound("Could not fetch languages that can be translated from Azure!");
+                LoggerManager.GetInstance().LogError("Could not fetch languages that can be translated from Azure");
+                return NotFound("Could not fetch languages that can be translated from Azure");
             }
 
             var languages = new List<Language>();
@@ -79,7 +75,7 @@ namespace Captioneer.API.Controllers
                 return new FileContentResult(fileBytes, new MediaTypeHeaderValue("application/octet"));
             }
 
-            var newTranslation = new Translation(); 
+            var newTranslation = new Translation();
             var microsoftTranslatorKey = _configuration["ApiKeys:MicrosoftTranslator"];
 
             if (model.FileID != null)
@@ -93,14 +89,16 @@ namespace Captioneer.API.Controllers
 
                     if (!await FileDownloader.Download(downloadModel.Link!, savePath))
                     {
-                        return NotFound("Could not download subtitle from OpenSubtitles!");
+                        LoggerManager.GetInstance().LogError("Could not download subtitle from OpenSubtitles");
+                        return NotFound("Could not download subtitle from OpenSubtitles");
                     }
 
                     var translatedFile = await Translator.Translate(savePath, model, _webHostEnvironment.WebRootPath, microsoftTranslatorKey);
 
                     if (translatedFile == null)
                     {
-                        return NotFound("Could not translate subtitle!");
+                        LoggerManager.GetInstance().LogError("Could not translate subtitle");
+                        return NotFound("Could not translate subtitle");
                     }
 
                     newTranslation.SubtitlePath = translatedFile;
@@ -118,6 +116,7 @@ namespace Captioneer.API.Controllers
 
                     if (translatedFile == null)
                     {
+                        LoggerManager.GetInstance().LogError("Could not translate subtitle");
                         return NotFound("Could not translate subtitle!");
                     }
 
@@ -126,10 +125,11 @@ namespace Captioneer.API.Controllers
             }
 
             var language = await _context.Languages.FirstOrDefaultAsync(l => l.LanguageCode == model.LanguageTo);
-            
+
             if (language == null)
             {
-                return NotFound("Could not find the translation language!");
+                LoggerManager.GetInstance().LogError("Could not find the translation language");
+                return NotFound("Could not find the translation language");
             }
 
             newTranslation.Language = language;
@@ -139,6 +139,7 @@ namespace Captioneer.API.Controllers
             await _context.SaveChangesAsync();
 
             var newTranslationBytes = await System.IO.File.ReadAllBytesAsync(Path.Combine(_webHostEnvironment.WebRootPath, newTranslation.SubtitlePath));
+            LoggerManager.GetInstance().LogInfo($"Served {newTranslation.SubtitlePath} after translation");
 
             return new FileContentResult(newTranslationBytes, new MediaTypeHeaderValue("application/octet"));
         }

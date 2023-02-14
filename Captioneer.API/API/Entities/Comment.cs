@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Captioneer.API.Entities
+namespace API.Entities
 {
     public class Comment
     {
@@ -9,7 +9,7 @@ namespace Captioneer.API.Entities
 
         public virtual User User { get; set; }
 
-        public virtual SubtitleMovie? SubtitleMovie  { get; set; }
+        public virtual SubtitleMovie? SubtitleMovie { get; set; }
 
         public virtual SubtitleTVShow? SubtitleTVShow { get; set; }
 

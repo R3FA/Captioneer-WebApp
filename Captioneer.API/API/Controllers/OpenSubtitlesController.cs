@@ -1,9 +1,8 @@
-﻿using Captioneer.API.DTO;
-using Captioneer.API.Utils;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using UtilityService.Models;
+using UtilityService.Utils;
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -26,7 +25,11 @@ namespace Captioneer.API.Controllers
 
             if (model == null)
             {
-                return NotFound();
+                var errorMsg = seasonNumber == null ? $"Could not find subtitles for {imdbID} on OpenSubtitles" 
+                    : $"Could not find subtitles for {imdbID}, season {seasonNumber} and episode {episodeNumber} on OpenSubtitles";
+
+                LoggerManager.GetInstance().LogError("Status 404: " + errorMsg);
+                return NotFound(errorMsg);
             }
 
             var viewModels = new List<OpenSubtitlesViewModel>();
@@ -56,7 +59,10 @@ namespace Captioneer.API.Controllers
             var link = await OpenSubtitlesFetcher.GetDownloadLink(fileID, apiKey);
 
             if (link == null)
-                return NotFound();
+            {
+                LoggerManager.GetInstance().LogError($"Could not fetch download link for OpenSubtitles file {fileID}");
+                return NotFound($"Could not fetch download link for OpenSubtitles file {fileID}");
+            }
 
             return Ok(link);
         }

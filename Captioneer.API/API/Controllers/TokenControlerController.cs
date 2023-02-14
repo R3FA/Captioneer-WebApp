@@ -2,22 +2,16 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using UtilityService.Utils;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class TokenControlerController : ControllerBase
     {
-        // GET: api/<TokenControlerController>
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
         // GET api/<TokenControlerController>/5
         [HttpGet("{value}")]
         public bool Get(string? value)
@@ -41,12 +35,14 @@ namespace Captioneer.API.Controllers
                 {
                     tokenHandler.ValidateToken(value, validationParameters, out validatedToken);
                 }
-                catch (SecurityTokenException)
+                catch (SecurityTokenException e)
                 {
+                    LoggerManager.GetInstance().LogError(e.Message);
                     return false;
                 }
                 catch (Exception e)
                 {
+                    LoggerManager.GetInstance().LogError(e.Message);
                     return false;
                 }
                 return true;

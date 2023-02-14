@@ -1,12 +1,11 @@
 ﻿using System.Globalization;
-using Captioneer.API.Controllers;
-using Captioneer.API.Data;
-using Captioneer.API.DTO;
-using Captioneer.API.Entities;
+using API.Data;
+using API.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using UtilityService.Models;
+using UtilityService.Utils;
 
-namespace Captioneer.API.Utils
+namespace API.Utils
 {
     public static class OMDbCacher
     {
@@ -20,7 +19,7 @@ namespace Captioneer.API.Utils
         {
             if (movie == null)
             {
-                Console.WriteLine("Movie passed for caching was null!");
+                LoggerManager.GetInstance().LogError("Movie passed for caching to OMDb was null");
                 return null;
             }
 
@@ -86,6 +85,7 @@ namespace Captioneer.API.Utils
                 await CacheShootingPlace(movie.Country, context, newMovie);
 
             await context.SaveChangesAsync();
+            LoggerManager.GetInstance().LogInfo($"Cached movie {movie.Title}");
 
             return await context.Movies.FindAsync(newMovie.ID);
         }
@@ -100,7 +100,7 @@ namespace Captioneer.API.Utils
         {
             if (show == null)
             {
-                Console.WriteLine("TVShow passed for caching was null!");
+                LoggerManager.GetInstance().LogError("TV show passed for caching to OMDb was null");
                 return null;
             }
 
@@ -151,14 +151,27 @@ namespace Captioneer.API.Utils
             };
 
             if (show.Genre != null)
+            {
                 await CacheGenres(show.Genre, context, newShow);
+                LoggerManager.GetInstance().LogInfo($"Cached genres for show {show.Title}");
+            }
             if (show.Actors != null)
+            {
                 await CacheActors(show.Actors, context, newShow);
+                LoggerManager.GetInstance().LogInfo($"Cached actors for show {show.Title}");
+            }
+
             await CacheCreators(show.Writer, show.Director, context, newShow);
+            LoggerManager.GetInstance().LogInfo($"Cached creators for show {show.Title}");
+
             if (show.Country != null)
+            {
                 await CacheShootingPlace(show.Country, context, newShow);
+                LoggerManager.GetInstance().LogInfo($"Cached shooting places for show {show.Title}");
+            }
 
             await context.SaveChangesAsync();
+            LoggerManager.GetInstance().LogInfo($"Cached TV show {show.Title}");
 
             return await context.TVShows.FindAsync(newShow.ID);
         }

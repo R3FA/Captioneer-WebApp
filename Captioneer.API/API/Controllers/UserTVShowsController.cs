@@ -1,10 +1,11 @@
-﻿using Captioneer.API.Data;
-using Captioneer.API.DTO;
-using Captioneer.API.Entities;
+﻿using API.Data;
+using API.DTO;
+using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UtilityService.Utils;
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,10 +24,13 @@ namespace Captioneer.API.Controllers
             var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
             if (dbUser == null)
-                return NotFound("User with the provided username was not found!");
+            {
+                LoggerManager.GetInstance().LogError($"User with {username} was not found!");
+                return NotFound($"User with {username} was not found!");
+            }
 
             var dbUserTVShows = await _context.UsersTVShows.Where(uM => uM.UserID == dbUser.ID).ToListAsync();
-            
+
             if (dbUserTVShows.Count == 0)
                 return Ok(new List<TVShowViewModel>());
 
@@ -36,8 +40,11 @@ namespace Captioneer.API.Controllers
             {
                 var dbTVShow = await _context.TVShows.FindAsync(dbUserTVShow.TVShowID);
 
-                if (dbTVShow == null )
-                    return NotFound("Could not find one or more favorite TV shows!");
+                if (dbTVShow == null)
+                {
+                    LoggerManager.GetInstance().LogError($"Could not find one or more favorite TV shows for user {username}");
+                    return NotFound($"Could not find one or more favorite TV shows for user {username}");
+                }
 
                 favoriteTVShows.Add(new TVShowViewModel()
                 {
@@ -65,13 +72,22 @@ namespace Captioneer.API.Controllers
             var dbTVShow = await _context.TVShows.FirstOrDefaultAsync(m => m.Title == TVShow.Title && TVShow.Year == m.Year);
 
             if (dbUser == null)
-                return NotFound("User with the provided username was not found!");
+            {
+                LoggerManager.GetInstance().LogError($"User with {username} was not found!");
+                return NotFound($"User with {username} was not found!");
+            }
 
             if (dbTVShow == null)
-                return NotFound("The provided TVShow was not found!");
+            {
+                LoggerManager.GetInstance().LogError($"Could not find TV show {TVShow.Title}");
+                return NotFound($"Could not find TV show {TVShow.Title}");
+            }
 
             if (_context.UsersTVShows.Any(uM => uM.UserID == dbUser.ID && uM.TVShowID == dbTVShow.ID))
-                return BadRequest("The provided TVShow has already been favorited by the user!");
+            {
+                LoggerManager.GetInstance().LogError($"TV show {TVShow.Title} has already been favorited by user {username}");
+                return BadRequest($"TV show {TVShow.Title} has already been favorited by user {username}");
+            }
 
             await _context.UsersTVShows.AddAsync(new UserTVShows()
             {
@@ -80,6 +96,7 @@ namespace Captioneer.API.Controllers
             });
             await _context.SaveChangesAsync();
 
+            LoggerManager.GetInstance().LogInfo($"Added new favorite show to user {username}");
             return Ok();
         }
 
@@ -90,19 +107,29 @@ namespace Captioneer.API.Controllers
             var dbTVShow = await _context.TVShows.FirstOrDefaultAsync(m => m.Title == TVShow.Title && TVShow.Year == m.Year);
 
             if (dbUser == null)
-                return NotFound("User with the provided username was not found!");
+            {
+                LoggerManager.GetInstance().LogError($"User with {username} was not found!");
+                return NotFound($"User with {username} was not found!");
+            }
 
             if (dbTVShow == null)
-                return NotFound("The provided TV show was not found!");
+            {
+                LoggerManager.GetInstance().LogError($"Could not find TV show {TVShow.Title}");
+                return NotFound($"Could not find TV show {TVShow.Title}");
+            }
 
             var dbUserTVShow = await _context.UsersTVShows.FindAsync(dbUser.ID, dbTVShow.ID);
 
             if (dbUserTVShow == null)
-                return BadRequest("The provided TV show is not favorited by the user!");
-            
+            {
+                LoggerManager.GetInstance().LogError($"TV show {TVShow.Title} is not favorited by user {username} so it cannot be deleted");
+                return BadRequest($"TV show {TVShow.Title} is not favorited by user {username} so it cannot be deleted");
+            }
+
             _context.UsersTVShows.Remove(dbUserTVShow);
             await _context.SaveChangesAsync();
 
+            LoggerManager.GetInstance().LogInfo($"Removed favorite show for user {username}");
             return Ok();
         }
     }

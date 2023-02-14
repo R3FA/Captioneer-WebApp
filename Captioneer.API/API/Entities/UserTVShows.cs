@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Captioneer.API.Entities
+namespace API.Entities
 {
     public class UserTVShows
     {
         public int UserID { get; set; }
-        
+
         public int TVShowID { get; set; }
 
         [ForeignKey("UserID")]

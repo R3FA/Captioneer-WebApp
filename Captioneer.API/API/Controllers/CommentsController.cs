@@ -1,12 +1,11 @@
-﻿using Captioneer.API.Data;
-using Captioneer.API.DTO;
-using Captioneer.API.Entities;
-using Captioneer.API.Migrations;
-using Microsoft.AspNetCore.Http;
+﻿using API.Data;
+using API.DTO;
+using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UtilityService.Utils;
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -47,7 +46,7 @@ namespace Captioneer.API.Controllers
                 .Where(c => c.SubtitleTVShow!.ID == subtitleID)
                 .Include(c => c.User).ToListAsync();
 
-            foreach(var dbComment in dbComments)
+            foreach (var dbComment in dbComments)
             {
                 commentVMs.Add(new CommentViewModel()
                 {
@@ -72,7 +71,10 @@ namespace Captioneer.API.Controllers
                 var dbSubtitleMovie = await _context.SubtitleMovies.FindAsync(model.SubtitleMovieID);
 
                 if (dbSubtitleMovie == null)
+                {
+                    LoggerManager.GetInstance().LogError("Status 404: Subtitle with the provided ID was not found");
                     return NotFound("Subtitle with the provided ID was not found");
+                }
 
                 var newComment = new Comment()
                 {
@@ -88,7 +90,10 @@ namespace Captioneer.API.Controllers
                 var dbSubtitleTVShow = await _context.SubtitleTVShows.FindAsync(model.SubtitleTVShowID);
 
                 if (dbSubtitleTVShow == null)
+                {
+                    LoggerManager.GetInstance().LogError("Status 404: Subtitle with the provided ID was not found");
                     return NotFound("Subtitle with the provided ID was not found");
+                }
 
                 var newComment = new Comment()
                 {
@@ -100,7 +105,10 @@ namespace Captioneer.API.Controllers
                 await _context.Comments.AddAsync(newComment);
             }
             else
+            {
+                LoggerManager.GetInstance().LogError("Status 400: A subtitle ID must be provided");
                 return BadRequest("A subtitle ID must be provided");
+            }
 
             await _context.SaveChangesAsync();
 
@@ -113,7 +121,10 @@ namespace Captioneer.API.Controllers
             var dbComment = await _context.Comments.FindAsync(commentID);
 
             if (dbComment == null)
+            {
+                LoggerManager.GetInstance().LogError("Status 404: Comment with the provided ID was not found");
                 return NotFound("Comment with the provided ID was not found");
+            }
 
             _context.Comments.Remove(dbComment);
             await _context.SaveChangesAsync();

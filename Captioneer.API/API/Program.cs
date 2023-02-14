@@ -1,13 +1,18 @@
+using API.Data;
 using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
-using Captioneer.API.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using UtilityService.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
+
+LoggerManager.LoadConfiguration();
+builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+LoggerManager.GetInstance().LogInfo("Loaded Nlog configuration");
 
 var vaultUrl = builder.Configuration["AzureKeyVault:VaultUrl"];
 var clientId = builder.Configuration["AzureKeyVault:ClientId"];
@@ -19,6 +24,7 @@ builder.Host.ConfigureAppConfiguration(builder =>
     var credentials = new ClientSecretCredential(tenantId, clientId, clientSecret);
     var client = new SecretClient(new Uri(vaultUrl), credentials);
     builder.AddAzureKeyVault(client, new AzureKeyVaultConfigurationOptions());
+    LoggerManager.GetInstance().LogInfo("Added Azure Key Vault to app configuration");
 });
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionDev");
@@ -62,7 +68,8 @@ builder.Services.AddSwaggerGen();
 // Adds the already made DB context and configures the connection string and server version
 builder.Services.AddDbContext<CaptioneerDBContext>(options =>
     options.UseMySql(connectionString, serverVersion)
-    );
+);
+LoggerManager.GetInstance().LogInfo("Added DB context");
 
 var app = builder.Build();
 

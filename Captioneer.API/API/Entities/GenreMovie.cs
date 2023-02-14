@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Captioneer.API.Entities
+namespace API.Entities
 {
     public class GenreMovie
     {
@@ -13,6 +13,6 @@ namespace Captioneer.API.Entities
         public virtual Genre Genre { get; set; }
 
         [ForeignKey("MovieID")]
-        public virtual Movie  Movie { get; set; }
+        public virtual Movie Movie { get; set; }
     }
 }

@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Captioneer.API.Data;
-using Captioneer.API.Entities;
-using Captioneer.API.DTO;
+using API.DTO;
+using API.Data;
+using API.Entities;
+using UtilityService.Utils;
+using System.Web.Http.Results;
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -30,13 +24,12 @@ namespace Captioneer.API.Controllers
         public async Task<ActionResult<IEnumerable<UserLanguageViewModel>>> GetUserLanguage(string username)
         {
             var userLanguages = await _context.UsersLanguages.Where(ul => ul.User.Username == username).ToListAsync();
+            var viewModels = new List<UserLanguageViewModel>();
 
             if (userLanguages.Count == 0)
             {
-                return NotFound("No UserLanguage exists for the given parameters");
+                return Ok(viewModels);
             }
-
-            var viewModels = new List<UserLanguageViewModel>();
 
             foreach (var userLanguage in userLanguages)
             {
@@ -66,10 +59,16 @@ namespace Captioneer.API.Controllers
             var dbLanguage = await _context.Languages.FirstOrDefaultAsync(l => l.EnglishName == englishLanguageName);
 
             if (dbUser == null || dbLanguage == null)
+            {
+                LoggerManager.GetInstance().LogError("The user or language does not exist in the database");
                 return NotFound("The user or language does not exist in the database");
+            }
 
             if (_context.UsersLanguages.Any(ul => ul.UserID == dbUser.ID && ul.LanguageID == dbLanguage.ID))
-                return BadRequest("The UserLanguage already exists in the database");
+            {
+                LoggerManager.GetInstance().LogError($"UserLanguage for {username} and {englishLanguageName} already exists");
+                return BadRequest($"UserLanguage for {username} and {englishLanguageName} already exists");
+            }
 
             var newUserLanguage = new UserLanguage()
             {
@@ -84,7 +83,8 @@ namespace Captioneer.API.Controllers
             }
             catch (DbUpdateException e)
             {
-                return BadRequest(e.Message);
+                LoggerManager.GetInstance().LogError(e.Message);
+                return StatusCode(500);
             }
 
             return Ok();
@@ -101,16 +101,20 @@ namespace Captioneer.API.Controllers
                 FirstOrDefaultAsync(ul => ul.User.Username == username && ul.Language.EnglishName == englishLanguageName);
 
             if (dbUserLanguage == null)
-                return NotFound("The UserLanguage does not exist");
+            {
+                LoggerManager.GetInstance().LogError($"The UserLanguage for {username} and {englishLanguageName} does not exist");
+                return NotFound($"The UserLanguage for {username} and {englishLanguageName} does not exist");
+            }
 
             try
-            { 
+            {
                 _context.UsersLanguages.Remove(dbUserLanguage);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException e)
             {
-                return BadRequest(e.Message);
+                LoggerManager.GetInstance().LogError(e.Message);
+                return StatusCode(500);
             }
 
             return Ok();

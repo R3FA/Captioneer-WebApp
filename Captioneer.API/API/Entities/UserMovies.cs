@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Captioneer.API.Entities
+namespace API.Entities
 {
     public class UserMovies
     {

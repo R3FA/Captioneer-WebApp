@@ -1,6 +1,5 @@
-﻿using Captioneer.API.Entities;
-
-namespace Captioneer.API.DTO
+﻿
+namespace API.DTO
 {
     public class CommentViewModel
     {

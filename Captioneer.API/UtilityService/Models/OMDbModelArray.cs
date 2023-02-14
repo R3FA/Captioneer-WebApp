@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Captioneer.API.DTO
+namespace UtilityService.Models
 {
     /// <summary>
     /// Model class for the JSON result from the OMDb API that sends a list of models

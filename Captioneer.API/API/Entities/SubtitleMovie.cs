@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Captioneer.API.Entities
+namespace API.Entities
 {
     public class SubtitleMovie
     {
@@ -26,7 +26,7 @@ namespace Captioneer.API.Entities
         [Range(0, int.MaxValue)]
         public int RatingCount { get; set; }
 
-        public string? Release {get; set;}
+        public string? Release { get; set; }
 
         public int? FrameRate { get; set; }
     }

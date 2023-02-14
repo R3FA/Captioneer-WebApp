@@ -1,8 +1,9 @@
-﻿using Captioneer.API.Data;
-using Captioneer.API.Entities;
+﻿using API.Data;
+using API.Entities;
 using Microsoft.EntityFrameworkCore;
+using UtilityService.Utils;
 
-namespace Captioneer.API.Utils
+namespace API.Utils
 {
     public static class EpisoDateCacher
     {
@@ -15,7 +16,10 @@ namespace Captioneer.API.Utils
         public static async Task Cache(List<TVShow> shows, CaptioneerDBContext context)
         {
             if (shows.Count == 0)
+            {
+                LoggerManager.GetInstance().LogWarning("No shows were passed for EpisoDate caching");
                 return;
+            }
 
             foreach (var show in shows)
             {
@@ -34,7 +38,10 @@ namespace Captioneer.API.Utils
                 foreach (var episode in model.Show.Episodes)
                 {
                     if (episode.Season == null)
+                    {
+                        LoggerManager.GetInstance().LogWarning($"Season was null for {episode.Name}");
                         continue;
+                    }
 
                     // Prevent adding seasons if they've already been tracked for addition of if they're already in the database
                     if (!dbSeasons.Any(s => s.SeasonNumber == episode.Season) && !addedSeasons.Contains((int)episode.Season))
@@ -52,12 +59,16 @@ namespace Captioneer.API.Utils
                 }
 
                 await context.SaveChangesAsync();
+                LoggerManager.GetInstance().LogInfo($"Cached seasons for show {show.Title}");
 
                 // Go through all of the episodes fetched and add them to the database if not already present
                 foreach (var episode in model.Show.Episodes)
                 {
                     if (episode.Season == null)
+                    {
+                        LoggerManager.GetInstance().LogWarning($"Season was null for {episode.Name}");
                         continue;
+                    }
 
                     var dbSeason = await context.Seasons.Where(s => s.SeasonNumber == episode.Season && s.TVShow.ID == show.ID).FirstAsync();
 
@@ -79,6 +90,7 @@ namespace Captioneer.API.Utils
                 }
 
                 await context.SaveChangesAsync();
+                LoggerManager.GetInstance().LogInfo($"Cached episodes for show {show.Title}");
 
                 // If any seasons have been updated, update the season and episode counts for the show
                 if (updatedSeasons.Count > 1)
@@ -96,6 +108,7 @@ namespace Captioneer.API.Utils
                     }
 
                     await context.SaveChangesAsync();
+                    LoggerManager.GetInstance().LogInfo($"Updated seasons and episodes for show {show.Title}");
                 }
 
             }

@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Captioneer.API.Entities
+namespace API.Entities
 {
     public class UserLanguage
-    { 
+    {
         public int UserID { get; set; }
 
         public int LanguageID { get; set; }

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Captioneer.API.Data;
-using Captioneer.API.Entities;
-using Captioneer.API.DTO;
+using API.Entities;
+using API.Data;
+using API.DTO;
 
-namespace Captioneer.API.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -34,10 +29,6 @@ namespace Captioneer.API.Controllers
         public async Task<ActionResult<IEnumerable<ActorViewModel>>> GetActorTVShow(int showID)
         {
             var dbActorTVShows = await _context.ActorTVShows.Where(am => am.TVShowID == showID).ToListAsync();
-
-            if (dbActorTVShows.Count == 0)
-                return NotFound();
-
             var actorViewModels = new List<ActorViewModel>();
 
             foreach (var actorTVShow in dbActorTVShows)
