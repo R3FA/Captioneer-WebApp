@@ -1,4 +1,6 @@
-*
-!*/
+subtitleMovieUploads/*.srt
+translations/*.srt
+images/**/*.jpg
+images/**/*.jpeg
+images/**/*.png
 !.git*
-!/cert/DigiCertGlobalRootCA.crt
