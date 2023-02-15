@@ -1687,3 +1687,392 @@
 2023-02-14 15:33:01.5527 Trace AsyncWrapper_FileTarget(Name=logfile): Writing 1 events (Timer)
 2023-02-14 15:33:01.5527 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer not scheduled, since queue empty
 2023-02-14 15:33:01.5527 Trace AsyncWrapper_FileTarget(Name=logfile): Timer not scheduled, since queue empty
+2023-02-15 02:01:02.2695 Info Message Template Auto Format enabled
+2023-02-15 02:01:02.3052 Debug ScanAssembly('NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2023-02-15 02:01:02.3863 Debug Setting 'NLog.Targets.FileTarget.Name' to 'logfile'
+2023-02-15 02:01:02.3863 Debug Setting 'NLog.Targets.FileTarget.FileName' to 'logs/${shortdate}_logfile.txt'
+2023-02-15 02:01:02.3863 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:01:02.4013 Trace Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2023-02-15 02:01:02.4013 Debug Setting 'NLog.Targets.FileTarget.Layout' to '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:01:02.4013 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:01:02.4013 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:01:02.4013 Debug Setting 'NLog.LayoutRenderers.LevelLayoutRenderer.Uppercase' to 'true'
+2023-02-15 02:01:02.4013 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:01:02.4013 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:01:02.4013 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:01:02.4013 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:01:02.4013 Debug Setting 'NLog.Targets.FileTarget.ConcurrentWrites' to 'true'
+2023-02-15 02:01:02.4175 Debug Wrapping target 'logfile' with AsyncTargetWrapper and renaming to 'logfile_wrapped
+2023-02-15 02:01:02.4175 Debug Adding target NLog.Targets.Wrappers.AsyncTargetWrapper(Name=logfile)
+2023-02-15 02:01:02.4175 Info Registered target NLog.Targets.Wrappers.AsyncTargetWrapper(Name=logfile)
+2023-02-15 02:01:02.4175 Debug Setting 'NLog.Targets.ColoredConsoleTarget.Name' to 'console'
+2023-02-15 02:01:02.4175 Debug Setting 'NLog.Targets.ColoredConsoleTarget.Layout' to '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:01:02.4175 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:01:02.4175 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:01:02.4175 Debug Setting 'NLog.LayoutRenderers.LevelLayoutRenderer.Uppercase' to 'true'
+2023-02-15 02:01:02.4175 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:01:02.4175 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:01:02.4175 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:01:02.4175 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:01:02.4175 Debug Wrapping target 'console' with AsyncTargetWrapper and renaming to 'console_wrapped
+2023-02-15 02:01:02.4175 Debug Adding target NLog.Targets.Wrappers.AsyncTargetWrapper(Name=console)
+2023-02-15 02:01:02.4175 Info Registered target NLog.Targets.Wrappers.AsyncTargetWrapper(Name=console)
+2023-02-15 02:01:02.4175 Trace ParseRulesElement
+2023-02-15 02:01:02.4486 Debug Watching file-filter 'nlog.config' in directory: C:\DEV\Captioneer-WebApp\Captioneer.API\API
+2023-02-15 02:01:02.4486 Debug --- NLog configuration dump ---
+2023-02-15 02:01:02.4486 Debug Targets:
+2023-02-15 02:01:02.4486 Debug AsyncWrapper_FileTarget(Name=logfile)
+2023-02-15 02:01:02.4486 Debug AsyncWrapper_ColoredConsoleTarget(Name=console)
+2023-02-15 02:01:02.4486 Debug Rules:
+2023-02-15 02:01:02.4657 Debug logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]
+2023-02-15 02:01:02.4657 Debug logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ console ]
+2023-02-15 02:01:02.4657 Debug --- End of NLog configuration dump ---
+2023-02-15 02:01:02.4657 Trace FindReachableObject<System.Object>:
+2023-02-15 02:01:02.4657 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]'
+2023-02-15 02:01:02.4657 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2023-02-15 02:01:02.4657 Trace  Scanning AsyncTargetWrapper 'AsyncWrapper_FileTarget(Name=logfile)'
+2023-02-15 02:01:02.4657 Trace   Scanning Property WrappedTarget 'FileTarget(Name=logfile_wrapped)' NLog.Targets
+2023-02-15 02:01:02.4657 Trace   Scanning FileTarget 'FileTarget(Name=logfile_wrapped)'
+2023-02-15 02:01:02.4657 Trace    Scanning Property FileName 'logs/${shortdate}_logfile.txt' NLog.Layouts
+2023-02-15 02:01:02.4657 Trace    Scanning SimpleLayout 'logs/${shortdate}_logfile.txt'
+2023-02-15 02:01:02.4657 Trace     Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:01:02.4657 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.4802 Trace     Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2023-02-15 02:01:02.4802 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.4802 Trace    Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:01:02.4802 Trace    Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:01:02.4802 Trace     Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:01:02.4802 Trace     Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:01:02.4802 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.4802 Trace     Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:01:02.4802 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.4802 Trace     Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:01:02.4802 Trace    Scanning Property LineEnding 'Default' NLog.Targets
+2023-02-15 02:01:02.4802 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2023-02-15 02:01:02.4802 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2023-02-15 02:01:02.4802 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ console ]'
+2023-02-15 02:01:02.4802 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2023-02-15 02:01:02.4802 Trace  Scanning AsyncTargetWrapper 'AsyncWrapper_ColoredConsoleTarget(Name=console)'
+2023-02-15 02:01:02.4802 Trace   Scanning Property WrappedTarget 'ColoredConsoleTarget(Name=console_wrapped)' NLog.Targets
+2023-02-15 02:01:02.4802 Trace   Scanning ColoredConsoleTarget 'ColoredConsoleTarget(Name=console_wrapped)'
+2023-02-15 02:01:02.4802 Trace    Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:01:02.4802 Trace    Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:01:02.4802 Trace     Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:01:02.4802 Trace     Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:01:02.4802 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.4802 Trace     Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:01:02.4802 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.4802 Trace     Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:01:02.4961 Trace    Scanning Property RowHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleRowHighlightingRule]' System.Collections.Generic
+2023-02-15 02:01:02.4961 Trace    Scanning Property WordHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleWordHighlightingRule]' System.Collections.Generic
+2023-02-15 02:01:02.4961 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2023-02-15 02:01:02.4961 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2023-02-15 02:01:02.4961 Info Validating config: TargetNames=logfile, console, ConfigItems=22, FilePath=C:\DEV\Captioneer-WebApp\Captioneer.API\API\nlog.config
+2023-02-15 02:01:02.4961 Debug Unused target checking is started... Rule Count: 2, Target Count: 2
+2023-02-15 02:01:02.4961 Debug Unused target checking is completed. Total Rule Count: 2, Total Target Count: 2, Unused Target Count: 0
+2023-02-15 02:01:02.5115 Trace Initializing Layout Renderer: ${message}
+2023-02-15 02:01:02.5115 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:01:02.5115 Trace Initializing Layout Renderer: ${level}
+2023-02-15 02:01:02.5115 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:01:02.5115 Trace Initializing Layout Renderer: ${longdate}
+2023-02-15 02:01:02.5115 Trace Initializing ${longdate} | ${level:uppercase=true} | ${message}
+2023-02-15 02:01:02.5115 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:01:02.5115 Trace Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:01:02.5115 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:01:02.5115 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:01:02.5115 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.5115 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:01:02.5115 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.5115 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:01:02.5115 Trace Initializing ColoredConsoleTarget(Name=console_wrapped)
+2023-02-15 02:01:02.5267 Trace FindReachableObject<NLog.Layouts.Layout>:
+2023-02-15 02:01:02.5267 Trace Scanning ColoredConsoleTarget 'ColoredConsoleTarget(Name=console_wrapped)'
+2023-02-15 02:01:02.5267 Trace  Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:01:02.5267 Trace  Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:01:02.5267 Trace  Scanning Property RowHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleRowHighlightingRule]' System.Collections.Generic
+2023-02-15 02:01:02.5267 Trace  Scanning Property WordHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleWordHighlightingRule]' System.Collections.Generic
+2023-02-15 02:01:02.5267 Trace ColoredConsoleTarget(Name=console_wrapped) has 1 layouts
+2023-02-15 02:01:02.5267 Trace Initializing AsyncWrapper_ColoredConsoleTarget(Name=console)
+2023-02-15 02:01:02.5267 Trace FindReachableObject<NLog.Layouts.Layout>:
+2023-02-15 02:01:02.5267 Trace Scanning AsyncTargetWrapper 'AsyncWrapper_ColoredConsoleTarget(Name=console)'
+2023-02-15 02:01:02.5267 Trace  Scanning Property WrappedTarget 'ColoredConsoleTarget(Name=console_wrapped)' NLog.Targets
+2023-02-15 02:01:02.5267 Trace  Scanning ColoredConsoleTarget 'ColoredConsoleTarget(Name=console_wrapped)'
+2023-02-15 02:01:02.5267 Trace   Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:01:02.5267 Trace   Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:01:02.5267 Trace   Scanning Property RowHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleRowHighlightingRule]' System.Collections.Generic
+2023-02-15 02:01:02.5267 Trace   Scanning Property WordHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleWordHighlightingRule]' System.Collections.Generic
+2023-02-15 02:01:02.5267 Trace AsyncWrapper_ColoredConsoleTarget(Name=console) has 1 layouts
+2023-02-15 02:01:02.5267 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Start Timer
+2023-02-15 02:01:02.5267 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer scheduled throttled
+2023-02-15 02:01:02.5267 Trace Initializing Layout Renderer: ${message}
+2023-02-15 02:01:02.5267 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:01:02.5267 Trace Initializing Layout Renderer: ${level}
+2023-02-15 02:01:02.5267 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:01:02.5267 Trace Initializing Layout Renderer: ${longdate}
+2023-02-15 02:01:02.5267 Trace Initializing ${longdate} | ${level:uppercase=true} | ${message}
+2023-02-15 02:01:02.5422 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:01:02.5422 Trace Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:01:02.5422 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:01:02.5422 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:01:02.5422 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.5422 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:01:02.5422 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.5422 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:01:02.5422 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:01:02.5422 Trace Initializing Layout Renderer: ${shortdate}
+2023-02-15 02:01:02.5422 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:01:02.5422 Trace Initializing logs/${shortdate}_logfile.txt
+2023-02-15 02:01:02.5422 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:01:02.5422 Trace Scanning SimpleLayout 'logs/${shortdate}_logfile.txt'
+2023-02-15 02:01:02.5422 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:01:02.5422 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.5422 Trace  Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2023-02-15 02:01:02.5422 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:01:02.5422 Trace Initializing FileTarget(Name=logfile_wrapped)
+2023-02-15 02:01:02.5422 Trace FindReachableObject<NLog.Layouts.Layout>:
+2023-02-15 02:01:02.5422 Trace Scanning FileTarget 'FileTarget(Name=logfile_wrapped)'
+2023-02-15 02:01:02.5422 Trace  Scanning Property FileName 'logs/${shortdate}_logfile.txt' NLog.Layouts
+2023-02-15 02:01:02.5422 Trace  Scanning SimpleLayout 'logs/${shortdate}_logfile.txt'
+2023-02-15 02:01:02.5581 Trace  Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:01:02.5581 Trace  Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:01:02.5581 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2023-02-15 02:01:02.5581 Trace FileTarget(Name=logfile_wrapped) has 2 layouts
+2023-02-15 02:01:02.5581 Trace FileTarget(Name=logfile_wrapped): Using appenderFactory: NLog.Internal.FileAppenders.MutexMultiProcessFileAppender+Factory
+2023-02-15 02:01:02.5581 Trace Initializing AsyncWrapper_FileTarget(Name=logfile)
+2023-02-15 02:01:02.5581 Trace FindReachableObject<NLog.Layouts.Layout>:
+2023-02-15 02:01:02.5581 Trace Scanning AsyncTargetWrapper 'AsyncWrapper_FileTarget(Name=logfile)'
+2023-02-15 02:01:02.5581 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer not scheduled, since queue empty
+2023-02-15 02:01:02.5581 Trace  Scanning Property WrappedTarget 'FileTarget(Name=logfile_wrapped)' NLog.Targets
+2023-02-15 02:01:02.5581 Trace  Scanning FileTarget 'FileTarget(Name=logfile_wrapped)'
+2023-02-15 02:01:02.5581 Trace   Scanning Property FileName 'logs/${shortdate}_logfile.txt' NLog.Layouts
+2023-02-15 02:01:02.5581 Trace   Scanning SimpleLayout 'logs/${shortdate}_logfile.txt'
+2023-02-15 02:01:02.5581 Trace   Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:01:02.5581 Trace   Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:01:02.5581 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2023-02-15 02:01:02.5581 Trace AsyncWrapper_FileTarget(Name=logfile) has 2 layouts
+2023-02-15 02:01:02.5581 Trace AsyncWrapper_FileTarget(Name=logfile): Start Timer
+2023-02-15 02:01:02.5581 Trace AsyncWrapper_FileTarget(Name=logfile): Timer scheduled throttled
+2023-02-15 02:01:02.5776 Trace AsyncWrapper_FileTarget(Name=logfile): Timer not scheduled, since queue empty
+2023-02-15 02:01:02.5901 Debug Targets configured when LogLevel >= Debug for Logger: UtilityService.Utils.LoggerManager
+2023-02-15 02:01:02.5901 Debug Logger UtilityService.Utils.LoggerManager [Debug] => logfile console
+2023-02-15 02:01:02.5901 Debug Logger UtilityService.Utils.LoggerManager [Info] => logfile console
+2023-02-15 02:01:02.5901 Debug Logger UtilityService.Utils.LoggerManager [Warn] => logfile console
+2023-02-15 02:01:02.5901 Debug Logger UtilityService.Utils.LoggerManager [Error] => logfile console
+2023-02-15 02:01:02.5901 Debug Logger UtilityService.Utils.LoggerManager [Fatal] => logfile console
+2023-02-15 02:01:02.6117 Trace AsyncWrapper_FileTarget(Name=logfile): Timer scheduled throttled
+2023-02-15 02:01:02.6117 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer scheduled throttled
+2023-02-15 02:01:02.6362 Trace AsyncWrapper_FileTarget(Name=logfile): Writing 1 events (Timer)
+2023-02-15 02:01:02.6362 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Writing 1 events (Timer)
+2023-02-15 02:01:02.6562 Debug FileTarget(Name=logfile_wrapped): Preparing for new file: 'C:\DEV\Captioneer-WebApp\Captioneer.API\API\bin\Debug\net6.0-windows\logs/2023-02-15_logfile.txt'
+2023-02-15 02:01:02.6562 Debug FileTarget(Name=logfile_wrapped): Creating file appender: 'C:\DEV\Captioneer-WebApp\Captioneer.API\API\bin\Debug\net6.0-windows\logs/2023-02-15_logfile.txt'
+2023-02-15 02:01:02.6562 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer not scheduled, since queue empty
+2023-02-15 02:01:02.8536 Trace FileTarget(Name=logfile_wrapped): Opening C:\DEV\Captioneer-WebApp\Captioneer.API\API\bin\Debug\net6.0-windows\logs/2023-02-15_logfile.txt with allowFileSharedWriting=True
+2023-02-15 02:01:02.8589 Debug FileTarget(Name=logfile_wrapped): DirectoryNotFoundException - Attempting to create directory for FileName: C:\DEV\Captioneer-WebApp\Captioneer.API\API\bin\Debug\net6.0-windows\logs/2023-02-15_logfile.txt
+2023-02-15 02:01:02.8589 Debug Watching file-filter '2023-02-15_logfile.txt' in directory: C:\DEV\Captioneer-WebApp\Captioneer.API\API\bin\Debug\net6.0-windows\logs
+2023-02-15 02:01:02.8589 Trace AsyncWrapper_FileTarget(Name=logfile): Timer not scheduled, since queue empty
+2023-02-15 02:01:05.3747 Trace AsyncWrapper_FileTarget(Name=logfile): Timer scheduled throttled
+2023-02-15 02:01:05.3747 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer scheduled throttled
+2023-02-15 02:01:05.3862 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Writing 1 events (Timer)
+2023-02-15 02:01:05.3862 Trace AsyncWrapper_FileTarget(Name=logfile): Writing 1 events (Timer)
+2023-02-15 02:01:05.3862 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer not scheduled, since queue empty
+2023-02-15 02:01:05.3862 Trace AsyncWrapper_FileTarget(Name=logfile): Timer not scheduled, since queue empty
+2023-02-15 02:01:05.9940 Trace AsyncWrapper_FileTarget(Name=logfile): Timer scheduled throttled
+2023-02-15 02:01:05.9940 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer scheduled throttled
+2023-02-15 02:01:05.9987 Trace AsyncWrapper_FileTarget(Name=logfile): Writing 1 events (Timer)
+2023-02-15 02:01:05.9987 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Writing 1 events (Timer)
+2023-02-15 02:01:05.9987 Trace AsyncWrapper_FileTarget(Name=logfile): Timer not scheduled, since queue empty
+2023-02-15 02:01:05.9987 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer not scheduled, since queue empty
+2023-02-15 02:11:05.6364 Info Message Template Auto Format enabled
+2023-02-15 02:11:05.6646 Debug ScanAssembly('NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2023-02-15 02:11:05.7251 Debug Setting 'NLog.Targets.FileTarget.Name' to 'logfile'
+2023-02-15 02:11:05.7251 Debug Setting 'NLog.Targets.FileTarget.FileName' to 'logs/${shortdate}_logfile.txt'
+2023-02-15 02:11:05.7369 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:11:05.7369 Trace Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2023-02-15 02:11:05.7369 Debug Setting 'NLog.Targets.FileTarget.Layout' to '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:11:05.7369 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:11:05.7450 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:11:05.7450 Debug Setting 'NLog.LayoutRenderers.LevelLayoutRenderer.Uppercase' to 'true'
+2023-02-15 02:11:05.7450 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:11:05.7450 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:11:05.7450 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:11:05.7450 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:11:05.7450 Debug Setting 'NLog.Targets.FileTarget.ConcurrentWrites' to 'true'
+2023-02-15 02:11:05.7450 Debug Wrapping target 'logfile' with AsyncTargetWrapper and renaming to 'logfile_wrapped
+2023-02-15 02:11:05.7450 Debug Adding target NLog.Targets.Wrappers.AsyncTargetWrapper(Name=logfile)
+2023-02-15 02:11:05.7450 Info Registered target NLog.Targets.Wrappers.AsyncTargetWrapper(Name=logfile)
+2023-02-15 02:11:05.7648 Debug Setting 'NLog.Targets.ColoredConsoleTarget.Name' to 'console'
+2023-02-15 02:11:05.7648 Debug Setting 'NLog.Targets.ColoredConsoleTarget.Layout' to '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:11:05.7648 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:11:05.7648 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:11:05.7648 Debug Setting 'NLog.LayoutRenderers.LevelLayoutRenderer.Uppercase' to 'true'
+2023-02-15 02:11:05.7648 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:11:05.7648 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:11:05.7648 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:11:05.7648 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:11:05.7648 Debug Wrapping target 'console' with AsyncTargetWrapper and renaming to 'console_wrapped
+2023-02-15 02:11:05.7648 Debug Adding target NLog.Targets.Wrappers.AsyncTargetWrapper(Name=console)
+2023-02-15 02:11:05.7648 Info Registered target NLog.Targets.Wrappers.AsyncTargetWrapper(Name=console)
+2023-02-15 02:11:05.7648 Trace ParseRulesElement
+2023-02-15 02:11:05.7854 Debug Watching file-filter 'nlog.config' in directory: C:\DEV\Captioneer-WebApp\Captioneer.API\API
+2023-02-15 02:11:05.7854 Debug --- NLog configuration dump ---
+2023-02-15 02:11:05.7854 Debug Targets:
+2023-02-15 02:11:05.7939 Debug AsyncWrapper_FileTarget(Name=logfile)
+2023-02-15 02:11:05.7939 Debug AsyncWrapper_ColoredConsoleTarget(Name=console)
+2023-02-15 02:11:05.7939 Debug Rules:
+2023-02-15 02:11:05.7939 Debug logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]
+2023-02-15 02:11:05.7939 Debug logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ console ]
+2023-02-15 02:11:05.7939 Debug --- End of NLog configuration dump ---
+2023-02-15 02:11:05.7939 Trace FindReachableObject<System.Object>:
+2023-02-15 02:11:05.7939 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]'
+2023-02-15 02:11:05.7939 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2023-02-15 02:11:05.7939 Trace  Scanning AsyncTargetWrapper 'AsyncWrapper_FileTarget(Name=logfile)'
+2023-02-15 02:11:05.7939 Trace   Scanning Property WrappedTarget 'FileTarget(Name=logfile_wrapped)' NLog.Targets
+2023-02-15 02:11:05.7939 Trace   Scanning FileTarget 'FileTarget(Name=logfile_wrapped)'
+2023-02-15 02:11:05.8089 Trace    Scanning Property FileName 'logs/${shortdate}_logfile.txt' NLog.Layouts
+2023-02-15 02:11:05.8089 Trace    Scanning SimpleLayout 'logs/${shortdate}_logfile.txt'
+2023-02-15 02:11:05.8089 Trace     Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:11:05.8089 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8089 Trace     Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2023-02-15 02:11:05.8089 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8089 Trace    Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:11:05.8089 Trace    Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:11:05.8089 Trace     Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:11:05.8089 Trace     Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:11:05.8089 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8089 Trace     Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:11:05.8089 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8089 Trace     Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:11:05.8089 Trace    Scanning Property LineEnding 'Default' NLog.Targets
+2023-02-15 02:11:05.8089 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2023-02-15 02:11:05.8089 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2023-02-15 02:11:05.8089 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ console ]'
+2023-02-15 02:11:05.8089 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2023-02-15 02:11:05.8089 Trace  Scanning AsyncTargetWrapper 'AsyncWrapper_ColoredConsoleTarget(Name=console)'
+2023-02-15 02:11:05.8089 Trace   Scanning Property WrappedTarget 'ColoredConsoleTarget(Name=console_wrapped)' NLog.Targets
+2023-02-15 02:11:05.8089 Trace   Scanning ColoredConsoleTarget 'ColoredConsoleTarget(Name=console_wrapped)'
+2023-02-15 02:11:05.8089 Trace    Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:11:05.8089 Trace    Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:11:05.8089 Trace     Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:11:05.8089 Trace     Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:11:05.8089 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8089 Trace     Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:11:05.8232 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8232 Trace     Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:11:05.8232 Trace    Scanning Property RowHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleRowHighlightingRule]' System.Collections.Generic
+2023-02-15 02:11:05.8232 Trace    Scanning Property WordHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleWordHighlightingRule]' System.Collections.Generic
+2023-02-15 02:11:05.8232 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2023-02-15 02:11:05.8232 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2023-02-15 02:11:05.8232 Info Validating config: TargetNames=logfile, console, ConfigItems=22, FilePath=C:\DEV\Captioneer-WebApp\Captioneer.API\API\nlog.config
+2023-02-15 02:11:05.8232 Debug Unused target checking is started... Rule Count: 2, Target Count: 2
+2023-02-15 02:11:05.8232 Debug Unused target checking is completed. Total Rule Count: 2, Total Target Count: 2, Unused Target Count: 0
+2023-02-15 02:11:05.8232 Trace Initializing Layout Renderer: ${message}
+2023-02-15 02:11:05.8232 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:11:05.8232 Trace Initializing Layout Renderer: ${level}
+2023-02-15 02:11:05.8394 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:11:05.8394 Trace Initializing Layout Renderer: ${longdate}
+2023-02-15 02:11:05.8394 Trace Initializing ${longdate} | ${level:uppercase=true} | ${message}
+2023-02-15 02:11:05.8394 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:11:05.8394 Trace Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:11:05.8394 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:11:05.8394 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:11:05.8394 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8394 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:11:05.8394 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8394 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:11:05.8394 Trace Initializing ColoredConsoleTarget(Name=console_wrapped)
+2023-02-15 02:11:05.8394 Trace FindReachableObject<NLog.Layouts.Layout>:
+2023-02-15 02:11:05.8394 Trace Scanning ColoredConsoleTarget 'ColoredConsoleTarget(Name=console_wrapped)'
+2023-02-15 02:11:05.8394 Trace  Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:11:05.8394 Trace  Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:11:05.8394 Trace  Scanning Property RowHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleRowHighlightingRule]' System.Collections.Generic
+2023-02-15 02:11:05.8394 Trace  Scanning Property WordHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleWordHighlightingRule]' System.Collections.Generic
+2023-02-15 02:11:05.8394 Trace ColoredConsoleTarget(Name=console_wrapped) has 1 layouts
+2023-02-15 02:11:05.8394 Trace Initializing AsyncWrapper_ColoredConsoleTarget(Name=console)
+2023-02-15 02:11:05.8549 Trace FindReachableObject<NLog.Layouts.Layout>:
+2023-02-15 02:11:05.8549 Trace Scanning AsyncTargetWrapper 'AsyncWrapper_ColoredConsoleTarget(Name=console)'
+2023-02-15 02:11:05.8549 Trace  Scanning Property WrappedTarget 'ColoredConsoleTarget(Name=console_wrapped)' NLog.Targets
+2023-02-15 02:11:05.8549 Trace  Scanning ColoredConsoleTarget 'ColoredConsoleTarget(Name=console_wrapped)'
+2023-02-15 02:11:05.8549 Trace   Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:11:05.8549 Trace   Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:11:05.8549 Trace   Scanning Property RowHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleRowHighlightingRule]' System.Collections.Generic
+2023-02-15 02:11:05.8549 Trace   Scanning Property WordHighlightingRules 'System.Collections.Generic.List`1[NLog.Targets.ConsoleWordHighlightingRule]' System.Collections.Generic
+2023-02-15 02:11:05.8549 Trace AsyncWrapper_ColoredConsoleTarget(Name=console) has 1 layouts
+2023-02-15 02:11:05.8549 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Start Timer
+2023-02-15 02:11:05.8549 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer scheduled throttled
+2023-02-15 02:11:05.8549 Trace Initializing Layout Renderer: ${message}
+2023-02-15 02:11:05.8549 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:11:05.8549 Trace Initializing Layout Renderer: ${level}
+2023-02-15 02:11:05.8549 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:11:05.8549 Trace Initializing Layout Renderer: ${longdate}
+2023-02-15 02:11:05.8549 Trace Initializing ${longdate} | ${level:uppercase=true} | ${message}
+2023-02-15 02:11:05.8549 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:11:05.8549 Trace Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:11:05.8549 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:11:05.8549 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2023-02-15 02:11:05.8549 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8549 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2023-02-15 02:11:05.8549 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8549 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2023-02-15 02:11:05.8549 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:11:05.8549 Trace Initializing Layout Renderer: ${shortdate}
+2023-02-15 02:11:05.8549 Trace Initializing Layout Renderer: ${literal}
+2023-02-15 02:11:05.8549 Trace Initializing logs/${shortdate}_logfile.txt
+2023-02-15 02:11:05.8549 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2023-02-15 02:11:05.8549 Trace Scanning SimpleLayout 'logs/${shortdate}_logfile.txt'
+2023-02-15 02:11:05.8549 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2023-02-15 02:11:05.8549 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8549 Trace  Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2023-02-15 02:11:05.8698 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2023-02-15 02:11:05.8698 Trace Initializing FileTarget(Name=logfile_wrapped)
+2023-02-15 02:11:05.8698 Trace FindReachableObject<NLog.Layouts.Layout>:
+2023-02-15 02:11:05.8698 Trace Scanning FileTarget 'FileTarget(Name=logfile_wrapped)'
+2023-02-15 02:11:05.8698 Trace  Scanning Property FileName 'logs/${shortdate}_logfile.txt' NLog.Layouts
+2023-02-15 02:11:05.8698 Trace  Scanning SimpleLayout 'logs/${shortdate}_logfile.txt'
+2023-02-15 02:11:05.8698 Trace  Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:11:05.8698 Trace  Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:11:05.8698 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2023-02-15 02:11:05.8698 Trace FileTarget(Name=logfile_wrapped) has 2 layouts
+2023-02-15 02:11:05.8698 Trace FileTarget(Name=logfile_wrapped): Using appenderFactory: NLog.Internal.FileAppenders.MutexMultiProcessFileAppender+Factory
+2023-02-15 02:11:05.8698 Trace Initializing AsyncWrapper_FileTarget(Name=logfile)
+2023-02-15 02:11:05.8698 Trace FindReachableObject<NLog.Layouts.Layout>:
+2023-02-15 02:11:05.8698 Trace Scanning AsyncTargetWrapper 'AsyncWrapper_FileTarget(Name=logfile)'
+2023-02-15 02:11:05.8698 Trace  Scanning Property WrappedTarget 'FileTarget(Name=logfile_wrapped)' NLog.Targets
+2023-02-15 02:11:05.8698 Trace  Scanning FileTarget 'FileTarget(Name=logfile_wrapped)'
+2023-02-15 02:11:05.8698 Trace   Scanning Property FileName 'logs/${shortdate}_logfile.txt' NLog.Layouts
+2023-02-15 02:11:05.8698 Trace   Scanning SimpleLayout 'logs/${shortdate}_logfile.txt'
+2023-02-15 02:11:05.8698 Trace   Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${message}' NLog.Layouts
+2023-02-15 02:11:05.8698 Trace   Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${message}'
+2023-02-15 02:11:05.8698 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2023-02-15 02:11:05.8698 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer not scheduled, since queue empty
+2023-02-15 02:11:05.8698 Trace AsyncWrapper_FileTarget(Name=logfile) has 2 layouts
+2023-02-15 02:11:05.8698 Trace AsyncWrapper_FileTarget(Name=logfile): Start Timer
+2023-02-15 02:11:05.8698 Trace AsyncWrapper_FileTarget(Name=logfile): Timer scheduled throttled
+2023-02-15 02:11:05.8867 Trace AsyncWrapper_FileTarget(Name=logfile): Timer not scheduled, since queue empty
+2023-02-15 02:11:05.8867 Debug Targets configured when LogLevel >= Debug for Logger: UtilityService.Utils.LoggerManager
+2023-02-15 02:11:05.8867 Debug Logger UtilityService.Utils.LoggerManager [Debug] => logfile console
+2023-02-15 02:11:05.8867 Debug Logger UtilityService.Utils.LoggerManager [Info] => logfile console
+2023-02-15 02:11:05.8867 Debug Logger UtilityService.Utils.LoggerManager [Warn] => logfile console
+2023-02-15 02:11:05.9017 Debug Logger UtilityService.Utils.LoggerManager [Error] => logfile console
+2023-02-15 02:11:05.9017 Debug Logger UtilityService.Utils.LoggerManager [Fatal] => logfile console
+2023-02-15 02:11:05.9017 Trace AsyncWrapper_FileTarget(Name=logfile): Timer scheduled throttled
+2023-02-15 02:11:05.9017 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer scheduled throttled
+2023-02-15 02:11:05.9232 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Writing 1 events (Timer)
+2023-02-15 02:11:05.9232 Trace AsyncWrapper_FileTarget(Name=logfile): Writing 1 events (Timer)
+2023-02-15 02:11:05.9839 Debug FileTarget(Name=logfile_wrapped): Preparing for new file: 'C:\DEV\Captioneer-WebApp\Captioneer.API\API\bin\Debug\net6.0-windows\logs/2023-02-15_logfile.txt'
+2023-02-15 02:11:05.9839 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer not scheduled, since queue empty
+2023-02-15 02:11:05.9988 Debug FileTarget(Name=logfile_wrapped): Creating file appender: 'C:\DEV\Captioneer-WebApp\Captioneer.API\API\bin\Debug\net6.0-windows\logs/2023-02-15_logfile.txt'
+2023-02-15 02:11:06.0148 Trace FileTarget(Name=logfile_wrapped): Opening C:\DEV\Captioneer-WebApp\Captioneer.API\API\bin\Debug\net6.0-windows\logs/2023-02-15_logfile.txt with allowFileSharedWriting=True
+2023-02-15 02:11:06.0148 Debug Watching file-filter '2023-02-15_logfile.txt' in directory: C:\DEV\Captioneer-WebApp\Captioneer.API\API\bin\Debug\net6.0-windows\logs
+2023-02-15 02:11:06.0148 Trace AsyncWrapper_FileTarget(Name=logfile): Timer not scheduled, since queue empty
+2023-02-15 02:11:07.9913 Trace AsyncWrapper_FileTarget(Name=logfile): Timer scheduled throttled
+2023-02-15 02:11:07.9913 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer scheduled throttled
+2023-02-15 02:11:07.9987 Trace AsyncWrapper_FileTarget(Name=logfile): Writing 1 events (Timer)
+2023-02-15 02:11:07.9987 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Writing 1 events (Timer)
+2023-02-15 02:11:07.9987 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer not scheduled, since queue empty
+2023-02-15 02:11:07.9987 Trace AsyncWrapper_FileTarget(Name=logfile): Timer not scheduled, since queue empty
+2023-02-15 02:11:08.2637 Trace AsyncWrapper_FileTarget(Name=logfile): Timer scheduled throttled
+2023-02-15 02:11:08.2637 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer scheduled throttled
+2023-02-15 02:11:08.2863 Trace AsyncWrapper_FileTarget(Name=logfile): Writing 1 events (Timer)
+2023-02-15 02:11:08.2863 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Writing 1 events (Timer)
+2023-02-15 02:11:08.2863 Trace AsyncWrapper_FileTarget(Name=logfile): Timer not scheduled, since queue empty
+2023-02-15 02:11:08.2932 Trace AsyncWrapper_ColoredConsoleTarget(Name=console): Timer not scheduled, since queue empty
