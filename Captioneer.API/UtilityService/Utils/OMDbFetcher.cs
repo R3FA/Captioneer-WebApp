@@ -30,7 +30,7 @@ namespace UtilityService.Utils
             {
                 var result = await httpClient.GetAsync(url);
 
-                if (result.StatusCode == HttpStatusCode.NotFound || result.StatusCode == HttpStatusCode.NoContent)
+                if (result.StatusCode != HttpStatusCode.OK)
                 {
                     LoggerManager.GetInstance().LogError($"Failed to fetch {searchQuery} from OMDb with status code {result.StatusCode}");
                     return default;

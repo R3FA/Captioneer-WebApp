@@ -254,12 +254,15 @@ namespace API.Utils
             foreach (var actor in actorsSplit)
             {
                 var names = actor.Split(' ');
-                var dbActors = await context.Actors.Where(a => a.FirstName == names[0] && a.Surname == names[1]).ToListAsync();
+                var firstName = names[0];
+                var lastName = names.Length > 1 ? names[1] : " ";
+                var dbActors = await context.Actors.Where(a => a.FirstName == firstName && a.Surname == lastName).ToListAsync();
+
                 Actor newActor = null;
 
                 if (dbActors.Count == 0)
                 {
-                    newActor = new Actor() { FirstName = names[0], Surname = names[1] };
+                    newActor = new Actor() { FirstName = firstName, Surname = lastName };
                     await context.Actors.AddAsync(newActor);
                 }
 
@@ -267,7 +270,7 @@ namespace API.Utils
                     newActor = dbActors.First();
 
                 var dbActorMovie = await context.ActorMovies.Where(
-                    am => am.Actor.FirstName == names[0] && am.Actor.Surname == names[1] && am.Movie.Title == movie.Title && am.Movie.Year == movie.Year).ToListAsync();
+                    am => am.Actor.FirstName == firstName && am.Actor.Surname == lastName && am.Movie.Title == movie.Title && am.Movie.Year == movie.Year).ToListAsync();
 
                 if (dbActorMovie.Count == 0)
                     await context.ActorMovies.AddAsync(new ActorMovie() { Actor = newActor, Movie = movie });
@@ -288,12 +291,15 @@ namespace API.Utils
             foreach (var actor in actorsSplit)
             {
                 var names = actor.Split(' ');
-                var dbActors = await context.Actors.Where(a => a.FirstName == names[0] && a.Surname == names[1]).ToListAsync();
+                var firstName = names[0];
+                var lastName = names.Length > 1 ? names[1] : " ";
+                var dbActors = await context.Actors.Where(a => a.FirstName == firstName && a.Surname == lastName).ToListAsync();
+
                 Actor newActor = null;
 
                 if (dbActors.Count == 0)
                 {
-                    newActor = new Actor() { FirstName = names[0], Surname = names[1] };
+                    newActor = new Actor() { FirstName = firstName, Surname = lastName };
                     await context.Actors.AddAsync(newActor);
                 }
 
@@ -301,7 +307,7 @@ namespace API.Utils
                     newActor = dbActors.First();
 
                 var dbActorTVShow = await context.ActorTVShows.Where(
-                    am => am.Actor.FirstName == names[0] && am.Actor.Surname == names[1] && am.TVShow.Title == show.Title && am.TVShow.Year == show.Year).ToListAsync();
+                    am => am.Actor.FirstName == firstName && am.Actor.Surname == lastName && am.TVShow.Title == show.Title && am.TVShow.Year == show.Year).ToListAsync();
 
                 if (dbActorTVShow.Count == 0)
                     await context.ActorTVShows.AddAsync(new ActorTVShow() { Actor = newActor, TVShow = show });
@@ -337,12 +343,14 @@ namespace API.Utils
                     continue;
 
                 var names = creator.Split(' ');
-                var dbCreator = await context.Creators.Where(c => c.FirstName == names[0] && c.Surname == names[1]).ToListAsync();
+                var firstName = names[0];
+                var lastName = names.Length > 1 ? names[1] : " ";
+                var dbCreator = await context.Creators.Where(c => c.FirstName == firstName && c.Surname == lastName).ToListAsync();
                 Creator newCreator = null;
 
                 if (dbCreator.Count == 0)
                 {
-                    newCreator = new Creator() { FirstName = names[0], Surname = names[1] };
+                    newCreator = new Creator() { FirstName = firstName, Surname = lastName };
                     await context.Creators.AddAsync(newCreator);
                 }
 
@@ -405,12 +413,14 @@ namespace API.Utils
                     continue;
 
                 var names = creator.Split(' ');
-                var dbCreator = await context.Creators.Where(c => c.FirstName == names[0] && c.Surname == names[1]).ToListAsync();
+                var firstName = names[0];
+                var lastName = names.Length > 1 ? names[1] : " ";
+                var dbCreator = await context.Creators.Where(c => c.FirstName == firstName && c.Surname == lastName).ToListAsync();
                 Creator newCreator = null;
 
                 if (dbCreator.Count == 0)
                 {
-                    newCreator = new Creator() { FirstName = names[0], Surname = names[1] };
+                    newCreator = new Creator() { FirstName = firstName, Surname = lastName };
                     await context.Creators.AddAsync(newCreator);
                 }
 

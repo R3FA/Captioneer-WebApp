@@ -8,7 +8,6 @@ namespace API.Entities
         public int ID { get; set; }
 
         [Required]
-        [StringLength(20)]
         public string Country { get; set; } = string.Empty;
 
         [StringLength(20)]

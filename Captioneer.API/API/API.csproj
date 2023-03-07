@@ -29,18 +29,21 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\.gitignore\**" />
+    <Compile Remove="wwwroot\datasets\**" />
     <Compile Remove="wwwroot\translations\.gitkeep\**" />
     <Compile Remove="wwwroot\translations\bs\**" />
     <Compile Remove="wwwroot\translations\de\**" />
     <Compile Remove="wwwroot\translations\ja\**" />
     <Compile Remove="wwwroot\translations\temp\.gitkeep\**" />
     <Content Remove="wwwroot\.gitignore\**" />
+    <Content Remove="wwwroot\datasets\**" />
     <Content Remove="wwwroot\translations\.gitkeep\**" />
     <Content Remove="wwwroot\translations\bs\**" />
     <Content Remove="wwwroot\translations\de\**" />
     <Content Remove="wwwroot\translations\ja\**" />
     <Content Remove="wwwroot\translations\temp\.gitkeep\**" />
     <EmbeddedResource Remove="wwwroot\.gitignore\**" />
+    <EmbeddedResource Remove="wwwroot\datasets\**" />
     <EmbeddedResource Remove="wwwroot\translations\.gitkeep\**" />
     <EmbeddedResource Remove="wwwroot\translations\bs\**" />
     <EmbeddedResource Remove="wwwroot\translations\de\**" />
@@ -52,6 +55,7 @@
     <Folder Remove="wwwroot\translations\de\**" />
     <Folder Remove="wwwroot\translations\ja\**" />
     <None Remove="wwwroot\.gitignore\**" />
+    <None Remove="wwwroot\datasets\**" />
     <None Remove="wwwroot\translations\.gitkeep\**" />
     <None Remove="wwwroot\translations\bs\**" />
     <None Remove="wwwroot\translations\de\**" />

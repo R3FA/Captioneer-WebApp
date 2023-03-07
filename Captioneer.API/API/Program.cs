@@ -19,6 +19,8 @@ var clientId = builder.Configuration["AzureKeyVault:ClientId"];
 var tenantId = builder.Configuration["AzureKeyVault:TenantId"];
 var clientSecret = builder.Configuration["AzureKeyVault:ClientSecret"];
 
+var corsPolicyName = "corsPolicy";
+
 builder.Host.ConfigureAppConfiguration(builder =>
 {
     var credentials = new ClientSecretCredential(tenantId, clientId, clientSecret);
@@ -59,7 +61,13 @@ var serverVersion = ServerVersion.AutoDetect(connectionString);
 
 // Add services to the container.
 // Add CORS
-builder.Services.AddCors();
+builder.Services.AddCors(p => p.AddPolicy(corsPolicyName, build =>
+{
+    if (builder.Environment.IsProduction())
+        build.WithOrigins("https://captioneerfrontend.azurewebsites.net").AllowAnyMethod().AllowAnyHeader();
+    else
+        build.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+}));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -73,11 +81,7 @@ LoggerManager.GetInstance().LogInfo("Added DB context");
 
 var app = builder.Build();
 
-// Allow any header, origin and method to be called
-app.UseCors (builder => {
-    builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
-}
-);
+app.UseCors(corsPolicyName);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

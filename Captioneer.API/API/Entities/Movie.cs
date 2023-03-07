@@ -8,7 +8,6 @@ namespace API.Entities
         public int ID { get; set; }
 
         [Required]
-        [StringLength(50)]
         public string Title { get; set; } = string.Empty;
 
         [Required]
@@ -35,10 +34,8 @@ namespace API.Entities
         [Range(0, int.MaxValue)]
         public int IMDBRatingCount { get; set; }
 
-        [StringLength(3)]
         public string? RottenTomatoesValue { get; set; }
 
-        [StringLength(7)]
         public string? MetacriticValue { get; set; }
 
         public string? CoverArt { get; set; }
