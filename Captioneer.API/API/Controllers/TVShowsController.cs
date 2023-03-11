@@ -4,6 +4,7 @@ using UtilityService.Utils;
 using API.Data;
 using API.Entities;
 using API.Utils;
+using System.Drawing.Printing;
 
 namespace API.Controllers
 {
@@ -23,9 +24,18 @@ namespace API.Controllers
 
         // GET: api/TVShows
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TVShow>>> GetTVShows()
+        public async Task<IActionResult> GetTVShows(int page = 1, int pageSize = 10)
         {
-            return await _context.TVShows.ToListAsync();
+            var data = await _context.TVShows.ToListAsync();
+            var totalRecords = data.Count();
+            var totalPages = (int)(totalRecords / pageSize);
+            var pagedData = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return Ok(new
+            {
+                totalRecords,
+                totalPages,
+                data = pagedData
+            });
         }
 
         // GET: api/TVShows/5

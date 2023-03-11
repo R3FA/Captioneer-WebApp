@@ -8,14 +8,22 @@
                 <button class="btn" id="download-button" mat-flat-button (click)="setTVShow()">{{'TV Series' | translate}}</button>
             </div>
                 <div class="col-8" id="myPagination">
-            <pagination-controls (pageChange)="temp=$event" class="my-pagination">
-            </pagination-controls>
-            </div>
+            <div *ngIf="!this.isTVShow" class="page-shifter">
+                <button [disabled]="_page == 1" (click)="previousPage()">Previous</button>
+                <span>Page {{ _page }} of {{ totalPages }}</span>
+                <button [disabled]="_page == totalPages" (click)="nextPage()">Next</button>
+              </div>
+              <div *ngIf="this.isTVShow" class="page-shifter">
+                <button [disabled]="_pageTV == 1" (click)="previousPageTV()">Previous</button>
+                <span>Page {{ _pageTV }} of {{ totalPagesTV }}</span>
+                <button [disabled]="_pageTV == totalPages" (click)="nextPageTV()">Next</button>
+              </div>   
+        </div>
             </div>
             <div class="col-8">
                 <div class="container">
                     <div *ngIf="!this.isTVShow" class="row g-0" id="foreground2">
-                        <div (click)="loadMovie(m)" *ngFor="let m of Movies | paginate: {itemsPerPage: 6, currentPage: temp}">
+                        <div (click)="loadMovie(m)" *ngFor="let m of Movies.data | paginate: {itemsPerPage: 6, currentPage: temp}">
                             <div class="col-sm" id="movie-container">
                                 <img src="{{m.coverArt}}" class="movie">
                                 <p>{{m.title}}</p>
@@ -23,7 +31,7 @@
                         </div>
                     </div>
                     <div *ngIf="this.isTVShow" class="row g-0" id="foreground2">
-                        <div (click)="loadMovie(m)" *ngFor="let m of TVShows | paginate: {itemsPerPage: 6, currentPage: temp}">
+                        <div (click)="loadMovie(m)" *ngFor="let m of TVShows.data | paginate: {itemsPerPage: 6, currentPage: temp}">
                             <div class="col-sm" id="movie-container">
                                 <img src="{{m.coverArt}}" class="movie">
                                 <p>{{m.title}}</p>

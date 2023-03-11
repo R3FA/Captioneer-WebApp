@@ -4,6 +4,7 @@ using UtilityService.Utils;
 using API.Entities;
 using API.Data;
 using API.Utils;
+using System.Drawing.Printing;
 
 namespace API.Controllers
 {
@@ -22,11 +23,18 @@ namespace API.Controllers
 
         // GET: api/Movies
         [HttpGet]
-        public async Task<ActionResult<ActionResult<IEnumerable<Movie>>>> GetMovies()
+        public async Task<IActionResult> GetMovies(int page = 1, int pageSize = 10)
         {
-            var dbMovies = await _context.Movies.ToListAsync();
-
-            return Ok(dbMovies);
+            var data = await _context.Movies.ToListAsync();
+            var totalRecords = data.Count();
+            var totalPages = (int)(totalRecords / pageSize);
+            var pagedData = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return Ok(new
+            {
+                totalRecords,
+                totalPages,
+                data = pagedData
+            });
         }
 
         // GET: api/Movies/Guardians+of+The+Galaxy
