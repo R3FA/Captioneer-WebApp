@@ -4,7 +4,6 @@ using UtilityService.Utils;
 using API.Entities;
 using API.Data;
 using API.Utils;
-using System.Drawing.Printing;
 
 namespace API.Controllers
 {
@@ -58,6 +57,11 @@ namespace API.Controllers
             {
                 var apiKey = _configuration["ApiKeys:OMDBKey"];
                 var omdbModel = await OMDbFetcher.Fetch(searchQuery, "movie", apiKey);
+
+                if (omdbModel != null && omdbModel.TotalSeasons != null)
+                    if (int.Parse(omdbModel.TotalSeasons) > 0)
+                        return moviesFiltered;
+
                 var movie = await OMDbCacher.CacheMovie(omdbModel, _context);
 
                 if (movie == null)
