@@ -80,30 +80,24 @@ namespace API.Controllers
                     return NotFound($"Could not find user with email {userEmail}");
                 }
 
-                SubtitleMovie subtitleMovie = new SubtitleMovie
-                {
-                    ID = ++currentId,
-                    Movie = movie,
-                    Language = language,
-                    DownloadCount = 0,
-                    SubtitlePath = Path.Combine("subtitleMovieUploads", fileName),
-                    RatingValue = 0,
-                    RatingCount = 0,
-                    FrameRate = frameRateSet,
-                    Release = releaseSet,
-                };
+                SubtitleMovie subtitleMovie = new SubtitleMovie();
+                subtitleMovie.Movie = movie;
+                subtitleMovie.Language = language;
+                subtitleMovie.DownloadCount = 0;
+                subtitleMovie.SubtitlePath = Path.Combine("subtitleMovieUploads", fileName);
+                subtitleMovie.RatingValue = 0;
+                subtitleMovie.RatingCount = 0;
+                subtitleMovie.FrameRate = frameRateSet;
+                subtitleMovie.Release = releaseSet;
                 await _context.SubtitleMovies.AddAsync(subtitleMovie);
                 await _context.SaveChangesAsync();
 
                 int currentUserId = await _context.SubtitleMovies.CountAsync();
-                SubtitleUser subtitleUser = new SubtitleUser
-                {
-                    ID = ++currentUserId,
-                    User = user,
-                    SubtitleMovie = subtitleMovie,
-                    RatingValue = 0,
-                    RatingCount = 0,
-                };
+                SubtitleUser subtitleUser = new SubtitleUser();
+                subtitleUser.User = user;
+                subtitleUser.SubtitleMovie = subtitleMovie;
+                subtitleUser.RatingValue = 0;
+                subtitleUser.RatingCount = 0;
                 await _context.SubtitleUsers.AddAsync(subtitleUser);
                 await _context.SaveChangesAsync();
                 return Ok();

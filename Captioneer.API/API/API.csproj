@@ -69,6 +69,7 @@
     <Content Remove="wwwroot\translations\.gitkeep" />
     <Content Remove="wwwroot\translations\temp\.gitignore" />
     <Content Remove="wwwroot\translations\temp\.gitkeep" />
+    <Folder Include="wwwroot\subtitleTVShowUploads\" />
     <Folder Include="wwwroot\subtitleMovieUploads\" />
     <Folder Include="wwwroot\translations\bs\" />
     <Folder Include="wwwroot\translations\ja\" />

@@ -317,7 +317,7 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
   }
 
   async downloadSubtitle() : Promise<void> {
-    if (!this.translateCheck) {
+    if (!this.translateClicked) {
       this.httpClient.post<string>(environment.apiURL + "/OpenSubtitles"+"/"+this.selectedFile.fileId,this.selectedFile.fileId).subscribe((data)=>{
         var link!:any;
         link=data;
@@ -339,15 +339,20 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
   async UploadSubtitle(){
     this.uploadButtonPressed=true;
     var currentUser = await this.userService.getCurrentUser();
+    if(currentUser==null)
+      {
+        this.validSubtitle=false;
+        alert("You have to log in to upload a subtitle");
+        return;
+      }
     if(!this.validSubtitle)
     {
-      console.log("Baaad request");
+      alert("You have to upload a subtitle in a valid .srt format");
       return;
     }
     this.selectedLanguage;
     this.movieObject.id;
 
-    console.log(this.selectedLanguage2);
     var release=(<HTMLInputElement>document.getElementById("release")).value
     var fps=parseInt((<HTMLInputElement>document.getElementById("fps")).value)
     if(!release)
@@ -360,17 +365,39 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
     formData.append('file', this.file);
 
     console.log(formData);
-    const params=new HttpParams()
-                    .set('movieId',this.movieObject.id)
-                    .set('languageCode',this.selectedLanguage2)
-                    .set('userEmail',currentUser!.email)
-                    .set('release',release)
-                    .set('frameRate',fps)
+    if(!this.isTVSeries){
+      const params=new HttpParams()
+                      .set('movieId',this.movieObject.id)
+                      .set('languageCode',this.selectedLanguage2)
+                      .set('userEmail',currentUser!.email)
+                      .set('release',release)
+                      .set('frameRate',fps)
 
-    this.httpClient.post<any>(environment.apiURL+"/SubtitleMovie",formData,{params:params}).subscribe((data)=>
-    console.log(data)
+      this.httpClient.post<any>(environment.apiURL+"/SubtitleMovie",formData,{params:params}).subscribe((data)=>
+      console.log(data)
     );
-    console.log("done");
+    }
+    else{
+      
+      var seasonNumber=parseInt((<HTMLInputElement>document.getElementById("seasonNumber")).value);
+      var episodeNumber=parseInt((<HTMLInputElement>document.getElementById("episodeNumber")).value);
+      if(isNaN(seasonNumber))
+        seasonNumber=1;
+      if(isNaN(episodeNumber))
+        episodeNumber=1;
+      const params=new HttpParams()
+                      .set('tvShowID',this.movieObject.id)
+                      .set('seasonNumber',seasonNumber)
+                      .set('episodeNumber',episodeNumber)
+                      .set('languageCode',this.selectedLanguage2)
+                      .set('frameRate',fps)
+                      .set('release',release)
+                      .set('userEmail',currentUser!.email)
+
+      this.httpClient.post<any>(environment.apiURL+"/SubtitleTVShows",formData,{params:params}).subscribe((data)=>
+      console.log(data)
+    );
+    }
   }
   validateFileUpload(event: any): void {
       this.file= event.target.files[0];

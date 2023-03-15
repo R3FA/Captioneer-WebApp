@@ -229,22 +229,14 @@
                     <div class="form-group row">
                         <div class="serija form-group row" *ngIf="isTVSeries">
                             <label class="col-sm-2 col-form-label">{{'SeasonNumber' | translate}}:</label>
-                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
+                            <input class="form-control form-control-sm" id="seasonNumber" type="text" placeholder="example: 1">
                         </div>
                     </div>
                     <hr class="serija" *ngIf="isTVSeries">
                     <div class="form-group row">
                         <div class="serija form-group row" *ngIf="isTVSeries">
                             <label class="col-sm-2 col-form-label">{{'EpisodeNumber' | translate}}:</label>
-                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
+                            <input class="form-control form-control-sm" id="episodeNumber" type="text" placeholder="example: 1">
                         </div>
                     </div>
                     <hr class="serija" *ngIf="isTVSeries">
