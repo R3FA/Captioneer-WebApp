@@ -155,22 +155,14 @@
                         <div class="form-group row">
                             <div class="serija form-group row" *ngIf="isTVSeries">
                                 <label class="col-sm-2 col-form-label">{{'SeasonNumber' | translate}}:</label>
-                                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
+                                <input [(ngModel)]="this.seasonNumber" name="seasonDownload" (ngModelChange)="getUploaders()" class="form-control form-control-sm" id="seasonNumber" type="text" placeholder="example: 1">
                             </div>
                         </div>
                         <hr class="serija" *ngIf="isTVSeries">
                         <div class="form-group row">
                             <div class="serija form-group row" *ngIf="isTVSeries">
                                 <label class="col-sm-2 col-form-label">{{'EpisodeNumber' | translate}}:</label>
-                                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
+                                <input [(ngModel)]="this.episodeNumber" name="episodeDownload" (ngModelChange)="getUploaders()" class="form-control form-control-sm" id="episodeNumber" type="text" placeholder="example: 1">
                             </div>
                         </div>
                         <hr class="serija" *ngIf="isTVSeries">
@@ -229,14 +221,14 @@
                     <div class="form-group row">
                         <div class="serija form-group row" *ngIf="isTVSeries">
                             <label class="col-sm-2 col-form-label">{{'SeasonNumber' | translate}}:</label>
-                            <input class="form-control form-control-sm" id="seasonNumber" type="text" placeholder="example: 1">
+                            <input [(ngModel)]="this.seasonNumber" name="seasonUplaod" class="form-control form-control-sm" id="seasonNumber" type="text" placeholder="example: 1">
                         </div>
                     </div>
                     <hr class="serija" *ngIf="isTVSeries">
                     <div class="form-group row">
                         <div class="serija form-group row" *ngIf="isTVSeries">
                             <label class="col-sm-2 col-form-label">{{'EpisodeNumber' | translate}}:</label>
-                            <input class="form-control form-control-sm" id="episodeNumber" type="text" placeholder="example: 1">
+                            <input [(ngModel)]="this.episodeNumber" name="episodeUplaod" class="form-control form-control-sm" id="episodeNumber" type="text" placeholder="example: 1">
                         </div>
                     </div>
                     <hr class="serija" *ngIf="isTVSeries">
@@ -292,31 +284,32 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">{{'SelectSubtitleUploader' | translate}}:</label>
-                    <select name="fileSelected" class="form-select form-select-sm" aria-label=".form-select-sm example"
+                    <select *ngIf="!isInHouse" name="fileSelected" class="form-select form-select-sm" aria-label=".form-select-sm example"
                         [(ngModel)]="this.selectedFile">
                         <option selected *ngFor="let uploader of this.subtitleDownload" [ngValue]="uploader">
                             By: {{this.uploader.uploader}} | FPS:{{this.uploader.fps}} | Release:
                             {{this.uploader.release}}
                         </option>
                     </select>
+                    <select *ngIf="isInHouse" name="fileSelected" class="form-select form-select-sm" aria-label=".form-select-sm example"
+                    [(ngModel)]="this.selectedFileInHouse">
+                    <option selected *ngFor="let uploader of this.homeSubtitleDownload" [ngValue]="uploader">
+                        By: {{this.uploader.uploader}} | FPS:{{this.uploader.fps}} | Release:
+                        {{this.uploader.release}}
+                    </option>
+                </select>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="form-group row formaDiv">
 
                             <div class="titleDiv">
-                                <div class="labelDiv">
-                                    <label class="col-sm-2 col-form-label">{{'Release' | translate}}</label>
-                                </div>
-                                <div class="userDiv">
-                                    <label class="col-sm-2 col-form-label">{{'Uploader' | translate}}</label>
-                                </div>
                                 <div class="divAboutSelect">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
                                             (click)="boxChecked()">
                                         <label class="form-check-label" for="flexSwitchCheckDefault"
-                                            (click)="boxChecked()">{{'SelectCheckbox' | translate}}</label>
+                                            (click)="boxChecked()">{{'Download' | translate}}</label>
                                     </div>
                                 </div>
                                 <div class="divTranslateLanguage">
@@ -327,9 +320,17 @@
                                             (click)="translateCheck()">{{'TranslateCheckbox' | translate}}</label>
                                     </div>
                                 </div>
+                                <div class="divInHouseSubtitles">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                                            (click)="InHouseChecked()">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault"
+                                            (click)="InHouseChecked()">{{'In House Subtitles' | translate}}</label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group row">
-                                <div *ngIf="clicked" class="ratingButton form-group row">
+                                <div *ngIf="isInHouse" class="ratingButton form-group row">
                                     <label class="col-sm-2 col-form-label" id="ratinglabel">{{'SubtitleRating' |
                                         translate}}:</label>
                                     <div class="divRatingStars">

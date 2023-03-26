@@ -1,5 +1,7 @@
 ﻿using API.Data;
+using API.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,9 +21,9 @@ namespace API.Controllers
 
         // GET: api/<SubtitleUserController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<SubtitleUser>>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return await _context.SubtitleUsers.Include(s=>s.User).Include(s=>s.SubtitleTVShow).Include(s=>s.SubtitleMovie).Include(s => s.SubtitleMovie.Movie).Include(s => s.SubtitleTVShow.Episode.Season.TVShow).Include(s=>s.SubtitleMovie.Language).Include(s=>s.SubtitleTVShow.Language).ToListAsync();
         }
 
         // GET api/<SubtitleUserController>/5

@@ -3,10 +3,12 @@ using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using UtilityService.Utils;
+using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +71,7 @@ builder.Services.AddCors(p => p.AddPolicy(corsPolicyName, build =>
         build.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
 }));
 builder.Services.AddControllers();
+builder.Services.AddSingleton<IContentTypeProvider, FileExtensionContentTypeProvider>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

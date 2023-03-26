@@ -18,6 +18,7 @@ import { Creator } from 'src/app/models/creator';
 import { CreatorService } from 'src/app/services/creator.service';
 import { SubtitletranslationService } from 'src/app/services/subtitletranslation.service';
 import { TranslationPostModel } from 'src/app/models/translation-post';
+import { HomeSubtitleDownlaods } from 'src/app/models/home-subtitle-downlaods';
 
 @Component({
   selector: 'app-movie-info',
@@ -46,13 +47,16 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
   public displayFavorite!: boolean;
   isAdmin: boolean = false;
   isTVSeries: boolean = false;
+  isInHouse:boolean=false;
   clicked: boolean = false;
   translateClicked: boolean = false;
   selectedLanguage!:any;
   selectedLanguage2!:any;
   languages!:Language[];
   subtitleDownload!:SubtitleDownloads[];
+  homeSubtitleDownload!:HomeSubtitleDownlaods[];
   public selectedFile! : SubtitleDownloads;
+  public selectedFileInHouse! : HomeSubtitleDownlaods;
   public translate!: TranslateService;
   creators!: Creator[];
   public fileName: string="";
@@ -61,6 +65,8 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
   fileSize:any;
   type:string="";
   uploadButtonPressed:boolean=false;
+  seasonNumber?:number;
+  episodeNumber?:number;
 
   public translatableLanguages! : Language[] | null;
   public languageToTranslate! : Language | null;
@@ -296,6 +302,15 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
       this.translateClicked = false;
     }
   }
+
+  InHouseChecked(){
+    if (this.isInHouse === false) {
+      this.isInHouse = true;
+    }
+    else {
+      this.isInHouse = false;
+    }
+  }
     // Faris Skopak TS Code
 
 
@@ -308,23 +323,96 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
     console.log(this.selectedLanguage2);
   }
   getUploaders(){
-    console.log(this.selectedLanguage)
+    if(typeof this.selectedLanguage==="undefined"){
+      alert("Because you did not choose a language it defaulted to english");
+      this.selectedLanguage="en";
+    }
+    if(!this.isTVSeries){
     this.httpClient.get<SubtitleDownloads>(environment.apiURL + "/OpenSubtitles"+"/"+this.movieObject.imdbId+"/"+this.selectedLanguage).subscribe((data)=>{
       window.sessionStorage.setItem('SubtitleDownloads',JSON.stringify(data))
       });
       this.subtitleDownload=JSON.parse(window.sessionStorage.getItem('SubtitleDownloads')!)
       window.sessionStorage.removeItem('SubtitleDownloads')
+    this.httpClient.get<HomeSubtitleDownlaods>(environment.apiURL + "/SubtitleMovie?movieId="+this.movieObject.id+"&languageCode="+this.selectedLanguage).subscribe((data)=>{
+      window.sessionStorage.setItem('HomeSubtitleDownloads',JSON.stringify(data))
+        });
+        this.homeSubtitleDownload=JSON.parse(window.sessionStorage.getItem('HomeSubtitleDownloads')!)
+        window.sessionStorage.removeItem('HomeSubtitleDownloads')
+      }
+    else{
+      if(typeof this.seasonNumber==="undefined"){
+        this.seasonNumber=1;
+      }
+      if(typeof this.episodeNumber==="undefined"){
+        this.episodeNumber=1;
+      }
+      this.httpClient.get<SubtitleDownloads>(environment.apiURL + "/OpenSubtitles"+"/"+this.movieObject.imdbId+"/"+this.selectedLanguage+"?seasonNumber="+this.seasonNumber+"&episodeNumber="+this.episodeNumber).subscribe((data)=>{
+        window.sessionStorage.setItem('SubtitleDownloads',JSON.stringify(data))
+        });
+        this.subtitleDownload=JSON.parse(window.sessionStorage.getItem('SubtitleDownloads')!)
+        window.sessionStorage.removeItem('SubtitleDownloads')
+      this.httpClient.get<HomeSubtitleDownlaods>(environment.apiURL + "/SubtitleTVShows/"+this.seasonNumber+"/"+this.episodeNumber+"?"+"movieId="+this.movieObject.id+"&languageCode="+this.selectedLanguage).subscribe((data)=>{
+        window.sessionStorage.setItem('HomeSubtitleDownloads',JSON.stringify(data))
+          });
+          this.homeSubtitleDownload=JSON.parse(window.sessionStorage.getItem('HomeSubtitleDownloads')!)
+          window.sessionStorage.removeItem('HomeSubtitleDownloads')
+    }
   }
 
   async downloadSubtitle() : Promise<void> {
-    if (!this.translateClicked) {
+    if (!this.translateClicked && !this.isInHouse) {
       this.httpClient.post<string>(environment.apiURL + "/OpenSubtitles"+"/"+this.selectedFile.fileId,this.selectedFile.fileId).subscribe((data)=>{
         var link!:any;
         link=data;
         window.open(link.link)
         });
     }
-    else {
+    if (!this.translateClicked && this.isInHouse) {
+      var currentUser = await this.userService.getCurrentUser();
+    if(currentUser==null)
+      {
+        alert("You have to log in to download a In House made subtitle");
+        return;
+      }
+      if(this.selectedFileInHouse==null)
+      {
+        alert("Please select a subtitle");
+        return;
+      }
+      if(!this.isTVSeries){
+
+      
+      this.httpClient.get(environment.apiURL + "/SubtitleMovie/api/download?subMovieID="+this.selectedFileInHouse.subMovieID+"&userEmail="+currentUser.email, { responseType: 'blob' })
+      .subscribe(blob => {
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const extension = '.srt';
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        var title=this.movieObject.title
+        link.download = `${title.split('.')[0]}${extension}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(downloadUrl);
+      });
+    }
+    else{
+      this.httpClient.get(environment.apiURL + "/SubtitleTVShows/api/download?subMovieID="+this.selectedFileInHouse.subMovieID+"&userEmail="+currentUser.email, { responseType: 'blob' })
+      .subscribe(blob => {
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const extension = '.srt';
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        var title=this.movieObject.title+"S"+this.seasonNumber+"E"+this.episodeNumber;
+        link.download = `${title.split('.')[0]}${extension}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(downloadUrl);
+      });
+    }
+    }
+    if(this.translateClicked) {
 
       var model = new TranslationPostModel();
       model.release = this.selectedFile.release!;
@@ -379,16 +467,18 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
     }
     else{
       
-      var seasonNumber=parseInt((<HTMLInputElement>document.getElementById("seasonNumber")).value);
-      var episodeNumber=parseInt((<HTMLInputElement>document.getElementById("episodeNumber")).value);
-      if(isNaN(seasonNumber))
-        seasonNumber=1;
-      if(isNaN(episodeNumber))
-        episodeNumber=1;
+      if(typeof this.seasonNumber==="undefined"){
+        alert("Beacause you did not enter the season number it's defaulted to season 1")
+        this.seasonNumber=1;
+      }
+      if(typeof this.episodeNumber==="undefined"){
+        alert("Beacause you did not enter the episode number it's defaulted to episode 1")
+        this.episodeNumber=1;
+      }
       const params=new HttpParams()
                       .set('tvShowID',this.movieObject.id)
-                      .set('seasonNumber',seasonNumber)
-                      .set('episodeNumber',episodeNumber)
+                      .set('seasonNumber',this.seasonNumber)
+                      .set('episodeNumber',this.episodeNumber)
                       .set('languageCode',this.selectedLanguage2)
                       .set('frameRate',fps)
                       .set('release',release)

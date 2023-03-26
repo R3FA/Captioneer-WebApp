@@ -4,6 +4,8 @@ using API.Entities;
 using API.Data;
 using Microsoft.Extensions.Hosting;
 using UtilityService.Utils;
+using API.DTO;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace API.Controllers
 {
@@ -13,11 +15,13 @@ namespace API.Controllers
     {
         private readonly CaptioneerDBContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IContentTypeProvider _contentTypeProvider;
 
-        public SubtitleTVShowsController(CaptioneerDBContext context, IWebHostEnvironment hostEnvironment)
+        public SubtitleTVShowsController(CaptioneerDBContext context, IWebHostEnvironment hostEnvironment, IContentTypeProvider contentTypeProvider)
         {
             _context = context;
             _hostEnvironment = hostEnvironment; 
+            _contentTypeProvider = contentTypeProvider;
         }
 
         // GET: api/SubtitleTVShows
@@ -28,11 +32,93 @@ namespace API.Controllers
         }
 
         // GET: api/SubtitleTVShows/tt0944947/1/1
-        [HttpGet("{imdbID}/{seasonNumber}/{episodeNumber}")]
-        public async Task<ActionResult<SubtitleTVShow?>> GetSubtitleTVShow(string imdbID, int seasonNumber, int episodeNumber)
+        [HttpGet("{seasonNumber}/{episodeNumber}")]
+        public async Task<ActionResult<SubtitleTVShow?>> GetSubtitleTVShow(int movieId, string languageCode, int seasonNumber, int episodeNumber)
         {
-            return default(SubtitleTVShow);
+            var subTVList = await _context.SubtitleTVShows.Include(s=>s.Episode.Season.TVShow).Include(s => s.Language).Where(s => (s.Episode.Season.TVShow.ID == movieId) && (s.Language.LanguageCode == languageCode)).Where(s=>(s.Episode.EpisodeNumber==episodeNumber)&&(s.Episode.Season.SeasonNumber==seasonNumber)).ToListAsync();
+            var subtitleUserList = _context.SubtitleUsers.Include(s => s.User).Include(s => s.SubtitleMovie).Include(s => s.SubtitleTVShow);
+            List<SubtitleUser> subtitleUsers = new List<SubtitleUser>();
+            foreach (var subMovie in subTVList)
+            {
+                foreach (var subUser in subtitleUserList)
+                {
+                    if (subUser.SubtitleTVShow != null)
+                    {
+                        if (subUser.SubtitleTVShow.ID == subMovie.ID)
+                        {
+                            subtitleUsers.Add(subUser);
+                        }
+                    }
+                }
+            }
+            List<SubtitleViewModel> filteredList = new List<SubtitleViewModel>();
+            foreach (var subTitle in subTVList)
+            {
+                filteredList.Add(new SubtitleViewModel
+                {
+                    uploader = "aaaaaaa",
+                    fps = 0,
+                    release = "",
+                    ratingValue = subTitle.RatingValue,
+                    ratingCount = subTitle.RatingCount,
+                    downloadCount = subTitle.DownloadCount,
+                    subMovieID = subTitle.ID
+                }
+                );
+            };
+            for (int i = 0; i < filteredList.Count(); i++)
+            {
+                for (int j = 0; j < subtitleUsers.Count(); j++)
+                {
+                    if (subtitleUsers[j].SubtitleTVShow != null)
+                    {
+                        if (subtitleUsers[j].SubtitleTVShow.ID == filteredList[i].subMovieID)
+                        {
+                            filteredList[i].uploader = subtitleUsers[j].User.Username;
+                        }
+                    }
+                }
+            };
+            return Ok(filteredList);
         }
+
+        [HttpGet]
+        [Route("api/download")]
+        public async Task<IActionResult> Download(int subMovieID, string userEmail)
+        {
+            var subtitleMovie = _context.SubtitleTVShows.FirstOrDefault(s => s.ID == subMovieID);
+            var fileName = subtitleMovie.SubtitlePath;
+            var filePath = Path.Combine(_hostEnvironment.WebRootPath, fileName);
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+
+            if (user == null)
+            {
+                LoggerManager.GetInstance().LogError($"Could not find user with email {userEmail}");
+                return NotFound($"Could not find user with email {userEmail}");
+            }
+
+            user.SubtitleDownload++;
+            await _context.SaveChangesAsync();
+            try
+            {
+                using (var stream = new FileStream(filePath, FileMode.Open))
+                {
+                    var contentType = _contentTypeProvider.TryGetContentType(fileName, out string mimeType) ? mimeType : "application/octet-stream";
+
+                    return PhysicalFile(filePath, contentType, Path.GetFileName(filePath));
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Unable to download file because it is being used by another process.");
+            }
+        }
+
         // POST api/SubtitleMovie
         [HttpPost]
         public async Task<ActionResult> Post(int tvShowID, int seasonNumber, int episodeNumber, string languageCode, int? frameRate, string? release, string userEmail, IFormFile file)
@@ -53,10 +139,17 @@ namespace API.Controllers
 
             if (file.Length > 0)
             {
-                var fileName = $"{file.FileName}{DateTime.Now}";
+                int dotIndex = file.FileName.IndexOf('.');
+                string name = file.FileName;
+
+                if (dotIndex >= 0)
+                    name = file.FileName.Substring(0, dotIndex);
+
+                var fileName = $"{name}{DateTime.Now}";
                 fileName = fileName.Replace("/", "");
                 fileName = fileName.Replace(":", "");
                 fileName = fileName.Replace(" ", "");
+                fileName += ".srt";
 
                 path = Path.Combine(uploads, fileName);
                 await Upload(file, path);
@@ -82,6 +175,9 @@ namespace API.Controllers
                     LoggerManager.GetInstance().LogError($"Could not find user with email {userEmail}");
                     return NotFound($"Could not find user with email {userEmail}");
                 }
+
+                user.SubtitleUpload++;
+
                 Season season = new Season();
                 season.TVShow = movie;
                 season.SeasonNumber = seasonNumber;
