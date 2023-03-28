@@ -12,6 +12,7 @@ import { LanguageService } from 'src/app/services/language.service';
 import { UserlanguageService } from 'src/app/services/userlanguage.service';
 import { UserLanguageModel } from 'src/app/models/userLanguage-viewmodel';
 import { Utils } from 'src/app/utils/utils';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile-page',
@@ -189,9 +190,9 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       this.funFact = "NOT SPECIFIED";
     }
     this.registrationDate = this.loggedUser?.registrationDate;
-    var serverPictureRequest = await this.userService.getUserProfileImage(`${this.userName}`);
+    var serverPictureRequest = await this.userService.getUserProfileImage(this.userName);
     if (serverPictureRequest != null) {
-      this.profileImage = serverPictureRequest;
+      this.profileImage = `${environment.baseAPIURL}/${serverPictureRequest}`;
     }
   }
 

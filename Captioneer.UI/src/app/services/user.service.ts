@@ -63,14 +63,16 @@ export class UserService {
   }
 
   async getUserProfileImage(username : string) : Promise<string | null> {
-    
-    var response = await firstValueFrom(this.httpClient.get(`${this.url}/${username}/profileimage`, { observe: 'response', responseType: 'text'}));
-
-    if (!response.ok) {
-      console.error("Failed to get profile image from server: " + response.statusText);
-      return null;
-    }
-
-    return response.body;
+    return new Promise((resolved : any) => {
+      this.httpClient.get(`${this.url}/${username}/profileimage`, { responseType: "text" }).subscribe({
+        next: (response) => {
+          resolved(response);
+        },
+        error: (err) => {
+          console.error(err.error);
+          resolved(null);
+        }
+      })
+    })
   }
 }

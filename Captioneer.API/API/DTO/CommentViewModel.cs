@@ -8,5 +8,7 @@ namespace API.DTO
         public int? SubtitleMovieID { get; set; }
         public int? SubtitleTVShowID { get; set; }
         public string Content { get; set; }
+        public int? Page { get; set; }
+        public int? TotalPages { get; set; }
     }
 }

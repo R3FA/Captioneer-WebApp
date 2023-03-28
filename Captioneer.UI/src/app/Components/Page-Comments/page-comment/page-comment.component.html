@@ -1,5 +1,5 @@
 <app-header-component></app-header-component>
-<div class="main-container">
+<div *ngIf="this.shouldLoad" class="main-container">
     <div class="wrapper-container">
         <div class="movieInfo">
             <div class="moviePictureDiv">
@@ -12,11 +12,18 @@
                     <h1>{{asObjectMovie.title}} ({{asObjectMovie.year}})</h1>
                 </div>
                 <div class="selectedTitleName">
-                    <h3>{{asObjectSubtitle[0].fileName}}</h3>
+                    <h3>{{this.subtitle.release}}</h3>
                 </div>
             </div>
         </div>
         <div class="comment-container">
+            <div class="col-8" id="myPagination">
+                <div class="page-shifter">
+                    <button [disabled]="this.pageIndex <= 1" (click)="changePage(this.pageIndex - 1)">Previous</button>
+                    <span>Page {{ this.pageIndex }} of {{ this.totalPageCount }}</span>
+                    <button [disabled]="this.pageIndex == this.totalPageCount" (click)="changePage(this.pageIndex + 1)">Next</button>
+                  </div>
+            </div>
             <div class="insert-comment-container">
                 <div class="insert-comment-wrapper">
                     <div class="userPictureDiv">
@@ -26,80 +33,29 @@
                     </div>
                     <div class="commentInputDiv">
                         <div class="commentInput">
-                            <textarea class="form-control" id="textArea" rows="4" style="background: #fff;"
+                            <textarea #commentInput class="form-control" id="textArea" rows="4" style="background: #fff;"
                                 placeholder="Insert a comment"></textarea>
-                            <button type="button" class="btn btn-primary">Post a comment</button>
+                            <button (click)="postComment()" type="button" class="btn btn-primary">{{"PostCommentButton" | translate}}</button>
+                            <div [hidden]="this.commentValid" class="error-text">
+                                {{ (this.loggedUser != null? "PostCommentNoContent" : "PostCommentLogin") | translate}}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="availableComments">
+            <div class="availableComments" *ngFor="let comment of this.comments">
                 <div class="availablePictureDiv">
                     <div class="availablePicture">
-                        <img src="assets/Pictures/userIcon.png" id="picture">
+                        <img [src]="comment.image" id="picture">
                     </div>
                     <div class="labelUser">
-                        <label>Korisnik1</label>
+                        <label>{{ comment.username }}</label>
                     </div>
                 </div>
                 <div class="writtenCommentDiv">
                     <div class="writtenComment">
                         <textarea class="form-control" id="textAreaV2" rows="4" style="background: #fff;"
-                            disabled="disabled" placeholder="Pase i za verziju Bluray 1080p YIFY"></textarea>
-                    </div>
-                    <button id="deleteButton" type="button" class="btn-close btn-close-white" aria-label="Close"
-                        *ngIf="isAdmin"></button>
-                </div>
-            </div>
-            <div class="availableComments">
-                <div class="availablePictureDiv">
-                    <div class="availablePicture">
-                        <img src="assets/Pictures/userIcon.png" id="picture">
-                    </div>
-                    <div class="labelUser">
-                        <label>Korisnik2</label>
-                    </div>
-                </div>
-                <div class="writtenCommentDiv">
-                    <div class="writtenComment">
-                        <textarea class="form-control" id="textAreaV2" rows="4" style="background: #fff;"
-                            disabled="disabled" placeholder="Hvala puno!"></textarea>
-                    </div>
-                    <button id="deleteButton" type="button" class="btn-close btn-close-white" aria-label="Close"
-                        *ngIf="isAdmin"></button>
-                </div>
-            </div>
-            <div class="availableComments">
-                <div class="availablePictureDiv">
-                    <div class="availablePicture">
-                        <img src="assets/Pictures/userIcon.png" id="picture">
-                    </div>
-                    <div class="labelUser">
-                        <label>Korisnik3</label>
-                    </div>
-                </div>
-                <div class="writtenCommentDiv">
-                    <div class="writtenComment">
-                        <textarea class="form-control" id="textAreaV2" rows="4" style="background: #fff;"
-                            disabled="disabled" placeholder="Hvala na tacnom prevodu"></textarea>
-                    </div>
-                    <button id="deleteButton" type="button" class="btn-close btn-close-white" aria-label="Close"
-                        *ngIf="isAdmin"></button>
-                </div>
-            </div>
-            <div class="availableComments">
-                <div class="availablePictureDiv">
-                    <div class="availablePicture">
-                        <img src="assets/Pictures/userIcon.png" id="picture">
-                    </div>
-                    <div class="labelUser">
-                        <label>Korisnik4</label>
-                    </div>
-                </div>
-                <div class="writtenCommentDiv">
-                    <div class="writtenComment">
-                        <textarea class="form-control" id="textAreaV2" rows="4" style="background: #fff;"
-                            disabled="disabled" placeholder="Veoma dobra stranica za skidanje titlova!"></textarea>
+                            disabled="disabled">{{ comment.content }}</textarea>
                     </div>
                     <button id="deleteButton" type="button" class="btn-close btn-close-white" aria-label="Close"
                         *ngIf="isAdmin"></button>

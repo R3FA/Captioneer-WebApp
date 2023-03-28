@@ -266,3 +266,40 @@
     width: 100%;
     resize: none;
 }
+
+.error-text {
+    color: crimson;
+    font-weight: 100;
+}
+
+.page-shifter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+.page-shifter button {
+    background-color: #F18F01;
+    border: none;
+    color: black;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.page-shifter button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-shifter span {
+    margin: 0 16px;
+}
+
+#myPagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }

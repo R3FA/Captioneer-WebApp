@@ -104,5 +104,9 @@
   "InsertFunFact": "Enter your motto",
   "InsertPrefferedLanguage": "Select your preferred language",
   "Designation": "Designation",
-  "TranslateDownloadButton": "Translate & download"
+  "TranslateDownloadButton": "Translate & download",
+  "CommentsButton": "Comments",
+  "PostCommentButton": "Post comment",
+  "PostCommentNoContent": "Type something in first!",
+    "PostCommentLogin": "You must be logged in!"
 }

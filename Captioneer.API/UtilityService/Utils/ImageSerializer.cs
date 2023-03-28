@@ -31,6 +31,11 @@ namespace UtilityService.Utils
             fileName += $".{GetFormatString(format!)}";
             var filePath = $"images/users/{fileName}";
 
+            if (!Directory.Exists(Path.Combine(webRootPath, "images", "users")))
+            {
+                Directory.CreateDirectory(Path.Combine(webRootPath, "images", "users"));
+            }
+
             var savePath = Path.Combine(webRootPath, filePath);
             await decodedImage.SaveAsync(savePath);
             LoggerManager.GetInstance().LogInfo($"Serialized new image to {savePath}");

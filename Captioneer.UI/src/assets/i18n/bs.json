@@ -104,5 +104,9 @@
     "InsertFunFact": "Unesite vas motto",
     "InsertPrefferedLanguage": "Odaberite vas preferirani jezik",
     "Designation": "Zanimanje",
-    "TranslateDownloadButton": "Prevedi i preuzmi"
+    "TranslateDownloadButton": "Prevedi i preuzmi",
+    "CommentsButton": "Komentari",
+    "PostCommentButton": "Komentariši",
+    "PostCommentNoContent": "Napiši nešto prvo!",
+    "PostCommentLogin": "Morate biti logirani!"
 }

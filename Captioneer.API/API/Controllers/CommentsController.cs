@@ -19,19 +19,27 @@ namespace API.Controllers
         }
 
         [HttpGet("Movies/{subtitleID}")]
-        public async Task<ActionResult<IEnumerable<CommentViewModel>>> GetSubtitleMovieComments(int subtitleID)
+        public async Task<ActionResult<IEnumerable<CommentViewModel>>> GetSubtitleMovieComments(int subtitleID, int page = 1, int pageSize = 10)
         {
             var commentVMs = new List<CommentViewModel>();
             var dbComments = await _context.Comments.Where(c => c.SubtitleMovie != null)
                 .Where(c => c.SubtitleMovie!.ID == subtitleID)
-                .Include(c => c.User).ToListAsync();
+                .Include(c => c.User)
+                .Include(c => c.SubtitleMovie)
+                .ToListAsync();
 
-            foreach (var dbComment in dbComments)
+            var pagedComments = dbComments.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var totalPages = (int)Math.Ceiling((double)dbComments.Count / pageSize);
+
+            foreach (var comment in pagedComments)
             {
                 commentVMs.Add(new CommentViewModel()
                 {
-                    Username = dbComment.User.Username,
-                    Content = dbComment.Content,
+                    Username = comment.User.Username,
+                    Content = comment.Content,
+                    SubtitleMovieID = comment.SubtitleMovie!.ID,
+                    Page = page,
+                    TotalPages = totalPages
                 });
             }
 
@@ -39,19 +47,27 @@ namespace API.Controllers
         }
 
         [HttpGet("Shows/{subtitleID}")]
-        public async Task<ActionResult<IEnumerable<CommentViewModel>>> GetSubtitleTVShowComments(int subtitleID)
+        public async Task<ActionResult<IEnumerable<CommentViewModel>>> GetSubtitleTVShowComments(int subtitleID, int page = 1, int pageSize = 10)
         {
             var commentVMs = new List<CommentViewModel>();
             var dbComments = await _context.Comments.Where(c => c.SubtitleTVShow != null)
                 .Where(c => c.SubtitleTVShow!.ID == subtitleID)
-                .Include(c => c.User).ToListAsync();
+                .Include(c => c.User)
+                .Include(c => c.SubtitleTVShow)
+                .ToListAsync();
 
-            foreach (var dbComment in dbComments)
+            var pagedComments = dbComments.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var totalPages = (int)Math.Ceiling((double)dbComments.Count / pageSize);
+
+            foreach (var comment in pagedComments)
             {
                 commentVMs.Add(new CommentViewModel()
                 {
-                    Username = dbComment.User.Username,
-                    Content = dbComment.Content,
+                    Username = comment.User.Username,
+                    Content = comment.Content,
+                    SubtitleTVShowID = comment.SubtitleTVShow!.ID,
+                    Page = page,
+                    TotalPages = totalPages
                 });
             }
 
