@@ -20,13 +20,13 @@ import { SubtitletranslationService } from 'src/app/services/subtitletranslation
 import { TranslationPostModel } from 'src/app/models/translation-post';
 import { HomeSubtitleDownlaods } from 'src/app/models/home-subtitle-downlaods';
 
+
 @Component({
   selector: 'app-movie-info',
   templateUrl: './movie-info.component.html',
   styleUrls: ['./movie-info.component.css']
 })
 export class MovieInfoComponent implements OnInit,AfterViewInit {
-
   constructor(
     private httpClient: HttpClient,
     private userService: UserService,
@@ -35,8 +35,9 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
     private tokenValidation: TokenValidatorService,
     private languageService:LanguageService,
     private creatorService:CreatorService,
-    private subtitleTranslationService : SubtitletranslationService)
-    { }
+    private subtitleTranslationService : SubtitletranslationService,)
+    { 
+    }
 
   movie: any;
   movieObject: any;
@@ -67,6 +68,7 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
   uploadButtonPressed:boolean=false;
   seasonNumber?:number;
   episodeNumber?:number;
+  subtitleRating:number=5;
 
   public translatableLanguages! : Language[] | null;
   public languageToTranslate! : Language | null;
@@ -422,6 +424,7 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
 
       await this.subtitleTranslationService.translate(model);
     }
+    window.location.reload();
   }
 
   async UploadSubtitle(){
@@ -510,5 +513,30 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
 
   switchTranslateLanguage(language : Language) : void {
     this.languageToTranslate = language;
+  }
+
+  async Rating() : Promise<void>{
+    var currentUser = await this.userService.getCurrentUser();
+    if(currentUser==null)
+      {
+        alert("You have to log in to download a In House made subtitle");
+        return;
+      }
+      if(this.selectedFileInHouse==null)
+      {
+        alert("Please select a subtitle");
+        return;
+      }
+      if(!this.isTVSeries){
+        this.httpClient.put(environment.apiURL + "/SubtitleMovie?subMovieID="+this.selectedFileInHouse.subMovieID+"&userEmail="+currentUser.email+"&userRatingValue="+this.subtitleRating,"",).subscribe((data)=>
+        console.log(data)
+        );
+      }
+      else{
+        this.httpClient.put(environment.apiURL + "/SubtitleTVShows?subMovieID="+this.selectedFileInHouse.subMovieID+"&userEmail="+currentUser.email+"&userRatingValue="+this.subtitleRating,"",).subscribe((data)=>
+        console.log(data)
+        );
+      }
+    window.location.reload();
   }
 }

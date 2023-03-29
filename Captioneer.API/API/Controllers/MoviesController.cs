@@ -26,7 +26,7 @@ namespace API.Controllers
         {
             var data = await _context.Movies.ToListAsync();
             var totalRecords = data.Count();
-            var totalPages = (int)(totalRecords / pageSize);
+            var totalPages = (int)Math.Ceiling((double)(totalRecords / pageSize));
             var pagedData = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             return Ok(new
             {

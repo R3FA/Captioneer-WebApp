@@ -369,3 +369,6 @@ hr {
 #message{
     text-align: center;
 }
+#paragraf{
+    white-space: nowrap;
+}

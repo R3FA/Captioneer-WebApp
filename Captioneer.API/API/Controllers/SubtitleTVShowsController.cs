@@ -102,6 +102,7 @@ namespace API.Controllers
             }
 
             user.SubtitleDownload++;
+            subtitleMovie.DownloadCount++;
             await _context.SaveChangesAsync();
             try
             {
@@ -207,6 +208,32 @@ namespace API.Controllers
                 return Ok();
             }
             return BadRequest();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(int subMovieID, string userEmail, int userRatingValue)
+        {
+            var subtitleTVShow = _context.SubtitleTVShows.FirstOrDefault(s => s.ID == subMovieID);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+
+            if (user == null)
+            {
+                LoggerManager.GetInstance().LogError($"Could not find user with email {userEmail}");
+                return NotFound($"Could not find user with email {userEmail}");
+            }
+            if (subtitleTVShow.RatingCount == 0)
+            {
+                subtitleTVShow.RatingValue = userRatingValue;
+                subtitleTVShow.RatingCount++;
+            }
+            else
+            {
+                subtitleTVShow.RatingValue = (subtitleTVShow.RatingValue * subtitleTVShow.RatingCount + userRatingValue) / (subtitleTVShow.RatingCount + 1);
+                subtitleTVShow.RatingValue = Math.Round(subtitleTVShow.RatingValue, 2);
+                subtitleTVShow.RatingCount++;
+            }
+            await _context.SaveChangesAsync();
+            return Ok(subtitleTVShow.RatingValue);
         }
 
         private static async Task Upload(IFormFile file, string path)

@@ -331,13 +331,27 @@
                             </div>
                             <div class="form-group row">
                                 <div *ngIf="isInHouse" class="ratingButton form-group row">
-                                    <label class="col-sm-2 col-form-label" id="ratinglabel">{{'SubtitleRating' |
-                                        translate}}:</label>
-                                    <div class="divRatingStars">
-                                        <ngx-star-rating [id]="'rating'" class="ratingStars"></ngx-star-rating>
+                                    <div class="divRatingStars row">
+                                        <ngx-star-rating [id]="'rating'" class="ratingStars" [(ngModel)]="this.subtitleRating" [ngModelOptions]="{standalone: true}" name="rating"></ngx-star-rating>
                                     </div>
-                                    <div class="example-button-row" id="commentButton">
-                                        <button mat-button [routerLink]="['/comments']" data-bs-toggle="modal">{{'CommentsButton' | translate}}}</button>
+                                    <div *ngIf="this.selectedFileInHouse!=null" class="divRatingStars row">
+                                        <div class="col">
+                                            <p id="paragraf">Rating: {{this.selectedFileInHouse.ratingValue}}</p>
+                                        </div>
+                                        <div class="col">
+                                            <p id="paragraf">Votes: {{this.selectedFileInHouse.ratingCount}}</p>
+                                        </div>
+                                        <div class="col">
+                                            <p id="paragraf">Downloads: {{this.selectedFileInHouse.downloadCount}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="commentButton">
+                                        <div class="col">
+                                            <button mat-button (click)="Rating()">{{'Rate It!' | translate}}</button>
+                                        </div>
+                                        <div class="col">
+                                            <button mat-button [routerLink]="['/comments']" data-bs-toggle="modal">{{'CommentsButton' | translate}}</button>
+                                        </div>
                                     </div>
                                 </div>
 

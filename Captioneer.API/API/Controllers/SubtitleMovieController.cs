@@ -99,6 +99,7 @@ namespace API.Controllers
             }
 
             user.SubtitleDownload++;
+            subtitleMovie.DownloadCount++;
             await _context.SaveChangesAsync();
             try
             {
@@ -200,6 +201,39 @@ namespace API.Controllers
             return BadRequest();
         }
 
+
+        // PUT api/<SubtitleMovieController>/5
+        [HttpPut]
+        public async Task<IActionResult> Put(int subMovieID, string userEmail,int userRatingValue)
+        {
+            var subtitleMovie = _context.SubtitleMovies.FirstOrDefault(s => s.ID == subMovieID);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+
+            if (user == null)
+            {
+                LoggerManager.GetInstance().LogError($"Could not find user with email {userEmail}");
+                return NotFound($"Could not find user with email {userEmail}");
+            }
+            if (subtitleMovie.RatingCount==0)
+            {
+                subtitleMovie.RatingValue = userRatingValue;
+                subtitleMovie.RatingCount++;
+            }
+            else
+            {
+                subtitleMovie.RatingValue =(subtitleMovie.RatingValue*subtitleMovie.RatingCount+userRatingValue)/(subtitleMovie.RatingCount+1);
+                subtitleMovie.RatingValue = Math.Round(subtitleMovie.RatingValue, 2);
+                subtitleMovie.RatingCount++;
+            }
+            await _context.SaveChangesAsync();
+            return Ok(subtitleMovie.RatingValue);
+        }
+
+        // DELETE api/<SubtitleMovieController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
         private static async Task Upload(IFormFile file, string path)
         {
             try
@@ -213,18 +247,6 @@ namespace API.Controllers
             {
                 LoggerManager.GetInstance().LogError(e.Message);
             }
-        }
-
-        // PUT api/<SubtitleMovieController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<SubtitleMovieController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
