@@ -6,5 +6,6 @@ export class UserViewModel  {
     subtitleUpload?:number
     subtitleDownload?:number
     funFact?:string
+    prefferedLanguages?:any[]
     registrationDate?:Date
 }

@@ -43,7 +43,7 @@ export class PageLoginComponent implements OnInit {
               'email',
               JSON.parse(JSON.stringify((<HTMLInputElement>document.getElementById("email")).value))
               )
-              window.location.href = "../home";
+              window.location.href = "";
             };
           },
       error: (err) => {

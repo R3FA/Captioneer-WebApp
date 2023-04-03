@@ -90,7 +90,6 @@ export class PageCommentComponent implements OnInit {
   }
 
   async getImage(username : string) : Promise<string | null> {
-
     return new Promise((resolved) => {
       resolved(`${environment.baseAPIURL}\\images\\users\\randomUser227032023163907.jpg`);
     })

@@ -138,28 +138,39 @@
 
 .userPage-info-designation {
     /* border: 2px solid red; */
-    height: 50%;
+    height: 100%;
     width: 100%;
     text-align: center;
     position: relative;
 }
 
-.userPage-info-designation h5 {
-    height: 70%;
+.social-div {
     width: 100%;
+    height: 65%;
+    /* border: 2px solid aqua; */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.userPage-info-online {
-    height: 50%;
-    width: 100%;
-    /* border: 2px solid aqua; */
-    text-align: center;
-    position: relative;
+.social-div-center {
     display: flex;
+    width: 100%;
+    height: 100%;
+    /* border: 2px solid greenyellow; */
+}
+
+.social-div-center h6 {
+    width: 30%;
+    height: max-content;
+    margin: auto;
+}
+
+.social-div-center button {
+    width: 25%;
+    height: max-content;
+    margin: auto;
 }
 
 .userPage-info-online h5 {

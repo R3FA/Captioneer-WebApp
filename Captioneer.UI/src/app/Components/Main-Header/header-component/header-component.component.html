@@ -1,19 +1,15 @@
 <div class="main-container">
     <div class="header">
         <div class="header-image">
-            <img class="img-thumbnail" src="assets\Pictures\logo.png">
+            <a href=""><img class="img-thumbnail" src="assets\Pictures\logo.png"></a>
         </div>
         <div class="main-title">
-            <h3>CAPTIONEER</h3>
+            <a href="" class="a-title">
+                <h3>CAPTIONEER</h3>
+            </a>
         </div>
-        <div class="page-elements">
-            <ul>
-                <li><a href="../home">{{'HomeButton' | translate}}</a></li>
-                <li><a href="../home">{{'UploadHeaderButton' | translate}}</a></li>
-                <li><a href="../profile-page">{{'ProfilePageButton' | translate}}</a></li>
-            </ul>
-        </div>
-        <div class="subtitle-search">
+
+        <!-- <div class="subtitle-search">
             <form class="subtitle-form">
                 <mat-form-field class="subtitle-mat-form" appearance="outline" [style.width.px]=327>
                     <mat-label>
@@ -33,7 +29,7 @@
                     <path
                         d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                 </svg></button>
-        </div>
+        </div> -->
         <div id="site-language" class="form-group row">
             <select id="site-language-select" class="form-select form-select-sm" aria-label=".form-select-sm example"
                 #selectedLang (change)="switchLang(selectedLang.value)">
@@ -44,11 +40,12 @@
             </select>
         </div>
         <div *ngIf="isNotLogedIn" class="header-button">
-            <button class="search-button" mat-flat-button routerLink="../signin">{{'SignInButton' | translate}}</button>
-            <button class="search-button" mat-flat-button routerLink="../signup">{{'SignUpButton' | translate}}</button>
+            <a href="Signin"><button class="search-button" mat-flat-button>{{'SignInButton' | translate}}</button></a>
+            <a href="Signup"><button class="search-button" mat-flat-button>{{'SignUpButton' | translate}}</button></a>
         </div>
         <div *ngIf="!isNotLogedIn" class="header-button">
-            <button class="search-button" mat-flat-button>{{'Hello' | translate}} {{name}}</button>
+            <a [href]="'Profile/'+ name"><button class="search-button" mat-flat-button>{{'Hello' | translate}}
+                    {{name}}</button></a>
             <button class="search-button" mat-flat-button (click)="signOut()">{{'SignOutButton' | translate}}</button>
         </div>
     </div>

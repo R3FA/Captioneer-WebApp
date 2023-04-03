@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
@@ -21,11 +22,11 @@ import { environment } from 'src/environments/environment';
 })
 export class ProfilePageComponent implements OnInit, AfterViewInit {
 
-  private loggedUser!: UserViewModel | null;
+  public loggedUser!: UserViewModel | null;
   // In bytes
   private maxUploadSize = 2 * 1024 * 1024;
   getLanguages: Language[] = [];
-  public userLangauges: UserLanguageModel[] = [];
+  public serverPictureLocation = environment.baseAPIURL;
 
   private _showEditProfile!: boolean;
   private _showChangeEmailForm!: boolean;
@@ -34,6 +35,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   private _showChangeProfileImageForm!: boolean;
   private _showDeleteProfileForm!: boolean;
   private _showChangePublicInformationForm!: boolean;
+  public hiddenParentComponent:boolean = false;
 
   public changeEmailForm!: FormGroup;
   public changeUsernameForm!: FormGroup;
@@ -97,10 +99,9 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     return this._showChangePublicInformationForm;
   }
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private renderer: Renderer2, private tokenValidator: TokenValidatorService, public translate: TranslateService, private languageService: LanguageService, private userLanguageService: UserlanguageService) { }
+  constructor(private formBuilder: FormBuilder, public userService: UserService, private renderer: Renderer2, private tokenValidator: TokenValidatorService, public translate: TranslateService, private languageService: LanguageService, private userLanguageService: UserlanguageService, private route:ActivatedRoute) { }
 
-  ngOnInit(): void {
-
+  async ngOnInit(): Promise<void> {
     this._showEditProfile = false;
     this._showChangeEmailForm = true;
     this._showChangeUsernameForm = false;
@@ -163,37 +164,13 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
   async ngAfterViewInit() {
     this.loggedUser = await this.userService.getCurrentUser();
-    this.userLanguageService.getUserLanguage(this.loggedUser!.username).subscribe({
-      next: (response) => this.userLangauges = response,
-      error: (err) => {
-        console.error(err.error);
-      },
-    });
+
 
     if (!this.tokenValidator.validateToken()) {
       this.loggedUser = null;
     }
-    this.userName = this.loggedUser!.username;
-    this.email = this.loggedUser!.email;
-    this.profileImage = "assets/Pictures/userIcon.png";
 
-    if (this.loggedUser?.designation != null) {
-      this.designation = this.loggedUser?.designation;
-    } else {
-      this.designation = "NOT SPECIFIED";
-    }
-    this.subtitleDownload = this.loggedUser!.subtitleDownload;
-    this.subtitleUpload = this.loggedUser!.subtitleUpload;
-    if (this.loggedUser?.designation != null) {
-      this.funFact = this.loggedUser!.funFact;
-    } else {
-      this.funFact = "NOT SPECIFIED";
-    }
-    this.registrationDate = this.loggedUser?.registrationDate;
-    var serverPictureRequest = await this.userService.getUserProfileImage(this.userName);
-    if (serverPictureRequest != null) {
-      this.profileImage = `${environment.baseAPIURL}/${serverPictureRequest}`;
-    }
+    
   }
 
   clearForms(): void {
@@ -510,7 +487,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.userLanguageService.postUserLanguage(this.loggedUser!.username, this.prefferedLanguage!).subscribe({
+    this.userLanguageService.postUserLanguage(this.userService.userData.username, this.prefferedLanguage!).subscribe({
       next: (response) => console.log(response),
       error: async (err) => {
         this.successText = "";

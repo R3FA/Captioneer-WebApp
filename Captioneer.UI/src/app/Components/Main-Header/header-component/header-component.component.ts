@@ -9,6 +9,10 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UserViewModel } from 'src/app/models/user-viewmodel';
 import { TranslateService } from '@ngx-translate/core';
+import { UserlanguageService } from 'src/app/services/userlanguage.service';
+import { UserLanguageModel } from 'src/app/models/userLanguage-viewmodel';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-header-component',
@@ -18,12 +22,17 @@ import { TranslateService } from '@ngx-translate/core';
 export class HeaderComponentComponent implements OnInit {
 
   movies: MovieViewModel[] = [];
+  userLanguages:any[]=[];
+  public userLangauges: UserLanguageModel[] = [];
   movieName: string = "";
   myControl = new FormControl('');
   finalData!: Observable<MovieViewModel[]>;
   isNotLogedIn!:boolean;
   name!:string;
-  user!:UserViewModel;
+  user!:any;
+  loggedUser:any;
+
+
 
   onClick() {
     this.moviesService.getMovieByParameter(this.movieName).subscribe({
@@ -37,7 +46,7 @@ export class HeaderComponentComponent implements OnInit {
     });
     window.location.reload();
   }
-  constructor(private moviesService: MovieService,private http:HttpClient,private router:Router,private userService:UserService, public translate : TranslateService) {
+  constructor(private moviesService: MovieService,private http:HttpClient,private router:Router,private userService:UserService, public translate : TranslateService, public userLanguage:UserlanguageService, public userLanguageService: UserlanguageService) {
     this.moviesService.getMovies().subscribe((result: MovieViewModel[]) => (this.movies = result));
   }
 
@@ -73,15 +82,22 @@ export class HeaderComponentComponent implements OnInit {
       (data)=>{
         var userName=data.body?.username;
         this.name=userName!;
+        this.userService.userData = data.body;
+        this.userService.userData.profileImage = environment.baseAPIURL + '/' + this.userService.userData.profileImage;
+        this.userLanguageService.getUserLanguage(this.userService.userData.username).subscribe((data)=> this.userService.userData.prefferedLanguages = data);
+        console.log(this.userService.userData);
       }
     )
   }
+   
   signOut()
   {
     sessionStorage.clear();
     localStorage.clear();
     window.location.href = "";
   }
+
+
 
   public getLangName(lang : string) : string {
 
