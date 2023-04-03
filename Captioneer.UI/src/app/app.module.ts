@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +28,9 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PageCommentComponent } from './Components/Page-Comments/page-comment/page-comment.component';
 import { PageDirectMessagesComponent } from './Components/page-direct-messages/page-direct-messages.component';
+import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundErrorComponent } from './Components/page-not-found-error/page-not-found-error.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +46,7 @@ import { PageDirectMessagesComponent } from './Components/page-direct-messages/p
     MovieInfoComponent,
     PageCommentComponent,
     PageDirectMessagesComponent,
+    PageNotFoundErrorComponent,
   ],
   imports: [
     FormsModule,
@@ -73,6 +77,6 @@ import { PageDirectMessagesComponent } from './Components/page-direct-messages/p
 })
 export class AppModule { }
 
-export function httpTranslateLoader(http : HttpClient) {
+export function httpTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

@@ -7,7 +7,7 @@
                     <h1>CAPTIONEER</h1>
                     <h3>{{'Title' | translate}}</h3>
                 </div>
-                <form  name="loginForm" [formGroup]="loginForma">
+                <form name="loginForm" [formGroup]="loginForma">
                     <div class="email-input">
                         <mat-form-field class="content-mat-form-field" appearance="outline">
                             <mat-label>{{'Email' | translate}}</mat-label>
@@ -19,7 +19,8 @@
                     </div>
                     <div class="password-input">
                         <span>
-                            <a class="text-link" class="aLink" routerLink="/auth/forgot-password">{{'ForgotPassword' | translate}}</a>
+                            <a class="text-link" class="aLink" routerLink="/auth/forgot-password">{{'ForgotPassword' |
+                                translate}}</a>
                         </span>
                         <mat-form-field class="content-mat-form-field" appearance="outline">
                             <mat-label>{{'Password' | translate}}</mat-label>
@@ -37,7 +38,8 @@
                         </mat-form-field>
                     </div>
                     <div class="mat-form-button">
-                        <button mat-flat-button class="dugme" (click)="onLogin()">{{'SignInButton' | translate}}</button>
+                        <button mat-flat-button class="dugme" (click)="onLogin()">{{'SignInButton' |
+                            translate}}</button>
                         <button mat-flat-button class="Cancel-Dugme">{{'CancelButton' | translate}}</button>
                     </div>
                 </form>

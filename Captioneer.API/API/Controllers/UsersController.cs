@@ -26,16 +26,16 @@ namespace API.Controllers
             _hostEnvironment = environment;
         }
 
-        //GET: api/Users/example@mail.com
-        [HttpGet("{mail}")]
-        public async Task<ActionResult<UserViewModel>> GetUserByEmail(string? mail)
+        //GET: api/Users/example@mail.com || example
+        [HttpGet("")]
+        public async Task<ActionResult<UserViewModel>> GetUserByEmail(string? mail,string? username)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == mail);
+            var user = await _context.Users.FirstOrDefaultAsync(u => (u.Email == mail) || (u.Username == username));
 
             if (user == null)
             {
                 LoggerManager.GetInstance().LogError($"User with {mail} was not found!");
-                return NotFound($"User with {mail} was not found!");
+                return NotFound($"User with {mail} or {username} was not found!");
             }
 
             UserViewModel userReturn = new UserViewModel()

@@ -181,7 +181,7 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
 
   back() {
     localStorage.clear();
-    window.location.href = "../home";
+    window.location.href = "";
   }
 
   async favoriteTVShow() : Promise<void> {

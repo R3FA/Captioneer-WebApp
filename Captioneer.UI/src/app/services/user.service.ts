@@ -15,13 +15,15 @@ export class UserService {
 
   private url: string = environment.apiURL + "/Users"
 
+  public userData?:any;
+
   constructor(private httpClient: HttpClient) { }
 
   getUser(): Observable<HttpResponse<UserViewModel>> {
     return this.httpClient.get<UserViewModel>(this.url, { observe: 'response' });
   }
-  getUserByEmail(email: string): Observable<HttpResponse<UserViewModel>> {
-    return this.httpClient.get<UserViewModel>(this.url + '/' + email, { observe: 'response' });
+  getUserByEmail(email?: string,username?:string): Observable<HttpResponse<UserViewModel>> {
+    return this.httpClient.get<UserViewModel>(this.url + '?mail=' + email + "&username=" + username, { observe: 'response' });
   }
 
   postUser(user: UserPost): Observable<HttpResponse<UserPost>> {

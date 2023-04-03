@@ -5,11 +5,11 @@
             <mat-card class="profile-mat-card">
                 <div class="mat-card-container">
                     <div class="picture-profile-div">
-                        <img src={{profileImage}} class="picture-profile">
+                        <img src={{this.userService.userData.profileImage}} class="picture-profile">
                     </div>
                     <div class="username-profile-div">
                         <div class="username">
-                            <h2>{{userName}}</h2>
+                            <h2>{{this.userService.userData.username}}</h2>
                         </div>
                         <div class="role">
                             <h5>{{'DesignationAdmin' | translate}}</h5>
@@ -17,39 +17,35 @@
                     </div>
                     <div class="userPage-info">
                         <div class="userPage-info-designation">
-                            <h5>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-person-workspace" viewBox="0 0 16 16">
-                                    <path
-                                        d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                                    <path
-                                        d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z" />
-                                </svg>
-                                {{'Designation' | translate}}: {{designation}}
-                            </h5>
-                        </div>
-                        <div class="userPage-info-online">
-                            <h5>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-calendar3" viewBox="0 0 16 16">
-                                    <path
-                                        d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
-                                    <path
-                                        d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                                </svg>
-                                {{'RegistrationDate' | translate}}: {{registrationDate | date:"dd/MM/yyyy"}}
-                            </h5>
+                            <div class="social-div">
+                                <div class="social-div-center">
+                                    <h6>Followers:</h6>
+                                    <h6>Following:</h6>
+                                    <button mat-flat-button class="message-button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                            <path fill-rule="evenodd"
+                                                d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                                        </svg>
+                                        Add a friend
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="message-and-settings">
-                        <button mat-flat-button class="message-button" [routerLink]="['/directmessages']">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-chat-left-dots-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                            </svg>
-                            {{'MessageButton' | translate}}
-                        </button>
+                        <a [href]="'Profile/' + this.userService.userData.username + '/DirectMessages'"><button
+                                mat-flat-button class="message-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-chat-left-dots-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                </svg>
+                                {{'MessageButton' | translate}}
+                            </button></a>
+
                         <button (click)="togglePublicInfo()" mat-flat-button class="editPage-button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-pen-fill" viewBox="0 0 16 16">
@@ -93,7 +89,7 @@
                                     <path
                                         d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
-                                {{userName}}
+                                {{this.userService.userData.username}}
                             </h6>
                         </div>
                     </div>
@@ -114,7 +110,7 @@
                                     <path
                                         d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
-                                {{email}}
+                                {{this.userService.userData.email}}
                             </h6>
                         </div>
                     </div>
@@ -135,7 +131,7 @@
                                     <path
                                         d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
-                                {{subtitleUpload}}
+                                {{this.userService.userData.subtitleUpload}}
                             </h6>
                         </div>
                     </div>
@@ -156,7 +152,7 @@
                                     <path
                                         d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
-                                {{subtitleDownload}}
+                                {{this.userService.userData.subtitleDownload}}
                             </h6>
                         </div>
                     </div>
@@ -174,8 +170,8 @@
                                 {{'PreferredLanguages' | translate}}:
                             </h5>
                             <div class="userLangDiV">
-                                <h6 *ngFor="let userLanguage of userLangauges">
-                                    {{userLanguage.englishLanguageName}}
+                                <h6 *ngFor="let langauges of this.userService.userData.prefferedLanguages">
+                                    {{langauges.englishLanguageName}}
                                 </h6>
                             </div>
                         </div>
@@ -197,7 +193,7 @@
                                     <path
                                         d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                                 </svg>
-                                {{funFact}}
+                                {{this.userService.userData.funFact}}
                             </h6>
                         </div>
                     </div>
@@ -208,7 +204,7 @@
                     <div class="page-information">
                         <!-- MORAS URADIT OVO -->
                         <div class="favoriteMovieDIV">
-                            <h4>{{userName}}</h4>
+                            <h4>{{this.userService.userData.username}}</h4>
                             <h6>FAVORITE MOVIE AND TV SHOWS</h6>
                         </div>
                     </div>
@@ -401,12 +397,7 @@
                                     <div class="form-text">{{'PasswordConfirm' | translate}}</div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="enterDesignation" class="form-label">{{'InsertDesignation' |
-                                        translate}}</label>
-                                    <input class="inputPubInfo" name="enterDesignation"
-                                        formControlName="enterDesignation" maxlength="25" value={{designation}}>
-                                </div>
+
                                 <div class="mb-3">
                                     <label for="enterfunFact" class="form-label">{{'InsertFunFact' |
                                         translate}}:</label>

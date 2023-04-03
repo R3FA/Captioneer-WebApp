@@ -4,10 +4,13 @@
     box-sizing: border-box;
     color: #F18F01;
 }
-html,body{
+
+html,
+body {
     background-image: url('src\assets\Pictures\background-slika.jpg');
     background-size: cover;
 }
+
 @font-face {
     font-family: 'BerunFont1';
     src: url('src\assets\Fonts\MARDE SAUVE.otf');
@@ -22,16 +25,19 @@ html,body{
     font-family: 'BerunFont3';
     src: url('src\assets\Fonts\Raleway-Bold.ttf');
 }
+
 section {
     width: 100vw;
     /* height: 92.5%; */
     height: 100vh;
 }
+
 .container {
     margin: 0;
     padding: 0;
     margin: auto;
 }
+
 #foreground {
     background-color: #2e4057de;
     border: 3px solid #F18F01;
@@ -39,6 +45,7 @@ section {
     padding-bottom: 2%;
     margin-right: 5%;
 }
+
 #foreground2 {
     background-color: #2e4057de;
     border: 3px solid #F18F01;
@@ -49,6 +56,7 @@ section {
     height: 83vh;
     margin-left: 5%;
 }
+
 #background {
     background-image: url('src\assets\Pictures\background-slika.jpg');
     background-size: cover;
@@ -57,9 +65,11 @@ section {
     width: 100vw;
     height: 140vh;
 }
-#invisible{
+
+#invisible {
     background: red;
 }
+
 .main-container {
     position: relative;
     top: 5%;
@@ -68,118 +78,134 @@ section {
     height: 100%;
     background-color: none;
 }
+
 h3 {
     font-family: BerunFont1;
     padding-top: 3%;
     padding-bottom: 3%;
 }
+
 .movie {
     width: 50%;
     height: 100%;
     border-radius: 0.5em;
     border: 2px solid #F18F01;
 }
-.movie:hover{
-    transform: scale(1.2); 
+
+.movie:hover {
+    transform: scale(1.2);
 }
-.selected-movie{
+
+.selected-movie {
     width: 50%;
     height: 50%;
     border-radius: 0.5em;
     border: 2px solid #F18F01;
 }
+
 #movie-container {
     height: 100%;
     width: 100%;
     margin-top: 2%;
 }
-.ng-star-inserted
-{
+
+.ng-star-inserted {
     margin-bottom: 2%;
     padding: 0;
     width: 33%;
 }
+
 .dropdown {
     position: relative;
     display: inline-block;
-  }
-  
-  .dropdown-content {
+}
+
+.dropdown-content {
     text-align: center;
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     padding: 12px 16px;
     z-index: 1;
-  }
-  #download-button{
+}
+
+#download-button {
     font-family: BerunFont2;
     margin: 5%;
     width: 30%;
     background-color: #F18F01;
     color: black;
     border: 2px solid #F18F01;
-  }
-#download-button:hover{
+}
+
+#download-button:hover {
     background-color: transparent;
     border: 2px solid #F18F01;
     color: #f9f9f9;
 }
-.page-item{
+
+.page-item {
     width: 5%;
 }
-.page-link{
+
+.page-link {
     background-color: #F18F01;
     color: black;
     padding-right: 100%;
-    border:1px solid #4e77acde;
+    border: 1px solid #4e77acde;
 }
-.page-link:hover{
+
+.page-link:hover {
     background-color: transparent;
     border: 2px solid #F18F01;
     color: #f9f9f9;
 }
+
 .my-pagination /deep/ .ngx-pagination .current {
     border: 2px solid #F18F01;
     background-color: transparent;
     color: #f9f9f9;
-  }
-  .my-pagination /deep/ .ngx-pagination .current:hover{
+}
+
+.my-pagination /deep/ .ngx-pagination .current:hover {
     background-color: #F18F01;
     color: #f9f9f9;
-  }
-  .my-pagination /deep/ a.ng-star-inserted:hover {
+}
+
+.my-pagination /deep/ a.ng-star-inserted:hover {
     background-color: #F18F01;
     color: #f9f9f9;
-  }
-  #myPagination{
+}
+
+#myPagination {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .page-shifter {
+}
+
+.page-shifter {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 20px;
-  }
-  
-  .page-shifter button {
+}
+
+.page-shifter button {
     background-color: #F18F01;
     border: none;
     color: black;
     padding: 8px 16px;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .page-shifter button:disabled {
+}
+
+.page-shifter button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-  }
-  
-  .page-shifter span {
+}
+
+.page-shifter span {
     margin: 0 16px;
-  }
+}

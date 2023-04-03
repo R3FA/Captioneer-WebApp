@@ -350,7 +350,7 @@
                                             <button mat-button (click)="Rating()">{{'Rate It!' | translate}}</button>
                                         </div>
                                         <div class="col">
-                                            <button mat-button [routerLink]="['/comments']" data-bs-toggle="modal">{{'CommentsButton' | translate}}</button>
+                                            <a [routerLink]="'Comments'"><button mat-buttondata-bs-toggle="modal">{{'CommentsButton' | translate}}</button></a>
                                         </div>
                                     </div>
                                 </div>

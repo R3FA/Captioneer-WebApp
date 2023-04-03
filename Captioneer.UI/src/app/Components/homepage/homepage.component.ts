@@ -87,6 +87,6 @@ export class HomepageComponent implements OnInit {
   saveMovie(){
     localStorage.setItem('selected movie',JSON.stringify(this.selected));
     localStorage.setItem('isTVShow',JSON.stringify(this.isTVShow));
-    window.location.href = "../movie"
+    window.location.href = "../Movie"
   }
 }

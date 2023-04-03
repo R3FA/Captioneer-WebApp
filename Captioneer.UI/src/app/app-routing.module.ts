@@ -8,41 +8,24 @@ import { PageCommentComponent } from './Components/Page-Comments/page-comment/pa
 import { HomepageComponent } from './Components/homepage/homepage.component';
 import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
 import { PageDirectMessagesComponent } from './Components/page-direct-messages/page-direct-messages.component';
-const routes: Routes = [
-  {
-    path: 'home',
-    component: HomepageComponent
-  },
-  {
-    path: 'profile-page',
-    component: ProfilePageComponent
-  },
-  {
-    path: 'signup',
-    component: SignupPageComponent
-  },
-  {
-    path: '',
-    component: PageLoginComponent
-  },
-  {
-    path: 'movie',
-    component: MovieInfoComponent
-  },
-  {
-    path: 'comments',
-    component: PageCommentComponent
-  },
-  {
-    path: 'directmessages',
-    component: PageDirectMessagesComponent
-  }
+import { PageNotFoundErrorComponent } from './Components/page-not-found-error/page-not-found-error.component';
+
+const appRoute: Routes = [
+    { path: '', redirectTo: 'Home', pathMatch: 'full' },
+    { path: 'Home', component: HomepageComponent },
+    { path: 'Movie', component: MovieInfoComponent },
+    { path: 'Movie/Comments', component: PageCommentComponent },
+    { path: 'Signup', component: SignupPageComponent },
+    { path: 'Signin', component: PageLoginComponent },
+    { path: 'Profile/:username', component: ProfilePageComponent },
+    { path: 'Profile/:username/DirectMessages', component: PageDirectMessagesComponent },
+    { path: '**', component: PageNotFoundErrorComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-  providers: []
+    imports: [RouterModule.forRoot(appRoute)],
+    exports: [RouterModule],
+    providers: []
 })
 
 export class AppRoutingModule {
