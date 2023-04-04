@@ -86,14 +86,20 @@ h3 {
 }
 
 .movie {
-    width: 50%;
-    height: 100%;
+    width: 60%;
+    height: 110%;
     border-radius: 0.5em;
     border: 2px solid #F18F01;
 }
 
 .movie:hover {
     transform: scale(1.2);
+}
+#movieRow{
+    margin-top: 2%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .selected-movie {

@@ -424,7 +424,6 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
 
       await this.subtitleTranslationService.translate(model);
     }
-    window.location.reload();
   }
 
   async UploadSubtitle(){

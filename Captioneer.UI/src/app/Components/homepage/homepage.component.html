@@ -26,18 +26,18 @@
             <div class="col-8">
                 <div class="container">
                     <div *ngIf="!this.isTVShow" class="row g-0" id="foreground2">
-                        <div (click)="loadMovie(m)"
+                        <div class="col-4"(click)="loadMovie(m)"
                             *ngFor="let m of Movies.data | paginate: {itemsPerPage: 6, currentPage: temp}">
-                            <div class="col-sm" id="movie-container">
+                            <div class="row" id="movieRow">
                                 <img src="{{m.coverArt}}" class="movie">
                                 <p>{{m.title}}</p>
                             </div>
                         </div>
                     </div>
                     <div *ngIf="this.isTVShow" class="row g-0" id="foreground2">
-                        <div (click)="loadMovie(m)"
+                        <div class="col-4" (click)="loadMovie(m)"
                             *ngFor="let m of TVShows.data | paginate: {itemsPerPage: 6, currentPage: temp}">
-                            <div class="col-sm" id="movie-container">
+                            <div class="row" id="movieRow">
                                 <img src="{{m.coverArt}}" class="movie">
                                 <p>{{m.title}}</p>
                             </div>
