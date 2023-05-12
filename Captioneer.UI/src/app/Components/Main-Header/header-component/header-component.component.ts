@@ -5,7 +5,7 @@ import { map, startWith } from 'rxjs/operators'
 import { MovieViewModel } from '../../../models/movie-viewmodel'
 import { MovieService } from 'src/app/services/movie.service';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UserViewModel } from 'src/app/models/user-viewmodel';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,15 +22,18 @@ import { environment } from 'src/environments/environment';
 export class HeaderComponentComponent implements OnInit {
 
   movies: MovieViewModel[] = [];
-  userLanguages:any[]=[];
+  userLanguages: any[] = [];
   public userLangauges: UserLanguageModel[] = [];
   movieName: string = "";
   myControl = new FormControl('');
   finalData!: Observable<MovieViewModel[]>;
-  isNotLogedIn!:boolean;
-  name!:string;
-  user!:any;
-  loggedUser:any;
+  isNotLogedIn!: boolean;
+  name!: string;
+  user!: any;
+  loggedUser: any;
+  currentUser!: any;
+  currentUserID!: number;
+  selectedUser!: any;
 
 
 
@@ -46,26 +49,36 @@ export class HeaderComponentComponent implements OnInit {
     });
     window.location.reload();
   }
-  constructor(private moviesService: MovieService,private http:HttpClient,private router:Router,private userService:UserService, public translate : TranslateService, public userLanguage:UserlanguageService, public userLanguageService: UserlanguageService) {
+  constructor(private moviesService: MovieService, private http: HttpClient, private router: Router, private userService: UserService, public translate: TranslateService, public userLanguage: UserlanguageService, public userLanguageService: UserlanguageService, public route: ActivatedRoute) {
     this.moviesService.getMovies().subscribe((result: MovieViewModel[]) => (this.movies = result));
   }
 
-  ngOnInit(): void {
+
+
+  async ngOnInit(): Promise<void> {
+    // this.selectedUser = await this.userService.getSelectedUserByID(this.currentUser.id);
+    // console.log(this.currentUser);
+
+
+
     this.finalData = this.myControl.valueChanges.pipe(startWith(''), map(item => {
       const name = item;
       return name ? this._filter(name as string) : this.movies;
     }));
-    if(sessionStorage.getItem("email")==null)
-    {
-      this.isNotLogedIn=true;
+    if (sessionStorage.getItem("email") == null) {
+      this.isNotLogedIn = true;
     }
-    else
-    {
-      var temp=sessionStorage.getItem("email");
-      this.getData(temp)
+    else {
+      var temp = sessionStorage.getItem("email");
+      this.getData(temp);
       console.log("okay");
     }
+  }
 
+  async gotoMyProfile() {
+    let selectedUser = await this.userService.getCurrentUser();
+    this.router.navigate([`Profile/`, `${selectedUser?.id}`]);
+    this.userService.addFriendComponentClicked = false;
   }
 
   private _filter(moviesName: string): MovieViewModel[] {
@@ -77,21 +90,17 @@ export class HeaderComponentComponent implements OnInit {
   selectMovie(movieName: any) {
     alert(movieName);
   }
-  getData(email:any){
+  getData(email: any) {
     this.userService.getUserByEmail(email).subscribe(
-      (data)=>{
-        var userName=data.body?.username;
-        this.name=userName!;
-        this.userService.userData = data.body;
-        this.userService.userData.profileImage = environment.baseAPIURL + '/' + this.userService.userData.profileImage;
-        this.userLanguageService.getUserLanguage(this.userService.userData.username).subscribe((data)=> this.userService.userData.prefferedLanguages = data);
-        console.log(this.userService.userData);
+      (data) => {
+        var userName = data.body?.username;
+        this.name = userName!;
+        // console.log(this.userService.userData);
       }
     )
   }
-   
-  signOut()
-  {
+
+  signOut() {
     sessionStorage.clear();
     localStorage.clear();
     window.location.href = "";
@@ -99,10 +108,9 @@ export class HeaderComponentComponent implements OnInit {
 
 
 
-  public getLangName(lang : string) : string {
+  public getLangName(lang: string): string {
 
-    switch(lang)
-    {
+    switch (lang) {
       case "en": return "English";
       case "bs": return "Bosanski";
       case "de": return "Deutsche";
@@ -111,8 +119,12 @@ export class HeaderComponentComponent implements OnInit {
     return "Unknown";
   }
 
-  public switchLang(lang : string) : void {
+  public switchLang(lang: string): void {
 
     this.translate.use(lang);
   }
+
+
+
+
 }

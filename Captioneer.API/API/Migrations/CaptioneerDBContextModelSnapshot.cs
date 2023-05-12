@@ -234,6 +234,30 @@ namespace Captioneer.API.Migrations
                     b.ToTable("Episodes");
                 });
 
+            modelBuilder.Entity("API.Entities.Follower", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FollowingCreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("UserFollowingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserFollowingId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Followers");
+                });
+
             modelBuilder.Entity("API.Entities.Genre", b =>
                 {
                     b.Property<int>("ID")
@@ -858,6 +882,25 @@ namespace Captioneer.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Season");
+                });
+
+            modelBuilder.Entity("API.Entities.Follower", b =>
+                {
+                    b.HasOne("API.Entities.User", "UserFollowing")
+                        .WithMany()
+                        .HasForeignKey("UserFollowingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("UserFollowing");
                 });
 
             modelBuilder.Entity("API.Entities.GenreMovie", b =>

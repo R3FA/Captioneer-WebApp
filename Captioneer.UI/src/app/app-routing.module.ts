@@ -9,6 +9,7 @@ import { HomepageComponent } from './Components/homepage/homepage.component';
 import { MovieInfoComponent } from './Components/movie-info/movie-info.component';
 import { PageDirectMessagesComponent } from './Components/page-direct-messages/page-direct-messages.component';
 import { PageNotFoundErrorComponent } from './Components/page-not-found-error/page-not-found-error.component';
+import { FollowFriendsComponent } from './Components/Page-ProfileUI/profile-page/follow-friends/follow-friends.component';
 
 const appRoute: Routes = [
     { path: '', redirectTo: 'Home', pathMatch: 'full' },
@@ -17,8 +18,14 @@ const appRoute: Routes = [
     { path: 'Movie/Comments', component: PageCommentComponent },
     { path: 'Signup', component: SignupPageComponent },
     { path: 'Signin', component: PageLoginComponent },
-    { path: 'Profile/:username', component: ProfilePageComponent },
-    { path: 'Profile/:username/DirectMessages', component: PageDirectMessagesComponent },
+    {
+        path: 'Profile/:id', component: ProfilePageComponent,
+        children: [
+            { path: 'directMessages', component: PageDirectMessagesComponent },
+            { path: 'addFriends', component: FollowFriendsComponent }
+
+        ]
+    },
     { path: '**', component: PageNotFoundErrorComponent }
 ];
 

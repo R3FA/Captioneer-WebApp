@@ -198,7 +198,7 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
   private async loadImages() : Promise<void> {
 
-    var currentUser = await this.userService.getCurrentUser();
+    var currentUser = await this.userService.userData;
 
     if (!currentUser) {
       return;

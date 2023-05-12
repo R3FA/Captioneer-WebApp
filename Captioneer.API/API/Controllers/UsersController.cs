@@ -26,6 +26,30 @@ namespace API.Controllers
             _hostEnvironment = environment;
         }
 
+        [HttpGet("GetAllUsers")]
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetAllUsers()
+        {
+            var selectedUsers = await this._context.Users.ToListAsync();
+            List<UserViewModel> returnedUsers = new List<UserViewModel>();
+            foreach (var u in selectedUsers)
+            {
+                var tempUsers = new UserViewModel()
+                {
+                    ProfileImage = u.ProfileImage,
+                    Designation = u.Designation,
+                    Email = u.Email,
+                    funFact = u.funFact,
+                    Id = u.ID,
+                    RegistrationDate = u.RegistrationDate,
+                    SubtitleDownload = u.SubtitleDownload,
+                    SubtitleUpload = u.SubtitleUpload,
+                    Username = u.Username
+                };
+                returnedUsers.Add(tempUsers);
+            }
+            return Ok(returnedUsers);
+        }
+
         //GET: api/Users/example@mail.com || example
         [HttpGet("")]
         public async Task<ActionResult<UserViewModel>> GetUserByEmail(string? mail,string? username)
@@ -40,6 +64,7 @@ namespace API.Controllers
 
             UserViewModel userReturn = new UserViewModel()
             {
+                Id = user.ID,
                 Email = user.Email,
                 ProfileImage = user.ProfileImage,
                 Username = user.Username,
@@ -50,6 +75,14 @@ namespace API.Controllers
                 SubtitleUpload = user.SubtitleUpload
             };
             return userReturn;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserViewModel>> GetUserByID(int id)
+        {
+            var selectedUser = await this._context.Users.FirstOrDefaultAsync(x=>x.ID == id);
+            if(selectedUser == null) { return NotFound("User with this ID isn't available!"); }
+            return Ok(selectedUser);
         }
 
         // GET: api/Users/adivonslav/profileimage
@@ -82,7 +115,6 @@ namespace API.Controllers
 
             return Ok(dbUser.ProfileImage);
         }
-
         // PUT: api/Users/adivonslav
         [HttpPut("{username}")]
         public async Task<IActionResult> PutUser(string username, UserUpdateModel userUpdate)

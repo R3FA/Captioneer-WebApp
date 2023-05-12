@@ -21,7 +21,7 @@
                                 <div class="social-div-center">
                                     <h6>Followers:</h6>
                                     <h6>Following:</h6>
-                                    <button mat-flat-button class="message-button">
+                                    <button (click)="gotoAddFriends()" mat-flat-button class="message-button">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
                                             <path
@@ -36,15 +36,14 @@
                         </div>
                     </div>
                     <div class="message-and-settings">
-                        <a [href]="'Profile/' + this.userService.userData.username + '/DirectMessages'"><button
-                                mat-flat-button class="message-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-chat-left-dots-fill" viewBox="0 0 16 16">
-                                    <path
-                                        d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                                </svg>
-                                {{'MessageButton' | translate}}
-                            </button></a>
+                        <button (click)="gotoMessages()" mat-flat-button class="message-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-chat-left-dots-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                            </svg>
+                            {{'MessageButton' | translate}}
+                        </button>
 
                         <button (click)="togglePublicInfo()" mat-flat-button class="editPage-button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -204,8 +203,11 @@
                     <div class="page-information">
                         <!-- MORAS URADIT OVO -->
                         <div class="favoriteMovieDIV">
-                            <h4>{{this.userService.userData.username}}</h4>
-                            <h6>FAVORITE MOVIE AND TV SHOWS</h6>
+                            <h4 *ngIf="!this.userService.addFriendComponentClicked">
+                                {{this.userService.userData.username}}</h4>
+                            <h6 *ngIf="!this.userService.addFriendComponentClicked">FAVORITE MOVIE AND TV SHOWS</h6>
+                            <h6 *ngIf="this.userService.addFriendComponentClicked">FIND FRIENDS</h6>
+                            <router-outlet *ngIf="this.userService.addFriendComponentClicked"></router-outlet>
                         </div>
                     </div>
                     <hr>
