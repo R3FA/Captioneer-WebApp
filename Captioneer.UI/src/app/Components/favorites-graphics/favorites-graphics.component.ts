@@ -198,7 +198,7 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
 
   private async loadImages() : Promise<void> {
 
-    var currentUser = await this.userService.getCurrentUser();
+    var currentUser = await this.userService.userData;
 
     if (!currentUser) {
       return;
@@ -255,7 +255,7 @@ export class FavoritesGraphicsComponent implements OnInit, AfterViewInit {
     const clipX = this.mousePosition[0] / this.canvasRectDimensions[0] * 2 - 1;
     const clipY = this.mousePosition[1] / this.canvasRectDimensions[1] * -2 + 1;
 
-    console.log(clipX);
+    // console.log(clipX);
 
     vec3.transformMat4(this.lightPosition, [clipX, clipY, -1], this.camera.getInverseViewProjMatrix());
   }

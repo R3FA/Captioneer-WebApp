@@ -1,0 +1,30 @@
+.main-container{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+}
+
+.input-group{
+    width: 45%;
+    height: 100%;
+    margin: auto;
+}
+
+.span1{
+    background-color: #F18F01;
+    color: black;
+}
+
+.span2{
+    background-color: rgb(250, 47, 47);
+    color: black;
+}
+
+.form-control{
+    background-color: #2e4057de;
+    color: #F18F01;
+}
+
+::placeholder{
+    color:#F18F01;
+}

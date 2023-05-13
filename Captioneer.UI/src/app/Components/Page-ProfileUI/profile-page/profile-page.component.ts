@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
@@ -14,6 +14,9 @@ import { UserlanguageService } from 'src/app/services/userlanguage.service';
 import { UserLanguageModel } from 'src/app/models/userLanguage-viewmodel';
 import { Utils } from 'src/app/utils/utils';
 import { environment } from 'src/environments/environment';
+import { FollowerServiceService } from 'src/app/services/follower.service.service';
+import { FollowerViewModel } from 'src/app/models/follower-viewmodel';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-page',
@@ -23,6 +26,12 @@ import { environment } from 'src/environments/environment';
 export class ProfilePageComponent implements OnInit, AfterViewInit {
 
   public loggedUser!: UserViewModel | null;
+  public selectedUser: UserViewModel | null = new UserViewModel();
+  public followCount: FollowerViewModel = new FollowerViewModel();
+  public currentID: number = 0;
+  public hiddenParentComponent: boolean = false;
+  public shouldLoadFollowCount: boolean = false;
+  public shouldLoad: boolean = false;
   // In bytes
   private maxUploadSize = 2 * 1024 * 1024;
   getLanguages: Language[] = [];
@@ -35,7 +44,6 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   private _showChangeProfileImageForm!: boolean;
   private _showDeleteProfileForm!: boolean;
   private _showChangePublicInformationForm!: boolean;
-  public hiddenParentComponent:boolean = false;
 
   public changeEmailForm!: FormGroup;
   public changeUsernameForm!: FormGroup;
@@ -99,9 +107,35 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     return this._showChangePublicInformationForm;
   }
 
-  constructor(private formBuilder: FormBuilder, public userService: UserService, private renderer: Renderer2, private tokenValidator: TokenValidatorService, public translate: TranslateService, private languageService: LanguageService, private userLanguageService: UserlanguageService, private route:ActivatedRoute) { }
+
+  constructor(private formBuilder: FormBuilder, public userService: UserService, private renderer: Renderer2,
+    private tokenValidator: TokenValidatorService, public translate: TranslateService, private languageService: LanguageService,
+    private userLanguageService: UserlanguageService, private route: ActivatedRoute, private router: Router,
+    public followerService: FollowerServiceService) {
+  }
 
   async ngOnInit(): Promise<void> {
+    this.userService.addFriendComponentClicked = false;
+    this.route.params.subscribe(async (params: Params) => {
+      if (!isNaN(params['id'])) {
+        this.currentID = parseInt(params['id']);
+        this.userService.getUserByID(this.currentID).subscribe({
+          next: ((response) => {
+            this.userService.userData = response.body;
+            this.userService.userData.profileImage = environment.baseAPIURL + '/' + this.userService.userData.profileImage;
+            this.userLanguageService.getUserLanguage(this.userService.userData.username).subscribe((data) => this.userService.userData.prefferedLanguages = data);
+            this.shouldLoad = true;
+          }),
+          error: ((err) => { this.router.navigate(['**']); })
+        })
+      }
+      else {
+        this.router.navigate(['**']);
+      }
+    })
+
+
+
     this._showEditProfile = false;
     this._showChangeEmailForm = true;
     this._showChangeUsernameForm = false;
@@ -160,6 +194,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.languageService.getAllLanguages().subscribe((result: Language[]) => {
       this.getLanguages = result;
     });
+    // console.log(this.currentID);
   }
 
   async ngAfterViewInit() {
@@ -170,7 +205,11 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       this.loggedUser = null;
     }
 
-    
+    if (this.currentID != null || this.currentID != undefined) {
+      this.followCount = await this.followerService.GetFollowersOfUser(this.currentID);
+      this.shouldLoadFollowCount = true;
+    }
+    // console.log(this.followCount.getfollowerCount);
   }
 
   clearForms(): void {
@@ -487,20 +526,20 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.userLanguageService.postUserLanguage(this.userService.userData.username, this.prefferedLanguage!).subscribe({
-      next: (response) => console.log(response),
-      error: async (err) => {
-        this.successText = "";
-        this.errorText = err.error;
-        console.error(err.error);
-      },
-      complete: () => {
-        this.successText = "Succesfully changed public information";
-        this.errorText = "";
-        this.requestInProgress = false;
-        this.reloadPage();
-      }
-    });
+    // this.userLanguageService.postUserLanguage(this.userService.userData.username, this.prefferedLanguage!).subscribe({
+    //   next: (response) => console.log(response),
+    //   error: async (err) => {
+    //     this.successText = "";
+    //     this.errorText = err.error;
+    //     console.error(err.error);
+    //   },
+    //   complete: () => {
+    //     this.successText = "Succesfully changed public information";
+    //     this.errorText = "";
+    //     this.requestInProgress = false;
+    //     this.reloadPage();
+    //   }
+    // });
   }
 
   deleteUserLanguage() {
@@ -520,4 +559,12 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     });
   }
 
+  gotoMessages() {
+    this.router.navigate(['directMessages'], { relativeTo: this.route });
+    this.userService.addFriendComponentClicked = false;
+  }
+  gotoAddFriends() {
+    this.userService.addFriendComponentClicked = !this.userService.addFriendComponentClicked;
+    this.router.navigate([`addFriends`], { relativeTo: this.route });
+  }
 }

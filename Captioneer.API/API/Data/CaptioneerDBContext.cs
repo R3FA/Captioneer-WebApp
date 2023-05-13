@@ -124,6 +124,7 @@ namespace API.Data
         public DbSet<UserLanguage> UsersLanguages { get; set; }
         public DbSet<UserMovies> UsersMovies { get; set; }
         public DbSet<UserTVShows> UsersTVShows { get; set; }
+        public DbSet<Follower> Followers { get; set; }
     }
 
 }

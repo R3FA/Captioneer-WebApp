@@ -1,4 +1,5 @@
 export class UserViewModel  {
+    id!:number
     username! : string
     email! : string
     profileImage? : string

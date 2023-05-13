@@ -6,24 +6,30 @@ import { UserPost } from '../models/user-post';
 import { UserUpdate } from '../models/user-update'
 import { UserViewModel } from '../models/user-viewmodel';
 import { UserLogin } from '../models/user-login';
-import { firstValueFrom } from 'rxjs';import { Utils } from '../utils/utils';
+import { firstValueFrom } from 'rxjs'; import { Utils } from '../utils/utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private url: string = environment.apiURL + "/Users"
+  private url: string = environment.apiURL + "/Users";
+  public userData!: any;
+  public userID!: number;
+  public addFriendComponentClicked=false;
 
-  public userData?:any;
 
   constructor(private httpClient: HttpClient) { }
 
   getUser(): Observable<HttpResponse<UserViewModel>> {
     return this.httpClient.get<UserViewModel>(this.url, { observe: 'response' });
   }
-  getUserByEmail(email?: string,username?:string): Observable<HttpResponse<UserViewModel>> {
+  getUserByEmail(email?: string, username?: string): Observable<HttpResponse<UserViewModel>> {
     return this.httpClient.get<UserViewModel>(this.url + '?mail=' + email + "&username=" + username, { observe: 'response' });
+  }
+
+  getUserByID(id: number): Observable<HttpResponse<UserViewModel>> {
+    return this.httpClient.get<UserViewModel>(`${this.url}/${id}`, { observe: 'response' });
   }
 
   postUser(user: UserPost): Observable<HttpResponse<UserPost>> {
@@ -47,7 +53,7 @@ export class UserService {
     return new Promise((resolve) => {
 
       var email = window.sessionStorage.getItem("email");
-  
+
       if (!email) {
         resolve(null);
       }
@@ -61,11 +67,11 @@ export class UserService {
           resolve(null);
         }
       })
-    });  
+    });
   }
 
-  async getUserProfileImage(username : string) : Promise<string | null> {
-    return new Promise((resolved : any) => {
+  async getUserProfileImage(username: string): Promise<string | null> {
+    return new Promise((resolved: any) => {
       this.httpClient.get(`${this.url}/${username}/profileimage`, { responseType: "text" }).subscribe({
         next: (response) => {
           resolved(response);

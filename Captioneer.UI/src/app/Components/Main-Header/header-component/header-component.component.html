@@ -44,8 +44,8 @@
             <a href="Signup"><button class="search-button" mat-flat-button>{{'SignUpButton' | translate}}</button></a>
         </div>
         <div *ngIf="!isNotLogedIn" class="header-button">
-            <a [href]="'Profile/'+ name"><button class="search-button" mat-flat-button>{{'Hello' | translate}}
-                    {{name}}</button></a>
+            <button (click)="gotoMyProfile()" class="search-button" mat-flat-button>{{'Hello' | translate}}
+                    {{name}}</button>
             <button class="search-button" mat-flat-button (click)="signOut()">{{'SignOutButton' | translate}}</button>
         </div>
     </div>
