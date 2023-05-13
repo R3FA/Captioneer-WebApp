@@ -1,4 +1,4 @@
 export class FollowerViewModel {
-    getFollowingCount!: number
-    getFollowerCount!: number
+    getfollowingCount!: number
+    getfollowerCount!: number
 }

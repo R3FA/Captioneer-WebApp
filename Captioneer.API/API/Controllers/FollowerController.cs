@@ -44,6 +44,7 @@ namespace API.Controllers
         {
             var selectedFollowerUser = await this._context.Users.FirstOrDefaultAsync(x => x.Username == followerUsername);
             var dbLoggedUser = await this._context.Users.FindAsync(loggedUser.Id);
+            if(loggedUser.Id == selectedFollowerUser.ID) { return BadRequest("You can't follow yourself!"); }
             if ((dbLoggedUser == null) || (selectedFollowerUser == null))
                 return BadRequest("Error! You either aren't logged in or you're searching for an user who isn't in our database!");
             if (await this._context.Followers.AnyAsync(x => x.UserFollowingId == selectedFollowerUser.ID))
@@ -65,7 +66,7 @@ namespace API.Controllers
         public async Task<ActionResult> DeleteFollower(UserViewModel loggedUser, string followerUsername)
         {
             var dbLoggedUser = await this._context.Users.FindAsync(loggedUser.Id);
-            if(dbLoggedUser == null) { return BadRequest("You aren't logged in!"); }
+            if(dbLoggedUser == null) { return BadRequest("You either aren't logged in or this user doesn't exist!"); }
             var selectedFollowerUser = await this._context.Followers.FirstOrDefaultAsync(x => x.UserFollowing.Username == followerUsername && x.UserId == dbLoggedUser.ID);
             if(selectedFollowerUser == null) { return BadRequest("You aren't following this user!"); }
             this._context.Followers.Remove(selectedFollowerUser);

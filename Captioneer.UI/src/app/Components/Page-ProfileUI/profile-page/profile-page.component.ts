@@ -16,6 +16,7 @@ import { Utils } from 'src/app/utils/utils';
 import { environment } from 'src/environments/environment';
 import { FollowerServiceService } from 'src/app/services/follower.service.service';
 import { FollowerViewModel } from 'src/app/models/follower-viewmodel';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-page',
@@ -26,8 +27,11 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
   public loggedUser!: UserViewModel | null;
   public selectedUser: UserViewModel | null = new UserViewModel();
-  public followCount: FollowerViewModel | null = new FollowerViewModel();
+  public followCount: FollowerViewModel = new FollowerViewModel();
   public currentID: number = 0;
+  public hiddenParentComponent: boolean = false;
+  public shouldLoadFollowCount: boolean = false;
+  public shouldLoad: boolean = false;
   // In bytes
   private maxUploadSize = 2 * 1024 * 1024;
   getLanguages: Language[] = [];
@@ -40,7 +44,6 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   private _showChangeProfileImageForm!: boolean;
   private _showDeleteProfileForm!: boolean;
   private _showChangePublicInformationForm!: boolean;
-  public hiddenParentComponent: boolean = false;
 
   public changeEmailForm!: FormGroup;
   public changeUsernameForm!: FormGroup;
@@ -105,7 +108,10 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   }
 
 
-  constructor(private formBuilder: FormBuilder, public userService: UserService, private renderer: Renderer2, private tokenValidator: TokenValidatorService, public translate: TranslateService, private languageService: LanguageService, private userLanguageService: UserlanguageService, private route: ActivatedRoute, private router: Router, public followerService: FollowerServiceService) {
+  constructor(private formBuilder: FormBuilder, public userService: UserService, private renderer: Renderer2,
+    private tokenValidator: TokenValidatorService, public translate: TranslateService, private languageService: LanguageService,
+    private userLanguageService: UserlanguageService, private route: ActivatedRoute, private router: Router,
+    public followerService: FollowerServiceService) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -118,6 +124,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
             this.userService.userData = response.body;
             this.userService.userData.profileImage = environment.baseAPIURL + '/' + this.userService.userData.profileImage;
             this.userLanguageService.getUserLanguage(this.userService.userData.username).subscribe((data) => this.userService.userData.prefferedLanguages = data);
+            this.shouldLoad = true;
           }),
           error: ((err) => { this.router.navigate(['**']); })
         })
@@ -126,6 +133,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
         this.router.navigate(['**']);
       }
     })
+
 
 
     this._showEditProfile = false;
@@ -186,7 +194,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.languageService.getAllLanguages().subscribe((result: Language[]) => {
       this.getLanguages = result;
     });
-
+    // console.log(this.currentID);
   }
 
   async ngAfterViewInit() {
@@ -197,7 +205,11 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       this.loggedUser = null;
     }
 
-
+    if (this.currentID != null || this.currentID != undefined) {
+      this.followCount = await this.followerService.GetFollowersOfUser(this.currentID);
+      this.shouldLoadFollowCount = true;
+    }
+    // console.log(this.followCount.getfollowerCount);
   }
 
   clearForms(): void {

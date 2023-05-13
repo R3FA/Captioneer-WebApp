@@ -1,17 +1,17 @@
 <div class="main-container">
     <div class="input-group mb-3">
         <input type="text" id="friendAdd" class="form-control" aria-label="Default"
-            placeholder="Enter the username you wish to add" aria-describedby="inputGroup-sizing-default">
+            placeholder="Enter the username you wish to add" aria-describedby="inputGroup-sizing-default" [(ngModel)]="this.AddfriendsUsername">
         <div class="input-group-prepend">
-            <span type="submit" class="input-group-text span1" id="inputGroupAdd">Add a friend</span>
+            <span (click)="addFriend()" type="submit" class="input-group-text span1" id="inputGroupAdd">Add a friend</span>
         </div>
     </div>
 
     <div class="input-group mb-3">
         <input type="text" id="friendRemove" placeholder="Enter the username you wish to delete" class="form-control"
-            aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            aria-label="Default" aria-describedby="inputGroup-sizing-default" [(ngModel)]="DeletefriendsUsername">
         <div class="input-group-prepend">
-            <span type="submit" class="input-group-text span2" id="inputGroupDelete">Delete friend</span>
+            <span (click)="deleteFriend()" type="submit" class="input-group-text span2" id="inputGroupDelete">Delete friend</span>
         </div>
     </div>
 </div>

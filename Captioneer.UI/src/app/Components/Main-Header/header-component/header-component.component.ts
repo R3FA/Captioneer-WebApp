@@ -49,7 +49,9 @@ export class HeaderComponentComponent implements OnInit {
     });
     window.location.reload();
   }
-  constructor(private moviesService: MovieService, private http: HttpClient, private router: Router, private userService: UserService, public translate: TranslateService, public userLanguage: UserlanguageService, public userLanguageService: UserlanguageService, public route: ActivatedRoute) {
+  constructor(private moviesService: MovieService, private http: HttpClient, private router: Router,
+    private userService: UserService, public translate: TranslateService, public userLanguage: UserlanguageService,
+    public userLanguageService: UserlanguageService, public route: ActivatedRoute) {
     this.moviesService.getMovies().subscribe((result: MovieViewModel[]) => (this.movies = result));
   }
 

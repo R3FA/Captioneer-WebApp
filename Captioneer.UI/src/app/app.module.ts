@@ -30,6 +30,7 @@ import { PageCommentComponent } from './Components/Page-Comments/page-comment/pa
 import { PageDirectMessagesComponent } from './Components/page-direct-messages/page-direct-messages.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundErrorComponent } from './Components/page-not-found-error/page-not-found-error.component';
+import { FollowFriendsComponent } from './Components/Page-ProfileUI/profile-page/follow-friends/follow-friends.component';
 
 @NgModule({
   declarations: [
@@ -47,10 +48,11 @@ import { PageNotFoundErrorComponent } from './Components/page-not-found-error/pa
     PageCommentComponent,
     PageDirectMessagesComponent,
     PageNotFoundErrorComponent,
+    FollowFriendsComponent
   ],
   imports: [
-    FormsModule,
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatCardModule,

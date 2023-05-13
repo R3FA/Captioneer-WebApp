@@ -1,5 +1,5 @@
 <app-header-component></app-header-component>
-<div class="main-container">
+<div class="main-container" *ngIf="shouldLoad">
     <div class="sub-container">
         <div class="profile-mat-card-div">
             <mat-card class="profile-mat-card">
@@ -19,8 +19,8 @@
                         <div class="userPage-info-designation">
                             <div class="social-div">
                                 <div class="social-div-center">
-                                    <h6>Followers:</h6>
-                                    <h6>Following:</h6>
+                                    <h6>Follower:{{this.followCount.getfollowingCount}}</h6>
+                                    <h6>Following:{{this.followCount.getfollowerCount}}</h6>
                                     <button (click)="gotoAddFriends()" mat-flat-button class="message-button">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
