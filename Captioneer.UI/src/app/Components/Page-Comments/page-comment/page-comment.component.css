@@ -195,9 +195,6 @@
     background-color: #2e4057eb;
 }
 
-.availableCommentDiV {
-    /* border: 2px solid red; */
-}
 
 .availablePictureDiv {
     width: 20%;
@@ -239,6 +236,17 @@
     top: 0.4vw;
     right: 0.4vw;
     border: none;
+}
+#reportButton {
+    width: 2%;
+    height: 5%;
+    /* border: 2px solid lime; */
+    color: #F18F01 !important;
+    border: none;
+    position: absolute;
+    top: 2vw;
+    right: 0.8vw;
+    background-color: transparent;
 }
 
 .writtenComment {
@@ -303,3 +311,4 @@
     justify-content: center;
     width: 100%;
   }
+  

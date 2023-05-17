@@ -4,6 +4,9 @@ import { UserViewModel } from 'src/app/models/user-viewmodel';
 import { CommentService } from 'src/app/services/commentservice.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
+import { getDatabase } from 'firebase/database';
+import { ref, set, push } from 'firebase/database';
+import { initializeApp } from 'firebase/app';
 
 @Component({
   selector: 'app-page-comment',
@@ -27,6 +30,8 @@ export class PageCommentComponent implements OnInit {
   totalPageCount! : number;
   pageIndex : number = 1;
 
+  isTVShow:boolean=false;
+
   constructor(private commentService : CommentService, private userService : UserService) { }
   
   async ngOnInit(): Promise<void> {
@@ -36,9 +41,23 @@ export class PageCommentComponent implements OnInit {
 
     this.subtitle = JSON.parse(<string>window.sessionStorage.getItem("HomeSubtitleDownloads"))[0];
 
+    window.localStorage.getItem("isTVShow") == "true"? this.isTVShow=true:this.isTVShow=false;
+
     await this.changePage(1);
 
     this.shouldLoad = true;
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAzI3RbycvBr3uCCcd6WnLV6iiFeU9EOYI",
+      authDomain: "captioneer-4c392.firebaseapp.com",
+      databaseURL: "https://captioneer-4c392-default-rtdb.firebaseio.com",
+      projectId: "captioneer-4c392",
+      storageBucket: "captioneer-4c392.appspot.com",
+      messagingSenderId: "803329760083",
+      appId: "1:803329760083:web:acd5573927b6e8da091fa6",
+      measurementId: "G-EMPML47RVX"
+    };
+    const app = initializeApp(firebaseConfig);
   }
 
   async changePage(page : number) : Promise<void> {
@@ -88,7 +107,20 @@ export class PageCommentComponent implements OnInit {
       this.commentService.postComment(newComment);
     }
   }
-
+  reportComment(commentID:number,content:string){
+    
+    const database = getDatabase();
+    const dataRef = ref(database);
+    const newRef = push(dataRef);
+    set(newRef, {
+      isTVShow: this.isTVShow,
+      movieID: this.asObjectMovie.id,
+      commentID: commentID,
+      subtitleID: this.subtitle.subMovieID,
+      content:content
+    });
+    alert("Thank you for reporting!");
+  }
   async getImage(username : string) : Promise<string | null> {
     return new Promise((resolved) => {
       resolved(`${environment.baseAPIURL}\\images\\users\\randomUser227032023163907.jpg`);

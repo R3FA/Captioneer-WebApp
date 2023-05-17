@@ -35,6 +35,7 @@ namespace API.Controllers
             {
                 commentVMs.Add(new CommentViewModel()
                 {
+                    ID = comment.ID,
                     Username = comment.User.Username,
                     Content = comment.Content,
                     SubtitleMovieID = comment.SubtitleMovie!.ID,
@@ -63,6 +64,7 @@ namespace API.Controllers
             {
                 commentVMs.Add(new CommentViewModel()
                 {
+                    ID = comment.ID,
                     Username = comment.User.Username,
                     Content = comment.Content,
                     SubtitleTVShowID = comment.SubtitleTVShow!.ID,

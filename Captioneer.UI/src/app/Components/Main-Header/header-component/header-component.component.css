@@ -32,13 +32,13 @@
     width: 100%;
     height: 75px;
     display: flex;
+    justify-content: center; /* add this */
     position: fixed;
     padding-left: 15px;
     padding-right: 15px;
     background-color: #2E4057;
     color: #F18F01;
-    /* border: 2px solid aqua; */
-}
+  }
 
 .header-image {
     width: fit-content;
@@ -90,7 +90,6 @@
 .header-button {
     box-sizing: content-box;
     margin: auto 0;
-    margin-left: auto;
     /* border: 2px solid purple; */
 }
 
@@ -148,3 +147,60 @@ select{
 option{
     background-color: aliceblue;
 }
+#reportButton {
+    color: #F18F01 !important;
+    /* border: none; */
+    /* background-color: transparent; */
+    /* font-size:  2em; */
+}
+.notification-badge {
+    position: absolute;
+    top:1px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 20px;
+    min-height: 20px;
+    text-align: center;
+  }
+  .notification-container {
+    position: relative;
+  }
+  
+  .notification-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #2E4057;
+    color: #F18F01;
+    padding: 10px;
+    border: 2px solid #F18F01;
+    border-radius: 5px;
+    width: 150%;
+    margin-top: 2%;
+  }
+  
+  .notification-box ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .notification-box li {
+    margin-bottom: 5px;
+  }
+  .comment{
+    color: #fff;
+  }
+  .notification {
+    transform: scale(0.8);
+  }
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

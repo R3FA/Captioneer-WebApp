@@ -1,4 +1,5 @@
 <app-header-component></app-header-component>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <div *ngIf="this.shouldLoad" class="main-container">
     <div class="wrapper-container">
         <div class="movieInfo">
@@ -57,8 +58,14 @@
                         <textarea class="form-control" id="textAreaV2" rows="4" style="background: #fff;"
                             disabled="disabled">{{ comment.content }}</textarea>
                     </div>
+                    <div class="row">
                     <button id="deleteButton" type="button" class="btn-close btn-close-white" aria-label="Close"
-                        *ngIf="isAdmin"></button>
+                        *ngIf="isAdmin">
+                    </button>
+                </div>
+                <div class="row">
+                    <button id="reportButton" type="button" class="glyphicon glyphicon-flag" (click)="reportComment(comment.id??0, comment.content)">
+                    </button>
                 </div>
             </div>
         </div>

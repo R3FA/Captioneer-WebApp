@@ -31,6 +31,10 @@ import { PageDirectMessagesComponent } from './Components/page-direct-messages/p
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundErrorComponent } from './Components/page-not-found-error/page-not-found-error.component';
 import { FollowFriendsComponent } from './Components/Page-ProfileUI/profile-page/follow-friends/follow-friends.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { environment } from '../environments/environment';
+
 
 @NgModule({
   declarations: [
@@ -66,6 +70,7 @@ import { FollowFriendsComponent } from './Components/Page-ProfileUI/profile-page
     NgxPaginationModule,
     MatAutocompleteModule,
     NgxStarRatingModule,
+    AngularFireAuthModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

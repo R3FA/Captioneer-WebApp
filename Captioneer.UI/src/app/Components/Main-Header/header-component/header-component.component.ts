@@ -12,13 +12,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserlanguageService } from 'src/app/services/userlanguage.service';
 import { UserLanguageModel } from 'src/app/models/userLanguage-viewmodel';
 import { environment } from 'src/environments/environment';
-
+import { getDatabase } from 'firebase/database';
+import { ref, set, push, onValue, get, DataSnapshot,remove } from 'firebase/database';
+import { initializeApp } from 'firebase/app';
 
 @Component({
   selector: 'app-header-component',
   templateUrl: './header-component.component.html',
   styleUrls: ['./header-component.component.css']
 })
+
 export class HeaderComponentComponent implements OnInit {
 
   movies: MovieViewModel[] = [];
@@ -34,8 +37,9 @@ export class HeaderComponentComponent implements OnInit {
   currentUser!: any;
   currentUserID!: number;
   selectedUser!: any;
-
-
+  numberOfEntries!:number;
+  showNotifications:boolean=false;
+  entries: any[]=[];
 
   onClick() {
     this.moviesService.getMovieByParameter(this.movieName).subscribe({
@@ -75,6 +79,24 @@ export class HeaderComponentComponent implements OnInit {
       this.getData(temp);
       console.log("okay");
     }
+    const firebaseConfig = {
+      apiKey: "AIzaSyAzI3RbycvBr3uCCcd6WnLV6iiFeU9EOYI",
+      authDomain: "captioneer-4c392.firebaseapp.com",
+      databaseURL: "https://captioneer-4c392-default-rtdb.firebaseio.com",
+      projectId: "captioneer-4c392",
+      storageBucket: "captioneer-4c392.appspot.com",
+      messagingSenderId: "803329760083",
+      appId: "1:803329760083:web:acd5573927b6e8da091fa6",
+      measurementId: "G-EMPML47RVX"
+    };
+    const app = initializeApp(firebaseConfig);
+    await this.getNumberOfEntries().then(numEntries => {
+      this.numberOfEntries = numEntries;
+      console.log('Number of entries:', this.numberOfEntries);
+    }).catch(error => {
+      console.error('Error getting number of entries:', error);
+    });
+    await this.getEntries();
   }
 
   async gotoMyProfile() {
@@ -108,8 +130,42 @@ export class HeaderComponentComponent implements OnInit {
     window.location.href = "";
   }
 
+  async getNumberOfEntries(): Promise<number> {
+    const database = getDatabase();
+    const dbRef = ref(database);
+    return get(dbRef).then((snapshot: DataSnapshot) => {
+      let count = 0;
+      snapshot.forEach(() => {
+        count++;
+      });
+      return count;
+    });
+  }
+  async getEntries(): Promise<void> {
+    const database = getDatabase();
+    const dbRef = ref(database);
+    get(dbRef).then((snapshot: DataSnapshot) => {
+      if (this.entries) {
+        snapshot.forEach((childSnapshot) => {
+          const comment = childSnapshot.val();
+          comment.fbkey = childSnapshot.key;
+          this.entries.push(comment);
+        });
+      }
+      console.log(this.entries);
+    });
+  }
+  public dissmis(comment:any){
+    const database = getDatabase();
+    const commentRef = ref(database, comment.fbkey);
+    remove(commentRef);
+    window.location.reload();
+  }
+  public delete(comment:any){
 
-
+    //Fare ostavi dissmis funckiju samo na kraju. Ti svoj kod gore napisi iznad ovog komentara.
+    this.dissmis(comment);
+  }
   public getLangName(lang: string): string {
 
     switch (lang) {
@@ -125,8 +181,9 @@ export class HeaderComponentComponent implements OnInit {
 
     this.translate.use(lang);
   }
-
-
+  public notifications(){
+      this.showNotifications=!this.showNotifications;
+  }
 
 
 }
