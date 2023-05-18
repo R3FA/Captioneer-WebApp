@@ -21,11 +21,10 @@ const appRoute: Routes = [
     {
         path: 'Profile/:id', component: ProfilePageComponent,
         children: [
-            { path: 'directMessages', component: PageDirectMessagesComponent },
             { path: 'addFriends', component: FollowFriendsComponent }
-
         ]
     },
+    { path: 'Profile/:id/directMessages', component: PageDirectMessagesComponent },
     { path: '**', component: PageNotFoundErrorComponent }
 ];
 

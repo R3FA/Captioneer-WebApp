@@ -92,7 +92,8 @@
             <div class="statsDiv">
                 <div class="myStatsDiv">
                     <div class="myStatsLabel">
-                        <h4>My stats:</h4>
+                        <h6>{{this.loggedUser!.username}} ID:</h6>
+                        <h5>[{{this.userConnectionId}}]</h5>
                     </div>
                     <div class="stats">
                         <div id="friends">
@@ -105,7 +106,7 @@
                 </div>
                 <div class="userWithWhoChatDiv">
                     <div class="userFriendDiv">
-                        <h4>Conversation with: User1</h4>
+                        <input class="friendUserID" [(ngModel)]="this.friendUserConnectionId">
                     </div>
                     <div class="chatInfo">
                         <div class="exchangedMessagesDiv">
@@ -123,16 +124,20 @@
                 </div>
             </div>
             <div class="inbox">
+                <div class="allMessages" *ngFor="let mesage of arrayMessages">{{mesage}}
+                </div>
                 <div class="textAreaDiv">
                     <div class="textArea">
                         <div class="centerDiv">
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                placeholder="Write a message"></textarea>
+                            <textarea [(ngModel)]="this.message" class="form-control" id="exampleFormControlTextarea1"
+                                rows="3" placeholder="Write a message"></textarea>
                         </div>
                     </div>
                     <div class="sendButtonDiv">
                         <div class="buttonSend">
-                            <button type="button" class="btn btn-primary btn-sm">SEND MESSAGE</button>
+                            <button
+                                (click)="SendToUser(this.loggedUser!.username,this.friendUserConnectionId, this.message)"
+                                type="submit" class="btn btn-primary btn-sm">SEND MESSAGE</button>
                         </div>
                     </div>
                 </div>

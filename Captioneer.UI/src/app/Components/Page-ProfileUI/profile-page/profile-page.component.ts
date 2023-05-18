@@ -560,7 +560,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   }
 
   gotoMessages() {
-    this.router.navigate(['directMessages'], { relativeTo: this.route });
+    this.router.navigate([`Profile/${this.userService.userData.id}/directMessages`]);
     this.userService.addFriendComponentClicked = false;
   }
   gotoAddFriends() {
