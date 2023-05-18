@@ -30,8 +30,21 @@
                     </p>
                     {{ comment.content }}
                     <div class="button-container">
-                        <button class="notification" mat-flat-button (click)="dissmis(comment)">DISSMIS</button>
-                        <button class="notification" mat-flat-button (click)="delete(comment)">DELETE</button>
+                        <button class="notification" mat-flat-button (click)="dissmis(comment,null)">DISSMIS</button>
+                        <button class="notification" mat-flat-button (click)="delete(comment,null)">DELETE</button>
+                    </div>
+                    <hr>
+                </li>
+                <li *ngFor="let subtitle of entriesSubtitleS">
+                    <p class="comment">
+                        Subtitle:
+                    </p>
+                    <span class="normalText">Title:</span> {{subtitle.movieTitle}}; <span class="normalText">Language:</span>{{subtitle.language}}; 
+                    <span class="normalText">Uploader:</span> {{ subtitle.uplaoder }}; <span class="normalText">Release:</span> {{subtitle.release}};
+                    <span class="normalText">FPS:</span> {{subtitle.fps}} 
+                    <div class="button-container">
+                        <button class="notification" mat-flat-button (click)="dissmis(null,subtitle)">DISSMIS</button>
+                        <button class="notification" mat-flat-button (click)="delete(null,subtitle)">DELETE</button>
                     </div>
                     <hr>
                 </li>

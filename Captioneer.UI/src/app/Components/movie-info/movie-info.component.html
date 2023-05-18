@@ -350,7 +350,10 @@
                                             <button mat-button (click)="Rating()">{{'Rate It!' | translate}}</button>
                                         </div>
                                         <div class="col">
-                                            <a [routerLink]="'Comments'"><button mat-buttondata-bs-toggle="modal">{{'CommentsButton' | translate}}</button></a>
+                                            <a [routerLink]="'Comments'"><button mat-button data-bs-toggle="modal">{{'CommentsButton' | translate}}</button></a>
+                                        </div>
+                                        <div class="col" *ngIf="this.selectedFileInHouse!=null">
+                                            <button mat-button (click)="Report()">{{'Report' | translate}}</button>
                                         </div>
                                     </div>
                                 </div>

@@ -194,7 +194,8 @@ option{
     margin-bottom: 5px;
   }
   .comment{
-    color: #fff;
+    color: greenyellow;
+    text-align: center;
   }
   .notification {
     transform: scale(0.8);
@@ -203,4 +204,7 @@ option{
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .normalText{
+    color: #fff;
   }

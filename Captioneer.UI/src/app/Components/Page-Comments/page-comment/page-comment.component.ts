@@ -110,7 +110,7 @@ export class PageCommentComponent implements OnInit {
   reportComment(commentID:number,content:string){
     
     const database = getDatabase();
-    const dataRef = ref(database);
+    const dataRef = ref(database, 'comments');
     const newRef = push(dataRef);
     set(newRef, {
       isTVShow: this.isTVShow,

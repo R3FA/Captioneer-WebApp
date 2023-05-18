@@ -19,6 +19,9 @@ import { CreatorService } from 'src/app/services/creator.service';
 import { SubtitletranslationService } from 'src/app/services/subtitletranslation.service';
 import { TranslationPostModel } from 'src/app/models/translation-post';
 import { HomeSubtitleDownlaods } from 'src/app/models/home-subtitle-downlaods';
+import { getDatabase } from 'firebase/database';
+import { ref, set, push } from 'firebase/database';
+import { initializeApp } from 'firebase/app';
 
 
 @Component({
@@ -81,6 +84,17 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
   }
 
   async ngOnInit(): Promise<void> {
+    const firebaseConfig = {
+      apiKey: "AIzaSyAzI3RbycvBr3uCCcd6WnLV6iiFeU9EOYI",
+      authDomain: "captioneer-4c392.firebaseapp.com",
+      databaseURL: "https://captioneer-4c392-default-rtdb.firebaseio.com",
+      projectId: "captioneer-4c392",
+      storageBucket: "captioneer-4c392.appspot.com",
+      messagingSenderId: "803329760083",
+      appId: "1:803329760083:web:acd5573927b6e8da091fa6",
+      measurementId: "G-EMPML47RVX"
+    };
+    const app = initializeApp(firebaseConfig);
     let loader = new Loader({
       apiKey: 'AIzaSyCF4XwMfvYr_nME5E_nBbl9WgNqzfk6dLM'
     })
@@ -538,4 +552,23 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
       }
     window.location.reload();
   }
+  Report(){
+    console.log(this.selectedFileInHouse);
+    console.log(this.movieObject.title);
+    console.log(this.selectedLanguage);
+    const database = getDatabase();
+    const dataRef = ref(database, 'subtitles');
+    const newRef = push(dataRef);
+    set(newRef, {
+      isTVShow: this.isTVSeries,
+      subMovieID: this.selectedFileInHouse.subMovieID,
+      uplaoder: this.selectedFileInHouse.uploader,
+      movieID:this.movieObject.id,
+      movieTitle:this.movieObject.title,
+      language:this.selectedLanguage,
+      release:this.selectedFileInHouse.release,
+      fps:this.selectedFileInHouse.fps,
+    });
+    alert("Thank you for reporting!");
+   }
 }

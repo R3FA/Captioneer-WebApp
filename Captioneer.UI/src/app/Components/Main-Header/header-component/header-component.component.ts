@@ -40,6 +40,7 @@ export class HeaderComponentComponent implements OnInit {
   numberOfEntries!:number;
   showNotifications:boolean=false;
   entries: any[]=[];
+  entriesSubtitleS: any[]=[];
 
   onClick() {
     this.moviesService.getMovieByParameter(this.movieName).subscribe({
@@ -90,12 +91,17 @@ export class HeaderComponentComponent implements OnInit {
       measurementId: "G-EMPML47RVX"
     };
     const app = initializeApp(firebaseConfig);
-    await this.getNumberOfEntries().then(numEntries => {
+    await this.getNumberOfEntriesComments().then(numEntries => {
       this.numberOfEntries = numEntries;
-      console.log('Number of entries:', this.numberOfEntries);
     }).catch(error => {
       console.error('Error getting number of entries:', error);
     });
+    await this.getNumberOfEntriesSubtitles().then(numEntries => {
+      this.numberOfEntries += numEntries;
+    }).catch(error => {
+      console.error('Error getting number of entries:', error);
+    });
+
     await this.getEntries();
   }
 
@@ -130,9 +136,20 @@ export class HeaderComponentComponent implements OnInit {
     window.location.href = "";
   }
 
-  async getNumberOfEntries(): Promise<number> {
+  async getNumberOfEntriesComments(): Promise<number> {
     const database = getDatabase();
-    const dbRef = ref(database);
+    const dbRef = ref(database,'comments');
+    return get(dbRef).then((snapshot: DataSnapshot) => {
+      let count = 0;
+      snapshot.forEach(() => {
+        count++;
+      });
+      return count;
+    });
+  }
+  async getNumberOfEntriesSubtitles(): Promise<number> {
+    const database = getDatabase();
+    const dbRef = ref(database,'subtitles');
     return get(dbRef).then((snapshot: DataSnapshot) => {
       let count = 0;
       snapshot.forEach(() => {
@@ -143,7 +160,8 @@ export class HeaderComponentComponent implements OnInit {
   }
   async getEntries(): Promise<void> {
     const database = getDatabase();
-    const dbRef = ref(database);
+    const dbRef = ref(database,'comments');
+    const dbRefSubs = ref(database,'subtitles');
     get(dbRef).then((snapshot: DataSnapshot) => {
       if (this.entries) {
         snapshot.forEach((childSnapshot) => {
@@ -152,19 +170,41 @@ export class HeaderComponentComponent implements OnInit {
           this.entries.push(comment);
         });
       }
-      console.log(this.entries);
+    });
+    get(dbRefSubs).then((snapshot: DataSnapshot) => {
+      if (this.entriesSubtitleS) {
+        snapshot.forEach((childSnapshot) => {
+          const comment = childSnapshot.val();
+          comment.fbkey = childSnapshot.key;
+          this.entriesSubtitleS.push(comment);
+        });
+      }
     });
   }
-  public dissmis(comment:any){
+  public dissmis(comment:any,subtitle:any){
+    if(comment!=null){
     const database = getDatabase();
-    const commentRef = ref(database, comment.fbkey);
+    const commentRef = ref(database,'comments/'+comment.fbkey);
     remove(commentRef);
+    }
+    else{
+      const database = getDatabase();
+      const commentRef = ref(database,'subtitles/'+subtitle.fbkey);
+      remove(commentRef);
+    }
     window.location.reload();
   }
-  public delete(comment:any){
+  public delete(comment:any,subtitle:any){
+    if(comment!=null){
 
-    //Fare ostavi dissmis funckiju samo na kraju. Ti svoj kod gore napisi iznad ovog komentara.
-    this.dissmis(comment);
+      //Fare ostavi dissmis funckiju samo na kraju. Ti svoj kod gore napisi iznad ovog komentara.
+      this.dissmis(comment,null);
+    }
+    else{
+
+      //ovdje napisi iznad kod za brisanje titlova.
+      this.dissmis(null,subtitle);
+    }
   }
   public getLangName(lang: string): string {
 
