@@ -131,9 +131,22 @@ svg {
 .userFriendDiv {
     width: 100%;
     height: 50%;
-    /* border: 2px solid yellow; */
+    /* border: 4px solid yellow; */
     position: relative;
     border-bottom: 1px solid #F18F01;
+}
+
+.friendUserID {
+    height: 70%;
+    color: #F18F01;
+    background-color: #2e4057;
+    border: 1px solid #F18F01;
+    border-radius: 0.2em;
+    width: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .exchangedMessagesDiv {
@@ -213,10 +226,17 @@ svg {
     background-color: #2e4057cb;
 }
 
+.allMessages {
+    width: 100%;
+    max-height: 80%;
+    overflow-y: auto;
+    /* border: 2px solid lime; */
+}
+
 .textAreaDiv {
     width: 100%;
-    height: 6vw;
-    /* border: 2px solid firebrick; */
+    height: 20%;
+    /* border: 4px solid firebrick; */
     border-top: 1px solid #F18F01;
     position: absolute;
     bottom: 0;

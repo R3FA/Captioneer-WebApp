@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using UtilityService.Utils;
 using Microsoft.AspNetCore.StaticFiles;
+using API.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,10 +67,11 @@ var serverVersion = ServerVersion.AutoDetect(connectionString);
 builder.Services.AddCors(p => p.AddPolicy(corsPolicyName, build =>
 {
     if (builder.Environment.IsProduction())
-        build.WithOrigins("https://captioneerfrontend.azurewebsites.net").AllowAnyMethod().AllowAnyHeader();
+        build.WithOrigins("https://captioneerfrontend.azurewebsites.net").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
     else
-        build.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+        build.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
 }));
+builder.Services.AddSignalR();
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IContentTypeProvider, FileExtensionContentTypeProvider>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -95,10 +97,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
+app.UseRouting();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseEndpoints(endpoint =>
+{
+    endpoint.MapHub<ChatHub>("/chat");
+});
 
 app.Run();

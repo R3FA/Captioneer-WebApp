@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { UserViewModel } from 'src/app/models/user-viewmodel';
+import { UserService } from 'src/app/services/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-page-direct-messages',
@@ -7,9 +11,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageDirectMessagesComponent implements OnInit {
 
-  constructor() { }
+  private connection!: HubConnection;
+  public arrayMessages: string[] = [];
+  public message: string = '';
+  public loggedUser: UserViewModel | null = null;
+  public userConnectionId: string = "";
+  public friendUserConnectionId: string = "";
 
-  ngOnInit(): void {
+  constructor(public userService: UserService) {
+    this.connection = new HubConnectionBuilder().withUrl(`${environment.baseAPIURL}/chat`).build();
   }
 
+  async ngOnInit() {
+    this.loggedUser = await this.userService.getCurrentUser();
+    this.connection.on('ReceiveMessage', (username: string, message: string) => {
+      this.arrayMessages.push(`${username}: ${message}`);
+    });
+    try {
+      await this.connection.start().then(async () => { await this.connection.invoke("GetConnectionID").then((id: string) => this.userConnectionId = id) });
+      console.log('Connected to SignalR hub!');
+      console.log(this.userConnectionId);
+    } catch (error) {
+      console.error('Failed to connect to SignalR hub', error);
+    }
+  }
+
+  async SendToUser(loggedUsername: string, userConnectionId: string, message: string) {
+    console.log(`${loggedUsername} - ${this.friendUserConnectionId} - ${message}`);
+    if (!loggedUsername || !message || !this.friendUserConnectionId) { console.error("Error sending a message!"); return; }
+    await this.connection.invoke('SendToUser', loggedUsername, userConnectionId, message);
+    this.arrayMessages.push(`${loggedUsername}: ${message}`);
+    this.message = '';
+  }
 }
