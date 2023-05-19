@@ -230,9 +230,20 @@ namespace API.Controllers
         }
 
         // DELETE api/<SubtitleMovieController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{subtitleId}")]
+        public async Task<IActionResult> Delete(int subtitleId)
         {
+            var dbMovieSubtitle = await this._context.SubtitleMovies.FirstOrDefaultAsync(x => x.ID == subtitleId);
+            if (dbMovieSubtitle != null)
+            {
+                var dbMovieSubtitleComments = await this._context.Comments.Where(x => x.SubtitleMovie.ID == subtitleId).ToListAsync();
+                this._context.Comments.RemoveRange(dbMovieSubtitleComments);
+                this._context.SubtitleMovies.Remove(dbMovieSubtitle);
+                await this._context.SaveChangesAsync();
+                return Ok();
+            }
+            else
+                return BadRequest();
         }
         private static async Task Upload(IFormFile file, string path)
         {

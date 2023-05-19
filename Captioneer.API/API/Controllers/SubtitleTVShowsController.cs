@@ -236,6 +236,23 @@ namespace API.Controllers
             return Ok(subtitleTVShow.RatingValue);
         }
 
+        // DELETE api/<SubtitleTVShowController>/5
+        [HttpDelete("{subtitleId}")]
+        public async Task<IActionResult> Delete(int subtitleId)
+        {
+            var dbTVShowSubtitle = await this._context.SubtitleTVShows.FirstOrDefaultAsync(x => x.ID == subtitleId);
+            if (dbTVShowSubtitle != null)
+            {
+                var dbTVShowSubtitleComments = await this._context.Comments.Where(x => x.SubtitleMovie.ID == subtitleId).ToListAsync();
+                this._context.Comments.RemoveRange(dbTVShowSubtitleComments);
+                this._context.SubtitleTVShows.Remove(dbTVShowSubtitle);
+                await this._context.SaveChangesAsync();
+                return Ok();
+            }
+            else
+                return BadRequest();
+        }
+
         private static async Task Upload(IFormFile file, string path)
         {
             try

@@ -49,8 +49,4 @@ export class CommentService {
     })
     });
   }
-
-  deleteComment(commentID : number) : void {
-    this.httpClient.delete(environment.apiURL + `/Comments/${commentID}`);
-  }
 }

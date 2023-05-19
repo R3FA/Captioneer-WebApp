@@ -13,8 +13,9 @@ import { UserlanguageService } from 'src/app/services/userlanguage.service';
 import { UserLanguageModel } from 'src/app/models/userLanguage-viewmodel';
 import { environment } from 'src/environments/environment';
 import { getDatabase } from 'firebase/database';
-import { ref, set, push, onValue, get, DataSnapshot,remove } from 'firebase/database';
+import { ref, set, push, onValue, get, DataSnapshot, remove } from 'firebase/database';
 import { initializeApp } from 'firebase/app';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-header-component',
@@ -37,10 +38,10 @@ export class HeaderComponentComponent implements OnInit {
   currentUser!: any;
   currentUserID!: number;
   selectedUser!: any;
-  numberOfEntries!:number;
-  showNotifications:boolean=false;
-  entries: any[]=[];
-  entriesSubtitleS: any[]=[];
+  numberOfEntries!: number;
+  showNotifications: boolean = false;
+  entries: any[] = [];
+  entriesSubtitleS: any[] = [];
 
   onClick() {
     this.moviesService.getMovieByParameter(this.movieName).subscribe({
@@ -56,7 +57,7 @@ export class HeaderComponentComponent implements OnInit {
   }
   constructor(private moviesService: MovieService, private http: HttpClient, private router: Router,
     private userService: UserService, public translate: TranslateService, public userLanguage: UserlanguageService,
-    public userLanguageService: UserlanguageService, public route: ActivatedRoute) {
+    public userLanguageService: UserlanguageService, public route: ActivatedRoute, public adminServices: AdminService) {
     this.moviesService.getMovies().subscribe((result: MovieViewModel[]) => (this.movies = result));
   }
 
@@ -138,7 +139,7 @@ export class HeaderComponentComponent implements OnInit {
 
   async getNumberOfEntriesComments(): Promise<number> {
     const database = getDatabase();
-    const dbRef = ref(database,'comments');
+    const dbRef = ref(database, 'comments');
     return get(dbRef).then((snapshot: DataSnapshot) => {
       let count = 0;
       snapshot.forEach(() => {
@@ -149,7 +150,7 @@ export class HeaderComponentComponent implements OnInit {
   }
   async getNumberOfEntriesSubtitles(): Promise<number> {
     const database = getDatabase();
-    const dbRef = ref(database,'subtitles');
+    const dbRef = ref(database, 'subtitles');
     return get(dbRef).then((snapshot: DataSnapshot) => {
       let count = 0;
       snapshot.forEach(() => {
@@ -160,8 +161,8 @@ export class HeaderComponentComponent implements OnInit {
   }
   async getEntries(): Promise<void> {
     const database = getDatabase();
-    const dbRef = ref(database,'comments');
-    const dbRefSubs = ref(database,'subtitles');
+    const dbRef = ref(database, 'comments');
+    const dbRefSubs = ref(database, 'subtitles');
     get(dbRef).then((snapshot: DataSnapshot) => {
       if (this.entries) {
         snapshot.forEach((childSnapshot) => {
@@ -181,30 +182,44 @@ export class HeaderComponentComponent implements OnInit {
       }
     });
   }
-  public dissmis(comment:any,subtitle:any){
-    if(comment!=null){
-    const database = getDatabase();
-    const commentRef = ref(database,'comments/'+comment.fbkey);
-    remove(commentRef);
-    }
-    else{
+  public dissmis(comment: any, subtitle: any) {
+    if (comment != null) {
       const database = getDatabase();
-      const commentRef = ref(database,'subtitles/'+subtitle.fbkey);
+      const commentRef = ref(database, 'comments/' + comment.fbkey);
       remove(commentRef);
     }
-    window.location.reload();
+    else {
+      const database = getDatabase();
+      const commentRef = ref(database, 'subtitles/' + subtitle.fbkey);
+      remove(commentRef);
+    }
   }
-  public delete(comment:any,subtitle:any){
-    if(comment!=null){
-
-      //Fare ostavi dissmis funckiju samo na kraju. Ti svoj kod gore napisi iznad ovog komentara.
-      this.dissmis(comment,null);
+  public delete(comment: any, subtitle: any) {
+    if (comment != null) {
+      // console.log(comment);
+      this.adminServices.deleteComment(comment.commentID).subscribe({
+        next: (response) => { console.log(response); },
+        error: (err) => { console.log(`Neuspjesno brisanje!`); console.log(err); },
+        complete: () => { console.log('Obrisano!'); }
+      });
+      this.dissmis(comment, null);
     }
-    else{
+    else {
+      console.log(subtitle);
+      if (!subtitle.isTVShow) {
+        this.adminServices.deleteMovieSubtitle(subtitle.subMovieID).subscribe({
+          next: (response) => { console.log(response); },
+          error: (err) => { console.log(`Neuspjesno brisanje!`); console.log(err); },
+          complete: () => { console.log('Obrisano!'); }
+        });
+      }
+      else{
 
-      //ovdje napisi iznad kod za brisanje titlova.
-      this.dissmis(null,subtitle);
+      }
+
+      // this.dissmis(null,subtitle);
     }
+    // window.location.reload();
   }
   public getLangName(lang: string): string {
 
@@ -221,8 +236,8 @@ export class HeaderComponentComponent implements OnInit {
 
     this.translate.use(lang);
   }
-  public notifications(){
-      this.showNotifications=!this.showNotifications;
+  public notifications() {
+    this.showNotifications = !this.showNotifications;
   }
 
 
