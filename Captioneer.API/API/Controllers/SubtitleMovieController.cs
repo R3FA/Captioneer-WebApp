@@ -231,13 +231,16 @@ namespace API.Controllers
 
         // DELETE api/<SubtitleMovieController>/5
         [HttpDelete("{subtitleId}")]
-        public async Task<IActionResult> Delete(int subtitleId)
+        public async Task<IActionResult> Delete(int subtitleId, string userUploader)
         {
             var dbMovieSubtitle = await this._context.SubtitleMovies.FirstOrDefaultAsync(x => x.ID == subtitleId);
             if (dbMovieSubtitle != null)
             {
+                var dbMovieUserUploader = await this._context.SubtitleUsers.Include(x=> x.User).Include(x=> x.SubtitleMovie).FirstOrDefaultAsync(x => x.User.Username == userUploader && x.SubtitleMovie.ID == subtitleId);
                 var dbMovieSubtitleComments = await this._context.Comments.Where(x => x.SubtitleMovie.ID == subtitleId).ToListAsync();
-                this._context.Comments.RemoveRange(dbMovieSubtitleComments);
+                if (dbMovieSubtitleComments.Count != 0)
+                    this._context.Comments.RemoveRange(dbMovieSubtitleComments);
+                this._context.SubtitleUsers.Remove(dbMovieUserUploader);
                 this._context.SubtitleMovies.Remove(dbMovieSubtitle);
                 await this._context.SaveChangesAsync();
                 return Ok();

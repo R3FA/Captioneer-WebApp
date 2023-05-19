@@ -193,6 +193,7 @@ export class HeaderComponentComponent implements OnInit {
       const commentRef = ref(database, 'subtitles/' + subtitle.fbkey);
       remove(commentRef);
     }
+    setInterval(() => { window.location.reload(); }, 2000);
   }
   public delete(comment: any, subtitle: any) {
     if (comment != null) {
@@ -200,26 +201,28 @@ export class HeaderComponentComponent implements OnInit {
       this.adminServices.deleteComment(comment.commentID).subscribe({
         next: (response) => { console.log(response); },
         error: (err) => { console.log(`Neuspjesno brisanje!`); console.log(err); },
-        complete: () => { console.log('Obrisano!'); }
+        complete: () => { console.log('Obrisano!'); window.location.reload(); }
       });
       this.dissmis(comment, null);
     }
     else {
       console.log(subtitle);
       if (!subtitle.isTVShow) {
-        this.adminServices.deleteMovieSubtitle(subtitle.subMovieID).subscribe({
+        this.adminServices.deleteMovieSubtitle(subtitle.subMovieID, subtitle.uplaoder).subscribe({
           next: (response) => { console.log(response); },
           error: (err) => { console.log(`Neuspjesno brisanje!`); console.log(err); },
-          complete: () => { console.log('Obrisano!'); }
+          complete: () => { console.log('Obrisano!'); window.location.reload(); }
         });
       }
-      else{
-
+      else {
+        this.adminServices.deleteTVShowSubtitle(subtitle.subMovieID, subtitle.uplaoder, subtitle.numberEpisode, subtitle.numberSeason).subscribe({
+          next: (response) => { console.log(response); },
+          error: (err) => { console.log(`Neuspjesno brisanje!`); console.log(err); },
+          complete: () => { console.log('Obrisano!'); window.location.reload(); }
+        })
       }
-
-      // this.dissmis(null,subtitle);
+      this.dissmis(null, subtitle);
     }
-    // window.location.reload();
   }
   public getLangName(lang: string): string {
 

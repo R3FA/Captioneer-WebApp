@@ -14,7 +14,11 @@ export class AdminService {
     return this.http.delete(`${this.url}/Comments/${commentID}`, { observe: 'response', responseType: 'text' });
   }
 
-  deleteMovieSubtitle(movieSubtitleID: number): Observable<HttpResponse<string>> {
-    return this.http.delete(`${this.url}/SubtitleMovie/${movieSubtitleID}`, { observe: 'response', responseType: 'text' });
+  deleteMovieSubtitle(movieSubtitleID: number, userUploader: string): Observable<HttpResponse<string>> {
+    return this.http.delete(`${this.url}/SubtitleMovie/${movieSubtitleID}?userUploader=${userUploader}`, { observe: 'response', responseType: 'text' });
+  }
+
+  deleteTVShowSubtitle(subtitleId: number, userUploader: string, episodeNumber: number, seasonNumber: number): Observable<HttpResponse<string>> {
+    return this.http.delete(`${this.url}/SubtitleTVShows/${subtitleId}?userUploader=${userUploader}&episodeNumber=${episodeNumber}&seasonNumber=${seasonNumber}`, { observe: 'response', responseType: 'text' });
   }
 }

@@ -238,13 +238,16 @@ namespace API.Controllers
 
         // DELETE api/<SubtitleTVShowController>/5
         [HttpDelete("{subtitleId}")]
-        public async Task<IActionResult> Delete(int subtitleId)
+        public async Task<IActionResult> Delete(int subtitleId, string userUploader, int episodeNumber, int seasonNumber)
         {
             var dbTVShowSubtitle = await this._context.SubtitleTVShows.FirstOrDefaultAsync(x => x.ID == subtitleId);
             if (dbTVShowSubtitle != null)
             {
-                var dbTVShowSubtitleComments = await this._context.Comments.Where(x => x.SubtitleMovie.ID == subtitleId).ToListAsync();
-                this._context.Comments.RemoveRange(dbTVShowSubtitleComments);
+                var dbTVShowUploader = await this._context.SubtitleUsers.Include(x => x.User).Include(x => x.SubtitleTVShow).FirstOrDefaultAsync(x => x.User.Username == userUploader && x.SubtitleTVShow.ID == subtitleId);
+                var dbTVShowSubtitleComments = await this._context.Comments.Where(x => x.SubtitleTVShow.ID == subtitleId && x.SubtitleTVShow.Episode.EpisodeNumber == episodeNumber && x.SubtitleTVShow.Episode.Season.SeasonNumber == seasonNumber).ToListAsync();
+                if(dbTVShowSubtitleComments.Count !=0)
+                    this._context.Comments.RemoveRange(dbTVShowSubtitleComments);
+                this._context.SubtitleUsers.Remove(dbTVShowUploader);
                 this._context.SubtitleTVShows.Remove(dbTVShowSubtitle);
                 await this._context.SaveChangesAsync();
                 return Ok();

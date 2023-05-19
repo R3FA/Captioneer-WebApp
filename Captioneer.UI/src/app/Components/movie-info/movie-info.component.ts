@@ -72,6 +72,7 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
   seasonNumber?:number;
   episodeNumber?:number;
   subtitleRating:number=5;
+  episodeeNumber!:number;
 
   public translatableLanguages! : Language[] | null;
   public languageToTranslate! : Language | null;
@@ -559,16 +560,34 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
     const database = getDatabase();
     const dataRef = ref(database, 'subtitles');
     const newRef = push(dataRef);
-    set(newRef, {
-      isTVShow: this.isTVSeries,
-      subMovieID: this.selectedFileInHouse.subMovieID,
-      uplaoder: this.selectedFileInHouse.uploader,
-      movieID:this.movieObject.id,
-      movieTitle:this.movieObject.title,
-      language:this.selectedLanguage,
-      release:this.selectedFileInHouse.release,
-      fps:this.selectedFileInHouse.fps,
-    });
+    if(this.isTVSeries){
+      const epNum:number = Number(this.seasonNumber); 
+      set(newRef, {
+        isTVShow: this.isTVSeries,
+        numberEpisode: this.episodeNumber,
+        numberSeason: epNum,
+        subMovieID: this.selectedFileInHouse.subMovieID,
+        uplaoder: this.selectedFileInHouse.uploader,
+        movieID:this.movieObject.id,
+        movieTitle:this.movieObject.title,
+        language:this.selectedLanguage,
+        release:this.selectedFileInHouse.release,
+        fps:this.selectedFileInHouse.fps,
+      });
+    }
+    else{
+      set(newRef, {
+        isTVShow: this.isTVSeries,
+        subMovieID: this.selectedFileInHouse.subMovieID,
+        uplaoder: this.selectedFileInHouse.uploader,
+        movieID:this.movieObject.id,
+        movieTitle:this.movieObject.title,
+        language:this.selectedLanguage,
+        release:this.selectedFileInHouse.release,
+        fps:this.selectedFileInHouse.fps,
+      });
+    }
+
     alert("Thank you for reporting!");
    }
 }
