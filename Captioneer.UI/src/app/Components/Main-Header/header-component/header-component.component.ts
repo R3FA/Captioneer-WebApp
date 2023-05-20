@@ -242,6 +242,4 @@ export class HeaderComponentComponent implements OnInit {
   public notifications() {
     this.showNotifications = !this.showNotifications;
   }
-
-
 }

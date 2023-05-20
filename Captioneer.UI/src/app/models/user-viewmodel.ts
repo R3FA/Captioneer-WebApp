@@ -9,4 +9,5 @@ export class UserViewModel  {
     funFact?:string
     prefferedLanguages?:any[]
     registrationDate?:Date
+    isBanned!:boolean
 }

@@ -688,6 +688,9 @@ namespace Captioneer.API.Migrations
                     b.Property<string>("funFact")
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("isBanned")
+                        .HasColumnType("tinyint(1)");
+
                     b.HasKey("ID");
 
                     b.HasIndex("AdminID");

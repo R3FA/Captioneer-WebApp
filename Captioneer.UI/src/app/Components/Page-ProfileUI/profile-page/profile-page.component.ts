@@ -559,6 +559,15 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     });
   }
 
+  async banUser() {
+    console.log(`${this.loggedUser} - ${this.userService.userData.id}`);
+    await this.userService.banUser(this.loggedUser, this.userService.userData.id).subscribe({
+      next: (response) => { console.log(response); },
+      error: (err) => { console.log(`Ban method failed!`); console.log(err); },
+      complete: () => { console.log('Ban method ran successfully!'); window.location.reload(); }
+    });
+  }
+
   gotoMessages() {
     this.router.navigate([`Profile/${this.userService.userData.id}/directMessages`]);
     this.userService.addFriendComponentClicked = false;

@@ -194,6 +194,11 @@
     flex-direction: row;
 }
 
+#banButton {
+    background-color: red;
+    color: black;
+}
+
 .message-button,
 .editPage-button {
     background-color: #F18F01;

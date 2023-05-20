@@ -16,7 +16,7 @@ export class UserService {
   private url: string = environment.apiURL + "/Users";
   public userData!: any;
   public userID!: number;
-  public addFriendComponentClicked=false;
+  public addFriendComponentClicked = false;
 
 
   constructor(private httpClient: HttpClient) { }
@@ -43,6 +43,10 @@ export class UserService {
   putUser(user: UserUpdate, username: string): Observable<HttpResponse<UserUpdate>> {
     return this.httpClient.put<UserUpdate>(this.url + `/${username}`, user, { observe: 'response' });
   }
+  banUser(adminUser: UserViewModel | null, userID: number): Observable<HttpResponse<string>> {
+    return this.httpClient.put(this.url + '/BanUser/' + userID, adminUser, { observe: 'response', responseType: 'text' });
+  }
+  // localhost:7207/api/Users/BanUser/74
 
   deleteUser(user: UserPost): Observable<HttpResponse<UserPost>> {
     return this.httpClient.delete<UserPost>(this.url, { observe: 'response', body: user });
