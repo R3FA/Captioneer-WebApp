@@ -72,7 +72,8 @@ namespace API.Controllers
                 funFact = user.funFact,
                 RegistrationDate = user.RegistrationDate,
                 SubtitleDownload = user.SubtitleDownload,
-                SubtitleUpload = user.SubtitleUpload
+                SubtitleUpload = user.SubtitleUpload,
+                isBanned = user.isBanned
             };
             return userReturn;
         }
@@ -189,6 +190,26 @@ namespace API.Controllers
             }
 
             LoggerManager.GetInstance().LogInfo($"Set new profile image for user {username}");
+            return Ok();
+        }
+
+        [HttpPut("[action]/{sentUserID}")]
+        public async Task<IActionResult>BanUser(UserViewModel adminUser, int sentUserID)
+        {
+            var selectedUser = await this._context.Users.FirstOrDefaultAsync(x => x.ID == sentUserID);
+            if(selectedUser  == null || adminUser.Id == sentUserID) { return BadRequest("You either sent an ID who isn't in our database or you tried to ban yourself!"); }
+            selectedUser.isBanned = !selectedUser.isBanned;
+            if (selectedUser.isBanned)
+            {
+                selectedUser.funFact = "This user is banned!";
+                selectedUser.Designation = "Banned account!";
+            }
+            else
+            {
+                selectedUser.funFact = "";
+                selectedUser.Designation = "Administrator";
+            }
+            await this._context.SaveChangesAsync();
             return Ok();
         }
 

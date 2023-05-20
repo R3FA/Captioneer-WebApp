@@ -32,13 +32,14 @@
     width: 100%;
     height: 75px;
     display: flex;
-    justify-content: center; /* add this */
+    justify-content: center;
+    /* add this */
     position: fixed;
     padding-left: 15px;
     padding-right: 15px;
     background-color: #2E4057;
     color: #F18F01;
-  }
+}
 
 .header-image {
     width: fit-content;
@@ -61,7 +62,7 @@
     font-family: BerunFont1;
 }
 
-.a-title h3{
+.a-title h3 {
     text-decoration: none;
     color: #F18F01;
 }
@@ -133,7 +134,7 @@ mat-label {
     position: relative;
 }
 
-select{
+select {
     width: 110vw;
     height: 4vh;
     background-color: #F18F01;
@@ -144,18 +145,21 @@ select{
     left: 50%;
     transform: translate(-50%, -50%);
 }
-option{
+
+option {
     background-color: aliceblue;
 }
+
 #reportButton {
     color: #F18F01 !important;
     /* border: none; */
     /* background-color: transparent; */
     /* font-size:  2em; */
 }
+
 .notification-badge {
     position: absolute;
-    top:1px;
+    top: 1px;
     right: -10px;
     background-color: red;
     color: white;
@@ -166,12 +170,13 @@ option{
     min-width: 20px;
     min-height: 20px;
     text-align: center;
-  }
-  .notification-container {
+}
+
+.notification-container {
     position: relative;
-  }
-  
-  .notification-box {
+}
+
+.notification-box {
     position: absolute;
     top: 100%;
     left: 0;
@@ -182,29 +187,34 @@ option{
     border-radius: 5px;
     width: 150%;
     margin-top: 2%;
-  }
-  
-  .notification-box ul {
+    overflow-y: auto;
+}
+
+.notification-box ul {
     list-style: none;
     margin: 0;
     padding: 0;
-  }
-  
-  .notification-box li {
+}
+
+.notification-box li {
     margin-bottom: 5px;
-  }
-  .comment{
+}
+
+.comment {
     color: greenyellow;
     text-align: center;
-  }
-  .notification {
+}
+
+.notification {
     transform: scale(0.8);
-  }
-  .button-container {
+}
+
+.button-container {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .normalText{
+}
+
+.normalText {
     color: #fff;
-  }
+}
