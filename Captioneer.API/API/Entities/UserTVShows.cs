@@ -2,6 +2,7 @@
 
 namespace API.Entities
 {
+    [Table("userstvshows")]
     public class UserTVShows
     {
         public int UserID { get; set; }

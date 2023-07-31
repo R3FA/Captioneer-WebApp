@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
 {
+    [Table("actormovies")]
     public class ActorMovie
     {
         public int ActorID { get; set; }
