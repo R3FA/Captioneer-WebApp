@@ -2,6 +2,7 @@
 
 namespace API.Entities
 {
+    [Table("userslanguages")]
     public class UserLanguage
     {
         public int UserID { get; set; }

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
 {
+    [Table("actortvshows")]
     public class ActorTVShow
     {
         public int ActorID { get; set; }

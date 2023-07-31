@@ -2,6 +2,7 @@
 
 namespace API.Entities
 {
+    [Table("followers")]
     public class Follower
     {
         public int Id { get; set; }
