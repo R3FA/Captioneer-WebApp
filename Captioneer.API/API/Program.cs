@@ -32,7 +32,7 @@ builder.Host.ConfigureAppConfiguration(builder =>
     LoggerManager.GetInstance().LogInfo("Added Azure Key Vault to app configuration");
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionDev");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 if (builder.Environment.IsProduction())
 {
