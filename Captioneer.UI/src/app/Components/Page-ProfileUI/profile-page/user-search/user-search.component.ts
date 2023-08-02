@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserViewModel } from 'src/app/models/user-viewmodel';
 import { UserResponse } from 'src/app/models/userresponse-viewmodel';
 import { UserService } from 'src/app/services/user.service';
 
@@ -12,14 +13,18 @@ export class UserSearchComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router) { }
 
-  public searchedUser!: UserResponse | null;
+  public searchedUsers!: UserResponse | null;
+  public searchedUser!: UserViewModel | null;
   public paginationNumbers: number[] = [];
+  public stringValue: string = "";
+  public isOneUser: boolean = false;
 
   async ngOnInit(): Promise<void> {
+    this.isOneUser = false;
     await this.userService.getUser(1).subscribe({
       next: (response) => {
-        this.searchedUser = response.body;
-        for (let i = 1; i <= this.searchedUser!.pages; i++) {
+        this.searchedUsers = response.body;
+        for (let i = 1; i <= this.searchedUsers!.pages; i++) {
           this.paginationNumbers.push(i);
         }
       },
@@ -28,16 +33,33 @@ export class UserSearchComponent implements OnInit {
   }
 
   async searchingUsers(pageNumber: number) {
+    this.stringValue = "";
+    this.isOneUser = false;
     await this.userService.getUser(pageNumber).subscribe({
       next: (response) => {
-        this.searchedUser = response.body;
+        this.searchedUsers = response.body;
       },
       error: (err) => { console.log(err); },
     })
   }
 
+  async searchUserByEmailOrUsername(email: string, username: string) {
+    this.isOneUser = true;
+    await this.userService.getUserByEmail(email, username).subscribe({
+      next: (response) => {
+        this.searchedUser = response.body;
+        console.log(this.searchedUser);
+      },
+      error: (err) => { console.log(err); this.searchedUser = null; }
+    })
+  }
   async gotoUsersProfile(userLocation: number) {
-    window.location.href = (`Profile/${this.searchedUser?.users?.at(userLocation)?.id}`);
+    window.location.href = (`Profile/${this.searchedUsers?.users?.at(userLocation)?.id}`);
+    this.userService.userSearchComponentClicked = false;
+  }
+
+  async gotoUserProfile(userID: number) {
+    window.location.href = (`Profile/${userID}`);
     this.userService.userSearchComponentClicked = false;
   }
 }
