@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: BerunFont2;
+}
+
+main {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+}
+
+.search{
+    width: fit-content;
+    height: fit-content;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+input {
+    width: 15vw;
+    height: 6vh;
+    background-color: #2e4057;
+    color: #F18F01;
+    outline: none;
+    border-radius: 0.5rem;
+    margin: 0 auto;
+    border-color: #f19101ac;
+}
+
+button {
+    padding: 0 1rem;
+    margin: 0 0.5rem;
+    background-color: #F18F01;
+    color: #2e4057de;
+    height: 40px;
+    border-radius: 0.5rem;
+    outline: none;
+    border-color: #2e4057a6;
+}
+
+table {
+    width: 100%;
+    height: fit-content;
+    columns: 4;
+    border: 1px solid #F18F01;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: center;
+    color: #F18F01;
+    border-top: 1px solid;
+    height: min-content;
+}
+
+.user td:last-child {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.user:hover {
+    background-color: #2e4057
+}
+
+ol li,
+ol p {
+    color: #F18F01;
+}
+
+ol {
+    padding: 1rem 0;
+    text-align: center;
+}
+
+li {
+    display: inline-block;
+    padding: 0 1rem;
+}
+
+li:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

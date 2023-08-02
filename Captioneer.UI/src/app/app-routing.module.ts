@@ -10,6 +10,7 @@ import { MovieInfoComponent } from './Components/movie-info/movie-info.component
 import { PageDirectMessagesComponent } from './Components/page-direct-messages/page-direct-messages.component';
 import { PageNotFoundErrorComponent } from './Components/page-not-found-error/page-not-found-error.component';
 import { FollowFriendsComponent } from './Components/Page-ProfileUI/profile-page/follow-friends/follow-friends.component';
+import { UserSearchComponent } from './Components/Page-ProfileUI/profile-page/user-search/user-search.component';
 
 const appRoute: Routes = [
     { path: '', redirectTo: 'Home', pathMatch: 'full' },
@@ -21,7 +22,8 @@ const appRoute: Routes = [
     {
         path: 'Profile/:id', component: ProfilePageComponent,
         children: [
-            { path: 'addFriends', component: FollowFriendsComponent }
+            { path: 'addFriends', component: FollowFriendsComponent },
+            { path: 'searchUser', component: UserSearchComponent }
         ]
     },
     { path: 'Profile/:id/directMessages', component: PageDirectMessagesComponent },

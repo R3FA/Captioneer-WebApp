@@ -30,6 +30,13 @@
     background-size: cover;
 }
 
+.searchUser {
+    width: 350px;
+    height: 450px;
+    background-color: green;
+    margin: auto auto;
+}
+
 .sub-container {
     border: 3px solid #F18F01;
     border-radius: 0.5em;
@@ -200,10 +207,11 @@
 }
 
 .message-button,
-.editPage-button {
+.editPage-button,
+.searchUsersButton {
     background-color: #F18F01;
     color: #2E4057;
-    margin-left: 1em;
+    margin: 1em;
 }
 
 .info-container {
@@ -293,6 +301,7 @@
     width: 65%;
     height: 90%;
     margin: auto;
+    overflow-y: auto;
 }
 
 .public-info-mat-card {

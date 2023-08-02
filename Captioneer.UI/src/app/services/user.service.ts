@@ -7,6 +7,7 @@ import { UserUpdate } from '../models/user-update'
 import { UserViewModel } from '../models/user-viewmodel';
 import { UserLogin } from '../models/user-login';
 import { firstValueFrom } from 'rxjs'; import { Utils } from '../utils/utils';
+import { UserResponse } from '../models/userresponse-viewmodel';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,13 @@ export class UserService {
   public userData!: any;
   public userID!: number;
   public addFriendComponentClicked = false;
+  public userSearchComponentClicked = false;
 
 
   constructor(private httpClient: HttpClient) { }
 
-  getUser(): Observable<HttpResponse<UserViewModel>> {
-    return this.httpClient.get<UserViewModel>(this.url, { observe: 'response' });
+  getUser(pageNumber: number): Observable<HttpResponse<UserResponse>> {
+    return this.httpClient.get<UserResponse>(`${this.url}/GetAllUsers?page=${pageNumber}`, { observe: 'response' });
   }
   getUserByEmail(email?: string, username?: string): Observable<HttpResponse<UserViewModel>> {
     return this.httpClient.get<UserViewModel>(this.url + '?mail=' + email + "&username=" + username, { observe: 'response' });

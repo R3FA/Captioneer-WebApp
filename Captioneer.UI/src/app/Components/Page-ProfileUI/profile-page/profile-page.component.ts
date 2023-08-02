@@ -571,9 +571,15 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   gotoMessages() {
     this.router.navigate([`Profile/${this.userService.userData.id}/directMessages`]);
     this.userService.addFriendComponentClicked = false;
+    this.userService.userSearchComponentClicked = false;
   }
   gotoAddFriends() {
     this.userService.addFriendComponentClicked = !this.userService.addFriendComponentClicked;
+    this.userService.userSearchComponentClicked = false;
     this.router.navigate([`addFriends`], { relativeTo: this.route });
+  }
+  gotoSearchUserComponent(){
+    this.userService.userSearchComponentClicked = !this.userService.userSearchComponentClicked;
+    this.router.navigate([`Profile/${this.userService.userData.id}/searchUser`]);
   }
 }

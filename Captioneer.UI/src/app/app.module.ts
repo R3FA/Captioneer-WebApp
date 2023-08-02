@@ -34,6 +34,7 @@ import { FollowFriendsComponent } from './Components/Page-ProfileUI/profile-page
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from '../environments/environment';
+import { UserSearchComponent } from './Components/Page-ProfileUI/profile-page/user-search/user-search.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { environment } from '../environments/environment';
     PageCommentComponent,
     PageDirectMessagesComponent,
     PageNotFoundErrorComponent,
-    FollowFriendsComponent
+    FollowFriendsComponent,
+    UserSearchComponent
   ],
   imports: [
     BrowserModule,

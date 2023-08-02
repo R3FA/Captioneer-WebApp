@@ -1,0 +1,23 @@
+<main>
+    <section class="search">
+        <input type="text" placeholder="Search by username">
+        <button>Search</button>
+    </section>
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>E-mail</th>
+            <th></th>
+        </tr>
+        <tr class="user" *ngFor="let users of searchedUser?.users">
+            <td>{{users?.username}}</td>
+            <td>{{users?.email}}</td>
+            <td>View Profile</td>
+        </tr>
+    </table>
+    <ol>
+        <p>Page: </p>
+        <li *ngFor="let pagination of paginationNumbers; let i = index" (click)="searchingUsers(i+1)">{{pagination}}
+        </li>
+    </ol>
+</main>
