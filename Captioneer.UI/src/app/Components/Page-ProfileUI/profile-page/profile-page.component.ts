@@ -116,9 +116,11 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
 
   async ngOnInit(): Promise<void> {
     this.userService.addFriendComponentClicked = false;
+    this.userService.userSearchComponentClicked = false;
     this.route.params.subscribe(async (params: Params) => {
       if (!isNaN(params['id'])) {
         this.currentID = parseInt(params['id']);
+        this.userService.currentUserParamsID = parseInt(params['id']);
         this.userService.getUserByID(this.currentID).subscribe({
           next: ((response) => {
             this.userService.userData = response.body;
@@ -132,9 +134,15 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       else {
         this.router.navigate(['**']);
       }
+
     })
 
-
+    let selectedUser = await this.userService.getCurrentUser();
+    if (selectedUser?.id == this.userService.currentUserParamsID) {
+      this.userService.isButtonHidden = false;
+    } else {
+      this.userService.isButtonHidden = true;
+    }
 
     this._showEditProfile = false;
     this._showChangeEmailForm = true;
@@ -571,9 +579,15 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   gotoMessages() {
     this.router.navigate([`Profile/${this.userService.userData.id}/directMessages`]);
     this.userService.addFriendComponentClicked = false;
+    this.userService.userSearchComponentClicked = false;
   }
   gotoAddFriends() {
     this.userService.addFriendComponentClicked = !this.userService.addFriendComponentClicked;
+    this.userService.userSearchComponentClicked = false;
     this.router.navigate([`addFriends`], { relativeTo: this.route });
+  }
+  gotoSearchUserComponent() {
+    this.userService.userSearchComponentClicked = !this.userService.userSearchComponentClicked;
+    this.router.navigate([`searchUser`], { relativeTo: this.route });
   }
 }

@@ -108,7 +108,7 @@ export class HeaderComponentComponent implements OnInit {
 
   async gotoMyProfile() {
     let selectedUser = await this.userService.getCurrentUser();
-    this.router.navigate([`Profile/`, `${selectedUser?.id}`]);
+    window.location.href = (`Profile/${selectedUser?.id}`);
     this.userService.addFriendComponentClicked = false;
   }
 

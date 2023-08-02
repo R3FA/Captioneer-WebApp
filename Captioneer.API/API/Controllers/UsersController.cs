@@ -8,6 +8,7 @@ using UtilityService.Utils;
 using API.DTO;
 using API.Data;
 using API.Entities;
+using Azure;
 
 namespace API.Controllers
 {
@@ -27,9 +28,11 @@ namespace API.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetAllUsers(int page = 1)
         {
-            var selectedUsers = await this._context.Users.ToListAsync();
+            var pageResults = 3f;
+            var pageCount = Math.Ceiling(this._context.Users.Count() / pageResults);
+            var selectedUsers = await this._context.Users.Skip((page - 1) * (int)pageResults).Take((int)pageResults).ToListAsync();
             List<UserViewModel> returnedUsers = new List<UserViewModel>();
             foreach (var u in selectedUsers)
             {
@@ -47,7 +50,15 @@ namespace API.Controllers
                 };
                 returnedUsers.Add(tempUsers);
             }
-            return Ok(returnedUsers);
+            var response = new UsersResponse()
+            {
+                Users = returnedUsers,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if(page > (int)pageCount) { return NotFound("There are no more pages!"); }
+                return Ok(response);
         }
 
         //GET: api/Users/example@mail.com || example
