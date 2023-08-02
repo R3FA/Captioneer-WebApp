@@ -1,4 +1,3 @@
-
 <div class="main-container">
     <div class="header">
         <div class="header-image">
@@ -9,58 +8,66 @@
                 <h3>CAPTIONEER</h3>
             </a>
         </div>
-            <div id="site-language" class="form-group row">
-                <select id="site-language-select" class="form-select form-select-sm" aria-label=".form-select-sm example"
+        <div id="site-language" class="form-group row">
+            <select id="site-language-select" class="form-select form-select-sm" aria-label=".form-select-sm example"
                 #selectedLang (change)="switchLang(selectedLang.value)">
                 <option *ngFor="let language of translate.getLangs()" [value]="language"
-                [selected]="language === translate.currentLang">
-                {{ getLangName(language) }}
-            </option>
-        </select>
-    </div>
-    <div class="header-button">
-    <div class="notification-container">
-        <button class="search-button" mat-flat-button (click)="notifications()">Unanswerd reports: {{this.numberOfEntries}}
-        </button>
-        <div *ngIf="showNotifications" class="notification-box" id="notificationBox">
-            <ul>
-                <li *ngFor="let comment of entries">
-                    <p class="comment">
-                        Comment:
-                    </p>
-                    {{ comment.content }}
-                    <div class="button-container">
-                        <button class="notification" mat-flat-button (click)="dissmis(comment,null)">DISSMIS</button>
-                        <button class="notification" mat-flat-button (click)="delete(comment,null)">DELETE</button>
-                    </div>
-                    <hr>
-                </li>
-                <li *ngFor="let subtitle of entriesSubtitleS">
-                    <p class="comment">
-                        Subtitle:
-                    </p>
-                    <span class="normalText">Title:</span> {{subtitle.movieTitle}}; <span class="normalText">Language:</span>{{subtitle.language}}; 
-                    <span class="normalText">Uploader:</span> {{ subtitle.uplaoder }}; <span class="normalText">Release:</span> {{subtitle.release}};
-                    <span class="normalText">FPS:</span> {{subtitle.fps}}
-                    <span class="normalText" *ngIf="subtitle.isTVShow">Episode:</span> {{subtitle.numberEpisode}}
-                    <span class="normalText" *ngIf="subtitle.isTVShow">Season:</span> {{subtitle.numberSeason}}
-                    <div class="button-container">
-                        <button class="notification" mat-flat-button (click)="dissmis(null,subtitle)">DISSMIS</button>
-                        <button class="notification" mat-flat-button (click)="delete(null,subtitle)">DELETE</button>
-                    </div>
-                    <hr>
-                </li>
-              </ul>
+                    [selected]="language === translate.currentLang">
+                    {{ getLangName(language) }}
+                </option>
+            </select>
         </div>
-      </div>
-    </div>
-    <div *ngIf="isNotLogedIn" class="header-button">
-        <a href="Signin"><button class="search-button" mat-flat-button>{{'SignInButton' | translate}}</button></a>
-        <a href="Signup"><button class="search-button" mat-flat-button>{{'SignUpButton' | translate}}</button></a>
-    </div>
-    <div *ngIf="!isNotLogedIn" class="header-button">
-        <button (click)="gotoMyProfile()" class="search-button" mat-flat-button>{{'Hello' | translate}}
+        <div class="header-button">
+            <div class="notification-container">
+                <button class="search-button" mat-flat-button (click)="notifications()">Unanswerd reports:
+                    {{this.numberOfEntries}}
+                </button>
+                <div *ngIf="showNotifications" class="notification-box" id="notificationBox">
+                    <ul>
+                        <li *ngFor="let comment of entries">
+                            <p class="comment">
+                                Comment:
+                            </p>
+                            {{ comment.content }}
+                            <div class="button-container">
+                                <button class="notification" mat-flat-button
+                                    (click)="dissmis(comment,null)">DISSMIS</button>
+                                <button class="notification" mat-flat-button
+                                    (click)="delete(comment,null)">DELETE</button>
+                            </div>
+                            <hr>
+                        </li>
+                        <li *ngFor="let subtitle of entriesSubtitleS">
+                            <p class="comment">
+                                Subtitle:
+                            </p>
+                            <span class="normalText">Title:</span> {{subtitle.movieTitle}}; <span
+                                class="normalText">Language:</span>{{subtitle.language}};
+                            <span class="normalText">Uploader:</span> {{ subtitle.uplaoder }}; <span
+                                class="normalText">Release:</span> {{subtitle.release}};
+                            <span class="normalText">FPS:</span> {{subtitle.fps}}
+                            <span class="normalText" *ngIf="subtitle.isTVShow">Episode:</span>
+                            {{subtitle.numberEpisode}}
+                            <span class="normalText" *ngIf="subtitle.isTVShow">Season:</span> {{subtitle.numberSeason}}
+                            <div class="button-container">
+                                <button class="notification" mat-flat-button
+                                    (click)="dissmis(null,subtitle)">DISSMIS</button>
+                                <button class="notification" mat-flat-button
+                                    (click)="delete(null,subtitle)">DELETE</button>
+                            </div>
+                            <hr>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isNotLogedIn" class="header-button">
+            <a href="Signin"><button class="search-button" mat-flat-button>{{'SignInButton' | translate}}</button></a>
+            <a href="Signup"><button class="search-button" mat-flat-button>{{'SignUpButton' | translate}}</button></a>
+        </div>
+        <div *ngIf="!isNotLogedIn" class="header-button">
+            <button (click)="gotoMyProfile()" class="search-button" mat-flat-button>{{'Hello' | translate}}
                 {{name}}</button>
-        <button class="search-button" mat-flat-button (click)="signOut()">{{'SignOutButton' | translate}}</button>
+            <button class="search-button" mat-flat-button (click)="signOut()">{{'SignOutButton' | translate}}</button>
+        </div>
     </div>
-</div>

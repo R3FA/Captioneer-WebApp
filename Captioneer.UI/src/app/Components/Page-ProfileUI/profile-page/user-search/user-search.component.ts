@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserResponse } from 'src/app/models/userresponse-viewmodel';
 import { UserService } from 'src/app/services/user.service';
 
@@ -9,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserSearchComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   public searchedUser!: UserResponse | null;
   public paginationNumbers: number[] = [];
@@ -33,5 +34,10 @@ export class UserSearchComponent implements OnInit {
       },
       error: (err) => { console.log(err); },
     })
+  }
+
+  async gotoUsersProfile(userLocation: number) {
+    window.location.href = (`Profile/${this.searchedUser?.users?.at(userLocation)?.id}`);
+    this.userService.userSearchComponentClicked = false;
   }
 }

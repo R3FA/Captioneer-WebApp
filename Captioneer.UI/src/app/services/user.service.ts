@@ -19,6 +19,8 @@ export class UserService {
   public userID!: number;
   public addFriendComponentClicked = false;
   public userSearchComponentClicked = false;
+  public isButtonHidden: boolean = false;
+  public currentUserParamsID: number = 0;
 
 
   constructor(private httpClient: HttpClient) { }

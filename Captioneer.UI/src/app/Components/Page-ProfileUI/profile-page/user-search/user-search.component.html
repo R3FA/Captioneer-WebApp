@@ -9,10 +9,10 @@
             <th>E-mail</th>
             <th></th>
         </tr>
-        <tr class="user" *ngFor="let users of searchedUser?.users">
+        <tr class="user" *ngFor="let users of searchedUser?.users; let i = index">
             <td>{{users?.username}}</td>
             <td>{{users?.email}}</td>
-            <td>View Profile</td>
+            <td (click)="gotoUsersProfile(i)">View Profile</td>
         </tr>
     </table>
     <ol>
