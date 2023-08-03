@@ -27,5 +27,9 @@ namespace API.Entities
         [Required]
         [Range(0, int.MaxValue)]
         public int RatingCount { get; set; }
+
+        public string? Release { get; set; }
+
+        public int? FrameRate { get; set; }
     }
 }

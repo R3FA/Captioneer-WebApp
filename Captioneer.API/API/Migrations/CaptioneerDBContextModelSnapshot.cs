@@ -37,7 +37,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Actors");
+                    b.ToTable("actors");
                 });
 
             modelBuilder.Entity("API.Entities.ActorMovie", b =>
@@ -52,7 +52,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("MovieID");
 
-                    b.ToTable("ActorMovies");
+                    b.ToTable("actormovies");
                 });
 
             modelBuilder.Entity("API.Entities.ActorTVShow", b =>
@@ -67,7 +67,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("TVShowID");
 
-                    b.ToTable("ActorTVShows");
+                    b.ToTable("actortvshows");
                 });
 
             modelBuilder.Entity("API.Entities.Admin", b =>
@@ -83,7 +83,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Admins");
+                    b.ToTable("admins");
                 });
 
             modelBuilder.Entity("API.Entities.Comment", b =>
@@ -119,7 +119,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Comments");
+                    b.ToTable("comments");
                 });
 
             modelBuilder.Entity("API.Entities.Creator", b =>
@@ -140,7 +140,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Creators");
+                    b.ToTable("creators");
                 });
 
             modelBuilder.Entity("API.Entities.CreatorMovie", b =>
@@ -159,7 +159,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("MovieID");
 
-                    b.ToTable("CreatorsMovie");
+                    b.ToTable("creatorsmovie");
                 });
 
             modelBuilder.Entity("API.Entities.CreatorTVShow", b =>
@@ -178,7 +178,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("TVShowID");
 
-                    b.ToTable("CreatorsTVShows");
+                    b.ToTable("creatorstvshows");
                 });
 
             modelBuilder.Entity("API.Entities.DirectMessage", b =>
@@ -207,7 +207,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("DirectMessages");
+                    b.ToTable("directmessages");
                 });
 
             modelBuilder.Entity("API.Entities.Episode", b =>
@@ -231,7 +231,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("SeasonID");
 
-                    b.ToTable("Episodes");
+                    b.ToTable("episodes");
                 });
 
             modelBuilder.Entity("API.Entities.Follower", b =>
@@ -255,7 +255,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Followers");
+                    b.ToTable("followers");
                 });
 
             modelBuilder.Entity("API.Entities.Genre", b =>
@@ -271,7 +271,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Genres");
+                    b.ToTable("genres");
                 });
 
             modelBuilder.Entity("API.Entities.GenreMovie", b =>
@@ -286,7 +286,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("MovieID");
 
-                    b.ToTable("GenresMovie");
+                    b.ToTable("genresmovie");
                 });
 
             modelBuilder.Entity("API.Entities.GenreTVShow", b =>
@@ -301,7 +301,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("TVShowID");
 
-                    b.ToTable("GenresTVShows");
+                    b.ToTable("genrestvshows");
                 });
 
             modelBuilder.Entity("API.Entities.Language", b =>
@@ -327,7 +327,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Languages");
+                    b.ToTable("languages");
                 });
 
             modelBuilder.Entity("API.Entities.Movie", b =>
@@ -374,7 +374,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Movies");
+                    b.ToTable("movies");
                 });
 
             modelBuilder.Entity("API.Entities.Season", b =>
@@ -399,7 +399,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("TVShowID");
 
-                    b.ToTable("Seasons");
+                    b.ToTable("seasons");
                 });
 
             modelBuilder.Entity("API.Entities.ShootingPlace", b =>
@@ -421,7 +421,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("ShootingPlaces");
+                    b.ToTable("shootingplaces");
                 });
 
             modelBuilder.Entity("API.Entities.ShootingPlaceMovie", b =>
@@ -436,7 +436,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("MovieID");
 
-                    b.ToTable("ShootingPlacesMovie");
+                    b.ToTable("shootingplacesmovie");
                 });
 
             modelBuilder.Entity("API.Entities.ShootingPlaceTVShow", b =>
@@ -451,7 +451,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("TVShowID");
 
-                    b.ToTable("ShootingPlacesTVShows");
+                    b.ToTable("shootingplacestvshows");
                 });
 
             modelBuilder.Entity("API.Entities.SubtitleMovie", b =>
@@ -496,7 +496,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("MovieID");
 
-                    b.ToTable("SubtitleMovies");
+                    b.ToTable("subtitlemovies");
                 });
 
             modelBuilder.Entity("API.Entities.SubtitleTVShow", b =>
@@ -514,6 +514,9 @@ namespace Captioneer.API.Migrations
                     b.Property<int>("EpisodeID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FrameRate")
+                        .HasColumnType("int");
+
                     b.Property<int>("LanguageID")
                         .HasColumnType("int");
 
@@ -522,6 +525,9 @@ namespace Captioneer.API.Migrations
 
                     b.Property<double>("RatingValue")
                         .HasColumnType("double");
+
+                    b.Property<string>("Release")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("SubtitlePath")
                         .IsRequired()
@@ -535,7 +541,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("LanguageID");
 
-                    b.ToTable("SubtitleTVShows");
+                    b.ToTable("subtitletvshows");
                 });
 
             modelBuilder.Entity("API.Entities.SubtitleUser", b =>
@@ -572,7 +578,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("SubtitleUsers");
+                    b.ToTable("subtitleusers");
                 });
 
             modelBuilder.Entity("API.Entities.Translation", b =>
@@ -596,7 +602,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("LanguageID");
 
-                    b.ToTable("Translations");
+                    b.ToTable("translations");
                 });
 
             modelBuilder.Entity("API.Entities.TVShow", b =>
@@ -646,7 +652,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("TVShows");
+                    b.ToTable("tvshows");
                 });
 
             modelBuilder.Entity("API.Entities.User", b =>
@@ -695,7 +701,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("AdminID");
 
-                    b.ToTable("Users");
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("API.Entities.UserLanguage", b =>
@@ -710,7 +716,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("LanguageID");
 
-                    b.ToTable("UsersLanguages");
+                    b.ToTable("userslanguages");
                 });
 
             modelBuilder.Entity("API.Entities.UserMovies", b =>
@@ -725,7 +731,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("MovieID");
 
-                    b.ToTable("UsersMovies");
+                    b.ToTable("usersmovies");
                 });
 
             modelBuilder.Entity("API.Entities.UserTVShows", b =>
@@ -740,7 +746,7 @@ namespace Captioneer.API.Migrations
 
                     b.HasIndex("TVShowID");
 
-                    b.ToTable("UsersTVShows");
+                    b.ToTable("userstvshows");
                 });
 
             modelBuilder.Entity("API.Entities.ActorMovie", b =>

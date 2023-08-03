@@ -193,6 +193,8 @@ namespace API.Controllers
                 subtitleTVShow.SubtitlePath = Path.Combine("subtitleTVShowUploads", fileName);
                 subtitleTVShow.RatingValue = 0;
                 subtitleTVShow.RatingCount = 0;
+                subtitleTVShow.FrameRate = frameRateSet;
+                subtitleTVShow.Release = release;
 
                 await _context.SubtitleTVShows.AddAsync(subtitleTVShow);
                 await _context.SaveChangesAsync();
