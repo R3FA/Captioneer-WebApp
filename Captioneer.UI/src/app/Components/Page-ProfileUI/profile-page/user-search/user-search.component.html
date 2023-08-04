@@ -9,15 +9,15 @@
             <th>E-mail</th>
             <th></th>
         </tr>
-        <tr class="user" *ngFor="let users of searchedUsers?.users; let i = index">
+        <tr class="user" *ngFor="let users of usersList?.users; let i = index">
             <td *ngIf="!this.isOneUser">{{users?.username}}</td>
             <td *ngIf="!this.isOneUser">{{users?.email}}</td>
             <td *ngIf="!this.isOneUser" (click)="gotoUsersProfile(i)">View Profile</td>
         </tr>
-        <tr class="user" *ngIf="this.searchedUser is undefined">
-            <td *ngIf="this.isOneUser">{{this.searchedUser?.username}}</td>
-            <td *ngIf="this.isOneUser">{{this.searchedUser?.email}}</td>
-            <td *ngIf="this.isOneUser" (click)="gotoUserProfile(this.searchedUser!.id)">View Profile</td>
+        <tr class="user" *ngIf="this.searchedUser is null">
+            <td *ngIf="this.isOneUser">{{this.searchedUser.username}}</td>
+            <td *ngIf="this.isOneUser">{{this.searchedUser.email}}</td>
+            <td *ngIf="this.isOneUser" (click)="gotoUserProfile(this.searchedUser.id)">View Profile</td>
         </tr>
     </table>
     <ol *ngIf="!this.isOneUser">
