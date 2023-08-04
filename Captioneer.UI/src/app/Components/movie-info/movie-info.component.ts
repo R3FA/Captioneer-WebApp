@@ -22,6 +22,7 @@ import { HomeSubtitleDownlaods } from 'src/app/models/home-subtitle-downlaods';
 import { getDatabase } from 'firebase/database';
 import { ref, set, push } from 'firebase/database';
 import { initializeApp } from 'firebase/app';
+import { saveAs } from 'file-saver';
 
 
 @Component({
@@ -381,7 +382,7 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
       this.httpClient.post<string>(environment.apiURL + "/OpenSubtitles"+"/"+this.selectedFile.fileId,this.selectedFile.fileId).subscribe((data)=>{
         var link!:any;
         link=data;
-        window.open(link.link)
+        saveAs(link.link, this.selectedFile.release + ".srt");
         });
     }
     if (!this.translateClicked && this.isInHouse) {
@@ -429,13 +430,25 @@ export class MovieInfoComponent implements OnInit,AfterViewInit {
       });
     }
     }
+
     if(this.translateClicked) {
 
       var model = new TranslationPostModel();
-      model.release = this.selectedFile.release!;
-      model.languageFrom = this.selectedFile.language!;
-      model.languageTo = this.languageToTranslate!.languageCode!;
-      model.fileID = this.selectedFile.fileId!.toString();
+
+      if (this.selectedFile != null) {
+        model.release = this.selectedFile.release!;
+        model.languageFrom = this.selectedFile.language!;
+        model.languageTo = this.languageToTranslate!.languageCode!;
+        model.fileID = this.selectedFile.fileId!.toString();
+      }
+      else {
+        console.log(`Language to translate: ${this.languageToTranslate?.languageCode}`);
+        model.release = this.selectedFileInHouse.release!;
+        model.languageFrom = this.selectedLanguage!;
+        model.languageTo = this.languageToTranslate!.languageCode!;
+      }
+
+      console.log(model);
 
       await this.subtitleTranslationService.translate(model);
     }

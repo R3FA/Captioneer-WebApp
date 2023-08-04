@@ -57,8 +57,8 @@ namespace API.Controllers
                 filteredList.Add(new SubtitleViewModel
                 {
                     uploader = "aaaaaaa",
-                    fps = 0,
-                    release = "",
+                    fps = subTitle.FrameRate,
+                    release = subTitle.Release,
                     ratingValue = subTitle.RatingValue,
                     ratingCount = subTitle.RatingCount,
                     downloadCount = subTitle.DownloadCount,

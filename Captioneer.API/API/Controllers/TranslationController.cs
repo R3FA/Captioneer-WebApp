@@ -107,21 +107,19 @@ namespace API.Controllers
             else
             {
                 // To do for TV show subtitles as well when upload has been implemented
+                var subtitleTvShow = await _context.SubtitleTVShows.FirstOrDefaultAsync(sTv => sTv.Release == model.Release);
                 var subtitleMovie = await _context.SubtitleMovies.FirstOrDefaultAsync(sM => sM.Release == model.Release);
 
-                if (subtitleMovie != null)
+                var subtitlePath = Path.Combine(_webHostEnvironment.WebRootPath, (subtitleMovie?.SubtitlePath ?? subtitleTvShow?.SubtitlePath) ?? string.Empty);
+                var translatedFile = await Translator.Translate(subtitlePath, model, _webHostEnvironment.WebRootPath, microsoftTranslatorKey);
+
+                if (translatedFile == null)
                 {
-                    var subtitlePath = Path.Combine(_webHostEnvironment.WebRootPath, subtitleMovie.SubtitlePath);
-                    var translatedFile = await Translator.Translate(subtitlePath, model, _webHostEnvironment.WebRootPath, microsoftTranslatorKey);
-
-                    if (translatedFile == null)
-                    {
-                        LoggerManager.GetInstance().LogError("Could not translate subtitle");
-                        return NotFound("Could not translate subtitle!");
-                    }
-
-                    newTranslation.SubtitlePath = translatedFile;
+                    LoggerManager.GetInstance().LogError("Could not translate subtitle");
+                    return NotFound("Could not translate subtitle!");
                 }
+
+                newTranslation.SubtitlePath = translatedFile;
             }
 
             var language = await _context.Languages.FirstOrDefaultAsync(l => l.LanguageCode == model.LanguageTo);
