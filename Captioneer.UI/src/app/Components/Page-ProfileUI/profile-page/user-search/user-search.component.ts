@@ -13,7 +13,7 @@ export class UserSearchComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router) { }
 
-  public searchedUsers!: UserResponse | null;
+  public usersList!: UserResponse | null;
   public searchedUser!: UserViewModel | null;
   public paginationNumbers: number[] = [];
   public stringValue: string = "";
@@ -23,8 +23,8 @@ export class UserSearchComponent implements OnInit {
     this.isOneUser = false;
     await this.userService.getUser(1).subscribe({
       next: (response) => {
-        this.searchedUsers = response.body;
-        for (let i = 1; i <= this.searchedUsers!.pages; i++) {
+        this.usersList = response.body;
+        for (let i = 1; i <= this.usersList!.pages; i++) {
           this.paginationNumbers.push(i);
         }
       },
@@ -34,10 +34,11 @@ export class UserSearchComponent implements OnInit {
 
   async searchingUsers(pageNumber: number) {
     this.stringValue = "";
+    this.searchedUser = null;
     this.isOneUser = false;
     await this.userService.getUser(pageNumber).subscribe({
       next: (response) => {
-        this.searchedUsers = response.body;
+        this.usersList = response.body;
       },
       error: (err) => { console.log(err); },
     })
@@ -50,11 +51,11 @@ export class UserSearchComponent implements OnInit {
         this.searchedUser = response.body;
         console.log(this.searchedUser);
       },
-      error: (err) => { console.log(err); this.searchedUser = null; }
+      error: (err) => { this.searchedUser = null; }
     })
   }
   async gotoUsersProfile(userLocation: number) {
-    window.location.href = (`Profile/${this.searchedUsers?.users?.at(userLocation)?.id}`);
+    window.location.href = (`Profile/${this.usersList?.users?.at(userLocation)?.id}`);
     this.userService.userSearchComponentClicked = false;
   }
 
