@@ -42,6 +42,34 @@
     position: relative;
 }
 
+.listUsers {
+    /* border: 2px solid red; */
+    height: 8vh;
+    width: 100%;
+}
+
+.listUsers ol:first-child {
+    border: none;
+}
+
+.listUsers ol{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    border-top: 0.1em solid #F18F01;
+}
+
+.listUsers ol li{
+    line-height: 2.5rem;
+    text-align: left;
+}
+
+.listUsers:hover{
+    background-color: #2e4057;
+    cursor: pointer;
+}
+
 .inboxLabel h5,
 svg {
     margin: auto 0;
@@ -150,7 +178,7 @@ svg {
 }
 
 .exchangedMessagesDiv {
-    width: 33.3%;
+    width: 50%;
     height: 100%;
     position: relative;
 }

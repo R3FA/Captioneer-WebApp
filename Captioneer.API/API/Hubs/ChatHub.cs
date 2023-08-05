@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Hubs
 {
