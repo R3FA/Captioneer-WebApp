@@ -24,36 +24,19 @@
         <div class="directMessageDiv">
             <div class="statsDiv">
                 <div class="myStatsDiv">
-                    <div class="myStatsLabel">
-                        <h6>{{this.loggedUser!.username}} ID:</h6>
-                        <h5>[{{this.userConnectionId}}]</h5>
-                    </div>
-                    <div class="stats">
-                        <div id="friends">
-                            <label>Friends: 32</label>
-                        </div>
-                        <div id="chats">
-                            <label>Chats: 8</label>
-                        </div>
-                    </div>
+                    <h6>{{this.loggedUser!.username}}</h6>
                 </div>
                 <div class="userWithWhoChatDiv">
                     <div class="userFriendDiv">
-                        <input class="friendUserID" [(ngModel)]="this.friendUserConnectionId">
+                        <input class="friendUserID" [(ngModel)]="this.friendUsername">
                     </div>
-                    <div class="chatInfo">
-                        <div class="exchangedMessagesDiv">
-                            <label>Messages: 63</label>
-                        </div>
 
-                        <div class="exchangedMessagesDiv">
-                            <label>Friends: Yes</label>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="inbox">
-                <div class="allMessages" *ngFor="let mesage of arrayMessages">{{mesage}}
+                <div class="allMessages">
+                    <div *ngFor="let mesage of arrayMessages">{{mesage}}
+                    </div>
                 </div>
                 <div class="textAreaDiv">
                     <div class="textArea">
@@ -64,8 +47,7 @@
                     </div>
                     <div class="sendButtonDiv">
                         <div class="buttonSend">
-                            <button
-                                (click)="SendToUser(this.loggedUser!.username,this.friendUserConnectionId, this.message)"
+                            <button (click)="SendToUser(this.loggedUser!.username,this.friendUsername, this.message)"
                                 type="submit" class="btn btn-primary btn-sm">SEND MESSAGE</button>
                         </div>
                     </div>

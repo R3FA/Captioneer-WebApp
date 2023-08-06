@@ -52,7 +52,7 @@
     border: none;
 }
 
-.listUsers ol{
+.listUsers ol {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -60,12 +60,12 @@
     border-top: 0.1em solid #F18F01;
 }
 
-.listUsers ol li{
+.listUsers ol li {
     line-height: 2.5rem;
     text-align: left;
 }
 
-.listUsers:hover{
+.listUsers:hover {
     background-color: #2e4057;
     cursor: pointer;
 }
@@ -139,6 +139,14 @@ svg {
     width: 30%;
     height: 100%;
     /* border: 2px solid beige; */
+    position: relative;
+}
+
+.myStatsDiv h6 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .userWithWhoChatDiv {
@@ -204,12 +212,11 @@ svg {
     height: 50%;
     margin: auto;
     text-align: center;
-    /* border: 2px solid red; */
+    border: 2px solid red;
     position: relative;
-    border-bottom: 1px solid #F18F01;
 }
 
-.myStatsLabel h4 {
+.myStatsLabel h6 {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -258,7 +265,9 @@ svg {
     width: 100%;
     max-height: 80%;
     overflow-y: auto;
-    /* border: 2px solid lime; */
+    border: 2px solid lime;
+    position: sticky;
+    top: 0;
 }
 
 .textAreaDiv {

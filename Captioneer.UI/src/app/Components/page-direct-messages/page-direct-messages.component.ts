@@ -16,7 +16,7 @@ export class PageDirectMessagesComponent implements OnInit {
   public message: string = '';
   public loggedUser: UserViewModel | null = null;
   public userConnectionId: string = "";
-  public friendUserConnectionId: string = "";
+  public friendUsername: string = "";
 
   constructor(public userService: UserService) {
     this.connection = new HubConnectionBuilder().withUrl(`${environment.baseAPIURL}/chat`).build();
@@ -27,19 +27,21 @@ export class PageDirectMessagesComponent implements OnInit {
     this.connection.on('ReceiveMessage', (username: string, message: string) => {
       this.arrayMessages.push(`${username}: ${message}`);
     });
+
     try {
-      await this.connection.start().then(async () => { await this.connection.invoke("GetConnectionID").then((id: string) => this.userConnectionId = id) });
+      await this.connection.start().then(async () => { await this.connection.invoke("GetConnectionID", this.loggedUser?.username).then((id: string) => this.userConnectionId = id) });
       console.log('Connected to SignalR hub!');
-      console.log(this.userConnectionId);
+      // console.log(this.userConnectionId);
+      // console.log(this.loggedUser?.username);
     } catch (error) {
       console.error('Failed to connect to SignalR hub', error);
     }
   }
 
   async SendToUser(loggedUsername: string, userConnectionId: string, message: string) {
-    console.log(`${loggedUsername} - ${this.friendUserConnectionId} - ${message}`);
-    if (!loggedUsername || !message || !this.friendUserConnectionId) { console.error("Error sending a message!"); return; }
-    await this.connection.invoke('SendToUser', loggedUsername, userConnectionId, message);
+    console.log(`${loggedUsername} - ${this.friendUsername} - ${message}`);
+    if (!loggedUsername || !message || !this.friendUsername) { console.error("Error sending a message!"); return; }
+    await this.connection.invoke<boolean>('SendToUser', loggedUsername, this.friendUsername, message);
     this.arrayMessages.push(`${loggedUsername}: ${message}`);
     this.message = '';
   }
