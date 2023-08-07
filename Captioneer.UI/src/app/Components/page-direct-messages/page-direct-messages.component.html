@@ -1,5 +1,5 @@
 <app-header-component></app-header-component>
-<div class="main-container">
+<div class="main-container" *ngIf="this.shouldLoad">
     <div class="wrapper-container">
         <div class="usersDiv">
             <div class="messageLabelDiv">
@@ -15,8 +15,9 @@
                 </div>
             </div>
             <section class="listUsers">
-                <ol> username
-                    <li>messagecontent</li>
+                <ol>
+                    <li *ngFor="let conversation of this.conversationsData; let i = index"
+                        (click)="openUserConversation(i)">{{conversation.username}}</li>
                 </ol>
             </section>
         </div>
@@ -28,27 +29,30 @@
                 </div>
                 <div class="userWithWhoChatDiv">
                     <div class="userFriendDiv">
-                        <input class="friendUserID" [(ngModel)]="this.friendUsername">
+                        <input class="friendUserID" [(ngModel)]="this.friendUsername" (input)="findRecipientUser()">
                     </div>
 
                 </div>
             </div>
             <div class="inbox">
                 <div class="allMessages">
-                    <div *ngFor="let mesage of arrayMessages">{{mesage}}
-                    </div>
+                    <ol class="orderedListSender">
+                        <li class="listItem" *ngFor="let dbMessages of this.dbArrayOfMessages">{{dbMessages}}</li>
+                        <li class="listItem" *ngFor="let messageSender of liveArrayOfMessages">{{messageSender}}</li>
+                    </ol>
                 </div>
                 <div class="textAreaDiv">
                     <div class="textArea">
                         <div class="centerDiv">
-                            <textarea [(ngModel)]="this.message" class="form-control" id="exampleFormControlTextarea1"
-                                rows="3" placeholder="Write a message"></textarea>
+                            <textarea [(ngModel)]="this.dataObject.messageContent" class="form-control"
+                                id="exampleFormControlTextarea1" rows="3" placeholder="Write a message"
+                                maxlength="100"></textarea>
                         </div>
                     </div>
                     <div class="sendButtonDiv">
                         <div class="buttonSend">
-                            <button (click)="SendToUser(this.loggedUser!.username,this.friendUsername, this.message)"
-                                type="submit" class="btn btn-primary btn-sm">SEND MESSAGE</button>
+                            <button (click)="SendToUser()" type="submit" class="btn btn-primary btn-sm">SEND
+                                MESSAGE</button>
                         </div>
                     </div>
                 </div>

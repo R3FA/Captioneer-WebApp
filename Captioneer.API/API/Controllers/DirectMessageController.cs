@@ -18,22 +18,59 @@ namespace API.Controllers
             this._dbContext = dbContext;
         }
 
+        // api/DirectMessage/GetAllConversations/{userID}
+        [HttpGet("GetAllConversations/{userID}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetAllConversations(int userID)
+        {
+            var userConversations = await this._dbContext.DirectMessages
+                .Where(x => x.User.ID == userID)
+                .Select(x => x.RecipientUser)
+                .Distinct()
+                .ToListAsync();
+
+            var conversationCount = userConversations.Count;
+                
+            if(conversationCount != 0)
+            {
+                return Ok(userConversations);
+            } else
+            {
+                userConversations = null;
+                userConversations = await this._dbContext.DirectMessages
+                .Where(x => x.RecipientUser.ID == userID)
+                .Select(x => x.User)
+                .Distinct()
+                .ToListAsync();
+                return Ok(userConversations);
+            }
+        }
+
         // api/DirectMessage/GetMessages/{senderID}/{receiverID}
-        [HttpGet("GetMessages/{senderID}/{receiverID}")]
-        public async Task<ActionResult<IEnumerable<DirectMessage>>> GetMessages(int senderID, int receiverID)
+        [HttpGet("GetMessagesForUser/{senderID}/{receiverID}")]
+        public async Task<ActionResult<IEnumerable<DirectMessageViewModel>>> GetMessagesForUser(int senderID, int receiverID)
         {
             var getMessagesData = await this._dbContext.DirectMessages
                 .Where(x => x.User.ID == senderID && x.RecipientUser.ID == receiverID)
                 .Include(x => x.User)
                 .Include(x => x.RecipientUser)
                 .ToListAsync();
+            List<DirectMessageViewModel> sentObject = new List<DirectMessageViewModel>();
 
             if (getMessagesData == null)
             {
                 return NotFound("There are no conversation beetwen these two users!");
             }
 
-            return Ok(getMessagesData);
+            foreach(var messageData in getMessagesData) {
+                var objectViewModel = new DirectMessageViewModel
+                {
+                    MessageContent = messageData.Content,
+                    RecipientUserID = messageData.RecipientUser.ID,
+                    UserID = messageData.User.ID
+                };
+                sentObject.Add(objectViewModel);
+            }
+            return Ok(sentObject);
         }
 
         // api/DirectMessage/SendMessage
@@ -42,9 +79,8 @@ namespace API.Controllers
         {
             var userSender = await this._dbContext.Users.FindAsync(objectData.UserID);
             var userReceiver = await this._dbContext.Users.FindAsync(objectData.RecipientUserID);
-            string messageContent = objectData.MessageContent;
 
-            if (userSender == null || userReceiver == null || string.IsNullOrEmpty(messageContent))
+            if (userSender == null || userReceiver == null || string.IsNullOrEmpty(objectData.MessageContent))
             {
                 return BadRequest("Wrong User or Receiver ID or you are sending an empty string!");
             }
@@ -53,7 +89,7 @@ namespace API.Controllers
             {
                 User = userSender,
                 RecipientUser = userReceiver,
-                Content = messageContent,
+                Content = objectData.MessageContent,
                 Time = DateTime.Now
             };
 
