@@ -19,7 +19,6 @@ export class PageDirectMessagesComponent implements OnInit {
   private isUserOffline: boolean = false;
 
   public liveArrayOfMessages: string[] = [];
-  public dbArrayOfMessages: string[] = [];
 
   public dataObject: DirectMessageViewModel = new DirectMessageViewModel();
   public dbDataObject: DirectMessageViewModel[] | null = [];
@@ -61,7 +60,7 @@ export class PageDirectMessagesComponent implements OnInit {
   }
 
   async openUserConversation(arrayIndex: number) {
-    // console.log(this.conversationsData?.at(arrayIndex)?.id);
+
     let getMessage: DirectMessageViewModel[] = await new Promise((resolved) => {
       this.directMessageService.GetMessagesForUser(this.dataObject.userID, this.conversationsData?.at(arrayIndex)?.id).subscribe({
         next: (response) => {
@@ -71,11 +70,22 @@ export class PageDirectMessagesComponent implements OnInit {
       });
     });
 
-    this.dbArrayOfMessages = [];
+    let getReceiverMessage: DirectMessageViewModel[] = await new Promise((resolved) => {
+      this.directMessageService.GetMessagesForUser(this.conversationsData?.at(arrayIndex)?.id, this.dataObject.userID).subscribe({
+        next: (response) => { resolved(response.body as DirectMessageViewModel[]); },
+        error: (err) => { console.log(err); }
+      });
+    });
+
+    this.liveArrayOfMessages = [];
 
     for (let i = 0; i < getMessage.length; i++) {
       let message = getMessage?.at(i)?.messageContent;
+
+      let receiverMessage = getReceiverMessage?.at(i)?.messageContent;
+
       let receiverID = getMessage?.at(i)?.recipientUserID;
+
       if (receiverID != null) {
         this.userService.getUserByID(receiverID).subscribe({
           next: (response) => {
@@ -88,9 +98,22 @@ export class PageDirectMessagesComponent implements OnInit {
         })
       }
 
+      let receiverName: UserViewModel = await new Promise((resolved) => {
+        if (receiverID != null) {
+          this.userService.getUserByID(receiverID).subscribe({
+            next: (response) => {
+              resolved(response.body as UserViewModel);
+            },
+            error: (err) => { console.log(err); }
+          });
+        }
+      });
+
       if (message != null && receiverID != null) {
-        this.dbArrayOfMessages.push(`${this.loggedUser?.username}: ${message}`);
-        // console.log(`${senderID} - ${receiverID}`);
+        this.liveArrayOfMessages.push(`${this.loggedUser?.username}: ${message}`);
+        if (getReceiverMessage.at(i) != null) {
+          this.liveArrayOfMessages.push(`${receiverName.username}: ${receiverMessage}`);
+        }
       }
     }
   }
