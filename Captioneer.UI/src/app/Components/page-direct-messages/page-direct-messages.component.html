@@ -1,5 +1,5 @@
 <app-header-component></app-header-component>
-<div class="main-container">
+<div class="main-container" *ngIf="this.shouldLoad">
     <div class="wrapper-container">
         <div class="usersDiv">
             <div class="messageLabelDiv">
@@ -14,130 +14,43 @@
                     <h5>Inbox</h5>
                 </div>
             </div>
-            <div class="userMessage">
-                <div class="userNameDiv">
-                    <h4>User1</h4>
-                </div>
-                <div class="userPreviewMessageDiv">
-                    <label>Pogledaj novi film od Tarantina, prejak je!</label>
-                </div>
-            </div>
-
-            <div class="userMessage">
-                <div class="userNameDiv">
-                    <h4>User2</h4>
-                </div>
-                <div class="userPreviewMessageDiv">
-                    <label>Titl za film 13 je odlicno uradjen.</label>
-                </div>
-            </div>
-
-            <div class="userMessage">
-                <div class="userNameDiv">
-                    <h4>User3</h4>
-                </div>
-                <div class="userPreviewMessageDiv">
-                    <label>Zelim prijaviti korisnika xXLavender zbog krsenja pravila stranice</label>
-                </div>
-            </div>
-
-            <div class="userMessage">
-                <div class="userNameDiv">
-                    <h4>User4</h4>
-                </div>
-                <div class="userPreviewMessageDiv">
-                    <label>Izgled stranice mi se svidja</label>
-                </div>
-            </div>
-
-            <div class="userMessage">
-                <div class="userNameDiv">
-                    <h4>User5</h4>
-                </div>
-                <div class="userPreviewMessageDiv">
-                    <label>Golemo</label>
-                </div>
-            </div>
-
-            <div class="userMessage">
-                <div class="userNameDiv">
-                    <h4>User6</h4>
-                </div>
-                <div class="userPreviewMessageDiv">
-                    <label>Lorem ipsum</label>
-                </div>
-            </div>
-
-            <div class="userMessage">
-                <div class="userNameDiv">
-                    <h4>User7</h4>
-                </div>
-                <div class="userPreviewMessageDiv">
-                    <label>Lorem ipsum</label>
-                </div>
-            </div>
-
-            <div class="userMessage">
-                <div class="userNameDiv">
-                    <h4>User8</h4>
-                </div>
-                <div class="userPreviewMessageDiv">
-                    <label>Lorem ipsum</label>
-                </div>
-            </div>
-
+            <section class="listUsers">
+                <ol>
+                    <li *ngFor="let conversation of this.conversationsData; let i = index"
+                        (click)="openUserConversation(i)">{{conversation.username}}</li>
+                </ol>
+            </section>
         </div>
 
         <div class="directMessageDiv">
             <div class="statsDiv">
                 <div class="myStatsDiv">
-                    <div class="myStatsLabel">
-                        <h6>{{this.loggedUser!.username}} ID:</h6>
-                        <h5>[{{this.userConnectionId}}]</h5>
-                    </div>
-                    <div class="stats">
-                        <div id="friends">
-                            <label>Friends: 32</label>
-                        </div>
-                        <div id="chats">
-                            <label>Chats: 8</label>
-                        </div>
-                    </div>
+                    <h6>{{this.loggedUser!.username}}</h6>
                 </div>
                 <div class="userWithWhoChatDiv">
                     <div class="userFriendDiv">
-                        <input class="friendUserID" [(ngModel)]="this.friendUserConnectionId">
-                    </div>
-                    <div class="chatInfo">
-                        <div class="exchangedMessagesDiv">
-                            <label>Messages: 63</label>
-                        </div>
-
-                        <div class="exchangedMessagesDiv">
-                            <label>Friends: Yes</label>
-                        </div>
-
-                        <div class="exchangedMessagesDiv">
-                            <label>Active: No</label>
-                        </div>
+                        <input class="friendUserID" (ngModel)="this.friendUsername" (input)="findRecipientUser()">
                     </div>
                 </div>
             </div>
             <div class="inbox">
-                <div class="allMessages" *ngFor="let mesage of arrayMessages">{{mesage}}
+                <div class="allMessages">
+                    <ol class="orderedListSender">
+                        <li class="listItem" *ngFor="let messageSender of liveArrayOfMessages">{{messageSender}}</li>
+                    </ol>
                 </div>
                 <div class="textAreaDiv">
                     <div class="textArea">
                         <div class="centerDiv">
-                            <textarea [(ngModel)]="this.message" class="form-control" id="exampleFormControlTextarea1"
-                                rows="3" placeholder="Write a message"></textarea>
+                            <textarea [(ngModel)]="this.dataObject.messageContent" class="form-control"
+                                id="exampleFormControlTextarea1" rows="3" placeholder="Write a message"
+                                maxlength="100"></textarea>
                         </div>
                     </div>
                     <div class="sendButtonDiv">
                         <div class="buttonSend">
-                            <button
-                                (click)="SendToUser(this.loggedUser!.username,this.friendUserConnectionId, this.message)"
-                                type="submit" class="btn btn-primary btn-sm">SEND MESSAGE</button>
+                            <button (click)="SendToUser()" type="submit" class="btn btn-primary btn-sm">SEND
+                                MESSAGE</button>
                         </div>
                     </div>
                 </div>

@@ -42,6 +42,37 @@
     position: relative;
 }
 
+.listUsers {
+    /* border: 2px solid red; */
+    height: 8vh;
+    width: 100%;
+}
+
+.listUsers ol:first-child {
+    border: none;
+}
+
+.listUsers ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    border-top: 0.1em solid #F18F01;
+}
+
+.listUsers ol li {
+    line-height: 4rem;
+    text-align: left;
+    /* padding-left: 1rem; */
+    text-align: center;
+    border-bottom: 0.1em dashed #F18F01;
+}
+
+.listUsers ol li:hover {
+    background-color: #2e4057;
+    cursor: pointer;
+}
+
 .inboxLabel h5,
 svg {
     margin: auto 0;
@@ -111,6 +142,14 @@ svg {
     width: 30%;
     height: 100%;
     /* border: 2px solid beige; */
+    position: relative;
+}
+
+.myStatsDiv h6 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .userWithWhoChatDiv {
@@ -150,7 +189,7 @@ svg {
 }
 
 .exchangedMessagesDiv {
-    width: 33.3%;
+    width: 50%;
     height: 100%;
     position: relative;
 }
@@ -176,12 +215,11 @@ svg {
     height: 50%;
     margin: auto;
     text-align: center;
-    /* border: 2px solid red; */
+    border: 2px solid red;
     position: relative;
-    border-bottom: 1px solid #F18F01;
 }
 
-.myStatsLabel h4 {
+.myStatsLabel h6 {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -222,7 +260,7 @@ svg {
     width: 100%;
     /* border: 2px solid magenta; */
     position: relative;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     background-color: #2e4057cb;
 }
 
@@ -231,6 +269,8 @@ svg {
     max-height: 80%;
     overflow-y: auto;
     /* border: 2px solid lime; */
+    position: sticky;
+    top: 0;
 }
 
 .textAreaDiv {
@@ -292,4 +332,23 @@ svg {
     color: black;
     /* border: 2px solid red; */
     border: none;
+}
+
+.orderedListSender {
+    list-style-type: none;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.listItem {
+    border-radius: 0.5rem;
+    line-height: 0.5rem;
+    background-color: #99C24D;
+    color: #333;
+    border: 2px solid #333;
+    height: 40px;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    max-width: max-content;
+    max-height: 150px;
 }
