@@ -66,7 +66,8 @@ namespace API.Controllers
                 {
                     MessageContent = messageData.Content,
                     RecipientUserID = messageData.RecipientUser.ID,
-                    UserID = messageData.User.ID
+                    UserID = messageData.User.ID,
+                    TimeSent = messageData.Time
                 };
                 sentObject.Add(objectViewModel);
             }

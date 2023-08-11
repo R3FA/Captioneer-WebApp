@@ -29,14 +29,15 @@
                 </div>
                 <div class="userWithWhoChatDiv">
                     <div class="userFriendDiv">
-                        <input class="friendUserID" (ngModel)="this.friendUsername" (input)="findRecipientUser()">
+                        <input class="friendUserID" [(ngModel)]="this.friendUsername" (input)="findRecipientUser()">
                     </div>
                 </div>
             </div>
             <div class="inbox">
                 <div class="allMessages">
-                    <ol class="orderedListSender">
-                        <li class="listItem" *ngFor="let messageSender of liveArrayOfMessages">{{messageSender}}</li>
+                    <ol class="orderedListSender" *ngFor="let messageSender of liveArrayOfMessages">
+                        <li class="listItem">{{messageSender.stringTimeStamp}}</li>
+                        <li class="listItem">{{messageSender.userName}}: {{messageSender.contentMessage}}</li>
                     </ol>
                 </div>
                 <div class="textAreaDiv">
