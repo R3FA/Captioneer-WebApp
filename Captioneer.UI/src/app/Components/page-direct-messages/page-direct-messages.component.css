@@ -352,3 +352,7 @@ svg {
     max-width: max-content;
     max-height: 150px;
 }
+
+.listItem:nth-child(odd) {
+    background-color: #F18F01;
+}
