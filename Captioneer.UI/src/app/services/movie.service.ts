@@ -12,6 +12,9 @@ export class MovieService {
 
   private url: string = environment.apiURL + "/Movies";
 
+  public searchedMovies?: MovieViewModel[] = [];
+  public isMovieSearched: boolean = false;
+
   public getMovieByParameter(movieName: string): Observable<HttpResponse<MovieViewModel[]>> {
     return this.httpClient.get<MovieViewModel[]>(`${this.url}/ ${movieName}`, { observe: 'response' });
   }

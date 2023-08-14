@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PaginationService } from 'src/app/services/pagination.service';
+import { MovieService } from 'src/app/services/movie.service';
+import { TvshowService } from 'src/app/services/tvshow.service';
 
 @Component({
   selector: 'app-homepage',
@@ -10,12 +12,12 @@ import { PaginationService } from 'src/app/services/pagination.service';
 })
 export class HomepageComponent implements OnInit {
   // Movies:any[]=[];
-  Movies:any=[];
-  TVShows:any=[];
-  coverart!:string;
-  temp:any;
-  selected:any;
-  isTVShow!:boolean;
+  Movies: any = [];
+  TVShows: any = [];
+  coverart!: string;
+  temp: any;
+  selected: any;
+  isTVShow!: boolean;
   _page = 1; // Current page
   pageSize = 10; // Number of records per page
   totalRecords = 0; // Total number of records
@@ -24,24 +26,25 @@ export class HomepageComponent implements OnInit {
   pageSizeTV = 10; // Number of records per page
   totalRecordsTV = 0; // Total number of records
   totalPagesTV = 0; // Total number of pages
-  constructor(private http:HttpClient,private router:Router,private page:PaginationService) { }
-  ngOnInit():void{ 
-    this.isTVShow=false;
+  constructor(private http: HttpClient, private router: Router, private page: PaginationService, public moviesService: MovieService,
+    public tvShowService: TvshowService) { }
+  ngOnInit(): void {
+    this.isTVShow = false;
     this.getData();
   }
-  getData(){
+  getData() {
     this.page.getMovieData(this._page).subscribe(
-      (result)=>{
-        this.Movies=result;
-        this.selected=this.Movies.data[0];
+      (result) => {
+        this.Movies = result;
+        this.selected = this.Movies.data[0];
         this.totalRecords = this.Movies.totalRecords;
         this.totalPages = this.Movies.totalPages;
       }
     )
     this.page.getTVShowData(this._pageTV).subscribe(
-      (result)=>{
-        this.TVShows=result;
-        this.selected=this.TVShows.data[0];
+      (result) => {
+        this.TVShows = result;
+        this.selected = this.TVShows.data[0];
         this.totalRecordsTV = this.TVShows.totalRecords;
         this.totalPagesTV = this.TVShows.totalPages;
       }
@@ -73,20 +76,20 @@ export class HomepageComponent implements OnInit {
       this.getData();
     }
   }
-  setMovies(){
-    this.isTVShow=false;
+  setMovies() {
+    this.isTVShow = false;
     console.log(this.isTVShow)
   }
-  setTVShow(){
-    this.isTVShow=true;
+  setTVShow() {
+    this.isTVShow = true;
     console.log(this.isTVShow)
   }
-  loadMovie(movie:any){
-    this.selected=movie;
+  loadMovie(movie: any) {
+    this.selected = movie;
   }
-  saveMovie(){
-    localStorage.setItem('selected movie',JSON.stringify(this.selected));
-    localStorage.setItem('isTVShow',JSON.stringify(this.isTVShow));
+  saveMovie() {
+    localStorage.setItem('selected movie', JSON.stringify(this.selected));
+    localStorage.setItem('isTVShow', JSON.stringify(this.isTVShow));
     window.location.href = "../Movie"
   }
 }

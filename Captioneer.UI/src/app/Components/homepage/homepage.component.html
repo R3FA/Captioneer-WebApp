@@ -2,7 +2,7 @@
 <section class="signup py-5 bg-light" id="background">
     <div class="main-container">
         <div class="row" id="main-row">
-            <div class="row">
+            <div class="row" [hidden]="this.moviesService.isMovieSearched || this.tvShowService.isTVShowSearched">
                 <div class="col-3">
                     <button class="btn" id="download-button" mat-flat-button (click)="setMovies()">{{'Movies' |
                         translate}}</button>
@@ -26,22 +26,42 @@
             <div class="col-8">
                 <div class="container">
                     <div *ngIf="!this.isTVShow" class="row g-0" id="foreground2">
-                        <div class="col-4"(click)="loadMovie(m)"
-                            *ngFor="let m of Movies.data | paginate: {itemsPerPage: 6, currentPage: temp}">
+                        <div class="col-4" (click)="loadMovie(m)"
+                            *ngFor="let m of Movies.data | paginate: {itemsPerPage: 6, currentPage: temp}"
+                            [hidden]="this.moviesService.isMovieSearched">
                             <div class="row" id="movieRow">
                                 <img src="{{m.coverArt}}" class="movie">
                                 <p>{{m.title}}</p>
                             </div>
                         </div>
+
+                        <div class="col-4" (click)="loadMovie(m)" *ngFor="let m of this.moviesService.searchedMovies"
+                            [hidden]="!this.moviesService.isMovieSearched">
+                            <div class="row" id="movieRow">
+                                <img src="{{m.coverArt}}" class="movie">
+                                <p>{{m.title}}</p>
+                            </div>
+                        </div>
+
                     </div>
                     <div *ngIf="this.isTVShow" class="row g-0" id="foreground2">
                         <div class="col-4" (click)="loadMovie(m)"
-                            *ngFor="let m of TVShows.data | paginate: {itemsPerPage: 6, currentPage: temp}">
+                            *ngFor="let m of TVShows.data | paginate: {itemsPerPage: 6, currentPage: temp}"
+                            [hidden]="this.tvShowService.isTVShowSearched">
                             <div class="row" id="movieRow">
                                 <img src="{{m.coverArt}}" class="movie">
                                 <p>{{m.title}}</p>
                             </div>
                         </div>
+
+                        <div class="col-4" (click)="loadMovie(m)" *ngFor="let m of this.tvShowService.searchedTVShows"
+                            [hidden]="!this.tvShowService.isTVShowSearched">
+                            <div class="row" id="movieRow">
+                                <img src="{{m.coverArt}}" class="movie">
+                                <p>{{m.title}}</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

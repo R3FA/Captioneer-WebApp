@@ -218,3 +218,38 @@ option {
 .normalText {
     color: #fff;
 }
+
+.movie-search {
+    /* border: 2px solid red; */
+    margin: auto 0;
+    margin-left: 7rem;
+    display: inline-block;
+    height: max-content;
+    width: max-content;
+    padding: 1rem;
+}
+
+.movie-search input {
+    width: 15vw;
+    height: 4vh;
+    background-color: #F18F01;
+    color: #2E4057;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+.movie-search input:focus {
+    outline: none;
+}
+
+.movie-search button {
+    width: 4rem;
+    height: 2rem;
+    margin: auto 0;
+    margin-left: 1rem;
+    border-radius: 0.5rem;
+    background-color: #F18F01;
+    border: none;
+    color: #2E4057;
+}

@@ -8,6 +8,12 @@
                 <h3>CAPTIONEER</h3>
             </a>
         </div>
+
+        <section class="movie-search">
+            <input type="text" [(ngModel)]="this.searchValue" placeholder="Search">
+            <button (click)="searchTVShowOrMovie()">Search</button>
+        </section>
+
         <div id="site-language" class="form-group row">
             <select id="site-language-select" class="form-select form-select-sm" aria-label=".form-select-sm example"
                 #selectedLang (change)="switchLang(selectedLang.value)">
@@ -17,6 +23,7 @@
                 </option>
             </select>
         </div>
+
         <div class="header-button">
             <div class="notification-container">
                 <button class="search-button" mat-flat-button (click)="notifications()">Unanswerd reports:
