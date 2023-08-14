@@ -16,6 +16,8 @@ import { getDatabase } from 'firebase/database';
 import { ref, set, push, onValue, get, DataSnapshot, remove } from 'firebase/database';
 import { initializeApp } from 'firebase/app';
 import { AdminService } from 'src/app/services/admin.service';
+import { TVShowViewModel } from 'src/app/models/tvshow-viewmodel';
+import { TvshowService } from 'src/app/services/tvshow.service';
 
 @Component({
   selector: 'app-header-component',
@@ -43,6 +45,8 @@ export class HeaderComponentComponent implements OnInit {
   entries: any[] = [];
   entriesSubtitleS: any[] = [];
 
+  public searchValue: string = '';
+
   onClick() {
     this.moviesService.getMovieByParameter(this.movieName).subscribe({
       next: (response) => console.log(response),
@@ -57,7 +61,8 @@ export class HeaderComponentComponent implements OnInit {
   }
   constructor(private moviesService: MovieService, private http: HttpClient, private router: Router,
     private userService: UserService, public translate: TranslateService, public userLanguage: UserlanguageService,
-    public userLanguageService: UserlanguageService, public route: ActivatedRoute, public adminServices: AdminService) {
+    public userLanguageService: UserlanguageService, public route: ActivatedRoute, public adminServices: AdminService,
+    public tvShowService: TvshowService) {
     this.moviesService.getMovies().subscribe((result: MovieViewModel[]) => (this.movies = result));
   }
 
@@ -66,8 +71,6 @@ export class HeaderComponentComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     // this.selectedUser = await this.userService.getSelectedUserByID(this.currentUser.id);
     // console.log(this.currentUser);
-
-
 
     this.finalData = this.myControl.valueChanges.pipe(startWith(''), map(item => {
       const name = item;
@@ -242,4 +245,38 @@ export class HeaderComponentComponent implements OnInit {
   public notifications() {
     this.showNotifications = !this.showNotifications;
   }
+
+  async searchTVShowOrMovie(): Promise<TVShowViewModel[] | MovieViewModel[]> {
+    if (this.searchValue != '') {
+      this.moviesService.searchedMovies = await new Promise((resolved) => {
+        this.moviesService.getMovieByParameter(this.searchValue).subscribe({
+          next: (data) => { resolved(data.body as MovieViewModel[]); this.moviesService.isMovieSearched = true; },
+          error: () => { "Movie couldn't be searched!"; this.moviesService.isMovieSearched = false; }
+        });
+      });
+
+      this.tvShowService.searchedTVShows = await new Promise((resolved) => {
+        this.tvShowService.GetTVShow(this.searchValue).subscribe({
+          next: (data) => {
+            if (data.body != null) {
+              resolved(data.body);
+            }
+            this.tvShowService.isTVShowSearched = true;
+          },
+          error: () => { console.log("TV Show couldn't be searched!"); this.tvShowService.isTVShowSearched = false; }
+        });
+      });
+
+      if (this.moviesService.searchedMovies != null) {
+
+        return this.moviesService.searchedMovies;
+      } else {
+        return this.tvShowService.searchedTVShows;
+      }
+    }
+    this.moviesService.isMovieSearched = false;
+    this.tvShowService.isTVShowSearched = false;
+    return [];
+  }
+
 }
