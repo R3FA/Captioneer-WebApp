@@ -274,13 +274,14 @@
                             translate}}</label>
 
                         <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
-                            id="deleteProfileBtn" autocomplete="off">
-                        <label class="editprofile-button" for="deleteProfileBtn">{{'DeleteAccount' | translate}}</label>
-
-                        <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
                             id="editPublicInformationBtn" autocomplete="off">
                         <label class="editprofile-button" for="editPublicInformationBtn">{{"ChangePublicInformation" |
                             translate}}</label>
+
+                        <input (change)="toggleForm($event)" type="radio" class="btn-check" name="btnradio"
+                            id="deleteProfileBtn" autocomplete="off">
+                        <label class="editprofile-button" for="deleteProfileBtn">{{'DeleteAccount' | translate}}</label>
+
 
                     </div>
                     <div class="editprofile-div">
@@ -419,21 +420,19 @@
                             </div>
                         </form>
                         <!-- ovdje -->
-                        <form [hidden]="!showChangePublicInformationForm" [formGroup]="changePublicInformationForm"
-                            (ngSubmit)="changePublicInformation()">
+                        <form [hidden]="!showChangePublicInformationForm" [formGroup]="changePublicInformationForm">
                             <div class="publicInfoMainDiv">
                                 <div class="mb-3">
                                     <label for="enterPassword" class="form-label">{{'CurrentPassword' |
                                         translate}}</label>
                                     <input type="password" name="enterPassword" formControlName="enterPassword"
-                                        [ngClass]="{'is-invalid':submitted && changeEmailForm.controls['enterPassword'].errors}"
+                                        [ngClass]="{'is-invalid':submitted && changePasswordForm.controls['enterPassword'].errors}"
                                         class="form-control">
                                     <div class="error-text"
-                                        *ngIf="submitted && changeEmailForm.controls['enterPassword'].errors">
+                                        *ngIf="submitted && changePasswordForm.controls['enterPassword'].errors">
                                         {{'EnterPassword' | translate}}</div>
                                     <div class="form-text">{{'PasswordConfirm' | translate}}</div>
                                 </div>
-
 
                                 <div class="mb-3">
                                     <label for="enterfunFact" class="form-label">{{'InsertFunFact' |
@@ -453,9 +452,10 @@
                                     </select>
                                 </div>
                                 <div class="btn-Div">
-                                    <button class="deleteLangaugeBtn" type="submit" mat-flat-button
+                                    <button class="deleteLangaugeBtn" mat-flat-button
                                         (click)="deleteUserLanguage()">{{'DeleteButton' | translate}}</button>
-                                    <button type="submit" mat-flat-button class="submit-button">{{'SubmitButton' |
+                                    <button (click)="changePublicInformation()" type="submit" mat-flat-button
+                                        class="submit-button">{{'SubmitButton' |
                                         translate}}</button>
                                 </div>
                             </div>

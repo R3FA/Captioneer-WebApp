@@ -7,7 +7,7 @@ export class UserViewModel  {
     subtitleUpload?:number
     subtitleDownload?:number
     funFact?:string
-    // prefferedLanguages?:any[]
+    prefferedLanguages?:any[]
     registrationDate?:Date
     isBanned!:boolean
 }

@@ -456,13 +456,18 @@
 }
 
 #editPublicInformationBtn+label {
-    border-bottom-right-radius: 0.5em;
-    border-top-right-radius: 0.5em;
+    border-right: none;
+    border-radius: 0;
 }
 
 #changeEmailBtn+label {
     border-bottom-left-radius: 0.5em;
     border-top-left-radius: 0.5em;
+}
+
+#deleteProfileBtn+label {
+    border-top-right-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
 }
 
 #changePasswordBtn+label {
