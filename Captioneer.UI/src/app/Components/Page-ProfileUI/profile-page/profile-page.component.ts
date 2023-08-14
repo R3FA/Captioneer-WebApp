@@ -34,7 +34,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   public shouldLoad: boolean = false;
   // In bytes
   private maxUploadSize = 2 * 1024 * 1024;
-  getLanguages: Language[] = [];
+  public getLanguages: Language[] = [];
   public serverPictureLocation = environment.baseAPIURL;
 
   private _showEditProfile!: boolean;
@@ -534,20 +534,22 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       }
     });
 
-    // this.userLanguageService.postUserLanguage(this.userService.userData.username, this.prefferedLanguage!).subscribe({
-    //   next: (response) => console.log(response),
-    //   error: async (err) => {
-    //     this.successText = "";
-    //     this.errorText = err.error;
-    //     console.error(err.error);
-    //   },
-    //   complete: () => {
-    //     this.successText = "Succesfully changed public information";
-    //     this.errorText = "";
-    //     this.requestInProgress = false;
-    //     this.reloadPage();
-    //   }
-    // });
+    if (this.prefferedLanguage != null) {
+      this.userLanguageService.postUserLanguage(this.userService.userData.username, this.prefferedLanguage!).subscribe({
+        next: (response) => console.log(response),
+        error: async (err) => {
+          this.successText = "";
+          this.errorText = err.error;
+          console.error(err.error);
+        },
+        complete: () => {
+          this.successText = "Succesfully changed public information";
+          this.errorText = "";
+          this.requestInProgress = false;
+          this.reloadPage();
+        }
+      });
+    }
   }
 
   deleteUserLanguage() {
