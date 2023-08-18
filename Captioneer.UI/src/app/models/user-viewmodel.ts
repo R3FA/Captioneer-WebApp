@@ -10,4 +10,5 @@ export class UserViewModel  {
     prefferedLanguages?:any[]
     registrationDate?:Date
     isBanned!:boolean
+    isAdmin!:boolean
 }

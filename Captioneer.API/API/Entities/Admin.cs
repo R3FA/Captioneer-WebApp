@@ -11,12 +11,12 @@ namespace API.Entities
 
         public virtual User User { get; set; }
 
-        public virtual ICollection<Comment> RemovedComments { get; set; }
+        public virtual int RemovedCommentsNumber { get; set; }
 
-        public virtual ICollection<User> BannedUsers { get; set; }
+        public virtual int BannedUsersNumber { get; set; }
 
-        public virtual ICollection<SubtitleMovie> RemovedMovieSubtitles { get; set; }
+        public virtual int RemovedMovieSubtitlesNumber { get; set; }
 
-        public virtual ICollection<SubtitleTVShow> RemovedTVShowSubtitles { get; set; }
+        public virtual int RemovedTVShowSubtitlesNumber { get; set; }
     }
 }

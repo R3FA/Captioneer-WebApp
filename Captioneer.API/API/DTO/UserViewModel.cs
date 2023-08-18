@@ -12,5 +12,7 @@
         public string? funFact { get; set; } = string.Empty;
         public DateTime? RegistrationDate { get; set; }
         public bool isBanned { get; set; }
+        public bool isAdmin { get; set; }
+
     }
 }

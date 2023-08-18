@@ -78,6 +78,8 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   public funFact?: string;
   public prefferedLanguage?: string;
   public registrationDate?: Date;
+  public userAdminStatus!: boolean;
+  public showedUserAdminStatus!: boolean;
 
   public get showEditProfile(): boolean {
     return this._showEditProfile;
@@ -127,6 +129,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
             this.userService.userData.profileImage = environment.baseAPIURL + '/' + this.userService.userData.profileImage;
             this.userLanguageService.getUserLanguage(this.userService.userData.username).subscribe((data) => this.userService.userData.prefferedLanguages = data);
             this.shouldLoad = true;
+            this.showedUserAdminStatus=this.userService.userData.isAdmin
           }),
           error: ((err) => { this.router.navigate(['**']); })
         })
@@ -202,7 +205,7 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.languageService.getAllLanguages().subscribe((result: Language[]) => {
       this.getLanguages = result;
     });
-    // console.log(this.currentID);
+    this.adminCheck()
   }
 
   async ngAfterViewInit() {
@@ -577,7 +580,22 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
       complete: () => { console.log('Ban method ran successfully!'); window.location.reload(); }
     });
   }
-
+  async makeAdmin() {
+    await this.userService.makeAdmin(this.loggedUser, this.userService.userData.id).subscribe({
+      next: (response) => { console.log(response); },
+      error: (err) => { console.log(`Making an admin failed!`); console.log(err); },
+      complete: () => { console.log('Making an admin ran successfully!'); }
+    });
+    window.location.reload();
+  }
+  async removeAdmin() {
+    await this.userService.removeAdmin(this.loggedUser, this.userService.userData.id).subscribe({
+      next: (response) => { console.log(response); },
+      error: (err) => { console.log(`Removing an admin failed!`); console.log(err); },
+      complete: () => { console.log('Removing an admin ran successfully!'); }
+    });
+    window.location.reload();
+  }
   gotoMessages() {
     this.router.navigate([`Profile/${this.userService.userData.id}/directMessages`]);
     this.userService.addFriendComponentClicked = false;
@@ -591,5 +609,14 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
   gotoSearchUserComponent() {
     this.userService.userSearchComponentClicked = !this.userService.userSearchComponentClicked;
     this.router.navigate([`searchUser`], { relativeTo: this.route });
+  }
+  async adminCheck(){
+    console.log(`${this.loggedUser} - ${this.userService.userData.id}`);
+    console.log(this.userService.getCurrentUser())
+    var userCurrent =await this.userService.getCurrentUser()
+    this.userAdminStatus=userCurrent!.isAdmin
+    console.log(this.userAdminStatus)
+    console.log("Showed user admin status")
+    console.log(this.showedUserAdminStatus)
   }
 }

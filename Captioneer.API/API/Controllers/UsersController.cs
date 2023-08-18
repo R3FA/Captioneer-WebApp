@@ -9,6 +9,7 @@ using API.DTO;
 using API.Data;
 using API.Entities;
 using Azure;
+using Captioneer.API.Migrations;
 
 namespace API.Controllers
 {
@@ -72,6 +73,10 @@ namespace API.Controllers
                 LoggerManager.GetInstance().LogError($"User with {mail} was not found!");
                 return NotFound($"User with {mail} or {username} was not found!");
             }
+            var admin = await _context.Admins.FirstOrDefaultAsync(u => (u.User == user));
+            bool isAdmin = false;
+            if (admin != null)
+                isAdmin = true;
 
             UserViewModel userReturn = new UserViewModel()
             {
@@ -84,7 +89,8 @@ namespace API.Controllers
                 RegistrationDate = user.RegistrationDate,
                 SubtitleDownload = user.SubtitleDownload,
                 SubtitleUpload = user.SubtitleUpload,
-                isBanned = user.isBanned
+                isBanned = user.isBanned,
+                isAdmin = isAdmin
             };
             return userReturn;
         }
@@ -92,9 +98,27 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserViewModel>> GetUserByID(int id)
         {
-            var selectedUser = await this._context.Users.FirstOrDefaultAsync(x=>x.ID == id);
-            if(selectedUser == null) { return NotFound("User with this ID isn't available!"); }
-            return Ok(selectedUser);
+            var user = await this._context.Users.FirstOrDefaultAsync(x=>x.ID == id);
+            if(user == null) { return NotFound("User with this ID isn't available!"); }
+            var admin = await _context.Admins.FirstOrDefaultAsync(u => (u.User == user));
+            bool isAdmin = false;
+            if (admin != null)
+                isAdmin = true;
+            UserViewModel userReturn = new UserViewModel()
+            {
+                Id = user.ID,
+                Email = user.Email,
+                ProfileImage = user.ProfileImage,
+                Username = user.Username,
+                Designation = user.Designation,
+                funFact = user.funFact,
+                RegistrationDate = user.RegistrationDate,
+                SubtitleDownload = user.SubtitleDownload,
+                SubtitleUpload = user.SubtitleUpload,
+                isBanned = user.isBanned,
+                isAdmin = isAdmin
+            };
+            return userReturn;
         }
 
         // GET: api/Users/adivonslav/profileimage
@@ -223,6 +247,55 @@ namespace API.Controllers
             await this._context.SaveChangesAsync();
             return Ok();
         }
+        [HttpPut("[action]/{sentUserID}")]
+        public async Task<IActionResult> MakeAdmin(UserViewModel adminUser, int sentUserID)
+        {
+            var selectedUser = await this._context.Users.FirstOrDefaultAsync(x => x.ID == sentUserID);
+            if (selectedUser == null) { return BadRequest("You either sent an ID who isn't in our database or you tried to make yourself an admin!"); }
+            Admin newAdmin = new Admin()
+            {
+                User = selectedUser,
+                RemovedCommentsNumber = 0,
+                BannedUsersNumber = 0,
+                RemovedMovieSubtitlesNumber = 0,
+                RemovedTVShowSubtitlesNumber = 0,
+            };
+            try
+            {
+                await _context.Admins.AddAsync(newAdmin);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                LoggerManager.GetInstance().LogError(e.Message);
+                return BadRequest(e.Message);
+            }
+            return Ok();
+        }
+        [HttpPut("[action]/{sentUserID}")]
+        public async Task<IActionResult> RemoveAdmin(UserViewModel adminUser, int sentUserID)
+        {
+            var user = await this._context.Users.FirstOrDefaultAsync(x => x.ID == sentUserID);
+            if (user == null) { return BadRequest("You either sent an ID who isn't in our database or you tried to make yourself an admin!"); }
+            var dbUser = await _context.Admins.FirstOrDefaultAsync(u => u.User == user);
+
+            if (dbUser == null)
+            {
+                LoggerManager.GetInstance().LogError($"Could not find user with username {user.Username}");
+                return NotFound($"Could not find user with username {user.Username}");
+            }
+            try
+            {
+                _context.Admins.Remove(dbUser);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                LoggerManager.GetInstance().LogError(e.Message);
+                return StatusCode(500, e.Message);
+            }
+            return Ok();
+        }
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -239,7 +312,7 @@ namespace API.Controllers
                     return StatusCode(500, $"Failed to hash password for user {user.Username}");
                 }
 
-                var newUser = new User()
+                var newUser = new Entities.User()
                 {
                     Email = user.Email,
                     Password = hashedPassword,

@@ -50,6 +50,12 @@ export class UserService {
   banUser(adminUser: UserViewModel | null, userID: number): Observable<HttpResponse<string>> {
     return this.httpClient.put(this.url + '/BanUser/' + userID, adminUser, { observe: 'response', responseType: 'text' });
   }
+  makeAdmin(adminUser: UserViewModel | null, userID: number): Observable<HttpResponse<string>> {
+    return this.httpClient.put(this.url + '/MakeAdmin/' + userID, adminUser, { observe: 'response', responseType: 'text' });
+  }
+  removeAdmin(adminUser: UserViewModel | null, userID: number): Observable<HttpResponse<string>> {
+    return this.httpClient.put(this.url + '/RemoveAdmin/' + userID, adminUser, { observe: 'response', responseType: 'text' });
+  }
   // localhost:7207/api/Users/BanUser/74
 
   deleteUser(user: UserPost): Observable<HttpResponse<UserPost>> {

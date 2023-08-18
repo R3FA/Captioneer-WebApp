@@ -205,6 +205,11 @@
     background-color: red;
     color: black;
 }
+#adminButton {
+    color: #99C24D;
+    color: black;
+    margin: 1em;
+}
 
 .message-button,
 .editPage-button,
