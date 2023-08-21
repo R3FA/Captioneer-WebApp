@@ -42,6 +42,7 @@ export class HeaderComponentComponent implements OnInit {
   selectedUser!: any;
   numberOfEntries!: number;
   showNotifications: boolean = false;
+  userAdminStatus: boolean = false;
   entries: any[] = [];
   entriesSubtitleS: any[] = [];
 
@@ -105,7 +106,8 @@ export class HeaderComponentComponent implements OnInit {
     }).catch(error => {
       console.error('Error getting number of entries:', error);
     });
-
+    var userCurrent =await this.userService.getCurrentUser()
+    this.userAdminStatus=userCurrent!.isAdmin
     await this.getEntries();
   }
 

@@ -26,7 +26,7 @@
 
         <div class="header-button">
             <div class="notification-container">
-                <button class="search-button" mat-flat-button (click)="notifications()">Unanswerd reports:
+                <button *ngIf="userAdminStatus" class="search-button" mat-flat-button (click)="notifications()">Unanswerd reports:
                     {{this.numberOfEntries}}
                 </button>
                 <div *ngIf="showNotifications" class="notification-box" id="notificationBox">

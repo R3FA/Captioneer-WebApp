@@ -611,12 +611,11 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.router.navigate([`searchUser`], { relativeTo: this.route });
   }
   async adminCheck(){
-    console.log(`${this.loggedUser} - ${this.userService.userData.id}`);
-    console.log(this.userService.getCurrentUser())
     var userCurrent =await this.userService.getCurrentUser()
     this.userAdminStatus=userCurrent!.isAdmin
-    console.log(this.userAdminStatus)
-    console.log("Showed user admin status")
-    console.log(this.showedUserAdminStatus)
+    if(this.showedUserAdminStatus)
+      this.designation="Admin"
+    else
+      this.designation="Member"
   }
 }
