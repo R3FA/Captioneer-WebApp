@@ -128,8 +128,10 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
             this.userService.userData = response.body;
             this.userService.userData.profileImage = environment.baseAPIURL + '/' + this.userService.userData.profileImage;
             this.userLanguageService.getUserLanguage(this.userService.userData.username).subscribe((data) => this.userService.userData.prefferedLanguages = data);
+            this.adminCheck();
+            this.showedUserAdminStatus = this.userService.userData.isAdmin
             this.shouldLoad = true;
-            this.showedUserAdminStatus=this.userService.userData.isAdmin
+            // console.log(this.userService.userData);
           }),
           error: ((err) => { this.router.navigate(['**']); })
         })
@@ -205,7 +207,6 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.languageService.getAllLanguages().subscribe((result: Language[]) => {
       this.getLanguages = result;
     });
-    this.adminCheck()
   }
 
   async ngAfterViewInit() {
@@ -610,12 +611,27 @@ export class ProfilePageComponent implements OnInit, AfterViewInit {
     this.userService.userSearchComponentClicked = !this.userService.userSearchComponentClicked;
     this.router.navigate([`searchUser`], { relativeTo: this.route });
   }
-  async adminCheck(){
-    var userCurrent =await this.userService.getCurrentUser()
-    this.userAdminStatus=userCurrent!.isAdmin
-    if(this.showedUserAdminStatus)
-      this.designation="Admin"
+
+  async adminCheck() {
+    var userCurrent = await this.userService.getCurrentUser()
+    this.userAdminStatus = userCurrent!.isAdmin
+    if (this.showedUserAdminStatus)
+      this.designation = "Admin"
     else
-      this.designation="Member"
+      this.designation = "Member"
+  }
+
+  async EnableVerification() {
+    this.userService.userVerification(this.userService.userData.id).subscribe({
+      next: () => {
+        setInterval(() => {
+          alert("Uspjesno izvrsena operacija!");
+          window.location.reload();
+        }, 1500);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 }

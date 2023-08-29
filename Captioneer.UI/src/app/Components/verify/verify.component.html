@@ -1,0 +1,12 @@
+<app-header-component></app-header-component>
+<div class="main-container">
+    <section class="verifyForm">
+        <label>Verify your account:</label>
+        <input type="text" [(ngModel)]="verifyCode" maxlength="8">
+        <section>
+            <button class="verifyButton" (click)="sendEmail()">Send Email</button>
+            <button (click)="Verify()" [disabled]="!this.isMailSent">Verify</button>
+        </section>
+    </section>
+</div>
+<app-footer-component></app-footer-component>

@@ -25,5 +25,11 @@ namespace API.Entities
         public string? funFact { get; set; } = string.Empty;
         public DateTime RegistrationDate { get; set; }
         public bool isBanned { get; set; } = false;
+        [Column("isVerificationActive")]
+        public bool isVerificationActive { get; set; }
+        [Column("VerificationCode")]
+        public string? VerificationCode { get; set; }
+        [Column("VerificationExpireDate")]
+        public DateTime? VerificationExpireDate { get; set; }
     }
 }

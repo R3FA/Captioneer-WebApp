@@ -35,6 +35,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from '../environments/environment';
 import { UserSearchComponent } from './Components/Page-ProfileUI/profile-page/user-search/user-search.component';
+import { VerifyComponent } from './Components/verify/verify.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { UserSearchComponent } from './Components/Page-ProfileUI/profile-page/us
     PageDirectMessagesComponent,
     PageNotFoundErrorComponent,
     FollowFriendsComponent,
-    UserSearchComponent
+    UserSearchComponent,
+    VerifyComponent
   ],
   imports: [
     BrowserModule,

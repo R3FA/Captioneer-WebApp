@@ -205,6 +205,7 @@
     background-color: red;
     color: black;
 }
+
 #adminButton {
     color: #99C24D;
     color: black;
@@ -247,6 +248,29 @@
     width: 100%;
     height: 10%;
     position: relative;
+}
+
+.formContainer {
+    width: 50vw;
+    /* border: 2px solid aqua; */
+    display: flex;
+    flex-direction: row;
+}
+
+.publicInfoMainDiv {
+    /* border: 1px solid red; */
+    height: max-content;
+    width: max-content;
+}
+
+.TwoFAButton {
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #F18F01;
+    color: #2E4057;
+    width: 120px;
+    height: 60px;
+    margin: auto auto;
 }
 
 .personal-main-title h5 {

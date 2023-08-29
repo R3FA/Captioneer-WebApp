@@ -1,3 +1,6 @@
+global using API.Services.EmailService;
+global using API.DTO;
+
 using API.Data;
 using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
@@ -77,6 +80,7 @@ builder.Services.AddSingleton<IContentTypeProvider, FileExtensionContentTypeProv
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Adds the already made DB context and configures the connection string and server version
 builder.Services.AddDbContext<CaptioneerDBContext>(options =>

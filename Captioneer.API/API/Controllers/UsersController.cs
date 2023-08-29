@@ -18,14 +18,21 @@ namespace API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IEmailService _emailService;
 
         private readonly CaptioneerDBContext _context;
 
+        private string twoStepVerificationCode = string.Empty;
+        private string twoStepMailSubject = string.Empty;
+        private string twoStepMailBody = string.Empty;
 
-        public UsersController(CaptioneerDBContext context, IWebHostEnvironment environment)
+
+        public UsersController(CaptioneerDBContext context, IWebHostEnvironment environment,
+            IEmailService emailService)
         {
             _context = context;
             _hostEnvironment = environment;
+            _emailService = emailService;
         }
 
         [HttpGet("GetAllUsers")]
@@ -47,7 +54,10 @@ namespace API.Controllers
                     RegistrationDate = u.RegistrationDate,
                     SubtitleDownload = u.SubtitleDownload,
                     SubtitleUpload = u.SubtitleUpload,
-                    Username = u.Username
+                    Username = u.Username,
+                    isVerificationActive = u.isVerificationActive,
+                    VerificationCode = u.VerificationCode,
+                    VerificationExpireDate = u.VerificationExpireDate
                 };
                 returnedUsers.Add(tempUsers);
             }
@@ -90,7 +100,11 @@ namespace API.Controllers
                 SubtitleDownload = user.SubtitleDownload,
                 SubtitleUpload = user.SubtitleUpload,
                 isBanned = user.isBanned,
-                isAdmin = isAdmin
+                isAdmin = isAdmin,
+                isVerificationActive = user.isVerificationActive,
+                VerificationCode = user.VerificationCode,
+                VerificationExpireDate = user.VerificationExpireDate
+
             };
             return userReturn;
         }
@@ -116,7 +130,10 @@ namespace API.Controllers
                 SubtitleDownload = user.SubtitleDownload,
                 SubtitleUpload = user.SubtitleUpload,
                 isBanned = user.isBanned,
-                isAdmin = isAdmin
+                isAdmin = isAdmin,
+                isVerificationActive = user.isVerificationActive,
+                VerificationCode = user.VerificationCode,
+                VerificationExpireDate = user.VerificationExpireDate
             };
             return userReturn;
         }
@@ -297,6 +314,26 @@ namespace API.Controllers
             return Ok();
         }
 
+        [HttpPut("EnableVerification/{userID}")]
+        public async Task<ActionResult> EnableVerification(int userID)
+        {
+            var dbUser = await _context.Users.FindAsync(userID);
+            if (dbUser == null)
+            {
+                return NotFound("User isn't found!");
+            }
+            if (dbUser.isVerificationActive)
+            {
+                dbUser.isVerificationActive = false;
+            }
+            else
+            {
+                dbUser.isVerificationActive = true;
+            }
+            await this._context.SaveChangesAsync();
+            return Ok();
+        }
+
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -367,6 +404,81 @@ namespace API.Controllers
             var stringToken = GenerateJwt(sentCredentials);
 
             return Results.Ok(stringToken);
+        }
+
+        [HttpPost("SendEmailVerification/{userID}")]
+        public async Task<ActionResult> VerificationEmail(int userID)
+        {
+            var dbUser = await _context.Users.FindAsync(userID);
+            
+            if(dbUser == null)
+            {
+                return NotFound("User isn't found!");
+            }
+
+            if (dbUser.isVerificationActive)
+            {
+
+                if (dbUser.VerificationExpireDate < DateTime.Now)
+                {
+                    dbUser.VerificationCode = null;
+                    dbUser.VerificationExpireDate = null;
+                    await this._context.SaveChangesAsync();
+                }
+
+                if (dbUser.VerificationCode == null && dbUser.VerificationExpireDate == null)
+                {
+                    this.twoStepVerificationCode = CreateVerificationKey();
+                    this.twoStepMailSubject = "Code Verification";
+                    this.twoStepMailBody = $"<p>Hello,<br/><br/>Enter this verification code, that is sent to you, into Captioneer web page: <strong>{this.twoStepVerificationCode}</strong><br/><br/>Sincerely,<br/>The Captioneer Team</p>";
+
+                    dbUser.VerificationCode = this.twoStepVerificationCode;
+                    dbUser.VerificationExpireDate = DateTime.Now.AddMinutes(10);
+                    await this._context.SaveChangesAsync();
+
+                    var sentObject = new EmailViewModel()
+                    {
+                        userID = dbUser.ID,
+                        RecipientEmail = dbUser.Email,
+                        Subject = this.twoStepMailSubject,
+                        Body = this.twoStepMailBody
+                    };
+                    _emailService.TwoStepVerificationMail(sentObject);
+                }
+            }
+            return Ok();
+        }
+
+        [HttpPost("VerifyLogin/{userID}/{verificationCode}")]
+        public async Task<ActionResult> VerifyLogin(int userID, string verificationCode)
+        {
+            var dbUser = await _context.Users.FindAsync(userID);
+
+            if (dbUser == null)
+            {
+                return NotFound("User isn't found!");
+            }
+
+            if(dbUser.VerificationExpireDate < DateTime.Now)
+            {
+                dbUser.VerificationCode = null;
+                dbUser.VerificationExpireDate = null;
+                await _context.SaveChangesAsync();
+                return BadRequest("You didn't enter verification code in time!");
+            }
+
+            if (verificationCode != dbUser.VerificationCode)
+            {
+                return BadRequest("Wrong verification code!");
+            }
+
+            else
+            {
+                dbUser.VerificationCode = null;
+                dbUser.VerificationExpireDate = null;
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
         }
 
         // DELETE: api/Users
@@ -441,6 +553,30 @@ namespace API.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var stringToken = tokenHandler.WriteToken(token);
             return stringToken;
+        }
+
+        private string CreateVerificationKey()
+        {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var numbers = "0123456789";
+            var stringChars = new char[8];
+            var random = new Random();
+
+            for (int i = 0; i < 2; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+            for (int i = 2; i < 6; i++)
+            {
+                stringChars[i] = numbers[random.Next(numbers.Length)];
+            }
+            for (int i = 6; i < 8; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            var finalString = new String(stringChars);
+            return finalString;
         }
     }
 }

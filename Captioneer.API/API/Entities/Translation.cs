@@ -8,9 +8,7 @@ namespace API.Entities
     {
         [Key]
         public int ID { get; set; }
-
         public virtual Language Language { get; set; }
-
         public string Release { get; set; }
 
         [Required]
