@@ -19,10 +19,10 @@ namespace API.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult SendEmail(EmailViewModel req)
+        [HttpPost("2StepVerificationMail")]
+        public IActionResult TwoStepVerificationMail(EmailViewModel req)
         {
-            this._emailService.SendEmail(req);
+            this._emailService.TwoStepVerificationMail(req);
             return Ok();
         }
     }

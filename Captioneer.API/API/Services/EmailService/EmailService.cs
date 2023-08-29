@@ -2,26 +2,30 @@
 using MimeKit.Text;
 using MimeKit;
 using MailKit.Net.Smtp;
+using System.Security.Cryptography;
+using API.Data;
 
 namespace API.Services.EmailService
 {
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _config;
+
         private string emailHost = string.Empty;
         private string emailName = string.Empty;
         private string emailUsername = string.Empty;
         private string emailPassword = string.Empty;
         private int smtpPortNumber = 587;
+
         public EmailService(IConfiguration config)
         {
-            this._config = config;
-            this.emailHost = this._config.GetValue<string>("EmailInformation:EmailHost");
-            this.emailName = this._config.GetValue<string>("EmailInformation:EmailName");
-            this.emailUsername = this._config.GetValue<string>("EmailInformation:EmailUsername");
-            this.emailPassword = this._config.GetValue<string>("EmailInformation:EmailPassword");
+            _config = config;
+            this.emailHost = _config.GetValue<string>("EmailInformation:EmailHost");
+            this.emailName = _config.GetValue<string>("EmailInformation:EmailName");
+            this.emailUsername = _config.GetValue<string>("EmailInformation:EmailUsername");
+            this.emailPassword = _config.GetValue<string>("EmailInformation:EmailPassword");
         }
-        public void SendEmail(EmailViewModel req)
+        public async void TwoStepVerificationMail(EmailViewModel req)
         {
             var email = new MimeMessage();
             email.From.Add(new MailboxAddress(this.emailName, this.emailUsername));
@@ -31,10 +35,10 @@ namespace API.Services.EmailService
 
             using var smtp = new SmtpClient();
 
-            smtp.Connect(this.emailHost, this.smtpPortNumber, SecureSocketOptions.StartTls);
-            smtp.Authenticate(this.emailUsername, this.emailPassword);
-            smtp.Send(email);
-            smtp.Disconnect(true);
+            await smtp.ConnectAsync(this.emailHost, this.smtpPortNumber, SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(this.emailUsername, this.emailPassword);
+            await smtp.SendAsync(email);
+            await smtp.DisconnectAsync(true);
         }
     }
 }

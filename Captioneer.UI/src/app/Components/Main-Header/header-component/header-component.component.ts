@@ -106,8 +106,8 @@ export class HeaderComponentComponent implements OnInit {
     }).catch(error => {
       console.error('Error getting number of entries:', error);
     });
-    var userCurrent =await this.userService.getCurrentUser()
-    this.userAdminStatus=userCurrent!.isAdmin
+    var userCurrent = await this.userService.getCurrentUser()
+    this.userAdminStatus = userCurrent!.isAdmin
     await this.getEntries();
   }
 

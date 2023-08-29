@@ -11,6 +11,7 @@ import { PageDirectMessagesComponent } from './Components/page-direct-messages/p
 import { PageNotFoundErrorComponent } from './Components/page-not-found-error/page-not-found-error.component';
 import { FollowFriendsComponent } from './Components/Page-ProfileUI/profile-page/follow-friends/follow-friends.component';
 import { UserSearchComponent } from './Components/Page-ProfileUI/profile-page/user-search/user-search.component';
+import { VerifyComponent } from './Components/verify/verify.component';
 
 const appRoute: Routes = [
     { path: '', redirectTo: 'Home', pathMatch: 'full' },
@@ -19,6 +20,7 @@ const appRoute: Routes = [
     { path: 'Movie/Comments', component: PageCommentComponent },
     { path: 'Signup', component: SignupPageComponent },
     { path: 'Signin', component: PageLoginComponent },
+    { path: 'Verify', component: VerifyComponent },
     {
         path: 'Profile/:id', component: ProfilePageComponent,
         children: [

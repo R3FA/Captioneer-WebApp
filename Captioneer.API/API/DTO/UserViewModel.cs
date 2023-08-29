@@ -1,4 +1,6 @@
-﻿namespace API.DTO
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace API.DTO
 {
     public class UserViewModel
     {
@@ -13,6 +15,8 @@
         public DateTime? RegistrationDate { get; set; }
         public bool isBanned { get; set; }
         public bool isAdmin { get; set; }
-
+        public bool isVerificationActive { get; set; }
+        public string? VerificationCode { get; set; }
+        public DateTime? VerificationExpireDate { get; set; }
     }
 }

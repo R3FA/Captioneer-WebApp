@@ -2,6 +2,6 @@
 {
     public interface IEmailService
     {
-        void SendEmail(EmailViewModel req);
+        void TwoStepVerificationMail(EmailViewModel req);
     }
 }

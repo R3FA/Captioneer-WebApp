@@ -1,0 +1,80 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: BerunFont2;
+}
+
+.main-container {
+    position: relative;
+    top: 75px;
+    height: calc(100% - 145px);
+    background: url('src\assets\Pictures\background-slika.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.verifyForm {
+    height: 200px;
+    width: 500px;
+    background-color: #2e4057e0;
+    border: 1px solid #F18F01;
+    border-radius: 0.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+section {
+    position: absolute;
+    display: block;
+    width: 100%;
+    bottom: 0;
+}
+
+label {
+    border-bottom: 1px solid #F18F01;
+    height: 3rem;
+    margin-bottom: 2rem;
+    color: #F18F01;
+    padding: 10px;
+}
+
+input {
+    outline: none;
+    width: 70%;
+    height: 2.5rem;
+    border: 1px solid #F18F01;
+    border-radius: 0.7rem;
+    margin-bottom: 2rem;
+    background-color: #2e4057;
+    color: #F18F01;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+button {
+    border: none;
+    border-radius: 1rem;
+    width: 20%;
+    height: 2.5rem;
+    background-color: #F18F01;
+    color: #2e4057;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    float: right;
+}
+
+.verifyButton {
+    margin: auto 0;
+    margin-left: 0.5rem;
+    float: left;
+}
+
+button:disabled {
+    background-color: #f191019d;
+}

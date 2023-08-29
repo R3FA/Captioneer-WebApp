@@ -20,7 +20,7 @@ export class PageLoginComponent implements OnInit {
   private user: any;
   private stopLoginProcess!: boolean;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private loginService: UserService) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private loginService: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -43,27 +43,35 @@ export class PageLoginComponent implements OnInit {
         this.stopLoginProcess = false;
 
       if (!this.stopLoginProcess) {
-        this.loginService.loginUser(this.loginForma.value).subscribe({
-          next: (response) => {
-            if (response) {
-              // console.log(response.body);
-              alert("You are logged in!")
-              // console.log(response.status)
-              sessionStorage.setItem(
-                'token',
-                JSON.parse(JSON.stringify(response.body))['value']
-              )
-              sessionStorage.setItem(
-                'email',
-                JSON.parse(JSON.stringify((<HTMLInputElement>document.getElementById("email")).value))
-              )
-              window.location.href = "";
-            };
-          },
-          error: (err) => {
-            alert("Ups something went wrong")
-          },
-        });
+        // ODAVDJE
+        this.loginService.verificationUserEmail = this.loginForma.controls['email'].value;
+        this.loginService.verificationLoginForm = this.loginForma;
+
+        if (this.user.isVerificationActive) {
+          this.router.navigate(['/Verify']);
+        } else {
+          this.loginService.loginUser(this.loginForma.value).subscribe({
+            next: (response) => {
+              if (response) {
+                // console.log(response.body);
+                alert("You are logged in!")
+                // console.log(response.status)
+                sessionStorage.setItem(
+                  'token',
+                  JSON.parse(JSON.stringify(response.body))['value']
+                )
+                sessionStorage.setItem(
+                  'email',
+                  JSON.parse(JSON.stringify((<HTMLInputElement>document.getElementById("email")).value))
+                )
+                window.location.href = "";
+              };
+            },
+            error: (err) => {
+              alert("Ups something went wrong")
+            },
+          });
+        }
       }
       else { alert("This account is banned and you can't log into!"); window.location.href = "/Signin"; }
     });

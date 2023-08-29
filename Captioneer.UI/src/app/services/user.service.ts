@@ -8,6 +8,7 @@ import { UserViewModel } from '../models/user-viewmodel';
 import { UserLogin } from '../models/user-login';
 import { firstValueFrom } from 'rxjs'; import { Utils } from '../utils/utils';
 import { UserResponse } from '../models/userresponse-viewmodel';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,12 @@ export class UserService {
   public isButtonHidden: boolean = false;
   public currentUserParamsID: number = 0;
 
+  public verificationCode: string = '';
+  public verificationUserEmail: string = '';
+  public verificationLoginForm!: FormGroup;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
   getUser(pageNumber: number): Observable<HttpResponse<UserResponse>> {
     return this.httpClient.get<UserResponse>(`${this.url}/GetAllUsers?page=${pageNumber}`, { observe: 'response' });
@@ -47,6 +52,19 @@ export class UserService {
   putUser(user: UserUpdate, username: string): Observable<HttpResponse<UserUpdate>> {
     return this.httpClient.put<UserUpdate>(this.url + `/${username}`, user, { observe: 'response' });
   }
+
+  userVerification(userID: number): Observable<HttpResponse<string>> {
+    return this.httpClient.put(`${this.url}/EnableVerification/${userID}`, userID, { observe: 'response', responseType: 'text' });
+  }
+
+  sendVerificationMail(userID: number): Observable<HttpResponse<string>> {
+    return this.httpClient.post(`${this.url}/SendEmailVerification/${userID}`, userID, { observe: 'response', responseType: 'text' });
+  }
+
+  verifyUser(userID: number, code: string): Observable<HttpResponse<string>> {
+    return this.httpClient.post(`${this.url}/VerifyLogin/${userID}/${code}`, { userID, code }, { observe: 'response', responseType: 'text' });
+  }
+
   banUser(adminUser: UserViewModel | null, userID: number): Observable<HttpResponse<string>> {
     return this.httpClient.put(this.url + '/BanUser/' + userID, adminUser, { observe: 'response', responseType: 'text' });
   }
